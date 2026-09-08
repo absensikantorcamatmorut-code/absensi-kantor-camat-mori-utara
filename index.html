@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#050811"
+    >
+
+    <title>
+        Absensi Kantor Camat Mori Utara
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body class="login-page">
+
+    <main class="login-container">
+
+        <span class="app-badge">
+            SISTEM ABSENSI
+        </span>
+
+        <h1>
+            Absensi Pegawai
+        </h1>
+
+        <p class="login-subtitle">
+            Kantor Camat Mori Utara
+        </p>
+
+
+        <form id="loginForm">
+
+            <div class="input-group">
+
+                <label for="loginNama">
+                    Nama
+                </label>
+
+                <input
+                    type="text"
+                    id="loginNama"
+                    placeholder="Masukkan nama lengkap"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="loginNip">
+                    NIP
+                </label>
+
+                <input
+                    type="text"
+                    id="loginNip"
+                    placeholder="Masukkan NIP"
+                    inputmode="numeric"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login
+            </button>
+
+
+            <p id="loginStatus"></p>
+
+        </form>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

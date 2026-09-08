@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#050811"
+    >
+
+    <title>
+        Dashboard Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body class="admin-page">
+
+    <main class="admin-container">
+
+        <header class="admin-header">
+
+            <div>
+
+                <span class="app-badge">
+                    ADMIN PANEL
+                </span>
+
+                <h1>
+                    Dashboard Admin
+                </h1>
+
+                <p>
+                    Kantor Camat Mori Utara
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutAdminBtn"
+                class="admin-logout-btn"
+            >
+                Logout
+            </button>
+
+        </header>
+
+
+        <section class="stat-container">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total
+                </span>
+
+                <strong id="totalAbsensi">
+                    0
+                </strong>
+
+                <small>
+                    Absensi hari ini
+                </small>
+
+            </div>
+
+
+            <div class="stat-card stat-masuk">
+
+                <span class="stat-label">
+                    Masuk
+                </span>
+
+                <strong id="totalMasuk">
+                    0
+                </strong>
+
+                <small>
+                    Hari ini
+                </small>
+
+            </div>
+
+
+            <div class="stat-card stat-keluar">
+
+                <span class="stat-label">
+                    Keluar
+                </span>
+
+                <strong id="totalKeluar">
+                    0
+                </strong>
+
+                <small>
+                    Hari ini
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <section class="admin-tools">
+
+            <div class="search-box">
+
+                <label for="filterCari">
+                    Cari Pegawai
+                </label>
+
+                <input
+                    type="text"
+                    id="filterCari"
+                    placeholder="Cari nama atau NIP..."
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                id="toggleFilterBtn"
+                class="toggle-filter-btn"
+            >
+                Filter
+                <span>⌄</span>
+            </button>
+
+        </section>
+
+
+        <section
+            class="filter-container"
+            id="filterContainer"
+        >
+
+            <div>
+
+                <label for="filterTanggal">
+                    Tanggal
+                </label>
+
+                <input
+                    type="date"
+                    id="filterTanggal"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label for="filterJenis">
+                    Jenis Absen
+                </label>
+
+                <select id="filterJenis">
+
+                    <option value="">
+                        Semua
+                    </option>
+
+                    <option value="Masuk">
+                        Masuk
+                    </option>
+
+                    <option value="Keluar">
+                        Keluar
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="resetFilterBtn"
+                class="reset-filter-btn"
+            >
+                Hari Ini
+            </button>
+
+        </section>
+
+
+        <section class="data-section">
+
+            <div class="data-section-header">
+
+                <h2>
+                    Riwayat Absensi
+                </h2>
+
+                <p id="jumlahDataText">
+                    Memuat data...
+                </p>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="tabelAbsensi">
+
+                    <thead>
+
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Nama</th>
+                            <th>NIP</th>
+                            <th>Jenis</th>
+                            <th>Status</th>
+                            <th>Jarak</th>
+                            <th>Lokasi</th>
+                            <th>Foto</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="dataAbsensi">
+
+                        <tr>
+                            <td
+                                colspan="8"
+                                class="loading-cell"
+                            >
+                                Memuat data...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
