@@ -8,6 +8,7 @@ const KANTOR = {
 };
 
 
+
 /* =====================================================
    LOGIN
 ===================================================== */
@@ -107,6 +108,7 @@ if (loginForm) {
 }
 
 
+
 /* =====================================================
    ABSENSI PEGAWAI
 ===================================================== */
@@ -125,6 +127,12 @@ if (absensiForm) {
         window.location.href =
             "index.html";
     }
+
+
+
+    /* =============================
+       DATA PEGAWAI
+    ============================= */
 
     const namaPegawai =
         document.getElementById(
@@ -161,6 +169,43 @@ if (absensiForm) {
             "statusHariText"
         );
 
+
+
+    /* =============================
+       MODE
+    ============================= */
+
+    const modeHadirBtn =
+        document.getElementById(
+            "modeHadirBtn"
+        );
+
+    const modeKeteranganBtn =
+        document.getElementById(
+            "modeKeteranganBtn"
+        );
+
+    const modeOptions =
+        document.querySelectorAll(
+            ".mode-option"
+        );
+
+    const hadirContainer =
+        document.getElementById(
+            "hadirContainer"
+        );
+
+    const keteranganContainer =
+        document.getElementById(
+            "keteranganContainer"
+        );
+
+
+
+    /* =============================
+       ABSENSI
+    ============================= */
+
     const jenisAbsenInput =
         document.getElementById(
             "jenisAbsen"
@@ -181,6 +226,12 @@ if (absensiForm) {
             ".keluar-option"
         );
 
+
+
+    /* =============================
+       GPS
+    ============================= */
+
     const lokasiBtn =
         document.getElementById(
             "lokasiBtn"
@@ -195,6 +246,12 @@ if (absensiForm) {
         document.getElementById(
             "akurasiLokasi"
         );
+
+
+
+    /* =============================
+       KAMERA
+    ============================= */
 
     const cameraLiveContainer =
         document.getElementById(
@@ -241,6 +298,12 @@ if (absensiForm) {
             "ulangFotoBtn"
         );
 
+
+
+    /* =============================
+       STATUS ABSENSI
+    ============================= */
+
     const checkJenis =
         document.getElementById(
             "checkJenis"
@@ -265,6 +328,63 @@ if (absensiForm) {
         document.getElementById(
             "submitText"
         );
+
+
+
+    /* =============================
+       KETERANGAN
+    ============================= */
+
+    const keteranganForm =
+        document.getElementById(
+            "keteranganForm"
+        );
+
+    const jenisKeterangan =
+        document.getElementById(
+            "jenisKeterangan"
+        );
+
+    const keteranganOptions =
+        document.querySelectorAll(
+            ".keterangan-option"
+        );
+
+    const keteranganText =
+        document.getElementById(
+            "keteranganText"
+        );
+
+    const jumlahKarakter =
+        document.getElementById(
+            "jumlahKarakter"
+        );
+
+    const checkJenisKeterangan =
+        document.getElementById(
+            "checkJenisKeterangan"
+        );
+
+    const checkIsiKeterangan =
+        document.getElementById(
+            "checkIsiKeterangan"
+        );
+
+    const submitKeterangan =
+        document.getElementById(
+            "submitKeterangan"
+        );
+
+    const submitKeteranganText =
+        document.getElementById(
+            "submitKeteranganText"
+        );
+
+
+
+    /* =============================
+       TOAST + LOGOUT
+    ============================= */
 
     const logoutBtn =
         document.getElementById(
@@ -291,6 +411,8 @@ if (absensiForm) {
             "toastMessage"
         );
 
+
+
     let latitude = null;
     let longitude = null;
     let accuracy = null;
@@ -302,7 +424,15 @@ if (absensiForm) {
     let sudahMasuk = false;
     let sudahKeluar = false;
 
+    let adaKeterangan = false;
+    let jenisKeteranganHariIni = "";
+    let statusKeteranganHariIni = "";
+
+    let modeAktif = "";
+
     let toastTimer;
+
+
 
     namaPegawai.textContent =
         namaLogin;
@@ -316,9 +446,10 @@ if (absensiForm) {
             .toUpperCase();
 
 
-    /* =============================
+
+    /* =====================================================
        JAM WITA
-    ============================= */
+    ===================================================== */
 
     function updateJam() {
         const sekarang =
@@ -399,9 +530,10 @@ if (absensiForm) {
     );
 
 
-    /* =============================
-       STATUS ABSENSI HARI INI
-    ============================= */
+
+    /* =====================================================
+       STATUS HARI INI
+    ===================================================== */
 
     async function cekStatusHariIni() {
         statusHariText.textContent =
@@ -434,6 +566,23 @@ if (absensiForm) {
                     hasil.sudahKeluar
                 );
 
+            adaKeterangan =
+                Boolean(
+                    hasil.adaKeterangan
+                );
+
+            jenisKeteranganHariIni =
+                String(
+                    hasil.jenisKeterangan ||
+                    ""
+                );
+
+            statusKeteranganHariIni =
+                String(
+                    hasil.statusKeterangan ||
+                    ""
+                );
+
             updatePilihanAbsensi();
 
         } catch (error) {
@@ -445,45 +594,228 @@ if (absensiForm) {
     }
 
 
+
     function updatePilihanAbsensi() {
         masukOption.disabled =
-            sudahMasuk;
+            sudahMasuk ||
+            adaKeterangan;
 
         keluarOption.disabled =
             !sudahMasuk ||
             sudahKeluar;
 
+
+
+        if (adaKeterangan) {
+            modeHadirBtn.disabled =
+                true;
+
+            modeKeteranganBtn.disabled =
+                true;
+
+            statusHariText.textContent =
+                "Keterangan " +
+                namaJenisKeterangan(
+                    jenisKeteranganHariIni
+                ) +
+                " · " +
+                (
+                    statusKeteranganHariIni ||
+                    "Menunggu"
+                );
+
+            tutupSemuaMode();
+
+            return;
+        }
+
+
+
         if (
             !sudahMasuk &&
             !sudahKeluar
         ) {
+            modeHadirBtn.disabled =
+                false;
+
+            modeKeteranganBtn.disabled =
+                false;
+
             statusHariText.textContent =
                 "Belum melakukan absensi hari ini";
         }
+
+
 
         if (
             sudahMasuk &&
             !sudahKeluar
         ) {
+            modeHadirBtn.disabled =
+                false;
+
+            modeKeteranganBtn.disabled =
+                true;
+
             statusHariText.textContent =
                 "Masuk sudah tercatat · Menunggu absensi Keluar";
+
+            pilihMode(
+                "hadir"
+            );
         }
+
+
 
         if (
             sudahMasuk &&
             sudahKeluar
         ) {
+            modeHadirBtn.disabled =
+                true;
+
+            modeKeteranganBtn.disabled =
+                true;
+
             statusHariText.textContent =
                 "Absensi hari ini sudah selesai";
+
+            tutupSemuaMode();
         }
     }
+
+
 
     cekStatusHariIni();
 
 
-    /* =============================
+
+    /* =====================================================
+       PILIH MODE
+    ===================================================== */
+
+    modeHadirBtn.addEventListener(
+        "click",
+        function () {
+            if (
+                modeHadirBtn.disabled
+            ) {
+                return;
+            }
+
+            pilihMode(
+                "hadir"
+            );
+        }
+    );
+
+
+
+    modeKeteranganBtn.addEventListener(
+        "click",
+        function () {
+            if (
+                modeKeteranganBtn.disabled
+            ) {
+                return;
+            }
+
+            pilihMode(
+                "keterangan"
+            );
+        }
+    );
+
+
+
+    function pilihMode(mode) {
+        modeAktif =
+            mode;
+
+        modeOptions.forEach(
+            function (button) {
+                button.classList.remove(
+                    "active"
+                );
+            }
+        );
+
+
+
+        if (
+            mode ===
+            "hadir"
+        ) {
+            modeHadirBtn
+                .classList
+                .add(
+                    "active"
+                );
+
+            hadirContainer.hidden =
+                false;
+
+            keteranganContainer.hidden =
+                true;
+
+            resetFormKeterangan();
+
+            return;
+        }
+
+
+
+        if (
+            mode ===
+            "keterangan"
+        ) {
+            modeKeteranganBtn
+                .classList
+                .add(
+                    "active"
+                );
+
+            hadirContainer.hidden =
+                true;
+
+            keteranganContainer.hidden =
+                false;
+
+            hentikanKamera();
+
+            resetFormAbsensi();
+
+            return;
+        }
+    }
+
+
+
+    function tutupSemuaMode() {
+        modeAktif = "";
+
+        modeOptions.forEach(
+            function (button) {
+                button.classList.remove(
+                    "active"
+                );
+            }
+        );
+
+        hadirContainer.hidden =
+            true;
+
+        keteranganContainer.hidden =
+            true;
+
+        hentikanKamera();
+    }
+
+
+
+    /* =====================================================
        JENIS ABSENSI
-    ============================= */
+    ===================================================== */
 
     attendanceOptions.forEach(
         function (button) {
@@ -518,9 +850,10 @@ if (absensiForm) {
     );
 
 
-    /* =============================
+
+    /* =====================================================
        GPS
-    ============================= */
+    ===================================================== */
 
     lokasiBtn.addEventListener(
         "click",
@@ -669,7 +1002,9 @@ if (absensiForm) {
                         statusLokasi.textContent =
                             "Lokasi gagal diambil";
 
-                        if (error.code === 1) {
+                        if (
+                            error.code === 1
+                        ) {
                             akurasiLokasi.textContent =
                                 "Izin lokasi ditolak";
 
@@ -702,15 +1037,17 @@ if (absensiForm) {
     );
 
 
-    /* =============================
+
+    /* =====================================================
        KAMERA
-    ============================= */
+    ===================================================== */
 
     aktifkanKameraBtn
         .addEventListener(
             "click",
             aktifkanKamera
         );
+
 
 
     async function aktifkanKamera() {
@@ -792,6 +1129,7 @@ if (absensiForm) {
     }
 
 
+
     ambilFotoBtn.addEventListener(
         "click",
         function () {
@@ -818,7 +1156,8 @@ if (absensiForm) {
                 return;
             }
 
-            const maxSize = 720;
+            const maxSize =
+                720;
 
             let width =
                 videoWidth;
@@ -924,6 +1263,7 @@ if (absensiForm) {
     );
 
 
+
     ulangFotoBtn.addEventListener(
         "click",
         function () {
@@ -950,6 +1290,7 @@ if (absensiForm) {
     );
 
 
+
     function hentikanKamera() {
         if (!cameraStream) {
             return;
@@ -964,13 +1305,16 @@ if (absensiForm) {
             );
 
         cameraStream = null;
-        cameraVideo.srcObject = null;
+
+        cameraVideo.srcObject =
+            null;
     }
 
 
-    /* =============================
-       STATUS FORM
-    ============================= */
+
+    /* =====================================================
+       STATUS FORM ABSENSI
+    ===================================================== */
 
     function updateStatusForm() {
         const jenisSiap =
@@ -1016,39 +1360,10 @@ if (absensiForm) {
     }
 
 
-    function updateRequirement(
-        element,
-        selesai
-    ) {
-        const icon =
-            element.querySelector(
-                "span"
-            );
 
-        if (selesai) {
-            element.classList.add(
-                "done"
-            );
-
-            icon.textContent =
-                "✓";
-
-        } else {
-            element.classList.remove(
-                "done"
-            );
-
-            icon.textContent =
-                "○";
-        }
-    }
-
-    updateStatusForm();
-
-
-    /* =============================
+    /* =====================================================
        KIRIM ABSENSI
-    ============================= */
+    ===================================================== */
 
     absensiForm.addEventListener(
         "submit",
@@ -1080,6 +1395,9 @@ if (absensiForm) {
                 "Mengirim absensi...";
 
             try {
+                const jenisDikirim =
+                    jenisAbsenInput.value;
+
                 const hasil =
                     await postData(
                         {
@@ -1090,8 +1408,7 @@ if (absensiForm) {
                                 nipLogin,
 
                             jenisAbsen:
-                                jenisAbsenInput
-                                    .value,
+                                jenisDikirim,
 
                             latitude:
                                 latitude,
@@ -1123,17 +1440,19 @@ if (absensiForm) {
                 );
 
                 if (
-                    jenisAbsenInput.value ===
+                    jenisDikirim ===
                     "Masuk"
                 ) {
-                    sudahMasuk = true;
+                    sudahMasuk =
+                        true;
                 }
 
                 if (
-                    jenisAbsenInput.value ===
+                    jenisDikirim ===
                     "Keluar"
                 ) {
-                    sudahKeluar = true;
+                    sudahKeluar =
+                        true;
                 }
 
                 resetFormAbsensi();
@@ -1155,8 +1474,199 @@ if (absensiForm) {
     );
 
 
+
+    /* =====================================================
+       PILIH JENIS KETERANGAN
+    ===================================================== */
+
+    keteranganOptions.forEach(
+        function (button) {
+            button.addEventListener(
+                "click",
+                function () {
+                    keteranganOptions
+                        .forEach(
+                            function (item) {
+                                item.classList
+                                    .remove(
+                                        "active"
+                                    );
+                            }
+                        );
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                    jenisKeterangan.value =
+                        button.dataset.value;
+
+                    updateStatusKeterangan();
+                }
+            );
+        }
+    );
+
+
+
+    /* =====================================================
+       TEKS KETERANGAN
+    ===================================================== */
+
+    keteranganText.addEventListener(
+        "input",
+        function () {
+            jumlahKarakter.textContent =
+                keteranganText
+                    .value
+                    .length;
+
+            updateStatusKeterangan();
+        }
+    );
+
+
+
+    function updateStatusKeterangan() {
+        const jenisSiap =
+            jenisKeterangan
+                .value !== "";
+
+        const isiSiap =
+            keteranganText
+                .value
+                .trim() !== "";
+
+        updateRequirement(
+            checkJenisKeterangan,
+            jenisSiap
+        );
+
+        updateRequirement(
+            checkIsiKeterangan,
+            isiSiap
+        );
+
+        const semuaSiap =
+            jenisSiap &&
+            isiSiap;
+
+        submitKeterangan.disabled =
+            !semuaSiap;
+
+        submitKeteranganText.textContent =
+            semuaSiap
+                ? "Kirim Keterangan"
+                : "Lengkapi Keterangan";
+    }
+
+
+
+    /* =====================================================
+       KIRIM KETERANGAN
+    ===================================================== */
+
+    keteranganForm.addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            const jenis =
+                jenisKeterangan
+                    .value
+                    .trim();
+
+            const isi =
+                keteranganText
+                    .value
+                    .trim();
+
+            if (
+                !jenis ||
+                !isi
+            ) {
+                tampilkanToast(
+                    "error",
+                    "Belum lengkap",
+                    "Pilih jenis dan isi keterangan."
+                );
+
+                return;
+            }
+
+            submitKeterangan.disabled =
+                true;
+
+            submitKeteranganText.textContent =
+                "Mengirim keterangan...";
+
+            try {
+                const hasil =
+                    await postData({
+                        action:
+                            "keterangan",
+
+                        nip:
+                            nipLogin,
+
+                        jenis:
+                            jenis,
+
+                        keterangan:
+                            isi
+                    });
+
+                if (!hasil.berhasil) {
+                    throw new Error(
+                        hasil.pesan ||
+                        "Keterangan gagal dikirim."
+                    );
+                }
+
+                adaKeterangan =
+                    true;
+
+                jenisKeteranganHariIni =
+                    hasil.jenis ||
+                    jenis;
+
+                statusKeteranganHariIni =
+                    hasil.status ||
+                    "Menunggu";
+
+                tampilkanToast(
+                    "success",
+                    "Keterangan terkirim ✓",
+                    hasil.pesan
+                );
+
+                resetFormKeterangan();
+
+                updatePilihanAbsensi();
+
+            } catch (error) {
+                console.error(error);
+
+                tampilkanToast(
+                    "error",
+                    "Keterangan gagal",
+                    error.message
+                );
+
+                updateStatusKeterangan();
+            }
+        }
+    );
+
+
+
+    /* =====================================================
+       RESET ABSENSI
+    ===================================================== */
+
     function resetFormAbsensi() {
-        jenisAbsenInput.value = "";
+        jenisAbsenInput.value =
+            "";
 
         attendanceOptions.forEach(
             function (button) {
@@ -1184,7 +1694,8 @@ if (absensiForm) {
 
         fotoBase64 = null;
 
-        previewFoto.src = "";
+        previewFoto.src =
+            "";
 
         photoPreviewWrapper
             .classList
@@ -1214,9 +1725,109 @@ if (absensiForm) {
     }
 
 
-    /* =============================
+
+    /* =====================================================
+       RESET KETERANGAN
+    ===================================================== */
+
+    function resetFormKeterangan() {
+        jenisKeterangan.value =
+            "";
+
+        keteranganOptions.forEach(
+            function (button) {
+                button.classList.remove(
+                    "active"
+                );
+            }
+        );
+
+        keteranganText.value =
+            "";
+
+        jumlahKarakter.textContent =
+            "0";
+
+        updateStatusKeterangan();
+    }
+
+
+
+    /* =====================================================
+       REQUIREMENT
+    ===================================================== */
+
+    function updateRequirement(
+        element,
+        selesai
+    ) {
+        const icon =
+            element.querySelector(
+                "span"
+            );
+
+        if (selesai) {
+            element.classList.add(
+                "done"
+            );
+
+            icon.textContent =
+                "✓";
+
+        } else {
+            element.classList.remove(
+                "done"
+            );
+
+            icon.textContent =
+                "○";
+        }
+    }
+
+
+
+    /* =====================================================
+       NAMA JENIS KETERANGAN
+    ===================================================== */
+
+    function namaJenisKeterangan(
+        kode
+    ) {
+        const daftar = {
+            S:
+                "Sakit",
+
+            CT:
+                "Cuti",
+
+            DD:
+                "Dinas Dalam",
+
+            DL:
+                "Dinas Luar",
+
+            IM:
+                "Isolasi Mandiri",
+
+            WFH:
+                "Work from Home",
+
+            MPP:
+                "Masa Persiapan Pensiun"
+        };
+
+        return (
+            daftar[kode] ||
+            kode ||
+            "Keterangan"
+        );
+    }
+
+
+
+    /* =====================================================
        TOAST
-    ============================= */
+    ===================================================== */
 
     function tampilkanToast(
         tipe,
@@ -1254,10 +1865,16 @@ if (absensiForm) {
     }
 
 
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
     logoutBtn.addEventListener(
         "click",
         function () {
             hentikanKamera();
+
             logoutUser();
         }
     );
@@ -1266,7 +1883,13 @@ if (absensiForm) {
         "beforeunload",
         hentikanKamera
     );
+
+
+
+    updateStatusForm();
+    updateStatusKeterangan();
 }
+
 
 
 /* =====================================================
@@ -1349,10 +1972,12 @@ if (dataAbsensi) {
     let requestAdminId = 0;
 
 
+
     logoutAdminBtn.addEventListener(
         "click",
         logoutUser
     );
+
 
 
     toggleFilterBtn.addEventListener(
@@ -1379,18 +2004,23 @@ if (dataAbsensi) {
     );
 
 
+
     resetFilterBtn.addEventListener(
         "click",
         function () {
             filterTanggal.value =
                 tanggalWITAHariIni();
 
-            filterJenis.value = "";
-            filterCari.value = "";
+            filterJenis.value =
+                "";
+
+            filterCari.value =
+                "";
 
             ambilDataAdmin();
         }
     );
+
 
 
     filterTanggal.addEventListener(
@@ -1399,6 +2029,7 @@ if (dataAbsensi) {
             ambilDataAdmin();
         }
     );
+
 
 
     filterJenis.addEventListener(
@@ -1412,10 +2043,12 @@ if (dataAbsensi) {
     );
 
 
+
     filterTanggal.value =
         tanggalWITAHariIni();
 
     ambilDataAdmin();
+
 
 
     async function ambilDataAdmin() {
@@ -1479,7 +2112,8 @@ if (dataAbsensi) {
 
             console.error(error);
 
-            dataTanggalAktif = [];
+            dataTanggalAktif =
+                [];
 
             updateStatistik([]);
 
@@ -1501,6 +2135,7 @@ if (dataAbsensi) {
             `;
         }
     }
+
 
 
     function filterDataAdmin() {
@@ -1526,17 +2161,17 @@ if (dataAbsensi) {
                         String(
                             absen.nama
                         )
-                        .toLowerCase()
-                        .includes(
-                            kataCari
-                        ) ||
+                            .toLowerCase()
+                            .includes(
+                                kataCari
+                            ) ||
                         String(
                             absen.nip
                         )
-                        .toLowerCase()
-                        .includes(
-                            kataCari
-                        );
+                            .toLowerCase()
+                            .includes(
+                                kataCari
+                            );
 
                     return (
                         cocokJenis &&
@@ -1555,6 +2190,7 @@ if (dataAbsensi) {
     }
 
 
+
     function updateStatistik(data) {
         const masuk =
             data.filter(
@@ -1563,7 +2199,7 @@ if (dataAbsensi) {
                         String(
                             item.jenisAbsen
                         )
-                        .toLowerCase() ===
+                            .toLowerCase() ===
                         "masuk"
                     );
                 }
@@ -1576,7 +2212,7 @@ if (dataAbsensi) {
                         String(
                             item.jenisAbsen
                         )
-                        .toLowerCase() ===
+                            .toLowerCase() ===
                         "keluar"
                     );
                 }
@@ -1597,8 +2233,10 @@ if (dataAbsensi) {
     }
 
 
+
     function tampilkanData(data) {
-        dataAbsensi.innerHTML = "";
+        dataAbsensi.innerHTML =
+            "";
 
         if (data.length === 0) {
             dataAbsensi.innerHTML = `
@@ -1743,6 +2381,7 @@ if (dataAbsensi) {
 }
 
 
+
 /* =====================================================
    REQUEST KE APPS SCRIPT
 ===================================================== */
@@ -1767,7 +2406,8 @@ async function postData(
             await fetch(
                 WEB_APP_URL,
                 {
-                    method: "POST",
+                    method:
+                        "POST",
 
                     body:
                         JSON.stringify(
@@ -1800,9 +2440,12 @@ async function postData(
         throw error;
 
     } finally {
-        clearTimeout(timer);
+        clearTimeout(
+            timer
+        );
     }
 }
+
 
 
 /* =====================================================
@@ -1855,6 +2498,7 @@ function hitungJarakMeter(
 }
 
 
+
 /* =====================================================
    TANGGAL WITA
 ===================================================== */
@@ -1864,6 +2508,7 @@ function tanggalWITAHariIni() {
         new Date()
     );
 }
+
 
 
 function tanggalWITA(waktu) {
@@ -1884,9 +2529,9 @@ function tanggalWITA(waktu) {
                     "2-digit"
             }
         )
-        .formatToParts(
-            new Date(waktu)
-        );
+            .formatToParts(
+                new Date(waktu)
+            );
 
     const year =
         parts.find(
@@ -1914,6 +2559,7 @@ function tanggalWITA(waktu) {
         day
     );
 }
+
 
 
 /* =====================================================
@@ -1960,6 +2606,7 @@ function formatWaktu(waktu) {
 }
 
 
+
 /* =====================================================
    LOGOUT
 ===================================================== */
@@ -1980,6 +2627,7 @@ function logoutUser() {
     window.location.href =
         "index.html";
 }
+
 
 
 /* =====================================================
@@ -2011,6 +2659,7 @@ function escapeHTML(value) {
             "&#039;"
         );
 }
+
 
 
 function safeURL(value) {
