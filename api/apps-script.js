@@ -10,6 +10,7 @@ module.exports = async function handler(req, res) {
         });
     }
 
+
     let body;
 
     try {
@@ -25,31 +26,34 @@ module.exports = async function handler(req, res) {
         });
     }
 
+
     const action = String(body.action || "");
 
-    const bolehRetry =
+
+    const actionLogin =
         action === "login" ||
         action === "loginAdmin";
 
-    const maksimalPercobaan =
-        bolehRetry ? 2 : 1;
 
-    let errorTerakhir = null;
+    const batasWaktu =
+        actionLogin
+            ? 15000
+            : 30000;
 
 
-    for (
-        let percobaan = 1;
-        percobaan <= maksimalPercobaan;
-        percobaan++
-    ) {
-        const controller = new AbortController();
+    const controller =
+        new AbortController();
 
-        const timer = setTimeout(function() {
+
+    const timer =
+        setTimeout(function() {
             controller.abort();
-        }, 7000);
+        }, batasWaktu);
 
-        try {
-            const response = await fetch(
+
+    try {
+        const response =
+            await fetch(
                 APPS_SCRIPT_URL,
                 {
                     method: "POST",
@@ -59,82 +63,76 @@ module.exports = async function handler(req, res) {
                             "text/plain;charset=utf-8"
                     },
 
-                    body: JSON.stringify(body),
+                    body:
+                        JSON.stringify(body),
 
-                    signal: controller.signal,
+                    signal:
+                        controller.signal,
 
-                    cache: "no-store"
+                    cache:
+                        "no-store"
                 }
             );
 
-            const text = await response.text();
 
-            let data;
+        const text =
+            await response.text();
 
-            try {
-                data = JSON.parse(text);
 
-            } catch (error) {
-                console.error(
-                    "Respons Apps Script tidak valid:",
-                    text
-                );
+        let data;
 
-                throw new Error(
-                    "Respons backend tidak valid."
-                );
-            }
 
-            clearTimeout(timer);
-
-            return res.status(200).json(data);
+        try {
+            data =
+                JSON.parse(text);
 
         } catch (error) {
-            clearTimeout(timer);
-
-            errorTerakhir = error;
-
             console.error(
-                "Percobaan backend " +
-                percobaan +
-                " gagal:",
-                error.message
+                "Respons Apps Script:",
+                text
             );
 
-            if (
-                !bolehRetry ||
-                percobaan >= maksimalPercobaan
-            ) {
-                break;
-            }
-
-            await tunggu(400);
+            return res.status(502).json({
+                berhasil: false,
+                pesan:
+                    "Respons backend tidak valid."
+            });
         }
-    }
 
 
-    if (
-        errorTerakhir &&
-        errorTerakhir.name === "AbortError"
-    ) {
-        return res.status(504).json({
+        return res
+            .status(200)
+            .json(data);
+
+
+    } catch (error) {
+        console.error(
+            "Proxy Apps Script error:",
+            error
+        );
+
+
+        if (
+            error.name === "AbortError"
+        ) {
+            return res.status(504).json({
+                berhasil: false,
+                pesan:
+                    actionLogin
+                        ? "Login sedang lambat. Silakan coba lagi."
+                        : "Server sedang lambat memuat data. Silakan coba lagi."
+            });
+        }
+
+
+        return res.status(502).json({
             berhasil: false,
             pesan:
-                "Koneksi ke server sedang lambat. Silakan coba lagi."
+                "Koneksi ke server terganggu. Silakan coba lagi."
         });
+
+
+    } finally {
+        clearTimeout(timer);
     }
-
-
-    return res.status(502).json({
-        berhasil: false,
-        pesan:
-            "Koneksi ke server sedang terganggu. Silakan coba lagi."
-    });
-};
-
-
-function tunggu(ms) {
-    return new Promise(function(resolve) {
-        setTimeout(resolve, ms);
-    });
 }
