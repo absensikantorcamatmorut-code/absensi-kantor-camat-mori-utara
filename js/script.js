@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwy1siAVLLsWqtnTaL4yHfgsMuKP_CsZOLMpxvfmrYg4YHZSwzgpJ1RAOlFc5xTbXlSug/exec";
+const WEB_APP_URL = "/api/apps-script";
 
 const KANTOR = {
     latitude: -1.9246196360760033,
