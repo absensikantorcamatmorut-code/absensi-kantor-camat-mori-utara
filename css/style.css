@@ -2657,3 +2657,1448 @@ button:disabled {
     }
 }
 }
+/* =====================================================
+   REKAP BULANAN - FINAL
+===================================================== */
+
+/* -----------------------------------------------------
+   HERO
+----------------------------------------------------- */
+
+#adminRekapSection .admin-section-hero {
+    margin-bottom: 16px;
+}
+
+/* -----------------------------------------------------
+   FILTER PERIODE
+----------------------------------------------------- */
+
+.rekap-control-card {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, .018);
+}
+
+.rekap-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(150px, .7fr) auto;
+    align-items: end;
+    gap: 12px;
+}
+
+.rekap-filter-grid .admin-form-group {
+    min-width: 0;
+}
+
+.rekap-filter-grid select,
+.rekap-filter-grid input {
+    min-height: 46px;
+}
+
+#tampilkanRekapBtn {
+    min-height: 46px;
+    padding: 0 22px;
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------
+   PERIODE REKAP
+----------------------------------------------------- */
+
+.rekap-periode {
+    position: relative;
+    margin-bottom: 14px;
+    padding: 14px 17px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 229, 255, .035),
+            rgba(139, 92, 246, .045)
+        );
+}
+
+.rekap-periode::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        var(--cyan),
+        var(--purple)
+    );
+}
+
+.rekap-periode span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+}
+
+.rekap-periode strong {
+    display: block;
+    color: var(--text);
+    font-size: 20px;
+    line-height: 1.15;
+}
+
+/* -----------------------------------------------------
+   STATISTIK REKAP
+----------------------------------------------------- */
+
+.rekap-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 17px;
+}
+
+.rekap-stat-card {
+    position: relative;
+    min-width: 0;
+    min-height: 104px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, .022);
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+}
+
+.rekap-stat-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cyan);
+}
+
+.rekap-stat-card:nth-child(2)::before {
+    background: var(--purple);
+}
+
+.rekap-stat-card:nth-child(3)::before {
+    background: var(--green);
+}
+
+.rekap-stat-card:nth-child(4)::before {
+    background: var(--yellow);
+}
+
+.rekap-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 229, 255, .16);
+    background: rgba(255, 255, 255, .032);
+}
+
+.rekap-stat-icon {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 229, 255, .12);
+    border-radius: 13px;
+    font-size: 18px;
+    background: rgba(0, 229, 255, .06);
+}
+
+.rekap-stat-card:nth-child(2) .rekap-stat-icon {
+    border-color: rgba(139, 92, 246, .18);
+    background: rgba(139, 92, 246, .08);
+}
+
+.rekap-stat-card:nth-child(3) .rekap-stat-icon {
+    border-color: rgba(25, 230, 140, .16);
+    background: rgba(25, 230, 140, .07);
+}
+
+.rekap-stat-card:nth-child(4) .rekap-stat-icon {
+    border-color: rgba(255, 200, 87, .16);
+    background: rgba(255, 200, 87, .07);
+}
+
+.rekap-stat-info {
+    min-width: 0;
+}
+
+.rekap-stat-info > span {
+    display: block;
+    margin-bottom: 5px;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rekap-stat-info > strong,
+.rekap-stat-value strong {
+    display: inline-block;
+    color: var(--text);
+    font-size: 28px;
+    line-height: 1;
+}
+
+.rekap-stat-card:nth-child(3) .rekap-stat-info > strong {
+    color: var(--green);
+}
+
+.rekap-stat-card:nth-child(4) .rekap-stat-value strong {
+    color: var(--yellow);
+}
+
+.rekap-stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.rekap-stat-value small {
+    color: var(--muted);
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------
+   SECTION REKAP PEGAWAI
+----------------------------------------------------- */
+
+.rekap-data-section {
+    margin-bottom: 17px;
+}
+
+#adminRekapSection .data-section {
+    padding: 17px;
+}
+
+#adminRekapSection .data-section-header {
+    margin-bottom: 13px;
+}
+
+#adminRekapSection .data-section-header h2 {
+    font-size: 19px;
+    line-height: 1.25;
+}
+
+/* -----------------------------------------------------
+   WRAPPER TABEL REKAP
+----------------------------------------------------- */
+
+.rekap-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: rgba(4, 10, 19, .22);
+    scrollbar-width: thin;
+    scrollbar-color: var(--purple) rgba(255, 255, 255, .04);
+}
+
+#tabelRekapBulanan {
+    width: 100%;
+    min-width: 1370px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* -----------------------------------------------------
+   HEADER & DATA TABEL
+----------------------------------------------------- */
+
+#tabelRekapBulanan th,
+#tabelRekapBulanan td {
+    padding: 11px 8px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, .045);
+}
+
+#tabelRekapBulanan th {
+    height: 48px;
+    color: #c7f7ff;
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1.25;
+    background: rgba(0, 229, 255, .035);
+}
+
+#tabelRekapBulanan td {
+    color: var(--text);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+#tabelRekapBulanan tbody tr {
+    transition: background .18s ease;
+}
+
+#tabelRekapBulanan tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#tabelRekapBulanan tbody tr:hover {
+    background: rgba(255, 255, 255, .025);
+}
+
+/* No. */
+
+#tabelRekapBulanan th:nth-child(1),
+#tabelRekapBulanan td:nth-child(1) {
+    width: 55px;
+}
+
+/* NIP */
+
+#tabelRekapBulanan th:nth-child(2),
+#tabelRekapBulanan td:nth-child(2) {
+    width: 185px;
+    white-space: nowrap;
+}
+
+/* Nama */
+
+#tabelRekapBulanan th:nth-child(3),
+#tabelRekapBulanan td:nth-child(3) {
+    width: 255px;
+    text-align: left;
+}
+
+#tabelRekapBulanan td:nth-child(3) {
+    font-weight: 700;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+/* H */
+
+#tabelRekapBulanan th:nth-child(4),
+#tabelRekapBulanan td:nth-child(4) {
+    width: 52px;
+}
+
+/* TAP */
+
+#tabelRekapBulanan th:nth-child(5),
+#tabelRekapBulanan td:nth-child(5) {
+    width: 58px;
+}
+
+/* S - MPP */
+
+#tabelRekapBulanan th:nth-child(n+6):nth-child(-n+13),
+#tabelRekapBulanan td:nth-child(n+6):nth-child(-n+13) {
+    width: 52px;
+}
+
+/* Hari Terlambat */
+
+#tabelRekapBulanan th:nth-child(14),
+#tabelRekapBulanan td:nth-child(14) {
+    width: 105px;
+    white-space: normal;
+}
+
+/* Total Terlambat */
+
+#tabelRekapBulanan th:nth-child(15),
+#tabelRekapBulanan td:nth-child(15) {
+    width: 145px;
+    white-space: normal;
+}
+
+/* -----------------------------------------------------
+   SCROLLBAR TABEL
+----------------------------------------------------- */
+
+.rekap-table-wrapper::-webkit-scrollbar {
+    height: 7px;
+}
+
+.rekap-table-wrapper::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .035);
+}
+
+.rekap-table-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        var(--cyan),
+        var(--purple)
+    );
+}
+
+/* -----------------------------------------------------
+   HARI LIBUR
+----------------------------------------------------- */
+
+.hari-libur-section {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.hari-libur-section .table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#tabelHariLibur {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+#tabelHariLibur th,
+#tabelHariLibur td {
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, .045);
+}
+
+#tabelHariLibur th {
+    color: #c7f7ff;
+    font-size: 10px;
+    font-weight: 900;
+    background: rgba(0, 229, 255, .035);
+}
+
+#tabelHariLibur th:nth-child(1),
+#tabelHariLibur td:nth-child(1) {
+    width: 25%;
+}
+
+#tabelHariLibur th:nth-child(2),
+#tabelHariLibur td:nth-child(2) {
+    width: 50%;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+#tabelHariLibur th:nth-child(3),
+#tabelHariLibur td:nth-child(3) {
+    width: 25%;
+}
+
+#tabelHariLibur tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* -----------------------------------------------------
+   TOMBOL EDIT & HAPUS HARI LIBUR
+----------------------------------------------------- */
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.table-action {
+    min-height: 33px;
+    padding: 0 11px;
+    border-radius: 9px;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.table-action.edit {
+    color: var(--cyan);
+    border: 1px solid rgba(0, 229, 255, .16);
+    background: rgba(0, 229, 255, .06);
+}
+
+.table-action.edit:hover {
+    background: rgba(0, 229, 255, .11);
+}
+
+.table-action.danger {
+    color: var(--red);
+    border: 1px solid rgba(255, 91, 119, .18);
+    background: rgba(255, 91, 119, .06);
+}
+
+.table-action.danger:hover {
+    background: rgba(255, 91, 119, .11);
+}
+
+/* -----------------------------------------------------
+   HARI LIBUR - HP
+----------------------------------------------------- */
+
+@media (max-width: 700px) {
+    .hari-libur-section .data-section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #tambahHariLiburBtn {
+        width: 100%;
+    }
+
+    #tabelHariLibur {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #tabelHariLibur th,
+    #tabelHariLibur td {
+        padding: 10px 6px;
+        font-size: 9px;
+    }
+
+    #tabelHariLibur th:nth-child(1),
+    #tabelHariLibur td:nth-child(1) {
+        width: 27%;
+    }
+
+    #tabelHariLibur th:nth-child(2),
+    #tabelHariLibur td:nth-child(2) {
+        width: 46%;
+    }
+
+    #tabelHariLibur th:nth-child(3),
+    #tabelHariLibur td:nth-child(3) {
+        width: 27%;
+    }
+
+    .table-action {
+        min-height: 30px;
+        padding: 0 7px;
+        font-size: 8px;
+    }
+}
+
+/* =====================================================
+   REKAP - TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+    .rekap-filter-grid {
+        grid-template-columns: minmax(0, 1fr) 180px;
+    }
+
+    #tampilkanRekapBtn {
+        grid-column: 1 / -1;
+        width: fit-content;
+    }
+
+    .rekap-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* =====================================================
+   REKAP - HP
+===================================================== */
+
+@media (max-width: 700px) {
+
+    #adminRekapSection .admin-section-hero {
+        margin-bottom: 12px;
+    }
+
+    .rekap-control-card {
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: 15px;
+    }
+
+    .rekap-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .rekap-filter-grid .admin-form-group {
+        gap: 5px;
+    }
+
+    .rekap-filter-grid .admin-form-group label {
+        font-size: 10px;
+    }
+
+    .rekap-filter-grid select,
+    .rekap-filter-grid input {
+        min-height: 43px;
+        padding: 10px 11px;
+        font-size: 12px;
+        border-radius: 11px;
+    }
+
+    #tampilkanRekapBtn {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-height: 43px;
+        margin-top: 1px;
+    }
+
+    .rekap-periode {
+        margin-bottom: 10px;
+        padding: 12px 14px;
+        border-radius: 14px;
+    }
+
+    .rekap-periode span {
+        margin-bottom: 3px;
+        font-size: 8px;
+    }
+
+    .rekap-periode strong {
+        font-size: 17px;
+    }
+
+    .rekap-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 13px;
+    }
+
+    .rekap-stat-card {
+        min-height: 88px;
+        padding: 11px;
+        gap: 9px;
+        border-radius: 14px;
+    }
+
+    .rekap-stat-icon {
+        width: 37px;
+        height: 37px;
+        flex-basis: 37px;
+        border-radius: 11px;
+        font-size: 15px;
+    }
+
+    .rekap-stat-info > span {
+        margin-bottom: 4px;
+        font-size: 9px;
+    }
+
+    .rekap-stat-info > strong,
+    .rekap-stat-value strong {
+        font-size: 22px;
+    }
+
+    .rekap-stat-value {
+        display: block;
+    }
+
+    .rekap-stat-value small {
+        display: block;
+        margin-top: 3px;
+        font-size: 8px;
+    }
+
+    #adminRekapSection .data-section {
+        padding: 13px;
+        border-radius: 16px;
+    }
+
+    #adminRekapSection .data-section-header {
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 11px;
+    }
+
+    #adminRekapSection .data-section-header h2 {
+        font-size: 17px;
+    }
+
+    #adminRekapSection .data-section-header p {
+        font-size: 9px;
+        line-height: 1.4;
+    }
+
+    #tabelRekapBulanan {
+        min-width: 1240px;
+    }
+
+    #tabelRekapBulanan th,
+    #tabelRekapBulanan td {
+        padding: 10px 7px;
+        font-size: 10px;
+    }
+
+    #tabelRekapBulanan th {
+        font-size: 9px;
+    }
+
+    #tabelRekapBulanan th:nth-child(2),
+    #tabelRekapBulanan td:nth-child(2) {
+        width: 170px;
+    }
+
+    #tabelRekapBulanan th:nth-child(3),
+    #tabelRekapBulanan td:nth-child(3) {
+        width: 210px;
+    }
+
+    .hari-libur-section .data-section-header {
+        flex-direction: column;
+    }
+
+    #tambahHariLiburBtn {
+        width: 100%;
+    }
+
+    #tabelHariLibur {
+        min-width: 600px;
+    }
+
+    #tabelHariLibur th,
+    #tabelHariLibur td {
+        padding: 10px 8px;
+        font-size: 10px;
+    }
+}
+
+/* =====================================================
+   REKAP - HP KECIL
+===================================================== */
+
+@media (max-width: 430px) {
+
+    .rekap-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #tampilkanRekapBtn {
+        grid-column: auto;
+    }
+
+    .rekap-stats {
+        gap: 7px;
+    }
+
+    .rekap-stat-card {
+        min-height: 84px;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .rekap-stat-icon {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        font-size: 14px;
+    }
+
+    .rekap-stat-info > span {
+        font-size: 8px;
+    }
+
+    .rekap-stat-info > strong,
+    .rekap-stat-value strong {
+        font-size: 20px;
+    }
+}
+
+/* =====================================================
+   REKAP - HP SANGAT KECIL
+===================================================== */
+
+@media (max-width: 360px) {
+
+    .rekap-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .rekap-stat-card {
+        min-height: 76px;
+    }
+
+    .rekap-stat-value {
+        display: flex;
+    }
+
+    .rekap-stat-value small {
+        display: inline;
+        margin-top: 0;
+    }
+}
+
+/* =====================================================
+   REKAP - STICKY TABLE HEADER
+===================================================== */
+
+.rekap-table-wrapper {
+    max-height: 620px;
+    overflow: auto;
+}
+
+#tabelRekapBulanan thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+#tabelRekapBulanan thead th {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: #0b1b28;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+@media (max-width: 700px) {
+    .rekap-table-wrapper {
+        max-height: 520px;
+    }
+}
+
+/* =====================================================
+   FIX HARI LIBUR - TANPA SCROLL HORIZONTAL
+===================================================== */
+
+.hari-libur-section .table-wrapper {
+    overflow-x: hidden;
+}
+
+#tabelHariLibur {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+#tabelHariLibur th,
+#tabelHariLibur td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+@media (max-width: 700px) {
+    #tabelHariLibur th:nth-child(1),
+    #tabelHariLibur td:nth-child(1) {
+        width: 28%;
+    }
+
+    #tabelHariLibur th:nth-child(2),
+    #tabelHariLibur td:nth-child(2) {
+        width: 44%;
+    }
+
+    #tabelHariLibur th:nth-child(3),
+    #tabelHariLibur td:nth-child(3) {
+        width: 28%;
+    }
+
+    .table-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .table-action {
+        width: 100%;
+        min-width: 0;
+        padding: 7px 5px;
+    }
+}
+
+/* =====================================================
+   REKAP SAYA - PEGAWAI
+===================================================== */
+
+.pegawai-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 18px 0 16px;
+    padding: 6px;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 18px;
+    background: rgba(9, 15, 28, 0.72);
+    backdrop-filter: blur(16px);
+}
+
+.pegawai-nav-btn {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 13px;
+    color: #94a3b8;
+    background: transparent;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.pegawai-nav-btn span {
+    font-size: 1rem;
+}
+
+.pegawai-nav-btn:hover {
+    color: #e2e8f0;
+    background: rgba(148, 163, 184, 0.08);
+}
+
+.pegawai-nav-btn.active {
+    color: #061018;
+    background: linear-gradient(135deg, #22d3ee, #818cf8);
+    box-shadow: 0 8px 26px rgba(34, 211, 238, 0.16);
+}
+
+.rekap-pegawai-section {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 20px;
+}
+
+.rekap-pegawai-section[hidden] {
+    display: none;
+}
+
+.rekap-pegawai-hero {
+    padding: 26px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(34, 211, 238, 0.14);
+    border-radius: 24px;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(124, 58, 237, 0.2),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(8, 18, 30, 0.96),
+            rgba(11, 10, 30, 0.96)
+        );
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.rekap-pegawai-hero::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    right: -60px;
+    top: -60px;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, 0.1);
+    filter: blur(8px);
+}
+
+.rekap-pegawai-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #22d3ee;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+}
+
+.rekap-pegawai-hero h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #f8fafc;
+    font-size: clamp(1.7rem, 5vw, 2.25rem);
+    line-height: 1.15;
+}
+
+.rekap-pegawai-hero p {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+    margin: 9px 0 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.rekap-pegawai-filter-card,
+.rekap-pegawai-info-card,
+.rekap-pegawai-card {
+    border: 1px solid rgba(148, 163, 184, 0.13);
+    border-radius: 22px;
+    background: rgba(10, 16, 29, 0.86);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.14);
+}
+
+.rekap-pegawai-filter-card {
+    padding: 20px;
+}
+
+.rekap-pegawai-filter-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 17px;
+}
+
+.rekap-pegawai-filter-heading div {
+    display: grid;
+    gap: 4px;
+}
+
+.rekap-pegawai-filter-heading small {
+    color: #64748b;
+    font-size: 0.76rem;
+}
+
+.rekap-pegawai-filter-heading strong {
+    color: #f8fafc;
+    font-size: 1.08rem;
+}
+
+.rekap-pegawai-filter-heading > span {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(34, 211, 238, 0.14);
+    border-radius: 13px;
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.07);
+}
+
+.rekap-pegawai-filter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.rekap-pegawai-filter-grid label {
+    display: grid;
+    gap: 7px;
+}
+
+.rekap-pegawai-filter-grid label > span {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.rekap-pegawai-filter-grid select {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 13px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 13px;
+    outline: none;
+    color: #e2e8f0;
+    background: #0d1524;
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.rekap-pegawai-filter-grid select:focus {
+    border-color: rgba(34, 211, 238, 0.55);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+}
+
+.rekap-pegawai-info-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 20px;
+}
+
+.rekap-pegawai-info-card div {
+    display: grid;
+    gap: 4px;
+}
+
+.rekap-pegawai-info-card small {
+    color: #64748b;
+    font-size: 0.76rem;
+}
+
+.rekap-pegawai-info-card strong {
+    color: #f8fafc;
+    font-size: 1rem;
+}
+
+.rekap-info-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 13px;
+    color: #a78bfa;
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.rekap-pegawai-card {
+    padding: 20px;
+}
+
+.rekap-pegawai-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 18px;
+}
+
+.rekap-pegawai-section-title h3 {
+    margin: 0;
+    color: #f1f5f9;
+    font-size: 1rem;
+}
+
+.rekap-pegawai-section-title p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.rekap-pegawai-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.rekap-stat-item {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "kode nilai"
+        "label label";
+    align-items: center;
+    gap: 5px 10px;
+    padding: 15px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 16px;
+    background: rgba(18, 27, 44, 0.65);
+}
+
+.rekap-stat-item > span {
+    grid-area: kode;
+    min-width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    padding: 0 7px;
+    border-radius: 10px;
+    color: #67e8f9;
+    background: rgba(34, 211, 238, 0.09);
+    font-size: 0.7rem;
+    font-weight: 900;
+}
+
+.rekap-stat-item > strong {
+    grid-area: nilai;
+    justify-self: end;
+    color: #f8fafc;
+    font-size: 1.35rem;
+}
+
+.rekap-stat-item > small {
+    grid-area: label;
+    min-width: 0;
+    color: #8190a5;
+    font-size: 0.7rem;
+    overflow-wrap: anywhere;
+}
+
+.rekap-stat-item.utama {
+    border-color: rgba(34, 211, 238, 0.22);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 211, 238, 0.09),
+            rgba(99, 102, 241, 0.05)
+        );
+}
+
+.rekap-terlambat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.rekap-terlambat-item {
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid rgba(251, 191, 36, 0.12);
+    border-radius: 16px;
+    background: rgba(251, 191, 36, 0.045);
+}
+
+.rekap-terlambat-item small {
+    display: block;
+    margin-bottom: 8px;
+    color: #94a3b8;
+    font-size: 0.73rem;
+}
+
+.rekap-terlambat-item strong {
+    display: block;
+    color: #fbbf24;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.rekap-pegawai-loading {
+    padding: 28px 15px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.88rem;
+}
+
+.rekap-pegawai-empty,
+.rekap-pegawai-error {
+    padding: 28px 18px;
+    border: 1px dashed rgba(148, 163, 184, 0.16);
+    border-radius: 17px;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.35);
+}
+
+.rekap-pegawai-empty > span,
+.rekap-pegawai-error > span {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 10px;
+    border-radius: 13px;
+    color: #67e8f9;
+    background: rgba(34, 211, 238, 0.08);
+}
+
+.rekap-pegawai-empty strong,
+.rekap-pegawai-error strong {
+    display: block;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+}
+
+.rekap-pegawai-empty p,
+.rekap-pegawai-error p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 0.77rem;
+    line-height: 1.5;
+}
+
+.rekap-pegawai-error > span {
+    color: #fb7185;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.riwayat-rekap-pegawai {
+    display: grid;
+    gap: 10px;
+}
+
+.riwayat-rekap-item {
+    padding: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.11);
+    border-radius: 17px;
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.riwayat-rekap-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.riwayat-rekap-top > div {
+    min-width: 0;
+    display: grid;
+    gap: 4px;
+}
+
+.riwayat-rekap-top small,
+.riwayat-rekap-detail small {
+    color: #64748b;
+    font-size: 0.7rem;
+}
+
+.riwayat-rekap-top strong {
+    color: #e2e8f0;
+    font-size: 0.84rem;
+    line-height: 1.4;
+}
+
+.riwayat-status {
+    min-width: 42px;
+    min-height: 30px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    padding: 4px 9px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, 0.1);
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.riwayat-status.status-h {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.09);
+}
+
+.riwayat-status.status-tap {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.09);
+}
+
+.riwayat-status.status-s {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.09);
+}
+
+.riwayat-status.status-ct {
+    color: #c084fc;
+    background: rgba(168, 85, 247, 0.09);
+}
+
+.riwayat-status.status-tk {
+    color: #fb7185;
+    background: rgba(239, 68, 68, 0.09);
+}
+
+.riwayat-status.status-dd,
+.riwayat-status.status-dl {
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.09);
+}
+
+.riwayat-status.status-im,
+.riwayat-status.status-wfh,
+.riwayat-status.status-mpp {
+    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.09);
+}
+
+.riwayat-rekap-detail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.riwayat-rekap-detail > div {
+    min-width: 0;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(8, 14, 26, 0.6);
+}
+
+.riwayat-rekap-detail strong {
+    display: block;
+    margin-top: 4px;
+    color: #dbe5f3;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+}
+
+.riwayat-rekap-detail strong.terlambat {
+    color: #fbbf24;
+}
+
+
+/* =====================================================
+   TABLET / HP
+===================================================== */
+
+@media (max-width: 520px) {
+    .pegawai-nav {
+        margin-top: 14px;
+    }
+
+    .pegawai-nav-btn {
+        min-height: 45px;
+        font-size: 0.84rem;
+    }
+
+    .rekap-pegawai-hero {
+        padding: 22px 18px;
+        border-radius: 20px;
+    }
+
+    .rekap-pegawai-filter-card,
+    .rekap-pegawai-card {
+        padding: 17px;
+        border-radius: 19px;
+    }
+
+    .rekap-pegawai-info-card {
+        padding: 16px 17px;
+        border-radius: 19px;
+    }
+
+    .rekap-pegawai-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rekap-pegawai-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rekap-stat-item {
+        padding: 13px;
+    }
+
+    .rekap-terlambat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .riwayat-rekap-detail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 370px) {
+    .pegawai-nav-btn {
+        gap: 5px;
+        font-size: 0.76rem;
+    }
+
+    .rekap-pegawai-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .riwayat-rekap-detail {
+        grid-template-columns: 1fr;
+    }
+}
