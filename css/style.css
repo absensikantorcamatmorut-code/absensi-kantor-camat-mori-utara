@@ -1,8 +1,14 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 :root {
     --bg: #050811;
-    --surface: rgba(13, 20, 35, .88);
+    --bg-2: #07101d;
+    --surface: rgba(12, 20, 35, .9);
+    --surface-solid: #0c1423;
     --surface-light: rgba(255, 255, 255, .045);
     --text: #f1f5ff;
     --muted: #8f9cb3;
@@ -13,86 +19,120 @@
     --green: #19e68c;
     --red: #ff5b77;
     --yellow: #ffc857;
-    --border: rgba(255, 255, 255, .09);
-    --shadow: 0 25px 70px rgba(0, 0, 0, .45);
+    --border: rgba(255, 255, 255, .085);
+    --border-cyan: rgba(0, 229, 255, .15);
+    --shadow: 0 24px 70px rgba(0, 0, 0, .42);
 }
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
 
 body {
     min-height: 100vh;
     font-family: Arial, sans-serif;
     color: var(--text);
     background:
-        radial-gradient(circle at 10% 5%, rgba(0, 229, 255, .13), transparent 28%),
-        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, .18), transparent 32%),
+        radial-gradient(circle at 10% 5%, rgba(0, 229, 255, .12), transparent 28%),
+        radial-gradient(circle at 90% 85%, rgba(139, 92, 246, .17), transparent 32%),
         var(--bg);
     overflow-x: hidden;
     position: relative;
 }
 
-body::before, body::after {
+body::before,
+body::after {
     content: "";
     position: fixed;
     width: 420px;
     height: 420px;
     border-radius: 50%;
-    filter: blur(130px);
-    opacity: .22;
+    filter: blur(135px);
+    opacity: .18;
     pointer-events: none;
     z-index: -1;
 }
 
 body::before {
-    background: var(--cyan);
     top: -180px;
     left: -180px;
+    background: var(--cyan);
     animation: glowOne 12s ease-in-out infinite;
 }
 
 body::after {
-    background: var(--purple);
     right: -180px;
     bottom: -180px;
+    background: var(--purple);
     animation: glowTwo 14s ease-in-out infinite;
 }
 
-@keyframes glowOne { 50% { transform: translate(100px, 100px) scale(1.15); } }
-@keyframes glowTwo { 50% { transform: translate(-90px, -100px) scale(1.1); } }
+@keyframes glowOne {
+    50% {
+        transform: translate(100px, 100px) scale(1.15);
+    }
+}
+
+@keyframes glowTwo {
+    50% {
+        transform: translate(-90px, -100px) scale(1.1);
+    }
+}
 
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =====================================================
    GENERAL
 ===================================================== */
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
-    padding: 14px;
+    min-height: 48px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
     border-radius: 13px;
     border: 1px solid var(--border);
     background: rgba(255, 255, 255, .04);
-    color: var(--text);
-    outline: none;
-    font-size: 15px;
+    transition: .2s;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     border-color: var(--cyan);
-    box-shadow: 0 0 0 3px rgba(0, 229, 255, .08);
+    box-shadow: 0 0 0 3px rgba(0, 229, 255, .075);
 }
 
-input::placeholder, textarea::placeholder { color: #718098; }
-select option { background: #101827; color: white; }
+input::placeholder,
+textarea::placeholder {
+    color: #718098;
+}
+
+select option {
+    color: white;
+    background: #101827;
+}
 
 textarea {
     min-height: 120px;
-    resize: vertical;
-    font-family: inherit;
     line-height: 1.5;
+    resize: vertical;
 }
 
 button {
@@ -100,18 +140,31 @@ button {
     cursor: pointer;
     border: none;
     transition: .2s;
+    touch-action: manipulation;
 }
 
-button:active { transform: scale(.98); }
-button:disabled { cursor: not-allowed; }
+button:active {
+    transform: scale(.98);
+}
 
-.app-badge {
+button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.app-badge,
+.section-label {
     display: inline-block;
     color: var(--cyan);
-    font-size: 11px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.app-badge {
     letter-spacing: 2px;
-    text-shadow: 0 0 14px rgba(0, 229, 255, .55);
+    text-shadow: 0 0 14px rgba(0, 229, 255, .5);
 }
 
 /* =====================================================
@@ -120,24 +173,24 @@ button:disabled { cursor: not-allowed; }
 
 .login-page {
     min-height: 100vh;
-    padding: 25px;
+    padding: 24px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .login-container {
     position: relative;
     width: 100%;
     max-width: 420px;
-    padding: 38px;
+    padding: 36px;
     overflow: hidden;
-    border-radius: 24px;
+    border-radius: 25px;
     border: 1px solid var(--border);
     background: var(--surface);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(22px);
     box-shadow: var(--shadow);
-    animation: fadeUp .6s ease;
+    animation: fadeUp .5s ease;
 }
 
 .login-container::before {
@@ -150,8 +203,7 @@ button:disabled { cursor: not-allowed; }
     border-radius: 50%;
     background: var(--cyan);
     filter: blur(85px);
-    opacity: .13;
-    pointer-events: none;
+    opacity: .12;
 }
 
 .login-container::after {
@@ -164,15 +216,13 @@ button:disabled { cursor: not-allowed; }
     border-radius: 50%;
     background: var(--purple);
     filter: blur(85px);
-    opacity: .15;
-    pointer-events: none;
+    opacity: .14;
 }
 
 #loginPegawaiPage,
 #loginAdminPage {
     position: relative;
     z-index: 1;
-    animation: fadeUp .3s ease;
 }
 
 #loginPegawaiPage[hidden],
@@ -182,14 +232,14 @@ button:disabled { cursor: not-allowed; }
 
 .login-container .app-badge {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 11px;
     text-align: center;
 }
 
 .login-container h1 {
-    text-align: center;
     font-size: 30px;
     line-height: 1.15;
+    text-align: center;
     background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
     -webkit-background-clip: text;
     background-clip: text;
@@ -197,7 +247,7 @@ button:disabled { cursor: not-allowed; }
 }
 
 .login-subtitle {
-    margin: 7px 0 28px;
+    margin: 7px 0 27px;
     color: var(--muted);
     text-align: center;
     font-size: 14px;
@@ -207,96 +257,72 @@ button:disabled { cursor: not-allowed; }
 #adminLoginForm {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 15px;
 }
 
 .input-group,
+.search-box,
 .filter-container > div,
-.search-box {
+.pegawai-filter-status,
+.admin-form-group {
     display: flex;
     flex-direction: column;
     gap: 7px;
 }
 
 .input-group label,
+.search-box label,
 .filter-container label,
-.search-box label {
+.pegawai-filter-status label,
+.admin-form-group label {
     color: #dbe5f1;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.login-hint {
-    color: var(--muted);
-    font-size: 11px;
-    line-height: 1.45;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .login-btn {
     min-height: 50px;
-    margin-top: 4px;
     border-radius: 14px;
     color: white;
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 900;
     background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
-    box-shadow: 0 10px 28px rgba(139, 92, 246, .15);
 }
 
 .login-btn:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 12px 32px rgba(139, 92, 246, .25);
+    filter: brightness(1.08);
     transform: translateY(-1px);
-}
-
-.login-btn:disabled {
-    opacity: .55;
-    transform: none;
 }
 
 .admin-login-link {
     display: block;
-    margin: 18px auto 0;
-    padding: 8px 13px;
-    border-radius: 10px;
+    margin: 17px auto 0;
+    padding: 9px 13px;
     color: var(--muted);
     font-size: 12px;
     font-weight: 700;
-    background: transparent;
+    border-radius: 10px;
     border: 1px solid transparent;
+    background: transparent;
 }
 
 .admin-login-link:hover {
     color: var(--cyan);
-    background: rgba(0, 229, 255, .045);
-    border-color: rgba(0, 229, 255, .10);
+    border-color: rgba(0, 229, 255, .1);
+    background: rgba(0, 229, 255, .04);
 }
 
 #loginStatus,
 #adminLoginStatus {
     min-height: 18px;
-    text-align: center;
     color: var(--muted);
-    font-size: 12px;
+    text-align: center;
+    font-size: 11px;
     line-height: 1.45;
 }
 
-#loginAdminPage .app-badge {
-    color: #c4adff;
-    text-shadow: 0 0 14px rgba(139, 92, 246, .55);
-}
-
-#loginAdminPage .login-btn {
-    background: linear-gradient(90deg, var(--purple), var(--pink));
-}
-
-#loginAdminPage .input-group input:focus {
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, .10);
-}
-
 /* =====================================================
-   ABSENSI PEGAWAI
+   PEGAWAI - ABSENSI
 ===================================================== */
 
 .absensi-page {
@@ -309,7 +335,7 @@ button:disabled { cursor: not-allowed; }
     width: 100%;
     max-width: 520px;
     margin: auto;
-    animation: fadeUp .6s ease;
+    animation: fadeUp .5s ease;
 }
 
 .absensi-header {
@@ -317,10 +343,12 @@ button:disabled { cursor: not-allowed; }
     justify-content: space-between;
     align-items: flex-start;
     gap: 15px;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
 }
 
-.absensi-header .app-badge { margin-bottom: 10px; }
+.absensi-header .app-badge {
+    margin-bottom: 9px;
+}
 
 .absensi-header h1 {
     font-size: clamp(28px, 8vw, 38px);
@@ -332,31 +360,31 @@ button:disabled { cursor: not-allowed; }
 }
 
 #tanggalSekarang {
-    margin-top: 10px;
+    margin-top: 9px;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .logout-icon {
     width: 44px;
     height: 44px;
     flex-shrink: 0;
-    border-radius: 14px;
     color: var(--text);
-    background: rgba(255, 255, 255, .055);
-    border: 1px solid var(--border);
     font-size: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .05);
 }
 
 .pegawai-card {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 18px;
-    margin-bottom: 14px;
+    gap: 14px;
+    padding: 17px;
+    margin-bottom: 13px;
+    border-radius: 19px;
     border: 1px solid var(--border);
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(0, 229, 255, .06), rgba(139, 92, 246, .06));
+    background: linear-gradient(135deg, rgba(0, 229, 255, .055), rgba(139, 92, 246, .06));
 }
 
 .avatar {
@@ -367,35 +395,34 @@ button:disabled { cursor: not-allowed; }
     align-items: center;
     justify-content: center;
     border-radius: 17px;
-    color: #051017;
+    color: #041019;
     font-size: 21px;
     font-weight: 900;
     background: linear-gradient(135deg, var(--cyan), #9f7cff);
 }
 
-.welcome-text, .nip-text {
+.welcome-text,
+.nip-text {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .pegawai-card h2 {
     margin: 2px 0 3px;
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .clock-card {
-    position: relative;
-    overflow: hidden;
-    padding: 22px;
+    padding: 21px;
     margin-bottom: 12px;
-    border-radius: 22px;
+    border-radius: 21px;
     border: 1px solid rgba(0, 229, 255, .12);
-    background: linear-gradient(135deg, rgba(0, 229, 255, .09), rgba(139, 92, 246, .10));
+    background: linear-gradient(135deg, rgba(0, 229, 255, .08), rgba(139, 92, 246, .09));
 }
 
 .clock-card p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .clock-card h2 {
@@ -411,170 +438,175 @@ button:disabled { cursor: not-allowed; }
 }
 
 .status-hari-card {
-    padding: 14px 17px;
-    margin-bottom: 14px;
-    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 13px;
+    border-radius: 15px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .03);
+    background: rgba(255, 255, 255, .025);
 }
 
 .status-hari-card small {
     display: block;
-    color: var(--muted);
-    font-size: 11px;
     margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 10px;
 }
 
-.status-hari-card strong { font-size: 13px; }
+.status-hari-card strong {
+    font-size: 13px;
+}
 
-/* KETERANGAN AKTIF */
+/* =====================================================
+   KETERANGAN PEGAWAI
+===================================================== */
 
 .keterangan-aktif-card {
-    padding: 18px;
-    margin-bottom: 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 200, 87, .25);
-    background: linear-gradient(135deg, rgba(255, 200, 87, .07), rgba(139, 92, 246, .06));
-    backdrop-filter: blur(18px);
-    animation: fadeUp .35s ease;
+    padding: 17px;
+    margin-bottom: 13px;
+    border-radius: 19px;
+    border: 1px solid rgba(255, 200, 87, .22);
+    background: linear-gradient(135deg, rgba(255, 200, 87, .06), rgba(139, 92, 246, .055));
 }
 
-.keterangan-aktif-card[hidden] { display: none; }
+.keterangan-aktif-card[hidden] {
+    display: none;
+}
 
 .keterangan-aktif-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 14px;
 }
 
 .keterangan-aktif-header small {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.keterangan-aktif-header h3 { font-size: 17px; }
+.keterangan-aktif-header h3 {
+    font-size: 16px;
+}
 
 .keterangan-aktif-header p {
     margin-top: 5px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.5;
 }
 
 .status-keterangan-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     flex-shrink: 0;
-    padding: 7px 11px;
-    border-radius: 999px;
+    padding: 7px 10px;
     color: var(--yellow);
-    background: rgba(255, 200, 87, .09);
-    border: 1px solid rgba(255, 200, 87, .20);
-    font-size: 10px;
-    font-weight: 800;
+    font-size: 9px;
+    font-weight: 900;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 200, 87, .18);
+    background: rgba(255, 200, 87, .08);
 }
 
 .batalkan-keterangan-btn {
     width: 100%;
     min-height: 46px;
-    border-radius: 14px;
     color: var(--red);
-    font-size: 13px;
-    font-weight: 800;
-    background: rgba(255, 91, 119, .07);
-    border: 1px solid rgba(255, 91, 119, .24);
+    font-size: 12px;
+    font-weight: 900;
+    border-radius: 13px;
+    border: 1px solid rgba(255, 91, 119, .22);
+    background: rgba(255, 91, 119, .06);
 }
 
-.batalkan-keterangan-btn:hover { background: rgba(255, 91, 119, .12); }
-.batalkan-keterangan-btn:disabled { opacity: .45; }
+/* =====================================================
+   MODE + FORM PEGAWAI
+===================================================== */
 
-/* MODE */
-
-.mode-section, .form-section {
-    padding: 18px;
-    margin-bottom: 14px;
-    border-radius: 20px;
+.mode-section,
+.form-section {
+    padding: 17px;
+    margin-bottom: 13px;
+    border-radius: 19px;
     border: 1px solid var(--border);
     background: var(--surface);
     backdrop-filter: blur(18px);
 }
 
-.mode-options {
+.mode-options,
+.attendance-options,
+.keterangan-options {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
 }
 
 .mode-option {
-    min-height: 105px;
+    min-height: 103px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start;
-    gap: 8px;
-    padding: 15px;
-    text-align: left;
+    justify-content: center;
+    gap: 7px;
     color: var(--text);
-    border-radius: 17px;
+    text-align: left;
+    border-radius: 16px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .035);
+    background: rgba(255, 255, 255, .03);
 }
-
-.mode-option:hover { border-color: rgba(0, 229, 255, .25); }
 
 .mode-option.active {
-    border-color: rgba(0, 229, 255, .48);
-    background: linear-gradient(135deg, rgba(0, 229, 255, .09), rgba(139, 92, 246, .09));
-    box-shadow: 0 0 25px rgba(0, 229, 255, .06);
-}
-
-.mode-option:disabled {
-    opacity: .35;
-    cursor: not-allowed;
-    transform: none;
+    border-color: rgba(0, 229, 255, .42);
+    background: linear-gradient(135deg, rgba(0, 229, 255, .085), rgba(139, 92, 246, .08));
 }
 
 .mode-icon {
-    width: 40px;
-    height: 40px;
+    width: 39px;
+    height: 39px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 13px;
-    background: rgba(255, 255, 255, .06);
-    font-size: 20px;
+    font-size: 19px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .055);
 }
 
-.mode-option strong, .mode-option small { display: block; }
-.mode-option strong { font-size: 13px; }
+.mode-option strong,
+.mode-option small,
+.attendance-option strong,
+.attendance-option small,
+.keterangan-option strong,
+.keterangan-option small {
+    display: block;
+}
+
+.mode-option strong {
+    font-size: 12px;
+}
 
 .mode-option small {
-    margin-top: 3px;
+    margin-top: 2px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 9px;
     line-height: 1.4;
 }
 
-/* FORM ABSENSI */
-
-#absensiForm, #keteranganForm {
+#absensiForm,
+#keteranganForm {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 13px;
 }
 
 .section-heading {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 11px;
+    margin-bottom: 15px;
 }
 
 .step-number {
@@ -584,49 +616,46 @@ button:disabled { cursor: not-allowed; }
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 11px;
     color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+    border-radius: 11px;
     background: rgba(0, 229, 255, .07);
-    font-size: 11px;
-    font-weight: 800;
 }
 
-.section-heading h3 { font-size: 16px; }
+.section-heading h3 {
+    font-size: 15px;
+}
 
 .section-heading p {
     margin-top: 2px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
 }
 
-.attendance-options, .keterangan-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.attendance-option, .keterangan-option {
+.attendance-option,
+.keterangan-option {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 13px;
-    text-align: left;
+    gap: 9px;
+    padding: 12px;
     color: var(--text);
-    border-radius: 16px;
+    text-align: left;
+    border-radius: 15px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .035);
+    background: rgba(255, 255, 255, .03);
 }
 
-.attendance-option { min-height: 78px; }
+.attendance-option {
+    min-height: 76px;
+}
 
 .keterangan-option {
-    min-height: 82px;
-    padding: 12px;
+    min-height: 80px;
 }
 
-.attendance-option:disabled { opacity: .32; }
-
-.option-icon {
+.option-icon,
+.keterangan-code {
     width: 38px;
     height: 38px;
     flex-shrink: 0;
@@ -634,135 +663,133 @@ button:disabled { cursor: not-allowed; }
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background: rgba(255, 255, 255, .06);
-    font-size: 20px;
 }
 
-.attendance-option strong, .attendance-option small,
-.keterangan-option strong, .keterangan-option small { display: block; }
-
-.attendance-option small {
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 10px;
-}
-
-.masuk-option.active {
-    border-color: rgba(25, 230, 140, .5);
-    background: rgba(25, 230, 140, .08);
-}
-
-.keluar-option.active {
-    border-color: rgba(255, 91, 119, .5);
-    background: rgba(255, 91, 119, .08);
-}
-
-.keterangan-option:hover { border-color: rgba(139, 92, 246, .30); }
-
-.keterangan-option.active {
-    border-color: rgba(139, 92, 246, .55);
-    background: linear-gradient(135deg, rgba(139, 92, 246, .10), rgba(0, 229, 255, .06));
+.option-icon {
+    font-size: 19px;
+    background: rgba(255, 255, 255, .055);
 }
 
 .keterangan-code {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
     color: var(--cyan);
-    background: rgba(0, 229, 255, .07);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 900;
+    background: rgba(0, 229, 255, .07);
 }
 
-.keterangan-option strong { font-size: 12px; }
+.attendance-option strong,
+.keterangan-option strong {
+    font-size: 11px;
+}
 
+.attendance-option small,
 .keterangan-option small {
-    margin-top: 3px;
+    margin-top: 2px;
     color: var(--muted);
     font-size: 9px;
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
-.keterangan-input-wrapper { position: relative; }
+.masuk-option.active {
+    border-color: rgba(25, 230, 140, .45);
+    background: rgba(25, 230, 140, .07);
+}
+
+.keluar-option.active {
+    border-color: rgba(255, 91, 119, .45);
+    background: rgba(255, 91, 119, .07);
+}
+
+.keterangan-option.active {
+    border-color: rgba(139, 92, 246, .5);
+    background: linear-gradient(135deg, rgba(139, 92, 246, .09), rgba(0, 229, 255, .05));
+}
 
 .keterangan-counter {
-    margin-top: 7px;
-    text-align: right;
+    margin-top: 6px;
     color: var(--muted);
-    font-size: 10px;
+    text-align: right;
+    font-size: 9px;
 }
 
-/* LOCATION */
+/* =====================================================
+   GPS + CAMERA
+===================================================== */
 
 .action-card {
     width: 100%;
-    min-height: 72px;
-    padding: 13px;
+    min-height: 70px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    text-align: left;
+    gap: 11px;
     color: var(--text);
-    border-radius: 16px;
+    text-align: left;
+    border-radius: 15px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .035);
+    background: rgba(255, 255, 255, .03);
 }
 
 .action-card.location-success {
-    border-color: rgba(25, 230, 140, .4);
-    background: rgba(25, 230, 140, .06);
+    border-color: rgba(25, 230, 140, .35);
+    background: rgba(25, 230, 140, .055);
 }
 
 .action-card.location-error {
-    border-color: rgba(255, 91, 119, .4);
+    border-color: rgba(255, 91, 119, .35);
     background: rgba(255, 91, 119, .05);
 }
 
 .action-icon {
-    width: 42px;
-    height: 42px;
+    width: 41px;
+    height: 41px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 13px;
     color: var(--cyan);
-    background: rgba(0, 229, 255, .08);
-    font-size: 22px;
+    font-size: 21px;
+    border-radius: 13px;
+    background: rgba(0, 229, 255, .075);
 }
 
-.action-text { flex: 1; }
-.action-text strong, .action-text small { display: block; }
-.action-text strong { font-size: 14px; }
+.action-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.action-text strong,
+.action-text small {
+    display: block;
+}
+
+.action-text strong {
+    font-size: 13px;
+}
 
 .action-text small {
-    margin-top: 4px;
+    margin-top: 3px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
 .action-arrow {
     color: var(--muted);
-    font-size: 25px;
+    font-size: 23px;
 }
 
-/* CAMERA */
-
 .camera-live-container {
-    position: relative;
     width: 100%;
-    min-height: 230px;
+    min-height: 225px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 18px;
-    border: 1px solid rgba(0, 229, 255, .18);
-    background: rgba(0, 229, 255, .025);
+    border-radius: 17px;
+    border: 1px solid rgba(0, 229, 255, .16);
+    background: rgba(0, 229, 255, .022);
 }
 
 #cameraVideo {
@@ -770,110 +797,117 @@ button:disabled { cursor: not-allowed; }
     width: 100%;
     max-height: 390px;
     object-fit: cover;
-    border-radius: 18px;
+    border-radius: 17px;
     transform: scaleX(-1);
 }
 
-#cameraVideo.active { display: block; }
+#cameraVideo.active {
+    display: block;
+}
 
 .camera-placeholder {
-    min-height: 220px;
-    padding: 20px;
+    min-height: 215px;
+    padding: 19px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 7px;
     text-align: center;
 }
 
 .camera-icon {
-    width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 14px;
+    justify-content: center;
     color: var(--cyan);
-    background: rgba(0, 229, 255, .09);
+    border-radius: 13px;
+    background: rgba(0, 229, 255, .08);
 }
 
-.camera-placeholder strong { font-size: 14px; }
+.camera-placeholder strong {
+    font-size: 13px;
+}
 
 .camera-placeholder small {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.5;
 }
 
 .camera-action-btn {
     width: 100%;
     min-height: 48px;
-    margin-top: 10px;
-    border-radius: 14px;
+    margin-top: 9px;
     color: white;
-    font-weight: 800;
+    font-weight: 900;
+    border-radius: 13px;
     background: linear-gradient(90deg, var(--blue), var(--purple));
 }
 
 .photo-preview-wrapper {
     display: none;
-    margin-top: 12px;
+    margin-top: 11px;
 }
 
-.photo-preview-wrapper.active { display: block; }
+.photo-preview-wrapper.active {
+    display: block;
+}
 
 #previewFoto {
     display: block;
     width: 100%;
     max-height: 390px;
     object-fit: cover;
-    border-radius: 17px;
+    border-radius: 16px;
 }
 
 .ulang-foto-btn {
     width: 100%;
-    min-height: 45px;
-    margin-top: 10px;
-    border-radius: 12px;
+    min-height: 44px;
+    margin-top: 9px;
     color: var(--text);
-    background: rgba(255, 255, 255, .07);
+    border-radius: 12px;
     border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .06);
 }
 
-/* SUBMIT + TOAST */
-
-.submit-section { padding-top: 2px; }
+/* =====================================================
+   SUBMIT + TOAST
+===================================================== */
 
 .progress-status {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 13px;
-    margin: 7px 0 14px;
+    gap: 12px;
+    margin: 6px 0 13px;
 }
 
 .requirement {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
 }
 
-.requirement.done { color: var(--green); }
+.requirement.done {
+    color: var(--green);
+}
 
-#submitAbsensi, #submitKeterangan {
+#submitAbsensi,
+#submitKeterangan {
     width: 100%;
-    min-height: 55px;
-    border-radius: 16px;
+    min-height: 54px;
     color: white;
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 900;
+    border-radius: 15px;
     background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
 }
-
-#submitAbsensi:disabled, #submitKeterangan:disabled { opacity: .35; }
 
 .toast {
     position: fixed;
@@ -881,19 +915,19 @@ button:disabled { cursor: not-allowed; }
     bottom: 20px;
     width: calc(100% - 30px);
     max-width: 460px;
-    padding: 14px 16px;
+    padding: 13px 15px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: rgba(12, 20, 34, .96);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+    gap: 11px;
+    z-index: 9999;
     opacity: 0;
     pointer-events: none;
     transform: translate(-50%, 30px);
     transition: .3s;
-    z-index: 9999;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    background: rgba(12, 20, 34, .97);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
 }
 
 .toast.show {
@@ -902,350 +936,503 @@ button:disabled { cursor: not-allowed; }
 }
 
 #toastIcon {
-    width: 36px;
-    height: 36px;
+    width: 35px;
+    height: 35px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 11px;
     color: var(--green);
-    background: rgba(25, 230, 140, .09);
+    border-radius: 11px;
+    background: rgba(25, 230, 140, .08);
 }
 
-.toast strong { font-size: 13px; }
+.toast strong {
+    font-size: 12px;
+}
 
 .toast p {
     margin-top: 2px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
 }
 
 /* =====================================================
-   ADMIN
+   ADMIN BASE
 ===================================================== */
 
-.admin-page { padding: 30px 18px; }
+.admin-page {
+    padding: 25px 18px 35px;
+}
 
 .admin-container {
     width: 100%;
     max-width: 1250px;
-    margin: 20px auto;
-    padding: 30px;
-    border-radius: 24px;
+    margin: auto;
+    padding: 27px;
+    border-radius: 25px;
     border: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(9, 15, 27, .82);
+    backdrop-filter: blur(20px);
     box-shadow: var(--shadow);
-    animation: fadeUp .6s ease;
+    animation: fadeUp .45s ease;
 }
 
 .admin-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
-    margin-bottom: 22px;
+    margin-bottom: 21px;
+}
+
+.admin-header-info {
+    min-width: 0;
 }
 
 .admin-header h1 {
-    margin-top: 6px;
-    font-size: 32px;
-    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+    margin-top: 5px;
+    font-size: 31px;
+    line-height: 1.1;
+    background: linear-gradient(90deg, var(--cyan), #8c7cff, var(--pink));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.admin-header p { margin-top: 5px; color: var(--muted); font-size: 14px; }
-
-.admin-logout-btn {
-    padding: 11px 18px;
-    border-radius: 12px;
-    color: var(--red);
-    font-weight: 700;
-    background: rgba(255, 91, 119, .08);
-    border: 1px solid rgba(255, 91, 119, .22);
+.admin-header p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 13px;
 }
 
-.admin-logout-btn:hover { background: rgba(255, 91, 119, .14); }
+.admin-logout-btn {
+    min-height: 44px;
+    padding: 0 17px;
+    flex-shrink: 0;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 900;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 91, 119, .2);
+    background: rgba(255, 91, 119, .065);
+}
 
-/* ADMIN NAV */
+/* =====================================================
+   ADMIN NAV
+===================================================== */
 
 .admin-nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin-bottom: 25px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+    margin-bottom: 24px;
     padding: 6px;
-    border-radius: 16px;
+    border-radius: 17px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
+    background: rgba(4, 10, 19, .48);
 }
 
 .admin-nav-btn {
-    min-height: 48px;
-    padding: 0 15px;
+    min-width: 0;
+    min-height: 49px;
+    padding: 7px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    border-radius: 12px;
+    gap: 7px;
     color: var(--muted);
-    font-size: 13px;
-    font-weight: 800;
+    font-size: 11px;
+    font-weight: 900;
+    border-radius: 12px;
     background: transparent;
 }
 
-.admin-nav-btn:hover { color: var(--text); background: rgba(255, 255, 255, .04); }
+.admin-nav-icon {
+    font-size: 13px;
+}
+
+.admin-nav-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, .035);
+}
 
 .admin-nav-btn.active {
     color: white;
-    background: linear-gradient(90deg, rgba(0, 168, 255, .18), rgba(139, 92, 246, .18));
     border: 1px solid rgba(0, 229, 255, .16);
-    box-shadow: 0 0 22px rgba(0, 229, 255, .05);
+    background: linear-gradient(90deg, rgba(0, 168, 255, .18), rgba(139, 92, 246, .21));
+    box-shadow: 0 6px 22px rgba(0, 229, 255, .05);
 }
 
-.admin-page-section { display: none; animation: fadeUp .3s ease; }
-.admin-page-section.active { display: block; }
+.admin-page-section {
+    display: none;
+    animation: fadeUp .25s ease;
+}
 
-/* ADMIN BUTTON */
+.admin-page-section.active {
+    display: block;
+}
+
+/* =====================================================
+   ADMIN BUTTON
+===================================================== */
+
+.admin-primary-btn,
+.admin-secondary-btn,
+.toggle-filter-btn,
+.reset-filter-btn {
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 11px;
+    font-weight: 900;
+    border-radius: 12px;
+}
 
 .admin-primary-btn {
-    min-height: 44px;
-    padding: 0 17px;
-    border-radius: 12px;
     color: white;
-    font-size: 12px;
-    font-weight: 800;
-    white-space: nowrap;
     background: linear-gradient(90deg, var(--blue), var(--purple));
 }
 
-.admin-primary-btn:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 8px 25px rgba(139, 92, 246, .18);
-}
-
-.admin-primary-btn:disabled { opacity: .45; }
-
-.admin-secondary-btn {
-    min-height: 44px;
-    padding: 0 17px;
-    border-radius: 12px;
+.admin-secondary-btn,
+.toggle-filter-btn,
+.reset-filter-btn {
     color: var(--text);
-    font-size: 12px;
-    font-weight: 800;
-    background: rgba(255, 255, 255, .05);
     border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .045);
 }
 
-/* STAT + FILTER */
+/* =====================================================
+   ADMIN HERO
+===================================================== */
+
+.admin-section-hero,
+.pegawai-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 19px;
+    border-radius: 19px;
+    border: 1px solid var(--border);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 229, 255, .045),
+            rgba(139, 92, 246, .065)
+        );
+}
+
+.admin-section-hero > div:not(.admin-section-icon) {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-section-hero h2,
+.pegawai-header h2 {
+    margin-top: 5px;
+    font-size: 22px;
+}
+
+.admin-section-hero p,
+.pegawai-header p {
+    margin-top: 5px;
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.admin-section-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 229, 255, .11);
+    background: rgba(0, 229, 255, .055);
+}
+
+/* =====================================================
+   ABSENSI STAT
+===================================================== */
 
 .stat-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 22px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
 }
 
 .stat-card {
-    min-height: 120px;
-    padding: 20px;
+    min-height: 112px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 18px;
+    border-radius: 17px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
+    background: rgba(255, 255, 255, .023);
 }
 
-.stat-label { color: var(--muted); font-size: 12px; font-weight: 700; }
-.stat-card strong { margin-top: 4px; font-size: 34px; }
-.stat-card small { color: var(--muted); font-size: 11px; }
-.stat-masuk strong { color: var(--green); }
-.stat-keluar strong { color: var(--red); }
+.stat-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.stat-card strong {
+    margin-top: 3px;
+    font-size: 32px;
+}
+
+.stat-card small {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.stat-masuk strong {
+    color: var(--green);
+}
+
+.stat-keluar strong {
+    color: var(--red);
+}
+
+/* =====================================================
+   ADMIN TOOLS
+===================================================== */
 
 .admin-tools {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
-    gap: 12px;
-    margin-bottom: 14px;
-}
-
-.toggle-filter-btn, .reset-filter-btn {
-    min-height: 47px;
-    padding: 0 18px;
-    border-radius: 13px;
-    color: var(--text);
-    font-weight: 700;
-    background: rgba(255, 255, 255, .05);
-    border: 1px solid var(--border);
+    gap: 10px;
+    margin-bottom: 13px;
 }
 
 .filter-container {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     align-items: end;
-    gap: 14px;
-    margin-bottom: 28px;
-    padding: 16px;
-    border-radius: 16px;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 14px;
+    border-radius: 15px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
+    background: rgba(255, 255, 255, .022);
 }
 
-/* DATA */
+.pegawai-tools,
+.keterangan-filter-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    align-items: end;
+    gap: 11px;
+    margin-bottom: 17px;
+}
+
+/* =====================================================
+   DATA SECTION + TABLE
+===================================================== */
 
 .data-section {
-    padding: 18px;
-    border-radius: 20px;
+    padding: 17px;
+    border-radius: 19px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .018);
+    background: rgba(255, 255, 255, .015);
 }
 
 .data-section-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 14px;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 13px;
 }
 
-.data-section-header h2 { font-size: 20px; }
-.data-section-header p { margin-top: 4px; color: var(--muted); font-size: 12px; }
+.data-section-header h2 {
+    margin-top: 4px;
+    font-size: 19px;
+}
+
+.data-section-header p {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+}
 
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
-    border-radius: 16px;
+    border-radius: 15px;
     border: 1px solid var(--border);
 }
 
-#tabelAbsensi, #tabelPegawai { width: 100%; border-collapse: collapse; }
-
-#tabelAbsensi th, #tabelAbsensi td,
-#tabelPegawai th, #tabelPegawai td {
-    padding: 13px 11px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, .05);
-    font-size: 12px;
+#tabelAbsensi,
+#tabelPegawai,
+#tabelKeterangan {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-#tabelAbsensi th, #tabelPegawai th {
+#tabelAbsensi th,
+#tabelAbsensi td,
+#tabelPegawai th,
+#tabelPegawai td,
+#tabelKeterangan th,
+#tabelKeterangan td {
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, .045);
+}
+
+#tabelAbsensi th,
+#tabelPegawai th,
+#tabelKeterangan th {
     color: #c7f7ff;
-    background: rgba(0, 229, 255, .045);
+    font-size: 10px;
     white-space: nowrap;
+    background: rgba(0, 229, 255, .04);
+}
+
+#tabelAbsensi {
+    min-width: 1120px;
+}
+
+#tabelAbsensi td:nth-child(2),
+#tabelPegawai td:nth-child(1),
+#tabelKeterangan td:nth-child(2),
+#tabelKeterangan td:nth-child(5) {
+    text-align: left;
+}
+
+#tabelAbsensi td:nth-child(2) {
+    min-width: 150px;
+}
+
+#tabelAbsensi td:nth-child(3),
+#tabelPegawai td:nth-child(2),
+#tabelKeterangan td:nth-child(3) {
+    white-space: nowrap;
+}
+
+#tabelAbsensi td:nth-child(8),
+#tabelAbsensi td:nth-child(9) {
+    max-width: 190px;
+    overflow-wrap: anywhere;
 }
 
 #tabelAbsensi a {
     display: inline-flex;
-    padding: 7px 10px;
-    border-radius: 9px;
+    padding: 6px 9px;
     color: var(--cyan);
+    font-size: 10px;
+    font-weight: 800;
     text-decoration: none;
-    font-weight: 700;
+    border-radius: 8px;
     background: rgba(0, 229, 255, .06);
 }
 
-.badge-absen, .badge-status, .pegawai-status-badge, .badge-source {
+.loading-cell,
+.empty-cell {
+    padding: 28px !important;
+    color: var(--muted);
+    text-align: center !important;
+}
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge-absen,
+.badge-status,
+.pegawai-status-badge,
+.badge-source,
+.keterangan-jenis-badge,
+.keterangan-status-badge {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
-    padding: 6px 9px;
+    justify-content: center;
+    padding: 6px 8px;
+    font-size: 9px;
+    font-weight: 900;
     border-radius: 999px;
+}
+
+.badge-masuk,
+.badge-tepat,
+.pegawai-status-aktif {
+    color: var(--green);
+    background: rgba(25, 230, 140, .075);
+}
+
+.badge-keluar,
+.pegawai-status-tidak-aktif {
+    color: var(--red);
+    background: rgba(255, 91, 119, .075);
+}
+
+.badge-lambat {
+    color: var(--yellow);
+    background: rgba(255, 200, 87, .08);
+}
+
+.badge-pulang,
+.badge-source-pegawai {
+    color: var(--cyan);
+    background: rgba(0, 229, 255, .07);
+}
+
+.badge-source-admin {
+    color: #c9b7ff;
+    background: rgba(139, 92, 246, .11);
+}
+
+/* =====================================================
+   PEGAWAI ADMIN
+===================================================== */
+
+.pegawai-stat-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 17px;
+}
+
+.pegawai-stat-card {
+    min-height: 100px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .022);
+}
+
+.pegawai-stat-card small {
+    color: var(--muted);
     font-size: 10px;
     font-weight: 800;
 }
 
-.badge-masuk, .badge-tepat { color: var(--green); background: rgba(25, 230, 140, .08); }
-.badge-keluar { color: var(--red); background: rgba(255, 91, 119, .08); }
-.badge-lambat { color: var(--yellow); background: rgba(255, 200, 87, .09); }
-.badge-pulang { color: var(--cyan); background: rgba(0, 229, 255, .07); }
-.badge-source-pegawai { color: var(--cyan); background: rgba(0, 229, 255, .07); }
-.badge-source-admin { color: #c9b7ff; background: rgba(139, 92, 246, .12); }
-
-.loading-cell, .empty-cell { padding: 30px !important; color: var(--muted); }
-
-/* PEGAWAI ADMIN */
-
-.pegawai-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 19px;
-    border: 1px solid var(--border);
-    background: linear-gradient(135deg, rgba(0, 229, 255, .045), rgba(139, 92, 246, .06));
+.pegawai-stat-card strong {
+    margin-top: 4px;
+    font-size: 28px;
 }
 
-.section-label {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--cyan);
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-}
-
-.pegawai-header h2 { font-size: 23px; }
-.pegawai-header p { margin-top: 5px; color: var(--muted); font-size: 12px; }
-
-.pegawai-stat-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-.pegawai-stat-card {
-    min-height: 105px;
-    padding: 17px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 17px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
-}
-
-.pegawai-stat-card small { color: var(--muted); font-size: 11px; font-weight: 700; }
-.pegawai-stat-card strong { margin-top: 5px; font-size: 29px; }
-.pegawai-stat-card:nth-child(2) strong { color: var(--green); }
-.pegawai-stat-card:nth-child(3) strong { color: var(--red); }
-
-.pegawai-tools {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    align-items: end;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-.pegawai-filter-status {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.pegawai-filter-status label {
-    color: #dbe5f1;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.pegawai-status-aktif {
+.pegawai-stat-card:nth-child(2) strong {
     color: var(--green);
-    background: rgba(25, 230, 140, .08);
-    border: 1px solid rgba(25, 230, 140, .14);
 }
 
-.pegawai-status-tidak-aktif {
+.pegawai-stat-card:nth-child(3) strong {
     color: var(--red);
-    background: rgba(255, 91, 119, .08);
-    border: 1px solid rgba(255, 91, 119, .14);
 }
 
 .pegawai-action-container {
@@ -1255,100 +1442,289 @@ button:disabled { cursor: not-allowed; }
     gap: 6px;
 }
 
-.pegawai-edit-btn, .pegawai-status-btn {
-    min-height: 33px;
+.pegawai-edit-btn,
+.pegawai-status-btn {
+    min-height: 34px;
     padding: 0 10px;
+    font-size: 9px;
+    font-weight: 900;
     border-radius: 9px;
-    font-size: 10px;
-    font-weight: 800;
 }
 
 .pegawai-edit-btn {
     color: var(--cyan);
-    background: rgba(0, 229, 255, .07);
-    border: 1px solid rgba(0, 229, 255, .15);
+    border: 1px solid rgba(0, 229, 255, .14);
+    background: rgba(0, 229, 255, .06);
 }
-
-.pegawai-edit-btn:hover { background: rgba(0, 229, 255, .12); }
 
 .pegawai-status-btn {
     color: var(--yellow);
-    background: rgba(255, 200, 87, .07);
-    border: 1px solid rgba(255, 200, 87, .16);
+    border: 1px solid rgba(255, 200, 87, .15);
+    background: rgba(255, 200, 87, .06);
+}
+
+/* =====================================================
+   KETERANGAN ADMIN
+===================================================== */
+
+.keterangan-stat-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 17px;
+}
+
+.keterangan-stat-card {
+    min-height: 105px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 17px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .022);
+}
+
+.keterangan-stat-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cyan);
+}
+
+.keterangan-stat-card span {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.keterangan-stat-card strong {
+    margin-top: 5px;
+    font-size: 30px;
+}
+
+.keterangan-stat-card.stat-waiting::before {
+    background: var(--yellow);
+}
+
+.keterangan-stat-card.stat-approved::before {
+    background: var(--green);
+}
+
+.keterangan-stat-card.stat-rejected::before {
+    background: var(--red);
+}
+
+.keterangan-stat-card.stat-waiting strong {
+    color: var(--yellow);
+}
+
+.keterangan-stat-card.stat-approved strong {
+    color: var(--green);
+}
+
+.keterangan-stat-card.stat-rejected strong {
+    color: var(--red);
+}
+
+.keterangan-filter-card {
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .018);
+}
+
+#tabelKeterangan {
+    min-width: 950px;
+}
+
+#tabelKeterangan td:nth-child(2) {
+    min-width: 155px;
+    font-weight: 700;
+}
+
+#tabelKeterangan td:nth-child(5) {
+    min-width: 230px;
+    max-width: 330px;
+}
+
+.keterangan-text-cell {
+    color: #cdd6e5;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.keterangan-jenis-badge {
+    color: #bfefff;
+    border: 1px solid rgba(0, 229, 255, .12);
+    background: rgba(0, 229, 255, .065);
+}
+
+.keterangan-status-badge.status-menunggu {
+    color: var(--yellow);
+    background: rgba(255, 200, 87, .075);
+}
+
+.keterangan-status-badge.status-disetujui {
+    color: var(--green);
+    background: rgba(25, 230, 140, .075);
+}
+
+.keterangan-status-badge.status-ditolak {
+    color: var(--red);
+    background: rgba(255, 91, 119, .075);
+}
+
+.keterangan-status-badge.status-dibatalkan {
+    color: var(--muted);
+    background: rgba(255, 255, 255, .045);
+}
+
+.keterangan-action-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.keterangan-setujui-btn,
+.keterangan-tolak-btn {
+    min-height: 35px;
+    padding: 0 11px;
+    font-size: 9px;
+    font-weight: 900;
+    border-radius: 9px;
+}
+
+.keterangan-setujui-btn {
+    color: var(--green);
+    border: 1px solid rgba(25, 230, 140, .18);
+    background: rgba(25, 230, 140, .065);
+}
+
+.keterangan-tolak-btn {
+    color: var(--red);
+    border: 1px solid rgba(255, 91, 119, .18);
+    background: rgba(255, 91, 119, .065);
 }
 
 /* =====================================================
    AKUN ADMIN
 ===================================================== */
 
-.admin-account-card {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 24px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: linear-gradient(135deg, rgba(0, 229, 255, .045), rgba(139, 92, 246, .07));
+.admin-account-grid {
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);
+    gap: 17px;
+    align-items: start;
 }
 
-.admin-account-header {
-    margin-bottom: 22px;
-    padding-bottom: 18px;
+.admin-profile-card,
+.admin-password-card {
+    border-radius: 19px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .02);
+}
+
+.admin-profile-card {
+    padding: 21px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139, 92, 246, .08),
+            rgba(0, 229, 255, .035)
+        );
+}
+
+.admin-profile-avatar {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    border-radius: 17px;
+    border: 1px solid rgba(139, 92, 246, .17);
+    background: rgba(139, 92, 246, .11);
+}
+
+.admin-profile-content {
+    min-width: 0;
+}
+
+.admin-profile-label {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.admin-profile-content h3 {
+    margin-top: 4px;
+    font-size: 20px;
+}
+
+.admin-profile-meta {
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.admin-profile-meta strong {
+    color: var(--cyan);
+    font-size: 11px;
+}
+
+.admin-password-card {
+    padding: 21px;
+}
+
+.admin-password-header {
+    margin-bottom: 19px;
+    padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
 }
 
-.admin-account-header .section-label { margin-bottom: 7px; }
-.admin-account-header h2 { font-size: 23px; }
+.admin-password-header h2 {
+    margin-top: 5px;
+    font-size: 21px;
+}
 
-.admin-account-header p {
+.admin-password-description {
     margin-top: 6px;
+    max-width: 560px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.5;
-}
-
-.admin-identity {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 22px;
-}
-
-.admin-identity-item {
-    padding: 15px;
-    border-radius: 15px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
-}
-
-.admin-identity-item small {
-    display: block;
-    margin-bottom: 5px;
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-}
-
-.admin-identity-item strong {
-    display: block;
-    font-size: 14px;
-    overflow-wrap: anywhere;
 }
 
 #gantiPasswordAdminForm {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 13px;
 }
 
+.admin-form-message,
 #passwordAdminStatus {
-    min-height: 18px;
+    min-height: 16px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
 }
 
-#simpanPasswordAdminBtn { align-self: flex-start; }
+#simpanPasswordAdminBtn {
+    align-self: flex-start;
+}
 
 /* =====================================================
    MODAL ADMIN
@@ -1358,13 +1734,15 @@ button:disabled { cursor: not-allowed; }
     position: fixed;
     inset: 0;
     z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.admin-modal[hidden] { display: none; }
+.admin-modal[hidden] {
+    display: none;
+}
 
 .admin-modal-backdrop {
     position: absolute;
@@ -1379,143 +1757,112 @@ button:disabled { cursor: not-allowed; }
     max-width: 540px;
     max-height: calc(100vh - 35px);
     overflow-y: auto;
-    padding: 24px;
-    border-radius: 22px;
-    border: 1px solid rgba(0, 229, 255, .16);
-    background: rgba(10, 16, 29, .98);
+    padding: 23px;
+    border-radius: 21px;
+    border: 1px solid rgba(0, 229, 255, .15);
+    background: rgba(9, 15, 27, .985);
     box-shadow: 0 30px 90px rgba(0, 0, 0, .65);
-    animation: fadeUp .25s ease;
 }
 
-.admin-modal-content::-webkit-scrollbar { width: 7px; }
-
-.admin-modal-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .12);
-    border-radius: 999px;
+#absensiManualModal .admin-modal-content {
+    max-width: 580px;
 }
 
 .admin-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 22px;
+    gap: 14px;
+    margin-bottom: 20px;
 }
 
 .admin-modal-header small {
     color: var(--cyan);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 900;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.3px;
 }
 
-.admin-modal-header h2 { margin-top: 5px; font-size: 22px; }
+.admin-modal-header h2 {
+    margin-top: 4px;
+    font-size: 21px;
+}
 
 .modal-close-btn {
     width: 38px;
     height: 38px;
     flex-shrink: 0;
-    border-radius: 11px;
     color: var(--muted);
-    font-size: 24px;
-    background: rgba(255, 255, 255, .05);
+    font-size: 22px;
+    border-radius: 11px;
     border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .045);
 }
 
-.modal-close-btn:hover {
-    color: white;
-    background: rgba(255, 255, 255, .09);
-}
-
-#pegawaiForm, #absensiManualForm {
+#pegawaiForm,
+#absensiManualForm {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-}
-
-.admin-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.admin-form-group label {
-    color: #dbe5f1;
-    font-size: 12px;
-    font-weight: 700;
+    gap: 13px;
 }
 
 .admin-form-group small {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 9px;
     line-height: 1.45;
 }
 
 .admin-form-row {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
 }
 
 .admin-modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 9px;
-    margin-top: 8px;
-    padding-top: 16px;
+    gap: 8px;
+    margin-top: 6px;
+    padding-top: 15px;
     border-top: 1px solid var(--border);
 }
 
-/* ABSENSI MANUAL */
-
-#absensiManualModal .admin-modal-content { max-width: 580px; }
-#manualAlasan { min-height: 100px; }
-
-.manual-info {
+.manual-warning {
     padding: 13px 14px;
+    color: var(--yellow);
+    font-size: 11px;
+    line-height: 1.5;
     border-radius: 13px;
+    border: 1px solid rgba(255, 200, 87, .16);
+    background: rgba(255, 200, 87, .055);
+}
+
+.manual-warning p {
+    margin-top: 4px;
     color: var(--muted);
-    background: rgba(0, 229, 255, .035);
-    border: 1px solid rgba(0, 229, 255, .10);
-    font-size: 11px;
-    line-height: 1.55;
+    font-size: 10px;
 }
 
-/* TABEL ABSENSI */
-
-#tabelAbsensi { min-width: 1120px; }
-#tabelAbsensi td:nth-child(2) { min-width: 150px; text-align: left; }
-#tabelAbsensi td:nth-child(3) { white-space: nowrap; }
-
-#tabelAbsensi td:nth-child(8),
-#tabelAbsensi td:nth-child(9) {
-    max-width: 190px;
-    overflow-wrap: anywhere;
+#manualAlasan {
+    min-height: 100px;
 }
 
-#tabelAbsensi td:nth-child(9) {
-    color: var(--muted);
-    font-size: 11px;
-}
+/* =====================================================
+   TABLET
+===================================================== */
 
-#tabelAbsensi td:nth-child(8):empty::after,
-#tabelAbsensi td:nth-child(9):empty::after {
-    content: "-";
-    color: var(--muted);
-}
+@media (max-width: 900px) {
+    .admin-container {
+        padding: 22px;
+    }
 
-/* TABEL PEGAWAI */
+    .admin-nav-btn {
+        font-size: 10px;
+    }
 
-#tabelPegawai td:nth-child(1) {
-    min-width: 170px;
-    text-align: left;
-}
-
-#tabelPegawai td:nth-child(2) { white-space: nowrap; }
-
-#tabelPegawai td:nth-child(3) {
-    min-width: 180px;
-    overflow-wrap: anywhere;
+    .admin-account-grid {
+        grid-template-columns: 280px minmax(0, 1fr);
+    }
 }
 
 /* =====================================================
@@ -1523,97 +1870,261 @@ button:disabled { cursor: not-allowed; }
 ===================================================== */
 
 @media (max-width: 700px) {
-    .login-page { padding: 15px; }
+    .login-page {
+        padding: 14px;
+    }
 
     .login-container {
         max-width: 390px;
-        padding: 27px 22px;
+        padding: 27px 21px;
         border-radius: 21px;
     }
 
-    .login-container h1 { font-size: 27px; }
-    .login-subtitle { margin-bottom: 24px; }
-    .admin-login-link { margin-top: 15px; }
+    .login-container h1 {
+        font-size: 27px;
+    }
 
-    .admin-page { padding: 12px 10px 25px; }
+    /* EMPLOYEE */
+
+    .absensi-page {
+        padding: 16px 13px 30px;
+    }
+
+    .mode-section,
+    .form-section,
+    .keterangan-aktif-card {
+        padding: 15px;
+    }
+
+    /* ADMIN */
+
+    .admin-page {
+        padding: 8px 7px 28px;
+    }
 
     .admin-container {
-        padding: 17px;
-        margin: 8px auto;
+        padding: 13px;
         border-radius: 20px;
+        background: rgba(8, 14, 25, .9);
     }
 
-    .admin-header { align-items: flex-start; }
-    .admin-header h1 { font-size: 23px; }
-    .admin-header p { font-size: 12px; }
-
-    .admin-logout-btn {
-        padding: 9px 11px;
-        font-size: 11px;
+    .admin-header {
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 16px;
+        padding: 4px 2px 0;
     }
 
-    .admin-nav {
-        position: sticky;
-        top: 8px;
-        z-index: 100;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 5px;
-        margin-bottom: 18px;
-        padding: 5px;
-        background: rgba(9, 15, 27, .95);
-        backdrop-filter: blur(18px);
+    .admin-header h1 {
+        font-size: 22px;
     }
 
-    .admin-nav-btn {
-        min-width: 0;
-        min-height: 45px;
-        padding: 0 6px;
-        gap: 4px;
+    .admin-header p {
         font-size: 10px;
     }
 
-    .stat-container { gap: 8px; }
-
-    .stat-card {
-        min-height: 95px;
-        padding: 12px 9px;
+    .admin-header .app-badge {
+        font-size: 8px;
     }
 
-    .stat-card strong { font-size: 25px; }
-    .stat-card small { display: none; }
+    .admin-logout-btn {
+        min-height: 40px;
+        padding: 0 10px;
+        font-size: 9px;
+    }
 
-    .admin-tools { grid-template-columns: 1fr auto; }
-    .toggle-filter-btn { min-width: 82px; }
+    /* NAV */
+
+    .admin-nav {
+        z-index: 100;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+        margin-bottom: 17px;
+        padding: 5px;
+        border-radius: 16px;
+        background: rgba(6, 12, 22, .97);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .24);
+    }
+
+    .admin-nav-btn {
+        min-height: 47px;
+        padding: 6px;
+        font-size: 9px;
+        gap: 5px;
+    }
+
+    .admin-nav-icon {
+        font-size: 11px;
+    }
+
+    /* HERO */
+
+    .admin-section-hero,
+    .pegawai-header {
+        padding: 16px;
+        gap: 12px;
+        margin-bottom: 13px;
+        align-items: flex-start;
+        border-radius: 17px;
+    }
+
+    .admin-section-icon {
+        width: 41px;
+        height: 41px;
+        font-size: 17px;
+        border-radius: 13px;
+    }
+
+    .admin-section-hero h2,
+    .pegawai-header h2 {
+        font-size: 18px;
+    }
+
+    .admin-section-hero p,
+    .pegawai-header p {
+        font-size: 10px;
+    }
+
+    /* ABSENSI STATS */
+
+    .stat-container {
+        gap: 7px;
+        margin-bottom: 13px;
+    }
+
+    .stat-card {
+        min-height: 84px;
+        padding: 10px 8px;
+        border-radius: 14px;
+    }
+
+    .stat-label {
+        font-size: 8px;
+    }
+
+    .stat-card strong {
+        font-size: 23px;
+    }
+
+    .stat-card small {
+        display: none;
+    }
+
+    /* PEGAWAI STATS */
+
+    .pegawai-stat-container {
+        gap: 7px;
+        margin-bottom: 13px;
+    }
+
+    .pegawai-stat-card {
+        min-height: 80px;
+        padding: 10px 8px;
+        border-radius: 14px;
+    }
+
+    .pegawai-stat-card small {
+        font-size: 8px;
+    }
+
+    .pegawai-stat-card strong {
+        font-size: 22px;
+    }
+
+    /* KETERANGAN STATS - 2 X 2 */
+
+    .keterangan-stat-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 13px;
+    }
+
+    .keterangan-stat-card {
+        min-height: 87px;
+        padding: 12px;
+        border-radius: 15px;
+    }
+
+    .keterangan-stat-card span {
+        font-size: 9px;
+    }
+
+    .keterangan-stat-card strong {
+        font-size: 25px;
+    }
+
+    /* FILTER */
+
+    .admin-tools,
+    .pegawai-tools,
+    .keterangan-filter-card {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .keterangan-filter-card {
+        padding: 13px;
+        margin-bottom: 13px;
+        border-radius: 15px;
+    }
+
+    .toggle-filter-btn {
+        width: 100%;
+    }
 
     .filter-container {
         display: none;
         grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
     }
 
-    .filter-container.show { display: grid; }
+    .filter-container.show {
+        display: grid;
+    }
+
+    input,
+    select,
+    textarea {
+        min-height: 48px;
+        font-size: 14px;
+    }
+
+    /* DATA */
 
     .data-section {
-        padding: 13px;
-        border-radius: 17px;
+        padding: 12px;
+        border-radius: 16px;
     }
 
-    .data-section-header { align-items: flex-start; }
-    .data-section-header h2 { font-size: 17px; }
+    .data-section-header {
+        align-items: flex-start;
+    }
+
+    .data-section-header h2 {
+        font-size: 17px;
+    }
 
     .data-section-header .admin-primary-btn {
-        min-height: 39px;
-        padding: 0 11px;
-        font-size: 10px;
+        min-height: 40px;
+        padding: 0 10px;
+        font-size: 9px;
     }
 
     .table-wrapper {
         overflow: visible;
         border: none;
+        border-radius: 0;
     }
 
-    /* ABSENSI CARD */
+    /* ================================================
+       ABSENSI CARD
+    ================================================ */
 
-    #tabelAbsensi { min-width: 0; }
+    #tabelAbsensi {
+        min-width: 0;
+    }
 
     #tabelAbsensi,
     #tabelAbsensi tbody,
@@ -1623,19 +2134,22 @@ button:disabled { cursor: not-allowed; }
         width: 100%;
     }
 
-    #tabelAbsensi thead { display: none; }
+    #tabelAbsensi thead {
+        display: none;
+    }
 
     #tabelAbsensi tbody {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
     }
 
     #tabelAbsensi tbody tr {
-        padding: 15px;
-        border-radius: 17px;
+        padding: 14px;
+        overflow: hidden;
+        border-radius: 16px;
         border: 1px solid var(--border);
-        background: linear-gradient(135deg, rgba(0, 229, 255, .035), rgba(139, 92, 246, .045));
+        background: linear-gradient(135deg, rgba(0, 229, 255, .03), rgba(139, 92, 246, .04));
     }
 
     #tabelAbsensi td,
@@ -1645,19 +2159,21 @@ button:disabled { cursor: not-allowed; }
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 15px;
-        max-width: none;
+        gap: 12px;
         min-width: 0;
-        padding: 8px 0;
+        max-width: none;
+        padding: 7px 0;
         text-align: right;
+        font-size: 10px;
         overflow-wrap: anywhere;
     }
 
     #tabelAbsensi td::before {
         flex-shrink: 0;
         color: var(--muted);
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 9px;
+        font-weight: 800;
+        text-align: left;
     }
 
     #tabelAbsensi td:nth-child(1)::before { content: "Waktu"; }
@@ -1672,31 +2188,9 @@ button:disabled { cursor: not-allowed; }
     #tabelAbsensi td:nth-child(10)::before { content: "Lokasi"; }
     #tabelAbsensi td:nth-child(11)::before { content: "Foto"; }
 
-    /* PEGAWAI CARD */
-
-    .pegawai-header {
-        align-items: flex-start;
-        padding: 16px;
-    }
-
-    .pegawai-header h2 { font-size: 19px; }
-
-    .pegawai-header .admin-primary-btn {
-        min-height: 40px;
-        padding: 0 11px;
-        font-size: 10px;
-    }
-
-    .pegawai-stat-container { gap: 8px; }
-
-    .pegawai-stat-card {
-        min-height: 85px;
-        padding: 11px;
-    }
-
-    .pegawai-stat-card strong { font-size: 24px; }
-    .pegawai-stat-card small { font-size: 9px; }
-    .pegawai-tools { grid-template-columns: 1fr; }
+    /* ================================================
+       PEGAWAI CARD
+    ================================================ */
 
     #tabelPegawai,
     #tabelPegawai tbody,
@@ -1706,39 +2200,41 @@ button:disabled { cursor: not-allowed; }
         width: 100%;
     }
 
-    #tabelPegawai thead { display: none; }
+    #tabelPegawai thead {
+        display: none;
+    }
 
     #tabelPegawai tbody {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
     }
 
     #tabelPegawai tbody tr {
-        padding: 15px;
-        border-radius: 17px;
+        padding: 14px;
+        border-radius: 16px;
         border: 1px solid var(--border);
-        background: linear-gradient(135deg, rgba(0, 229, 255, .035), rgba(139, 92, 246, .045));
+        background: linear-gradient(135deg, rgba(0, 229, 255, .03), rgba(139, 92, 246, .04));
     }
 
     #tabelPegawai td,
-    #tabelPegawai td:nth-child(1),
-    #tabelPegawai td:nth-child(3) {
+    #tabelPegawai td:nth-child(1) {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
         min-width: 0;
-        padding: 8px 0;
+        padding: 7px 0;
         text-align: right;
+        font-size: 10px;
         overflow-wrap: anywhere;
     }
 
     #tabelPegawai td::before {
         flex-shrink: 0;
         color: var(--muted);
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 9px;
+        font-weight: 800;
     }
 
     #tabelPegawai td:nth-child(1)::before { content: "Nama"; }
@@ -1747,38 +2243,221 @@ button:disabled { cursor: not-allowed; }
     #tabelPegawai td:nth-child(4)::before { content: "Status"; }
     #tabelPegawai td:nth-child(5)::before { content: "Aksi"; }
 
-    .pegawai-action-container { justify-content: flex-end; }
+    .pegawai-action-container {
+        justify-content: flex-end;
+    }
 
-    /* AKUN ADMIN */
+    /* ================================================
+       KETERANGAN CARD
+    ================================================ */
 
-    .admin-account-card { padding: 18px; }
-    .admin-account-header h2 { font-size: 20px; }
-    .admin-identity { grid-template-columns: 1fr; }
-    #simpanPasswordAdminBtn { width: 100%; }
+    #tabelKeterangan {
+        min-width: 0;
+    }
 
-    /* MODAL */
+    #tabelKeterangan,
+    #tabelKeterangan tbody,
+    #tabelKeterangan tr,
+    #tabelKeterangan td {
+        display: block;
+        width: 100%;
+    }
+
+    #tabelKeterangan thead {
+        display: none;
+    }
+
+    #tabelKeterangan tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    #tabelKeterangan tbody tr {
+        position: relative;
+        padding: 14px;
+        overflow: hidden;
+        border-radius: 17px;
+        border: 1px solid rgba(139, 92, 246, .14);
+        background: linear-gradient(145deg, rgba(139, 92, 246, .065), rgba(0, 229, 255, .025));
+    }
+
+    #tabelKeterangan tbody tr::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--purple), var(--cyan));
+    }
+
+    #tabelKeterangan td,
+    #tabelKeterangan td:nth-child(2),
+    #tabelKeterangan td:nth-child(5) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        max-width: none;
+        padding: 7px 0;
+        text-align: right;
+        font-size: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, .04);
+        overflow-wrap: anywhere;
+    }
+
+    #tabelKeterangan td::before {
+        flex: 0 0 72px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 800;
+        text-align: left;
+    }
+
+    #tabelKeterangan td:nth-child(1)::before { content: "Waktu"; }
+    #tabelKeterangan td:nth-child(2)::before { content: "Nama"; }
+    #tabelKeterangan td:nth-child(3)::before { content: "NIP"; }
+    #tabelKeterangan td:nth-child(4)::before { content: "Jenis"; }
+    #tabelKeterangan td:nth-child(5)::before { content: "Keterangan"; }
+    #tabelKeterangan td:nth-child(6)::before { content: "Status"; }
+    #tabelKeterangan td:nth-child(7)::before { content: "Aksi"; }
+
+    #tabelKeterangan td:nth-child(2) {
+        font-weight: 800;
+        color: white;
+    }
+
+    #tabelKeterangan td:nth-child(5) {
+        align-items: flex-start;
+    }
+
+    #tabelKeterangan td:nth-child(7) {
+        padding-top: 10px;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .keterangan-text-cell {
+        flex: 1;
+        max-width: 190px;
+        font-size: 10px;
+        text-align: right;
+    }
+
+    .keterangan-action-container {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .keterangan-setujui-btn,
+    .keterangan-tolak-btn {
+        width: 100%;
+        min-height: 43px;
+    }
+
+    /* ================================================
+       ACCOUNT MOBILE
+    ================================================ */
+
+    .admin-account-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .admin-profile-card {
+        padding: 16px;
+    }
+
+    .admin-profile-avatar {
+        width: 47px;
+        height: 47px;
+        font-size: 19px;
+    }
+
+    .admin-profile-content h3 {
+        font-size: 18px;
+    }
+
+    .admin-password-card {
+        padding: 16px;
+    }
+
+    .admin-password-header {
+        margin-bottom: 15px;
+        padding-bottom: 13px;
+    }
+
+    .admin-password-header h2 {
+        font-size: 18px;
+    }
+
+    .admin-password-description {
+        font-size: 10px;
+    }
+
+    #simpanPasswordAdminBtn {
+        width: 100%;
+        min-height: 48px;
+    }
+
+    /* MODAL BOTTOM SHEET */
 
     .admin-modal {
+        padding: 0;
         align-items: flex-end;
-        padding: 10px;
     }
 
     .admin-modal-content {
-        max-height: calc(100vh - 20px);
-        padding: 19px;
-        border-radius: 20px;
+        max-width: none;
+        max-height: 92dvh;
+        padding: 19px 16px calc(18px + env(safe-area-inset-bottom));
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        border-radius: 23px 23px 0 0;
     }
 
-    .admin-form-row { grid-template-columns: 1fr; }
+    .admin-modal-content::before {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 4px;
+        margin: -6px auto 15px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .17);
+    }
+
+    .admin-form-row {
+        grid-template-columns: 1fr;
+    }
 
     .admin-modal-actions {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-modal-actions button {
+        min-height: 47px;
     }
 
     .loading-cell::before,
     .empty-cell::before {
         content: none !important;
+    }
+
+    #tabelAbsensi .loading-cell,
+    #tabelAbsensi .empty-cell,
+    #tabelPegawai .loading-cell,
+    #tabelPegawai .empty-cell,
+    #tabelKeterangan .loading-cell,
+    #tabelKeterangan .empty-cell {
+        display: block;
+        padding: 24px 10px !important;
+        text-align: center !important;
     }
 }
 
@@ -1787,74 +2466,49 @@ button:disabled { cursor: not-allowed; }
 ===================================================== */
 
 @media (max-width: 480px) {
-    .login-page { padding: 14px; }
-
     .login-container {
-        padding: 26px 19px;
-        border-radius: 20px;
+        padding: 25px 18px;
     }
 
-    .login-container h1 { font-size: 25px; }
-
-    .login-subtitle {
-        margin-top: 7px;
-        margin-bottom: 23px;
-        font-size: 13px;
+    .login-container h1 {
+        font-size: 25px;
     }
 
-    #loginForm,
-    #adminLoginForm {
-        gap: 14px;
+    .mode-options {
+        grid-template-columns: 1fr;
     }
-
-    .login-btn { min-height: 49px; }
-
-    .admin-login-link {
-        width: 100%;
-        min-height: 40px;
-        margin-top: 13px;
-    }
-
-    .absensi-page { padding: 16px 13px 30px; }
-
-    .form-section,
-    .mode-section,
-    .keterangan-aktif-card { padding: 16px; }
-
-    .attendance-option { padding: 11px 9px; }
-
-    .option-icon {
-        width: 34px;
-        height: 34px;
-    }
-
-    .clock-card h2 { font-size: 34px; }
-    .mode-options { grid-template-columns: 1fr; }
 
     .mode-option {
-        min-height: 82px;
+        min-height: 80px;
         flex-direction: row;
-        align-items: center;
         justify-content: flex-start;
+        align-items: center;
     }
 
-    .keterangan-options { grid-template-columns: 1fr; }
-    .keterangan-option { min-height: 76px; }
-    .keterangan-aktif-header { flex-direction: column; }
-    .status-keterangan-badge { align-self: flex-start; }
-
-    /* ADMIN */
-
-    .admin-container { padding: 13px; }
-
-    .admin-header {
-        gap: 10px;
-        flex-wrap: wrap;
+    .keterangan-options {
+        grid-template-columns: 1fr;
     }
 
-    .admin-header h1 { font-size: 20px; }
-    .admin-header .app-badge { font-size: 9px; }
-    .admin-logout-btn { padding: 8px 9px; }
+    .keterangan-aktif-header {
+        flex-direction: column;
+    }
+
+    .status-keterangan-badge {
+        align-self: flex-start;
+    }
+
+    .admin-page {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .admin-container {
+        padding: 11px;
+    }
+
+    .admin-header h1 {
+        font-size: 20px;
+    }
 
     .admin-nav {
         gap: 4px;
@@ -1862,20 +2516,144 @@ button:disabled { cursor: not-allowed; }
     }
 
     .admin-nav-btn {
-        min-height: 43px;
-        padding: 0 3px;
-        font-size: 9px;
+        min-height: 45px;
+        font-size: 8px;
     }
 
-    .admin-tools { grid-template-columns: 1fr; }
-    .toggle-filter-btn { width: 100%; }
-    .pegawai-header { flex-direction: column; }
-    .pegawai-header .admin-primary-btn { width: 100%; }
-    .pegawai-stat-card { padding: 9px 7px; }
-    .pegawai-stat-card strong { font-size: 21px; }
-    .data-section-header { flex-direction: column; }
-    .data-section-header .admin-primary-btn { width: 100%; }
-    .admin-account-card { padding: 15px; }
-    .admin-modal-actions { grid-template-columns: 1fr; }
-    #absensiManualBtn { width: 100%; }
+    .stat-card strong {
+        font-size: 21px;
+    }
+
+    .pegawai-stat-card strong {
+        font-size: 20px;
+    }
+
+    .keterangan-stat-card {
+        min-height: 80px;
+        padding: 10px;
+    }
+
+    .keterangan-stat-card strong {
+        font-size: 23px;
+    }
+
+    .admin-section-hero {
+        padding: 14px;
+    }
+
+    .admin-section-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .data-section-header {
+        flex-direction: column;
+    }
+
+    .data-section-header .admin-primary-btn,
+    .admin-section-hero .admin-primary-btn {
+        width: 100%;
+    }
+
+    #tabelKeterangan td::before {
+        flex-basis: 64px;
+    }
+
+    .keterangan-text-cell {
+        max-width: 165px;
+    }
+
+    .admin-modal-actions {
+        grid-template-columns: 1fr;
+    }
+
+    #absensiManualBtn {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   HP SANGAT KECIL
+===================================================== */
+
+@media (max-width: 370px) {
+    .admin-container {
+        padding: 9px;
+    }
+
+    .admin-header h1 {
+        font-size: 19px;
+    }
+
+    .admin-nav-btn {
+        min-height: 43px;
+        font-size: 8px;
+    }
+
+    .keterangan-stat-container {
+        gap: 6px;
+    }
+
+    .keterangan-stat-card span {
+        font-size: 8px;
+    }
+
+    #tabelAbsensi tbody tr,
+    #tabelPegawai tbody tr,
+    #tabelKeterangan tbody tr {
+        padding: 12px;
+    }
+
+    #tabelKeterangan td::before {
+        flex-basis: 58px;
+    }
+
+    .keterangan-text-cell {
+        max-width: 145px;
+    }
+}
+
+/* =====================================================
+   SAFE AREA
+===================================================== */
+
+@supports (padding: max(0px)) {
+    .toast {
+        bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    @media (max-width: 700px) {
+
+    #adminPegawaiSection .admin-section-hero {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    #adminPegawaiSection .admin-section-hero > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #adminPegawaiSection .admin-section-hero h2 {
+        margin-top: 5px;
+        font-size: 20px;
+    }
+
+    #adminPegawaiSection .admin-section-hero p {
+        width: 100%;
+        max-width: none;
+        margin-top: 6px;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    #adminPegawaiSection .admin-section-hero .admin-primary-btn {
+        width: 100%;
+        min-height: 46px;
+        position: static;
+        flex-shrink: 0;
+    }
+}
 }
