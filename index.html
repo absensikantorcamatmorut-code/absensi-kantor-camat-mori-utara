@@ -1,80 +1,72 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#050811"
-    >
-
-    <title>
-        Absensi Kantor Camat Mori Utara
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050811">
+    <title>Absensi Kantor Camat Mori Utara</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="login-page">
-
     <main class="login-container">
 
-        <span class="app-badge">
-            SISTEM ABSENSI
-        </span>
+        <!-- LOGIN PEGAWAI -->
+        <section id="loginPegawaiPage">
+            <span class="app-badge">SISTEM ABSENSI</span>
+            <h1>Absensi Pegawai</h1>
+            <p class="login-subtitle">Kantor Camat Mori Utara</p>
 
-        <h1>
-            Absensi Pegawai
-        </h1>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="loginNip">NIP</label>
+                    <input type="text" id="loginNip" placeholder="Masukkan NIP" inputmode="numeric" autocomplete="username" maxlength="18" required>
+                </div>
 
-        <p class="login-subtitle">
-            Kantor Camat Mori Utara
-        </p>
+                <button type="submit" class="login-btn" id="loginButton">
+                    Login
+                </button>
 
-        <form id="loginForm">
+                <p id="loginStatus"></p>
+            </form>
 
-            <div class="input-group">
-
-                <label for="loginNip">
-                    NIP
-                </label>
-
-                <input
-                    type="text"
-                    id="loginNip"
-                    placeholder="Masukkan NIP"
-                    inputmode="numeric"
-                    autocomplete="username"
-                    maxlength="18"
-                    required
-                >
-
-            </div>
-
-            <button
-                type="submit"
-                class="login-btn"
-            >
-                Login
+            <button type="button" class="admin-login-link" id="bukaLoginAdminBtn">
+                Login Admin →
             </button>
+        </section>
 
-            <p id="loginStatus"></p>
 
-        </form>
+        <!-- LOGIN ADMIN -->
+        <section id="loginAdminPage" hidden>
+            <span class="app-badge">AKSES ADMIN</span>
+            <h1>Login Admin</h1>
+            <p class="login-subtitle">Kantor Camat Mori Utara</p>
+
+            <form id="adminLoginForm">
+                <div class="input-group">
+                    <label for="adminLoginNip">ID Admin</label>
+                    <input type="text" id="adminLoginNip" placeholder="Masukkan ID Admin" autocomplete="username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="adminLoginPassword">Password</label>
+                    <input type="password" id="adminLoginPassword" placeholder="Masukkan password" autocomplete="current-password" required>
+                </div>
+
+                <button type="submit" class="login-btn" id="adminLoginButton">
+                    Login Admin
+                </button>
+
+                <p id="adminLoginStatus"></p>
+            </form>
+
+            <button type="button" class="admin-login-link" id="kembaliPegawaiBtn">
+                ← Kembali ke Login Pegawai
+            </button>
+        </section>
 
     </main>
 
     <script src="js/script.js"></script>
-
 </body>
-
 </html>
