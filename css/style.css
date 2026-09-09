@@ -134,7 +134,8 @@ body::after {
 /* GENERAL */
 
 input,
-select {
+select,
+textarea {
     width: 100%;
 
     padding: 14px;
@@ -154,20 +155,32 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     border-color: var(--cyan);
 
     box-shadow:
         0 0 0 3px rgba(0, 229, 255, 0.08);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
     color: #718098;
 }
 
 select option {
     background: #101827;
     color: white;
+}
+
+textarea {
+    min-height: 130px;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+    line-height: 1.5;
 }
 
 button {
@@ -532,7 +545,119 @@ button:disabled {
     font-size: 13px;
 }
 
-#absensiForm {
+
+/* MODE */
+
+.mode-section {
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    border-radius: 20px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    backdrop-filter: blur(18px);
+}
+
+.mode-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+.mode-option {
+    min-height: 105px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 8px;
+
+    padding: 15px;
+
+    text-align: left;
+
+    color: var(--text);
+
+    border-radius: 17px;
+
+    border: 1px solid var(--border);
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.mode-option:hover {
+    border-color:
+        rgba(0, 229, 255, 0.25);
+}
+
+.mode-option.active {
+    border-color:
+        rgba(0, 229, 255, 0.48);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 229, 255, 0.09),
+            rgba(139, 92, 246, 0.09)
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0, 229, 255, 0.06);
+}
+
+.mode-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    font-size: 20px;
+}
+
+.mode-option strong,
+.mode-option small {
+    display: block;
+}
+
+.mode-option strong {
+    font-size: 13px;
+}
+
+.mode-option small {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.4;
+}
+
+
+/* FORM */
+
+#absensiForm,
+#keteranganForm {
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -677,6 +802,116 @@ button:disabled {
     background:
         rgba(255, 91, 119, 0.08);
 }
+
+
+/* KETERANGAN */
+
+.keterangan-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+.keterangan-option {
+    min-height: 82px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    color: var(--text);
+
+    text-align: left;
+
+    border-radius: 16px;
+
+    border: 1px solid var(--border);
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.keterangan-option:hover {
+    border-color:
+        rgba(139, 92, 246, 0.30);
+}
+
+.keterangan-option.active {
+    border-color:
+        rgba(139, 92, 246, 0.55);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139, 92, 246, 0.10),
+            rgba(0, 229, 255, 0.06)
+        );
+}
+
+.keterangan-code {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    color: var(--cyan);
+
+    background:
+        rgba(0, 229, 255, 0.07);
+
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.keterangan-option strong,
+.keterangan-option small {
+    display: block;
+}
+
+.keterangan-option strong {
+    font-size: 12px;
+}
+
+.keterangan-option small {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+.keterangan-input-wrapper {
+    position: relative;
+}
+
+.keterangan-counter {
+    margin-top: 7px;
+
+    text-align: right;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* LOCATION */
 
 .action-card {
     width: 100%;
@@ -920,6 +1155,10 @@ button:disabled {
 
 /* SUBMIT */
 
+.submit-section {
+    padding-top: 2px;
+}
+
 .progress-status {
     display: flex;
 
@@ -948,7 +1187,8 @@ button:disabled {
     color: var(--green);
 }
 
-#submitAbsensi {
+#submitAbsensi,
+#submitKeterangan {
     width: 100%;
 
     min-height: 55px;
@@ -969,7 +1209,8 @@ button:disabled {
         );
 }
 
-#submitAbsensi:disabled {
+#submitAbsensi:disabled,
+#submitKeterangan:disabled {
     opacity: 0.35;
 }
 
@@ -1555,7 +1796,8 @@ button:disabled {
         padding: 16px 13px 30px;
     }
 
-    .form-section {
+    .form-section,
+    .mode-section {
         padding: 16px;
     }
 
@@ -1570,5 +1812,26 @@ button:disabled {
 
     .clock-card h2 {
         font-size: 34px;
+    }
+
+    .mode-options {
+        grid-template-columns: 1fr;
+    }
+
+    .mode-option {
+        min-height: 82px;
+
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .keterangan-options {
+        grid-template-columns: 1fr;
+    }
+
+    .keterangan-option {
+        min-height: 76px;
     }
 }
