@@ -3796,65 +3796,136 @@ if (
    REQUEST SERVER
 ===================================================== */
 
-async function postData(data, timeout = 20000) {
-    const controller = new AbortController();
+async function postData(data, timeout = null) {
+    const action = String(data?.action || "");
 
-    const timer = setTimeout(function() {
-        controller.abort();
-    }, timeout);
+    const bolehRetry =
+        action === "login" ||
+        action === "loginAdmin";
 
-    try {
-        const response = await fetch(
-            WEB_APP_URL,
-            {
-                method: "POST",
+    const batasWaktu =
+        timeout !== null
+            ? timeout
+            : bolehRetry
+                ? 8000
+                : 20000;
 
-                headers: {
-                    "Content-Type":
-                        "text/plain;charset=utf-8"
-                },
+    const maksimalPercobaan =
+        bolehRetry ? 2 : 1;
 
-                body: JSON.stringify(data),
-                signal: controller.signal
-            }
-        );
+    let errorTerakhir = null;
 
-        if (!response.ok) {
-            throw new Error(
-                "Server merespons dengan status " +
-                response.status +
-                "."
-            );
-        }
+    for (
+        let percobaan = 1;
+        percobaan <= maksimalPercobaan;
+        percobaan++
+    ) {
+        const controller = new AbortController();
 
-        const text = await response.text();
+        const timer = setTimeout(function() {
+            controller.abort();
+        }, batasWaktu);
 
         try {
-            return JSON.parse(text);
+            const response = await fetch(
+                WEB_APP_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body: JSON.stringify(data),
+
+                    signal: controller.signal,
+
+                    cache: "no-store"
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server merespons dengan status " +
+                    response.status +
+                    "."
+                );
+            }
+
+            const text = await response.text();
+
+            let hasil;
+
+            try {
+                hasil = JSON.parse(text);
+
+            } catch (error) {
+                console.error(
+                    "Respons server:",
+                    text
+                );
+
+                throw new Error(
+                    "Respons server tidak valid."
+                );
+            }
+
+            return hasil;
 
         } catch (error) {
-            console.error(
-                "Respons server:",
-                text
+            errorTerakhir = error;
+
+            const masalahJaringan =
+                error.name === "AbortError" ||
+                error instanceof TypeError ||
+                error.message ===
+                    "Respons server tidak valid.";
+
+            if (
+                !bolehRetry ||
+                !masalahJaringan ||
+                percobaan >= maksimalPercobaan
+            ) {
+                if (error.name === "AbortError") {
+                    throw new Error(
+                        "Koneksi ke server terlalu lama. Silakan coba lagi."
+                    );
+                }
+
+                if (error instanceof TypeError) {
+                    throw new Error(
+                        "Koneksi ke server terganggu. Periksa internet lalu coba lagi."
+                    );
+                }
+
+                throw error;
+            }
+
+            console.warn(
+                "Request " +
+                action +
+                " gagal. Mencoba kembali..."
             );
 
-            throw new Error(
-                "Respons server tidak valid."
-            );
+            await tungguRequest(700);
+
+        } finally {
+            clearTimeout(timer);
         }
-
-    } catch (error) {
-        if (error.name === "AbortError") {
-            throw new Error(
-                "Server terlalu lama merespons. Silakan coba lagi."
-            );
-        }
-
-        throw error;
-
-    } finally {
-        clearTimeout(timer);
     }
+
+    throw (
+        errorTerakhir ||
+        new Error("Request gagal.")
+    );
+}
+
+
+function tungguRequest(ms) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, ms);
+    });
 }
 
 
