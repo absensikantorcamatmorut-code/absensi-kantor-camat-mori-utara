@@ -6,6 +6,15 @@ const KANTOR = {
     radius: 150
 };
 
+const JAM_ABSENSI = {
+    masukMulai: "06:30:00",
+    tepatWaktuSampai: "08:00:00",
+    masukSelesai: "09:00:00",
+    keluarMulai: "15:45:00",
+    keluarSelesai: "16:30:00"
+};
+
+
 /* =====================================================
    CUSTOM DIALOG
 ===================================================== */
@@ -134,7 +143,7 @@ function pastikanCustomDialog() {
         }
 
         .custom-dialog-confirm.danger {
-            color: #ffffff;
+            color: #fff;
             background: linear-gradient(135deg, #ef4444, #fb7185);
             box-shadow: 0 8px 25px rgba(239, 68, 68, 0.18);
         }
@@ -158,48 +167,33 @@ function pastikanCustomDialog() {
     document.head.appendChild(style);
 
     const overlay = document.createElement("div");
-
     overlay.id = "customDialogOverlay";
     overlay.className = "custom-dialog-overlay";
 
     overlay.innerHTML = `
-        <div
-            class="custom-dialog-box"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="customDialogTitle"
-        >
-            <div
-                class="custom-dialog-icon"
-                id="customDialogIcon"
-            >?</div>
+        <div class="custom-dialog-box"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="customDialogTitle">
 
-            <h3
-                class="custom-dialog-title"
-                id="customDialogTitle"
-            >
+            <div class="custom-dialog-icon" id="customDialogIcon">?</div>
+
+            <h3 class="custom-dialog-title" id="customDialogTitle">
                 Konfirmasi
             </h3>
 
-            <p
-                class="custom-dialog-message"
-                id="customDialogMessage"
-            ></p>
+            <p class="custom-dialog-message" id="customDialogMessage"></p>
 
             <div class="custom-dialog-actions">
-                <button
-                    type="button"
-                    class="custom-dialog-btn custom-dialog-cancel"
-                    id="customDialogCancel"
-                >
+                <button type="button"
+                        class="custom-dialog-btn custom-dialog-cancel"
+                        id="customDialogCancel">
                     Batal
                 </button>
 
-                <button
-                    type="button"
-                    class="custom-dialog-btn custom-dialog-confirm"
-                    id="customDialogConfirm"
-                >
+                <button type="button"
+                        class="custom-dialog-btn custom-dialog-confirm"
+                        id="customDialogConfirm">
                     Ya, Lanjutkan
                 </button>
             </div>
@@ -209,56 +203,27 @@ function pastikanCustomDialog() {
     document.body.appendChild(overlay);
 }
 
+
 function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
     pastikanCustomDialog();
 
-    return new Promise(function (resolve) {
-        const overlay =
-            document.getElementById("customDialogOverlay");
+    return new Promise(function(resolve) {
+        const overlay = document.getElementById("customDialogOverlay");
+        const icon = document.getElementById("customDialogIcon");
+        const title = document.getElementById("customDialogTitle");
+        const message = document.getElementById("customDialogMessage");
+        const cancelBtn = document.getElementById("customDialogCancel");
+        const confirmBtn = document.getElementById("customDialogConfirm");
+        const bahaya = Boolean(opsi.bahaya);
 
-        const icon =
-            document.getElementById("customDialogIcon");
+        icon.textContent = opsi.icon || (bahaya ? "!" : "?");
+        icon.className = "custom-dialog-icon" + (bahaya ? " danger" : "");
 
-        const title =
-            document.getElementById("customDialogTitle");
+        title.textContent = opsi.judul || "Konfirmasi";
+        message.textContent = String(pesan || "Apakah Anda yakin?");
 
-        const message =
-            document.getElementById("customDialogMessage");
-
-        const cancelBtn =
-            document.getElementById("customDialogCancel");
-
-        const confirmBtn =
-            document.getElementById("customDialogConfirm");
-
-        const bahaya =
-            Boolean(opsi.bahaya);
-
-        icon.textContent =
-            opsi.icon ||
-            (bahaya ? "!" : "?");
-
-        icon.className =
-            "custom-dialog-icon" +
-            (bahaya ? " danger" : "");
-
-        title.textContent =
-            opsi.judul ||
-            "Konfirmasi";
-
-        message.textContent =
-            String(
-                pesan ||
-                "Apakah Anda yakin?"
-            );
-
-        cancelBtn.textContent =
-            opsi.teksBatal ||
-            "Batal";
-
-        confirmBtn.textContent =
-            opsi.teksKonfirmasi ||
-            "Ya, Lanjutkan";
+        cancelBtn.textContent = opsi.teksBatal || "Batal";
+        confirmBtn.textContent = opsi.teksKonfirmasi || "Ya, Lanjutkan";
 
         confirmBtn.className =
             "custom-dialog-btn custom-dialog-confirm" +
@@ -268,492 +233,280 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 
         function selesai(nilai) {
             overlay.classList.remove("show");
+            document.removeEventListener("keydown", tekanEscape);
 
-            document.removeEventListener(
-                "keydown",
-                tekanEscape
-            );
-
-            setTimeout(function () {
+            setTimeout(function() {
                 resolve(nilai);
             }, 160);
         }
 
         function tekanEscape(event) {
-            if (event.key === "Escape") {
-                selesai(false);
-            }
+            if (event.key === "Escape") selesai(false);
         }
 
-        cancelBtn.onclick = function () {
-            selesai(false);
+        cancelBtn.onclick = () => selesai(false);
+        confirmBtn.onclick = () => selesai(true);
+
+        overlay.onclick = function(event) {
+            if (event.target === overlay) selesai(false);
         };
 
-        confirmBtn.onclick = function () {
-            selesai(true);
-        };
+        document.addEventListener("keydown", tekanEscape);
 
-        overlay.onclick = function (event) {
-            if (event.target === overlay) {
-                selesai(false);
-            }
-        };
-
-        document.addEventListener(
-            "keydown",
-            tekanEscape
-        );
-
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             overlay.classList.add("show");
             confirmBtn.focus();
         });
     });
 }
+
 
 function tampilkanDialogInfo(pesan, opsi = {}) {
     pastikanCustomDialog();
 
-    const teks =
-        String(
-            pesan ||
-            "Informasi"
-        );
-
-    const teksKecil =
-        teks.toLowerCase();
+    const teks = String(pesan || "Informasi");
+    const teksKecil = teks.toLowerCase();
 
     const gagal =
-        /gagal|wajib|tidak|harus|error|ditolak/.test(
-            teksKecil
-        );
+        /gagal|wajib|tidak|harus|error|ditolak|ditutup|belum dibuka/.test(teksKecil);
 
     const sukses =
-        /berhasil|disetujui|tersimpan|selesai/.test(
-            teksKecil
-        ) &&
+        /berhasil|disetujui|tersimpan|selesai/.test(teksKecil) &&
         !gagal;
 
-    return new Promise(function (resolve) {
-        const overlay =
-            document.getElementById("customDialogOverlay");
+    return new Promise(function(resolve) {
+        const overlay = document.getElementById("customDialogOverlay");
+        const icon = document.getElementById("customDialogIcon");
+        const title = document.getElementById("customDialogTitle");
+        const message = document.getElementById("customDialogMessage");
+        const cancelBtn = document.getElementById("customDialogCancel");
+        const confirmBtn = document.getElementById("customDialogConfirm");
 
-        const icon =
-            document.getElementById("customDialogIcon");
-
-        const title =
-            document.getElementById("customDialogTitle");
-
-        const message =
-            document.getElementById("customDialogMessage");
-
-        const cancelBtn =
-            document.getElementById("customDialogCancel");
-
-        const confirmBtn =
-            document.getElementById("customDialogConfirm");
-
-        icon.textContent =
-            sukses
-                ? "✓"
-                : gagal
-                    ? "!"
-                    : "i";
+        icon.textContent = sukses ? "✓" : gagal ? "!" : "i";
 
         icon.className =
             "custom-dialog-icon" +
-            (
-                sukses
-                    ? " success"
-                    : gagal
-                        ? " danger"
-                        : ""
-            );
+            (sukses ? " success" : gagal ? " danger" : "");
 
         title.textContent =
             opsi.judul ||
-            (
-                sukses
-                    ? "Berhasil"
-                    : gagal
-                        ? "Perhatian"
-                        : "Informasi"
-            );
+            (sukses ? "Berhasil" : gagal ? "Perhatian" : "Informasi");
 
-        message.textContent =
-            teks;
-
-        cancelBtn.hidden =
-            true;
-
-        confirmBtn.textContent =
-            opsi.teksTombol ||
-            "Oke";
-
-        confirmBtn.className =
-            "custom-dialog-btn custom-dialog-confirm";
+        message.textContent = teks;
+        cancelBtn.hidden = true;
+        confirmBtn.textContent = opsi.teksTombol || "Oke";
+        confirmBtn.className = "custom-dialog-btn custom-dialog-confirm";
 
         function selesai() {
             overlay.classList.remove("show");
-
-            document.removeEventListener(
-                "keydown",
-                tekanEscape
-            );
-
-            setTimeout(
-                resolve,
-                160
-            );
+            document.removeEventListener("keydown", tekanEscape);
+            setTimeout(resolve, 160);
         }
 
         function tekanEscape(event) {
-            if (
-                event.key === "Escape" ||
-                event.key === "Enter"
-            ) {
-                selesai();
-            }
+            if (event.key === "Escape" || event.key === "Enter") selesai();
         }
 
-        confirmBtn.onclick =
-            selesai;
+        confirmBtn.onclick = selesai;
 
-        overlay.onclick =
-            function (event) {
-                if (event.target === overlay) {
-                    selesai();
-                }
-            };
+        overlay.onclick = function(event) {
+            if (event.target === overlay) selesai();
+        };
 
-        document.addEventListener(
-            "keydown",
-            tekanEscape
-        );
+        document.addEventListener("keydown", tekanEscape);
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             overlay.classList.add("show");
             confirmBtn.focus();
         });
     });
 }
+
 
 /* =====================================================
    LOGIN PEGAWAI + ADMIN
 ===================================================== */
 
-const loginPegawaiPage =
-    document.getElementById("loginPegawaiPage");
-
-const loginAdminPage =
-    document.getElementById("loginAdminPage");
+const loginPegawaiPage = document.getElementById("loginPegawaiPage");
+const loginAdminPage = document.getElementById("loginAdminPage");
 
 if (loginPegawaiPage && loginAdminPage) {
-    const loginForm =
-        document.getElementById("loginForm");
+    const loginForm = document.getElementById("loginForm");
+    const loginNip = document.getElementById("loginNip");
+    const loginButton = document.getElementById("loginButton");
+    const loginStatus = document.getElementById("loginStatus");
 
-    const loginNip =
-        document.getElementById("loginNip");
+    const bukaLoginAdminBtn = document.getElementById("bukaLoginAdminBtn");
+    const kembaliPegawaiBtn = document.getElementById("kembaliPegawaiBtn");
 
-    const loginButton =
-        document.getElementById("loginButton");
-
-    const loginStatus =
-        document.getElementById("loginStatus");
-
-    const bukaLoginAdminBtn =
-        document.getElementById("bukaLoginAdminBtn");
-
-    const kembaliPegawaiBtn =
-        document.getElementById("kembaliPegawaiBtn");
-
-    const adminLoginForm =
-        document.getElementById("adminLoginForm");
-
-    const adminLoginNip =
-        document.getElementById("adminLoginNip");
-
-    const adminLoginPassword =
-        document.getElementById("adminLoginPassword");
-
-    const adminLoginButton =
-        document.getElementById("adminLoginButton");
-
-    const adminLoginStatus =
-        document.getElementById("adminLoginStatus");
+    const adminLoginForm = document.getElementById("adminLoginForm");
+    const adminLoginNip = document.getElementById("adminLoginNip");
+    const adminLoginPassword = document.getElementById("adminLoginPassword");
+    const adminLoginButton = document.getElementById("adminLoginButton");
+    const adminLoginStatus = document.getElementById("adminLoginStatus");
 
     bersihkanSesiLogin();
 
-    bukaLoginAdminBtn.addEventListener(
-        "click",
-        function () {
-            loginPegawaiPage.hidden = true;
-            loginAdminPage.hidden = false;
+    bukaLoginAdminBtn.addEventListener("click", function() {
+        loginPegawaiPage.hidden = true;
+        loginAdminPage.hidden = false;
 
-            loginStatus.textContent = "";
-            adminLoginStatus.textContent = "";
+        loginStatus.textContent = "";
+        adminLoginStatus.textContent = "";
 
-            setTimeout(function () {
-                adminLoginNip.focus();
-            }, 50);
+        setTimeout(() => adminLoginNip.focus(), 50);
+    });
+
+    kembaliPegawaiBtn.addEventListener("click", function() {
+        loginAdminPage.hidden = true;
+        loginPegawaiPage.hidden = false;
+
+        adminLoginForm.reset();
+        adminLoginStatus.textContent = "";
+
+        setTimeout(() => loginNip.focus(), 50);
+    });
+
+
+    loginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const nip = loginNip.value.trim();
+
+        if (!nip) {
+            loginStatus.textContent = "NIP wajib diisi.";
+            return;
         }
-    );
 
-    kembaliPegawaiBtn.addEventListener(
-        "click",
-        function () {
-            loginAdminPage.hidden = true;
-            loginPegawaiPage.hidden = false;
+        loginButton.disabled = true;
+        loginButton.textContent = "Memeriksa...";
+        loginStatus.textContent = "Memeriksa akun...";
 
-            adminLoginForm.reset();
-            adminLoginStatus.textContent = "";
+        try {
+            const hasil = await postData({
+                action: "login",
+                nip: nip
+            });
 
-            setTimeout(function () {
-                loginNip.focus();
-            }, 50);
-        }
-    );
-
-    loginForm.addEventListener(
-        "submit",
-        async function (event) {
-            event.preventDefault();
-
-            const nip =
-                loginNip.value.trim();
-
-            if (!nip) {
-                loginStatus.textContent =
-                    "NIP wajib diisi.";
-
-                return;
+            if (hasil.butuhPassword) {
+                throw new Error(
+                    "Akun ini adalah akun admin. Gunakan tombol Login Admin."
+                );
             }
 
-            loginButton.disabled = true;
-            loginButton.textContent =
-                "Memeriksa...";
-
-            loginStatus.textContent =
-                "Memeriksa akun...";
-
-            try {
-                const hasil =
-                    await postData({
-                        action: "login",
-                        nip: nip
-                    });
-
-                if (hasil.butuhPassword) {
-                    throw new Error(
-                        "Akun ini adalah akun admin. Gunakan tombol Login Admin."
-                    );
-                }
-
-                if (!hasil.berhasil) {
-                    throw new Error(
-                        hasil.pesan ||
-                        "NIP tidak ditemukan."
-                    );
-                }
-
-                if (
-                    String(
-                        hasil.role || ""
-                    ).toLowerCase() ===
-                    "admin"
-                ) {
-                    throw new Error(
-                        "Gunakan halaman Login Admin."
-                    );
-                }
-
-                localStorage.setItem(
-                    "nama",
-                    hasil.nama || ""
-                );
-
-                localStorage.setItem(
-                    "nip",
-                    hasil.nip || nip
-                );
-
-                localStorage.setItem(
-                    "role",
-                    "pegawai"
-                );
-
-                localStorage.removeItem(
-                    "adminToken"
-                );
-
-                loginStatus.textContent =
-                    "Login berhasil ✓";
-
-                window.location.href =
-                    "absensi.html";
-
-            } catch (error) {
-                console.error(error);
-
-                loginStatus.textContent =
-                    error.message ||
-                    "Login gagal.";
-
-            } finally {
-                loginButton.disabled =
-                    false;
-
-                loginButton.textContent =
-                    "Login";
+            if (!hasil.berhasil) {
+                throw new Error(hasil.pesan || "NIP tidak ditemukan.");
             }
+
+            if (String(hasil.role || "").toLowerCase() === "admin") {
+                throw new Error("Gunakan halaman Login Admin.");
+            }
+
+            if (!hasil.token) {
+    throw new Error("Token sesi pegawai tidak diterima. Silakan coba login kembali.");
+}
+
+localStorage.setItem("nama", hasil.nama || "");
+localStorage.setItem("nip", hasil.nip || nip);
+localStorage.setItem("role", "pegawai");
+localStorage.setItem("pegawaiToken", hasil.token);
+localStorage.removeItem("adminToken");
+
+            loginStatus.textContent = "Login berhasil ✓";
+            window.location.href = "absensi.html";
+
+        } catch (error) {
+            console.error(error);
+            loginStatus.textContent = error.message || "Login gagal.";
+
+        } finally {
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
         }
-    );
+    });
 
-    adminLoginForm.addEventListener(
-        "submit",
-        async function (event) {
-            event.preventDefault();
 
-            const nip =
-                adminLoginNip.value.trim();
+    adminLoginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-            const password =
-                adminLoginPassword.value;
+        const nip = adminLoginNip.value.trim();
+        const password = adminLoginPassword.value;
 
-            if (!nip || !password) {
-                adminLoginStatus.textContent =
-                    "ID Admin dan password wajib diisi.";
-
-                return;
-            }
-
-            adminLoginButton.disabled =
-                true;
-
-            adminLoginButton.textContent =
-                "Memverifikasi...";
-
+        if (!nip || !password) {
             adminLoginStatus.textContent =
-                "Memverifikasi admin...";
-
-            try {
-                const hasil =
-                    await postData({
-                        action: "loginAdmin",
-                        nip: nip,
-                        password: password
-                    });
-
-                if (
-                    !hasil.berhasil ||
-                    !hasil.token
-                ) {
-                    throw new Error(
-                        hasil.pesan ||
-                        "Login admin gagal."
-                    );
-                }
-
-                localStorage.setItem(
-                    "nama",
-                    hasil.nama || "Admin"
-                );
-
-                localStorage.setItem(
-                    "nip",
-                    hasil.nip || nip
-                );
-
-                localStorage.setItem(
-                    "role",
-                    "admin"
-                );
-
-                localStorage.setItem(
-                    "adminToken",
-                    hasil.token
-                );
-
-                adminLoginPassword.value =
-                    "";
-
-                adminLoginStatus.textContent =
-                    "Login admin berhasil ✓";
-
-                window.location.href =
-                    "admin.html";
-
-            } catch (error) {
-                console.error(error);
-
-                adminLoginStatus.textContent =
-                    error.message ||
-                    "Login admin gagal.";
-
-            } finally {
-                adminLoginButton.disabled =
-                    false;
-
-                adminLoginButton.textContent =
-                    "Login Admin";
-            }
+                "ID Admin dan password wajib diisi.";
+            return;
         }
-    );
+
+        adminLoginButton.disabled = true;
+        adminLoginButton.textContent = "Memverifikasi...";
+        adminLoginStatus.textContent = "Memverifikasi admin...";
+
+        try {
+            const hasil = await postData({
+                action: "loginAdmin",
+                nip: nip,
+                password: password
+            });
+
+            if (!hasil.berhasil || !hasil.token) {
+                throw new Error(hasil.pesan || "Login admin gagal.");
+            }
+
+            localStorage.setItem("nama", hasil.nama || "Admin");
+            localStorage.setItem("nip", hasil.nip || nip);
+            localStorage.setItem("role", "admin");
+            localStorage.setItem("adminToken", hasil.token);
+
+            adminLoginPassword.value = "";
+            adminLoginStatus.textContent = "Login admin berhasil ✓";
+
+            window.location.href = "admin.html";
+
+        } catch (error) {
+            console.error(error);
+            adminLoginStatus.textContent = error.message || "Login admin gagal.";
+
+        } finally {
+            adminLoginButton.disabled = false;
+            adminLoginButton.textContent = "Login Admin";
+        }
+    });
+
 
     function bersihkanSesiLogin() {
-        localStorage.removeItem("nama");
-        localStorage.removeItem("nip");
-        localStorage.removeItem("role");
-        localStorage.removeItem("adminToken");
-    }
+    localStorage.removeItem("nama");
+    localStorage.removeItem("nip");
+    localStorage.removeItem("role");
+    localStorage.removeItem("pegawaiToken");
+    localStorage.removeItem("adminToken");
 }
+}
+
 
 /* =====================================================
    ABSENSI PEGAWAI
 ===================================================== */
 
-const absensiForm =
-    document.getElementById("absensiForm");
+const absensiForm = document.getElementById("absensiForm");
 
 if (absensiForm) {
-    const namaLogin =
-        localStorage.getItem("nama");
+    const namaLogin = localStorage.getItem("nama");
+    const nipLogin = localStorage.getItem("nip");
+    const roleLogin = localStorage.getItem("role");
 
-    const nipLogin =
-        localStorage.getItem("nip");
-
-    const roleLogin =
-        localStorage.getItem("role");
-
-    if (
-        !namaLogin ||
-        !nipLogin ||
-        roleLogin !== "pegawai"
-    ) {
-        window.location.href =
-            "index.html";
+    if (!namaLogin || !nipLogin || roleLogin !== "pegawai") {
+        window.location.href = "index.html";
     }
 
-    const namaPegawai =
-        document.getElementById("namaPegawai");
+    const namaPegawai = document.getElementById("namaPegawai");
+    const nipPegawai = document.getElementById("nipPegawai");
+    const avatarHuruf = document.getElementById("avatarHuruf");
 
-    const nipPegawai =
-        document.getElementById("nipPegawai");
-
-    const avatarHuruf =
-        document.getElementById("avatarHuruf");
-
-    const tanggalSekarang =
-        document.getElementById("tanggalSekarang");
-
-    const jamSekarang =
-        document.getElementById("jamSekarang");
-
-    const detikSekarang =
-        document.getElementById("detikSekarang");
-
-    const statusHariText =
-        document.getElementById("statusHariText");
+    const tanggalSekarang = document.getElementById("tanggalSekarang");
+    const jamSekarang = document.getElementById("jamSekarang");
+    const detikSekarang = document.getElementById("detikSekarang");
+    const statusHariText = document.getElementById("statusHariText");
 
     const keteranganAktifCard =
         document.getElementById("keteranganAktifCard");
@@ -770,98 +523,59 @@ if (absensiForm) {
     const batalkanKeteranganBtn =
         document.getElementById("batalkanKeteranganBtn");
 
-    const modeHadirBtn =
-        document.getElementById("modeHadirBtn");
+    const modeHadirBtn = document.getElementById("modeHadirBtn");
+    const modeKeteranganBtn = document.getElementById("modeKeteranganBtn");
+    const modeOptions = document.querySelectorAll(".mode-option");
 
-    const modeKeteranganBtn =
-        document.getElementById("modeKeteranganBtn");
-
-    const modeOptions =
-        document.querySelectorAll(".mode-option");
-
-    const hadirContainer =
-        document.getElementById("hadirContainer");
-
+    const hadirContainer = document.getElementById("hadirContainer");
     const keteranganContainer =
         document.getElementById("keteranganContainer");
 
-    const jenisAbsenInput =
-        document.getElementById("jenisAbsen");
-
+    const jenisAbsenInput = document.getElementById("jenisAbsen");
     const attendanceOptions =
         document.querySelectorAll(".attendance-option");
 
-    const masukOption =
-        document.querySelector(".masuk-option");
+    const masukOption = document.querySelector(".masuk-option");
+    const keluarOption = document.querySelector(".keluar-option");
 
-    const keluarOption =
-        document.querySelector(".keluar-option");
-
-    const lokasiBtn =
-        document.getElementById("lokasiBtn");
-
-    const statusLokasi =
-        document.getElementById("statusLokasi");
-
-    const akurasiLokasi =
-        document.getElementById("akurasiLokasi");
+    const lokasiBtn = document.getElementById("lokasiBtn");
+    const statusLokasi = document.getElementById("statusLokasi");
+    const akurasiLokasi = document.getElementById("akurasiLokasi");
 
     const cameraLiveContainer =
         document.getElementById("cameraLiveContainer");
 
-    const cameraVideo =
-        document.getElementById("cameraVideo");
-
+    const cameraVideo = document.getElementById("cameraVideo");
     const cameraPlaceholder =
         document.getElementById("cameraPlaceholder");
 
     const aktifkanKameraBtn =
         document.getElementById("aktifkanKameraBtn");
 
-    const ambilFotoBtn =
-        document.getElementById("ambilFotoBtn");
-
-    const cameraCanvas =
-        document.getElementById("cameraCanvas");
-
-    const previewFoto =
-        document.getElementById("previewFoto");
+    const ambilFotoBtn = document.getElementById("ambilFotoBtn");
+    const cameraCanvas = document.getElementById("cameraCanvas");
+    const previewFoto = document.getElementById("previewFoto");
 
     const photoPreviewWrapper =
         document.getElementById("photoPreviewWrapper");
 
-    const ulangFotoBtn =
-        document.getElementById("ulangFotoBtn");
+    const ulangFotoBtn = document.getElementById("ulangFotoBtn");
 
-    const checkJenis =
-        document.getElementById("checkJenis");
+    const checkJenis = document.getElementById("checkJenis");
+    const checkLokasi = document.getElementById("checkLokasi");
+    const checkFoto = document.getElementById("checkFoto");
 
-    const checkLokasi =
-        document.getElementById("checkLokasi");
+    const submitAbsensi = document.getElementById("submitAbsensi");
+    const submitText = document.getElementById("submitText");
 
-    const checkFoto =
-        document.getElementById("checkFoto");
-
-    const submitAbsensi =
-        document.getElementById("submitAbsensi");
-
-    const submitText =
-        document.getElementById("submitText");
-
-    const keteranganForm =
-        document.getElementById("keteranganForm");
-
-    const jenisKeterangan =
-        document.getElementById("jenisKeterangan");
+    const keteranganForm = document.getElementById("keteranganForm");
+    const jenisKeterangan = document.getElementById("jenisKeterangan");
 
     const keteranganOptions =
         document.querySelectorAll(".keterangan-option");
 
-    const keteranganText =
-        document.getElementById("keteranganText");
-
-    const jumlahKarakter =
-        document.getElementById("jumlahKarakter");
+    const keteranganText = document.getElementById("keteranganText");
+    const jumlahKarakter = document.getElementById("jumlahKarakter");
 
     const checkJenisKeterangan =
         document.getElementById("checkJenisKeterangan");
@@ -875,20 +589,13 @@ if (absensiForm) {
     const submitKeteranganText =
         document.getElementById("submitKeteranganText");
 
-    const logoutBtn =
-        document.getElementById("logoutBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    const toast =
-        document.getElementById("toast");
+    const toast = document.getElementById("toast");
+    const toastIcon = document.getElementById("toastIcon");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastMessage = document.getElementById("toastMessage");
 
-    const toastIcon =
-        document.getElementById("toastIcon");
-
-    const toastTitle =
-        document.getElementById("toastTitle");
-
-    const toastMessage =
-        document.getElementById("toastMessage");
 
     let latitude = null;
     let longitude = null;
@@ -907,140 +614,222 @@ if (absensiForm) {
 
     let toastTimer;
 
-    if (namaPegawai) {
-        namaPegawai.textContent =
-            namaLogin;
-    }
 
-    if (nipPegawai) {
-        nipPegawai.textContent =
-            nipLogin;
-    }
+    if (namaPegawai) namaPegawai.textContent = namaLogin;
+    if (nipPegawai) nipPegawai.textContent = nipLogin;
 
     if (avatarHuruf) {
         avatarHuruf.textContent =
-            namaLogin
-                .charAt(0)
-                .toUpperCase();
+            namaLogin.charAt(0).toUpperCase();
     }
 
+
+    /* =====================================================
+       WAKTU WITA + JAM ABSENSI
+    ===================================================== */
+
+    function ambilWaktuWITA() {
+        const bagian = new Intl.DateTimeFormat("en-GB", {
+            timeZone: "Asia/Makassar",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }).formatToParts(new Date());
+
+        const ambil = tipe =>
+            bagian.find(item => item.type === tipe)?.value || "00";
+
+        return {
+            jam: ambil("hour"),
+            menit: ambil("minute"),
+            detik: ambil("second"),
+            lengkap:
+                ambil("hour") +
+                ":" +
+                ambil("minute") +
+                ":" +
+                ambil("second")
+        };
+    }
+
+
+    function statusWaktuAbsensi() {
+        const sekarang = ambilWaktuWITA().lengkap;
+
+        return {
+            sekarang: sekarang,
+
+            masukDibuka:
+                sekarang >= JAM_ABSENSI.masukMulai &&
+                sekarang <= JAM_ABSENSI.masukSelesai,
+
+            masukTepatWaktu:
+                sekarang >= JAM_ABSENSI.masukMulai &&
+                sekarang <= JAM_ABSENSI.tepatWaktuSampai,
+
+            masukLambat:
+                sekarang > JAM_ABSENSI.tepatWaktuSampai &&
+                sekarang <= JAM_ABSENSI.masukSelesai,
+
+            keluarDibuka:
+                sekarang >= JAM_ABSENSI.keluarMulai &&
+                sekarang <= JAM_ABSENSI.keluarSelesai
+        };
+    }
+
+
     function updateJam() {
-        const sekarang =
-            new Date();
+        const sekarang = new Date();
 
         if (tanggalSekarang) {
             tanggalSekarang.textContent =
-                new Intl.DateTimeFormat(
-                    "id-ID",
-                    {
-                        timeZone: "Asia/Makassar",
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                    }
-                ).format(sekarang);
+                new Intl.DateTimeFormat("id-ID", {
+                    timeZone: "Asia/Makassar",
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }).format(sekarang);
         }
 
-        const bagian =
-            new Intl.DateTimeFormat(
-                "id-ID",
-                {
-                    timeZone: "Asia/Makassar",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false
-                }
-            ).formatToParts(sekarang);
-
-        const jam =
-            bagian.find(
-                item =>
-                    item.type === "hour"
-            )?.value || "00";
-
-        const menit =
-            bagian.find(
-                item =>
-                    item.type === "minute"
-            )?.value || "00";
-
-        const detik =
-            bagian.find(
-                item =>
-                    item.type === "second"
-            )?.value || "00";
+        const waktu = ambilWaktuWITA();
 
         if (jamSekarang) {
             jamSekarang.textContent =
-                jam + ":" + menit;
+                waktu.jam + ":" + waktu.menit;
         }
 
         if (detikSekarang) {
-            detikSekarang.textContent =
-                detik;
+            detikSekarang.textContent = waktu.detik;
+        }
+
+        updateKontrolWaktu();
+    }
+
+
+    function updateKontrolWaktu() {
+        const waktu = statusWaktuAbsensi();
+
+        const masukBoleh =
+            !sudahMasuk &&
+            !adaKeterangan &&
+            waktu.masukDibuka;
+
+        const keluarBoleh =
+            sudahMasuk &&
+            !sudahKeluar &&
+            waktu.keluarDibuka;
+
+        if (masukOption) {
+            masukOption.disabled = !masukBoleh;
+        }
+
+        if (keluarOption) {
+            keluarOption.disabled = !keluarBoleh;
+        }
+
+        const jenisTerpilih = jenisAbsenInput?.value || "";
+
+        if (
+            (jenisTerpilih === "Masuk" && !masukBoleh) ||
+            (jenisTerpilih === "Keluar" && !keluarBoleh)
+        ) {
+            if (jenisAbsenInput) jenisAbsenInput.value = "";
+
+            attendanceOptions.forEach(button => {
+                button.classList.remove("active");
+            });
+
+            updateStatusForm();
+        }
+
+        updateStatusHariDenganWaktu(waktu);
+    }
+
+
+    function updateStatusHariDenganWaktu(waktu) {
+        if (!statusHariText || adaKeterangan) return;
+
+        if (sudahMasuk && sudahKeluar) {
+            statusHariText.textContent =
+                "Absensi hari ini sudah selesai";
+            return;
+        }
+
+        if (sudahMasuk && !sudahKeluar) {
+            if (waktu.sekarang < JAM_ABSENSI.keluarMulai) {
+                statusHariText.textContent =
+                    "Masuk tercatat · Keluar mulai 15.45 WITA";
+
+            } else if (waktu.keluarDibuka) {
+                statusHariText.textContent =
+                    "Masuk tercatat · Absensi Keluar tersedia";
+
+            } else {
+                statusHariText.textContent =
+                    "Masuk tercatat · Absensi Keluar sudah ditutup";
+            }
+
+            return;
+        }
+
+        if (waktu.sekarang < JAM_ABSENSI.masukMulai) {
+            statusHariText.textContent =
+                "Absensi Masuk dibuka pukul 06.30 WITA";
+
+        } else if (waktu.masukTepatWaktu) {
+            statusHariText.textContent =
+                "Absensi Masuk tersedia · Tepat waktu";
+
+        } else if (waktu.masukLambat) {
+            statusHariText.textContent =
+                "Absensi Masuk tersedia · Status Lambat";
+
+        } else {
+            statusHariText.textContent =
+                "Absensi Masuk sudah ditutup pukul 09.00 WITA";
         }
     }
 
-    updateJam();
 
-    setInterval(
-        updateJam,
-        1000
-    );
+    updateJam();
+    setInterval(updateJam, 1000);
+
+
+    /* =====================================================
+       STATUS HARI INI
+    ===================================================== */
 
     async function cekStatusHariIni() {
         if (statusHariText) {
-            statusHariText.textContent =
-                "Memeriksa status...";
+            statusHariText.textContent = "Memeriksa status...";
         }
 
         try {
-            const hasil =
-                await postData({
-                    action: "statusAbsensi",
-                    nip: nipLogin
-                });
+            const hasil = await postData({
+                action: "statusAbsensi",
+                nip: nipLogin
+            });
 
             if (!hasil.berhasil) {
                 throw new Error(
-                    hasil.pesan ||
-                    "Status gagal diperiksa."
+                    hasil.pesan || "Status gagal diperiksa."
                 );
             }
 
-            sudahMasuk =
-                Boolean(
-                    hasil.sudahMasuk
-                );
-
-            sudahKeluar =
-                Boolean(
-                    hasil.sudahKeluar
-                );
-
-            adaKeterangan =
-                Boolean(
-                    hasil.adaKeterangan
-                );
+            sudahMasuk = Boolean(hasil.sudahMasuk);
+            sudahKeluar = Boolean(hasil.sudahKeluar);
+            adaKeterangan = Boolean(hasil.adaKeterangan);
 
             jenisKeteranganHariIni =
-                String(
-                    hasil.jenisKeterangan ||
-                    ""
-                );
+                String(hasil.jenisKeterangan || "");
 
             statusKeteranganHariIni =
-                String(
-                    hasil.statusKeterangan ||
-                    ""
-                );
+                String(hasil.statusKeterangan || "");
 
             bisaBatalkanKeterangan =
-                Boolean(
-                    hasil.bisaBatalkanKeterangan
-                );
+                Boolean(hasil.bisaBatalkanKeterangan);
 
             updatePilihanAbsensi();
 
@@ -1054,143 +843,70 @@ if (absensiForm) {
         }
     }
 
+
     function updatePilihanAbsensi() {
         updateKeteranganAktifCard();
 
-        if (masukOption) {
-            masukOption.disabled =
-                sudahMasuk ||
-                adaKeterangan;
-        }
-
-        if (keluarOption) {
-            keluarOption.disabled =
-                !sudahMasuk ||
-                sudahKeluar;
-        }
-
         if (adaKeterangan) {
-            if (modeHadirBtn) {
-                modeHadirBtn.disabled =
-                    true;
-            }
-
-            if (modeKeteranganBtn) {
-                modeKeteranganBtn.disabled =
-                    true;
-            }
+            if (modeHadirBtn) modeHadirBtn.disabled = true;
+            if (modeKeteranganBtn) modeKeteranganBtn.disabled = true;
 
             if (statusHariText) {
                 statusHariText.textContent =
                     "Keterangan " +
-                    namaJenisKeterangan(
-                        jenisKeteranganHariIni
-                    ) +
+                    namaJenisKeterangan(jenisKeteranganHariIni) +
                     " · " +
-                    (
-                        statusKeteranganHariIni ||
-                        "Menunggu"
-                    );
+                    (statusKeteranganHariIni || "Menunggu");
             }
 
             tutupSemuaMode();
+            updateKontrolWaktu();
             return;
         }
 
-        if (
-            !sudahMasuk &&
-            !sudahKeluar
-        ) {
-            if (modeHadirBtn) {
-                modeHadirBtn.disabled =
-                    false;
-            }
-
-            if (modeKeteranganBtn) {
-                modeKeteranganBtn.disabled =
-                    false;
-            }
-
-            if (statusHariText) {
-                statusHariText.textContent =
-                    "Belum melakukan absensi hari ini";
-            }
+        if (!sudahMasuk && !sudahKeluar) {
+            if (modeHadirBtn) modeHadirBtn.disabled = false;
+            if (modeKeteranganBtn) modeKeteranganBtn.disabled = false;
         }
 
-        if (
-            sudahMasuk &&
-            !sudahKeluar
-        ) {
-            if (modeHadirBtn) {
-                modeHadirBtn.disabled =
-                    false;
-            }
-
-            if (modeKeteranganBtn) {
-                modeKeteranganBtn.disabled =
-                    true;
-            }
-
-            if (statusHariText) {
-                statusHariText.textContent =
-                    "Masuk sudah tercatat · Menunggu absensi Keluar";
-            }
+        if (sudahMasuk && !sudahKeluar) {
+            if (modeHadirBtn) modeHadirBtn.disabled = false;
+            if (modeKeteranganBtn) modeKeteranganBtn.disabled = true;
 
             pilihMode("hadir");
         }
 
-        if (
-            sudahMasuk &&
-            sudahKeluar
-        ) {
-            if (modeHadirBtn) {
-                modeHadirBtn.disabled =
-                    true;
-            }
-
-            if (modeKeteranganBtn) {
-                modeKeteranganBtn.disabled =
-                    true;
-            }
-
-            if (statusHariText) {
-                statusHariText.textContent =
-                    "Absensi hari ini sudah selesai";
-            }
+        if (sudahMasuk && sudahKeluar) {
+            if (modeHadirBtn) modeHadirBtn.disabled = true;
+            if (modeKeteranganBtn) modeKeteranganBtn.disabled = true;
 
             tutupSemuaMode();
         }
+
+        updateKontrolWaktu();
     }
 
+
     function updateKeteranganAktifCard() {
-        if (!keteranganAktifCard) {
-            return;
-        }
+        if (!keteranganAktifCard) return;
 
         if (!adaKeterangan) {
-            keteranganAktifCard.hidden =
-                true;
-
+            keteranganAktifCard.hidden = true;
             return;
         }
 
-        keteranganAktifCard.hidden =
-            false;
+        keteranganAktifCard.hidden = false;
 
         if (keteranganAktifJenis) {
             keteranganAktifJenis.textContent =
-                namaJenisKeterangan(
-                    jenisKeteranganHariIni
-                );
+                namaJenisKeterangan(jenisKeteranganHariIni);
         }
 
         const status =
-            statusKeteranganHariIni ||
-            "Menunggu";
+            statusKeteranganHariIni || "Menunggu";
 
         if (statusKeteranganBadge) {
-            statusKeteranganBadge.textContent =
-                status;
+            statusKeteranganBadge.textContent = status;
         }
 
         if (keteranganAktifStatus) {
@@ -1198,16 +914,13 @@ if (absensiForm) {
                 keteranganAktifStatus.textContent =
                     "Menunggu verifikasi admin";
 
-            } else if (
-                status === "Disetujui"
-            ) {
+            } else if (status === "Disetujui") {
                 keteranganAktifStatus.textContent =
                     "Keterangan sudah disetujui admin";
 
             } else {
                 keteranganAktifStatus.textContent =
-                    "Status keterangan: " +
-                    status;
+                    "Status keterangan: " + status;
             }
         }
 
@@ -1215,57 +928,42 @@ if (absensiForm) {
             batalkanKeteranganBtn.hidden =
                 !bisaBatalkanKeterangan;
 
-            batalkanKeteranganBtn.disabled =
-                false;
-
+            batalkanKeteranganBtn.disabled = false;
             batalkanKeteranganBtn.textContent =
                 "Batalkan Keterangan";
         }
     }
 
+
     if (batalkanKeteranganBtn) {
         batalkanKeteranganBtn.addEventListener(
             "click",
-            async function () {
-                if (!bisaBatalkanKeterangan) {
-                    return;
-                }
+            async function() {
+                if (!bisaBatalkanKeterangan) return;
 
                 const yakin =
                     await tampilkanDialogKonfirmasi(
                         "Keterangan yang masih menunggu verifikasi akan dibatalkan. Setelah dibatalkan, Anda dapat memilih Hadir kembali.",
                         {
-                            judul:
-                                "Batalkan Keterangan?",
-                            icon:
-                                "!",
-                            bahaya:
-                                true,
-                            teksKonfirmasi:
-                                "Ya, Batalkan",
-                            teksBatal:
-                                "Kembali"
+                            judul: "Batalkan Keterangan?",
+                            icon: "!",
+                            bahaya: true,
+                            teksKonfirmasi: "Ya, Batalkan",
+                            teksBatal: "Kembali"
                         }
                     );
 
-                if (!yakin) {
-                    return;
-                }
+                if (!yakin) return;
 
-                batalkanKeteranganBtn.disabled =
-                    true;
-
+                batalkanKeteranganBtn.disabled = true;
                 batalkanKeteranganBtn.textContent =
                     "Membatalkan...";
 
                 try {
-                    const hasil =
-                        await postData({
-                            action:
-                                "batalKeterangan",
-                            nip:
-                                nipLogin
-                        });
+                    const hasil = await postData({
+                        action: "batalKeterangan",
+                        nip: nipLogin
+                    });
 
                     if (!hasil.berhasil) {
                         throw new Error(
@@ -1298,81 +996,49 @@ if (absensiForm) {
         );
     }
 
+
+    /* =====================================================
+       PILIH MODE
+    ===================================================== */
+
     if (modeHadirBtn) {
-        modeHadirBtn.addEventListener(
-            "click",
-            function () {
-                if (
-                    !modeHadirBtn.disabled
-                ) {
-                    pilihMode("hadir");
-                }
-            }
-        );
+        modeHadirBtn.addEventListener("click", function() {
+            if (!modeHadirBtn.disabled) pilihMode("hadir");
+        });
     }
 
     if (modeKeteranganBtn) {
-        modeKeteranganBtn.addEventListener(
-            "click",
-            function () {
-                if (
-                    !modeKeteranganBtn.disabled
-                ) {
-                    pilihMode(
-                        "keterangan"
-                    );
-                }
+        modeKeteranganBtn.addEventListener("click", function() {
+            if (!modeKeteranganBtn.disabled) {
+                pilihMode("keterangan");
             }
-        );
+        });
     }
 
+
     function pilihMode(mode) {
-        modeOptions.forEach(
-            function (button) {
-                button.classList.remove(
-                    "active"
-                );
-            }
-        );
+        modeOptions.forEach(button => {
+            button.classList.remove("active");
+        });
 
         if (mode === "hadir") {
-            if (modeHadirBtn) {
-                modeHadirBtn.classList.add(
-                    "active"
-                );
-            }
+            modeHadirBtn?.classList.add("active");
 
-            if (hadirContainer) {
-                hadirContainer.hidden =
-                    false;
-            }
-
+            if (hadirContainer) hadirContainer.hidden = false;
             if (keteranganContainer) {
-                keteranganContainer.hidden =
-                    true;
+                keteranganContainer.hidden = true;
             }
 
             resetFormKeterangan();
+            updateKontrolWaktu();
         }
 
-        if (
-            mode ===
-            "keterangan"
-        ) {
-            if (modeKeteranganBtn) {
-                modeKeteranganBtn.classList.add(
-                    "active"
-                );
-            }
+        if (mode === "keterangan") {
+            modeKeteranganBtn?.classList.add("active");
 
-            if (hadirContainer) {
-                hadirContainer.hidden =
-                    true;
-            }
-
+            if (hadirContainer) hadirContainer.hidden = true;
             if (keteranganContainer) {
-                keteranganContainer.hidden =
-                    false;
+                keteranganContainer.hidden = false;
             }
 
             hentikanKamera();
@@ -1380,188 +1046,117 @@ if (absensiForm) {
         }
     }
 
+
     function tutupSemuaMode() {
-        modeOptions.forEach(
-            function (button) {
-                button.classList.remove(
-                    "active"
-                );
-            }
-        );
+        modeOptions.forEach(button => {
+            button.classList.remove("active");
+        });
 
-        if (hadirContainer) {
-            hadirContainer.hidden =
-                true;
-        }
-
+        if (hadirContainer) hadirContainer.hidden = true;
         if (keteranganContainer) {
-            keteranganContainer.hidden =
-                true;
+            keteranganContainer.hidden = true;
         }
 
         hentikanKamera();
     }
 
-    attendanceOptions.forEach(
-        function (button) {
-            button.addEventListener(
-                "click",
-                function () {
-                    if (button.disabled) {
-                        return;
-                    }
 
-                    attendanceOptions.forEach(
-                        function (item) {
-                            item.classList.remove(
-                                "active"
-                            );
-                        }
-                    );
+    attendanceOptions.forEach(function(button) {
+        button.addEventListener("click", function() {
+            if (button.disabled) return;
 
-                    button.classList.add(
-                        "active"
-                    );
+            attendanceOptions.forEach(item => {
+                item.classList.remove("active");
+            });
 
-                    if (jenisAbsenInput) {
-                        jenisAbsenInput.value =
-                            button.dataset.value ||
-                            "";
-                    }
+            button.classList.add("active");
 
-                    updateStatusForm();
-                }
-            );
-        }
-    );
+            if (jenisAbsenInput) {
+                jenisAbsenInput.value =
+                    button.dataset.value || "";
+            }
+
+            updateStatusForm();
+        });
+    });
+
 
     cekStatusHariIni();
+
 
     /* =====================================================
        GPS
     ===================================================== */
-        if (lokasiBtn) {
-        lokasiBtn.addEventListener(
-            "click",
-            function () {
-                if (!navigator.geolocation) {
-                    tampilkanToast(
-                        "error",
-                        "GPS tidak tersedia",
-                        "Browser tidak mendukung GPS."
+
+    if (lokasiBtn) {
+        lokasiBtn.addEventListener("click", function() {
+            if (!navigator.geolocation) {
+                tampilkanToast(
+                    "error",
+                    "GPS tidak tersedia",
+                    "Browser tidak mendukung GPS."
+                );
+
+                return;
+            }
+
+            lokasiBtn.disabled = true;
+
+            if (statusLokasi) {
+                statusLokasi.textContent =
+                    "Mencari lokasi...";
+            }
+
+            if (akurasiLokasi) {
+                akurasiLokasi.textContent =
+                    "Mohon tunggu";
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                    accuracy = position.coords.accuracy;
+
+                    jarakKantor = hitungJarakMeter(
+                        latitude,
+                        longitude,
+                        KANTOR.latitude,
+                        KANTOR.longitude
                     );
 
-                    return;
-                }
+                    lokasiBtn.disabled = false;
 
-                lokasiBtn.disabled = true;
+                    if (jarakKantor <= KANTOR.radius) {
+                        lokasiBtn.classList.remove(
+                            "location-error"
+                        );
 
-                if (statusLokasi) {
-                    statusLokasi.textContent =
-                        "Mencari lokasi...";
-                }
+                        lokasiBtn.classList.add(
+                            "location-success"
+                        );
 
-                if (akurasiLokasi) {
-                    akurasiLokasi.textContent =
-                        "Mohon tunggu";
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                    function (position) {
-                        latitude =
-                            position.coords.latitude;
-
-                        longitude =
-                            position.coords.longitude;
-
-                        accuracy =
-                            position.coords.accuracy;
-
-                        jarakKantor =
-                            hitungJarakMeter(
-                                latitude,
-                                longitude,
-                                KANTOR.latitude,
-                                KANTOR.longitude
-                            );
-
-                        lokasiBtn.disabled = false;
-
-                        if (
-                            jarakKantor <=
-                            KANTOR.radius
-                        ) {
-                            lokasiBtn.classList.remove(
-                                "location-error"
-                            );
-
-                            lokasiBtn.classList.add(
-                                "location-success"
-                            );
-
-                            if (statusLokasi) {
-                                statusLokasi.textContent =
-                                    "Lokasi sesuai ✓";
-                            }
-
-                            if (akurasiLokasi) {
-                                akurasiLokasi.textContent =
-                                    "Jarak ±" +
-                                    Math.round(jarakKantor) +
-                                    " m · Akurasi GPS ±" +
-                                    Math.round(accuracy) +
-                                    " m";
-                            }
-
-                            tampilkanToast(
-                                "success",
-                                "Lokasi sesuai",
-                                "Anda berada dalam radius kantor."
-                            );
-
-                        } else {
-                            lokasiBtn.classList.remove(
-                                "location-success"
-                            );
-
-                            lokasiBtn.classList.add(
-                                "location-error"
-                            );
-
-                            if (statusLokasi) {
-                                statusLokasi.textContent =
-                                    "Di luar area absensi";
-                            }
-
-                            if (akurasiLokasi) {
-                                akurasiLokasi.textContent =
-                                    "Jarak ±" +
-                                    Math.round(jarakKantor) +
-                                    " m · Maksimal " +
-                                    KANTOR.radius +
-                                    " m";
-                            }
-
-                            tampilkanToast(
-                                "error",
-                                "Di luar radius",
-                                "Anda sekitar " +
-                                Math.round(jarakKantor) +
-                                " meter dari kantor."
-                            );
+                        if (statusLokasi) {
+                            statusLokasi.textContent =
+                                "Lokasi sesuai ✓";
                         }
 
-                        updateStatusForm();
-                    },
+                        if (akurasiLokasi) {
+                            akurasiLokasi.textContent =
+                                "Jarak ±" +
+                                Math.round(jarakKantor) +
+                                " m · Akurasi GPS ±" +
+                                Math.round(accuracy) +
+                                " m";
+                        }
 
-                    function (error) {
-                        latitude = null;
-                        longitude = null;
-                        accuracy = null;
-                        jarakKantor = null;
+                        tampilkanToast(
+                            "success",
+                            "Lokasi sesuai",
+                            "Anda berada dalam radius kantor."
+                        );
 
-                        lokasiBtn.disabled = false;
-
+                    } else {
                         lokasiBtn.classList.remove(
                             "location-success"
                         );
@@ -1572,36 +1167,78 @@ if (absensiForm) {
 
                         if (statusLokasi) {
                             statusLokasi.textContent =
-                                "Lokasi gagal diambil";
+                                "Di luar area absensi";
                         }
 
                         if (akurasiLokasi) {
                             akurasiLokasi.textContent =
-                                error.code === 1
-                                    ? "Izin lokasi ditolak"
-                                    : "Silakan coba kembali";
+                                "Jarak ±" +
+                                Math.round(jarakKantor) +
+                                " m · Maksimal " +
+                                KANTOR.radius +
+                                " m";
                         }
 
                         tampilkanToast(
                             "error",
-                            "Lokasi gagal",
-                            error.code === 1
-                                ? "Izinkan akses lokasi pada browser."
-                                : "Lokasi tidak dapat diambil."
+                            "Di luar radius",
+                            "Anda sekitar " +
+                            Math.round(jarakKantor) +
+                            " meter dari kantor."
                         );
-
-                        updateStatusForm();
-                    },
-
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 15000,
-                        maximumAge: 0
                     }
-                );
-            }
-        );
+
+                    updateStatusForm();
+                },
+
+                function(error) {
+                    latitude = null;
+                    longitude = null;
+                    accuracy = null;
+                    jarakKantor = null;
+
+                    lokasiBtn.disabled = false;
+
+                    lokasiBtn.classList.remove(
+                        "location-success"
+                    );
+
+                    lokasiBtn.classList.add(
+                        "location-error"
+                    );
+
+                    if (statusLokasi) {
+                        statusLokasi.textContent =
+                            "Lokasi gagal diambil";
+                    }
+
+                    if (akurasiLokasi) {
+                        akurasiLokasi.textContent =
+                            error.code === 1
+                                ? "Izin lokasi ditolak"
+                                : "Silakan coba kembali";
+                    }
+
+                    tampilkanToast(
+                        "error",
+                        "Lokasi gagal",
+                        error.code === 1
+                            ? "Izinkan akses lokasi pada browser."
+                            : "Lokasi tidak dapat diambil."
+                    );
+
+                    updateStatusForm();
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+            );
+        });
     }
+
 
     /* =====================================================
        KAMERA
@@ -1613,6 +1250,7 @@ if (absensiForm) {
             aktifkanKamera
         );
     }
+
 
     async function aktifkanKamera() {
         if (!navigator.mediaDevices?.getUserMedia) {
@@ -1639,32 +1277,24 @@ if (absensiForm) {
                 });
 
             if (cameraLiveContainer) {
-                cameraLiveContainer.style.display =
-                    "flex";
+                cameraLiveContainer.style.display = "flex";
             }
 
             if (cameraVideo) {
-                cameraVideo.srcObject =
-                    cameraStream;
-
-                cameraVideo.classList.add(
-                    "active"
-                );
+                cameraVideo.srcObject = cameraStream;
+                cameraVideo.classList.add("active");
             }
 
             if (cameraPlaceholder) {
-                cameraPlaceholder.style.display =
-                    "none";
+                cameraPlaceholder.style.display = "none";
             }
 
             if (aktifkanKameraBtn) {
-                aktifkanKameraBtn.hidden =
-                    true;
+                aktifkanKameraBtn.hidden = true;
             }
 
             if (ambilFotoBtn) {
-                ambilFotoBtn.hidden =
-                    false;
+                ambilFotoBtn.hidden = false;
             }
 
             if (photoPreviewWrapper) {
@@ -1674,7 +1304,6 @@ if (absensiForm) {
             }
 
             fotoBase64 = null;
-
             updateStatusForm();
 
         } catch (error) {
@@ -1688,206 +1317,144 @@ if (absensiForm) {
         }
     }
 
+
     if (ambilFotoBtn) {
-        ambilFotoBtn.addEventListener(
-            "click",
-            function () {
-                if (
-                    !cameraStream ||
-                    !cameraVideo ||
-                    !cameraCanvas
-                ) {
-                    return;
-                }
+        ambilFotoBtn.addEventListener("click", function() {
+            if (!cameraStream || !cameraVideo || !cameraCanvas) {
+                return;
+            }
 
-                const videoWidth =
-                    cameraVideo.videoWidth;
+            const videoWidth = cameraVideo.videoWidth;
+            const videoHeight = cameraVideo.videoHeight;
 
-                const videoHeight =
-                    cameraVideo.videoHeight;
-
-                if (
-                    !videoWidth ||
-                    !videoHeight
-                ) {
-                    tampilkanToast(
-                        "error",
-                        "Kamera belum siap",
-                        "Tunggu sebentar lalu coba lagi."
-                    );
-
-                    return;
-                }
-
-                const maxSize =
-                    720;
-
-                let width =
-                    videoWidth;
-
-                let height =
-                    videoHeight;
-
-                if (
-                    width > maxSize ||
-                    height > maxSize
-                ) {
-                    const ratio =
-                        Math.min(
-                            maxSize / width,
-                            maxSize / height
-                        );
-
-                    width =
-                        Math.round(
-                            width * ratio
-                        );
-
-                    height =
-                        Math.round(
-                            height * ratio
-                        );
-                }
-
-                cameraCanvas.width =
-                    width;
-
-                cameraCanvas.height =
-                    height;
-
-                const context =
-                    cameraCanvas.getContext(
-                        "2d"
-                    );
-
-                context.save();
-
-                context.translate(
-                    width,
-                    0
-                );
-
-                context.scale(
-                    -1,
-                    1
-                );
-
-                context.drawImage(
-                    cameraVideo,
-                    0,
-                    0,
-                    width,
-                    height
-                );
-
-                context.restore();
-
-                const fotoData =
-                    cameraCanvas.toDataURL(
-                        "image/jpeg",
-                        0.65
-                    );
-
-                fotoBase64 =
-                    fotoData.split(",")[1];
-
-                if (previewFoto) {
-                    previewFoto.src =
-                        fotoData;
-                }
-
-                if (photoPreviewWrapper) {
-                    photoPreviewWrapper.classList.add(
-                        "active"
-                    );
-                }
-
-                if (cameraLiveContainer) {
-                    cameraLiveContainer.style.display =
-                        "none";
-                }
-
-                if (ambilFotoBtn) {
-                    ambilFotoBtn.hidden =
-                        true;
-                }
-
-                if (aktifkanKameraBtn) {
-                    aktifkanKameraBtn.hidden =
-                        true;
-                }
-
-                hentikanKamera();
-
-                updateStatusForm();
-
+            if (!videoWidth || !videoHeight) {
                 tampilkanToast(
-                    "success",
-                    "Foto siap",
-                    "Foto absensi berhasil diambil."
+                    "error",
+                    "Kamera belum siap",
+                    "Tunggu sebentar lalu coba lagi."
+                );
+
+                return;
+            }
+
+            const maxSize = 720;
+
+            let width = videoWidth;
+            let height = videoHeight;
+
+            if (width > maxSize || height > maxSize) {
+                const ratio = Math.min(
+                    maxSize / width,
+                    maxSize / height
+                );
+
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+            }
+
+            cameraCanvas.width = width;
+            cameraCanvas.height = height;
+
+            const context =
+                cameraCanvas.getContext("2d");
+
+            context.save();
+            context.translate(width, 0);
+            context.scale(-1, 1);
+
+            context.drawImage(
+                cameraVideo,
+                0,
+                0,
+                width,
+                height
+            );
+
+            context.restore();
+
+            const fotoData =
+                cameraCanvas.toDataURL(
+                    "image/jpeg",
+                    0.65
+                );
+
+            fotoBase64 = fotoData.split(",")[1];
+
+            if (previewFoto) {
+                previewFoto.src = fotoData;
+            }
+
+            if (photoPreviewWrapper) {
+                photoPreviewWrapper.classList.add(
+                    "active"
                 );
             }
-        );
+
+            if (cameraLiveContainer) {
+                cameraLiveContainer.style.display = "none";
+            }
+
+            if (ambilFotoBtn) {
+                ambilFotoBtn.hidden = true;
+            }
+
+            if (aktifkanKameraBtn) {
+                aktifkanKameraBtn.hidden = true;
+            }
+
+            hentikanKamera();
+            updateStatusForm();
+
+            tampilkanToast(
+                "success",
+                "Foto siap",
+                "Foto absensi berhasil diambil."
+            );
+        });
     }
+
 
     if (ulangFotoBtn) {
-        ulangFotoBtn.addEventListener(
-            "click",
-            function () {
-                fotoBase64 =
-                    null;
+        ulangFotoBtn.addEventListener("click", function() {
+            fotoBase64 = null;
 
-                if (previewFoto) {
-                    previewFoto.src =
-                        "";
-                }
+            if (previewFoto) previewFoto.src = "";
 
-                if (photoPreviewWrapper) {
-                    photoPreviewWrapper.classList.remove(
-                        "active"
-                    );
-                }
-
-                if (cameraLiveContainer) {
-                    cameraLiveContainer.style.display =
-                        "flex";
-                }
-
-                if (aktifkanKameraBtn) {
-                    aktifkanKameraBtn.hidden =
-                        false;
-                }
-
-                updateStatusForm();
-
-                aktifkanKamera();
+            if (photoPreviewWrapper) {
+                photoPreviewWrapper.classList.remove(
+                    "active"
+                );
             }
-        );
+
+            if (cameraLiveContainer) {
+                cameraLiveContainer.style.display = "flex";
+            }
+
+            if (aktifkanKameraBtn) {
+                aktifkanKameraBtn.hidden = false;
+            }
+
+            updateStatusForm();
+            aktifkanKamera();
+        });
     }
+
 
     function hentikanKamera() {
         if (cameraStream) {
             cameraStream
                 .getTracks()
-                .forEach(
-                    function (track) {
-                        track.stop();
-                    }
-                );
+                .forEach(track => track.stop());
 
-            cameraStream =
-                null;
+            cameraStream = null;
         }
 
         if (cameraVideo) {
-            cameraVideo.srcObject =
-                null;
-
-            cameraVideo.classList.remove(
-                "active"
-            );
+            cameraVideo.srcObject = null;
+            cameraVideo.classList.remove("active");
         }
     }
+
 
     /* =====================================================
        FORM ABSENSI
@@ -1895,67 +1462,108 @@ if (absensiForm) {
 
     function updateStatusForm() {
         const jenisSiap =
-            Boolean(
-                jenisAbsenInput?.value
-            );
+            Boolean(jenisAbsenInput?.value);
 
         const lokasiSiap =
             latitude !== null &&
             longitude !== null &&
             jarakKantor !== null &&
-            jarakKantor <=
-                KANTOR.radius;
+            jarakKantor <= KANTOR.radius;
 
         const fotoSiap =
-            Boolean(
-                fotoBase64
-            );
+            Boolean(fotoBase64);
 
-        updateRequirement(
-            checkJenis,
-            jenisSiap
-        );
+        const waktu = statusWaktuAbsensi();
+        const jenis = jenisAbsenInput?.value || "";
 
-        updateRequirement(
-            checkLokasi,
-            lokasiSiap
-        );
+        const waktuSiap =
+            jenis === "Masuk"
+                ? waktu.masukDibuka
+                : jenis === "Keluar"
+                    ? waktu.keluarDibuka
+                    : false;
 
-        updateRequirement(
-            checkFoto,
-            fotoSiap
-        );
+        updateRequirement(checkJenis, jenisSiap);
+        updateRequirement(checkLokasi, lokasiSiap);
+        updateRequirement(checkFoto, fotoSiap);
 
         const siap =
             jenisSiap &&
             lokasiSiap &&
-            fotoSiap;
+            fotoSiap &&
+            waktuSiap;
 
         if (submitAbsensi) {
-            submitAbsensi.disabled =
-                !siap;
+            submitAbsensi.disabled = !siap;
         }
 
         if (submitText) {
-            submitText.textContent =
-                siap
-                    ? "Kirim Absensi"
-                    : "Lengkapi Absensi";
+            if (!jenisSiap) {
+                submitText.textContent =
+                    "Lengkapi Absensi";
+
+            } else if (!waktuSiap) {
+                submitText.textContent =
+                    "Waktu Absensi Tidak Tersedia";
+
+            } else {
+                submitText.textContent =
+                    siap
+                        ? "Kirim Absensi"
+                        : "Lengkapi Absensi";
+            }
         }
     }
 
+
     absensiForm.addEventListener(
         "submit",
-        async function (event) {
+        async function(event) {
             event.preventDefault();
 
+            const jenisDikirim =
+                jenisAbsenInput?.value || "";
+
+            const waktu = statusWaktuAbsensi();
+
             if (
-                !jenisAbsenInput?.value ||
+                jenisDikirim === "Masuk" &&
+                !waktu.masukDibuka
+            ) {
+                tampilkanToast(
+                    "error",
+                    "Waktu Masuk tidak tersedia",
+                    waktu.sekarang < JAM_ABSENSI.masukMulai
+                        ? "Absensi Masuk dibuka pukul 06.30 WITA."
+                        : "Absensi Masuk sudah ditutup pukul 09.00 WITA."
+                );
+
+                updateKontrolWaktu();
+                return;
+            }
+
+            if (
+                jenisDikirim === "Keluar" &&
+                !waktu.keluarDibuka
+            ) {
+                tampilkanToast(
+                    "error",
+                    "Waktu Keluar tidak tersedia",
+                    waktu.sekarang < JAM_ABSENSI.keluarMulai
+                        ? "Absensi Keluar dibuka pukul 15.45 WITA."
+                        : "Absensi Keluar sudah ditutup pukul 16.30 WITA."
+                );
+
+                updateKontrolWaktu();
+                return;
+            }
+
+            if (
+                !jenisDikirim ||
                 latitude === null ||
                 longitude === null ||
                 jarakKantor === null ||
-                jarakKantor >
-                    KANTOR.radius ||
+                jarakKantor > KANTOR.radius ||
                 !fotoBase64
             ) {
                 tampilkanToast(
@@ -1967,8 +1575,7 @@ if (absensiForm) {
                 return;
             }
 
-            submitAbsensi.disabled =
-                true;
+            submitAbsensi.disabled = true;
 
             if (submitText) {
                 submitText.textContent =
@@ -1976,35 +1583,18 @@ if (absensiForm) {
             }
 
             try {
-                const jenisDikirim =
-                    jenisAbsenInput.value;
-
-                const hasil =
-                    await postData(
-                        {
-                            action:
-                                "absensi",
-
-                            nip:
-                                nipLogin,
-
-                            jenisAbsen:
-                                jenisDikirim,
-
-                            latitude:
-                                latitude,
-
-                            longitude:
-                                longitude,
-
-                            fotoBase64:
-                                fotoBase64,
-
-                            fotoType:
-                                "image/jpeg"
-                        },
-                        30000
-                    );
+                const hasil = await postData(
+                    {
+                        action: "absensi",
+                        nip: nipLogin,
+                        jenisAbsen: jenisDikirim,
+                        latitude: latitude,
+                        longitude: longitude,
+                        fotoBase64: fotoBase64,
+                        fotoType: "image/jpeg"
+                    },
+                    30000
+                );
 
                 if (!hasil.berhasil) {
                     throw new Error(
@@ -2020,24 +1610,15 @@ if (absensiForm) {
                     "Absensi berhasil."
                 );
 
-                if (
-                    jenisDikirim ===
-                    "Masuk"
-                ) {
-                    sudahMasuk =
-                        true;
+                if (jenisDikirim === "Masuk") {
+                    sudahMasuk = true;
                 }
 
-                if (
-                    jenisDikirim ===
-                    "Keluar"
-                ) {
-                    sudahKeluar =
-                        true;
+                if (jenisDikirim === "Keluar") {
+                    sudahKeluar = true;
                 }
 
                 resetFormAbsensi();
-
                 await cekStatusHariIni();
 
             } catch (error) {
@@ -2054,49 +1635,37 @@ if (absensiForm) {
         }
     );
 
+
     /* =====================================================
        KETERANGAN PEGAWAI
     ===================================================== */
 
-    keteranganOptions.forEach(
-        function (button) {
-            button.addEventListener(
-                "click",
-                function () {
-                    keteranganOptions.forEach(
-                        function (item) {
-                            item.classList.remove(
-                                "active"
-                            );
-                        }
-                    );
+    keteranganOptions.forEach(function(button) {
+        button.addEventListener("click", function() {
+            keteranganOptions.forEach(item => {
+                item.classList.remove("active");
+            });
 
-                    button.classList.add(
-                        "active"
-                    );
+            button.classList.add("active");
 
-                    if (jenisKeterangan) {
-                        jenisKeterangan.value =
-                            button.dataset.value ||
-                            "";
-                    }
+            if (jenisKeterangan) {
+                jenisKeterangan.value =
+                    button.dataset.value || "";
+            }
 
-                    updateStatusKeterangan();
-                }
-            );
-        }
-    );
+            updateStatusKeterangan();
+        });
+    });
+
 
     if (keteranganText) {
         keteranganText.addEventListener(
             "input",
-            function () {
+            function() {
                 if (jumlahKarakter) {
                     jumlahKarakter.textContent =
                         String(
-                            keteranganText
-                                .value
-                                .length
+                            keteranganText.value.length
                         );
                 }
 
@@ -2105,17 +1674,14 @@ if (absensiForm) {
         );
     }
 
+
     function updateStatusKeterangan() {
         const jenisSiap =
-            Boolean(
-                jenisKeterangan?.value
-            );
+            Boolean(jenisKeterangan?.value);
 
         const isiSiap =
             Boolean(
-                keteranganText
-                    ?.value
-                    .trim()
+                keteranganText?.value.trim()
             );
 
         updateRequirement(
@@ -2129,12 +1695,10 @@ if (absensiForm) {
         );
 
         const siap =
-            jenisSiap &&
-            isiSiap;
+            jenisSiap && isiSiap;
 
         if (submitKeterangan) {
-            submitKeterangan.disabled =
-                !siap;
+            submitKeterangan.disabled = !siap;
         }
 
         if (submitKeteranganText) {
@@ -2145,26 +1709,20 @@ if (absensiForm) {
         }
     }
 
+
     if (keteranganForm) {
         keteranganForm.addEventListener(
             "submit",
-            async function (event) {
+            async function(event) {
                 event.preventDefault();
 
                 const jenis =
-                    jenisKeterangan
-                        ?.value
-                        .trim();
+                    jenisKeterangan?.value.trim();
 
                 const isi =
-                    keteranganText
-                        ?.value
-                        .trim();
+                    keteranganText?.value.trim();
 
-                if (
-                    !jenis ||
-                    !isi
-                ) {
+                if (!jenis || !isi) {
                     tampilkanToast(
                         "error",
                         "Belum lengkap",
@@ -2174,31 +1732,20 @@ if (absensiForm) {
                     return;
                 }
 
-                submitKeterangan.disabled =
-                    true;
+                submitKeterangan.disabled = true;
 
-                if (
-                    submitKeteranganText
-                ) {
+                if (submitKeteranganText) {
                     submitKeteranganText.textContent =
                         "Mengirim keterangan...";
                 }
 
                 try {
-                    const hasil =
-                        await postData({
-                            action:
-                                "keterangan",
-
-                            nip:
-                                nipLogin,
-
-                            jenis:
-                                jenis,
-
-                            keterangan:
-                                isi
-                        });
+                    const hasil = await postData({
+                        action: "keterangan",
+                        nip: nipLogin,
+                        jenis: jenis,
+                        keterangan: isi
+                    });
 
                     if (!hasil.berhasil) {
                         throw new Error(
@@ -2215,7 +1762,6 @@ if (absensiForm) {
                     );
 
                     resetFormKeterangan();
-
                     await cekStatusHariIni();
 
                 } catch (error) {
@@ -2233,19 +1779,19 @@ if (absensiForm) {
         );
     }
 
+
+    /* =====================================================
+       RESET FORM
+    ===================================================== */
+
     function resetFormAbsensi() {
         if (jenisAbsenInput) {
-            jenisAbsenInput.value =
-                "";
+            jenisAbsenInput.value = "";
         }
 
-        attendanceOptions.forEach(
-            function (button) {
-                button.classList.remove(
-                    "active"
-                );
-            }
-        );
+        attendanceOptions.forEach(button => {
+            button.classList.remove("active");
+        });
 
         latitude = null;
         longitude = null;
@@ -2270,10 +1816,7 @@ if (absensiForm) {
             );
         }
 
-        if (previewFoto) {
-            previewFoto.src =
-                "";
-        }
+        if (previewFoto) previewFoto.src = "";
 
         if (photoPreviewWrapper) {
             photoPreviewWrapper.classList.remove(
@@ -2282,69 +1825,53 @@ if (absensiForm) {
         }
 
         if (cameraLiveContainer) {
-            cameraLiveContainer.style.display =
-                "flex";
+            cameraLiveContainer.style.display = "flex";
         }
 
         if (cameraPlaceholder) {
-            cameraPlaceholder.style.display =
-                "flex";
+            cameraPlaceholder.style.display = "flex";
         }
 
         if (aktifkanKameraBtn) {
-            aktifkanKameraBtn.hidden =
-                false;
+            aktifkanKameraBtn.hidden = false;
         }
 
         if (ambilFotoBtn) {
-            ambilFotoBtn.hidden =
-                true;
+            ambilFotoBtn.hidden = true;
         }
 
         hentikanKamera();
-
         updateStatusForm();
+        updateKontrolWaktu();
     }
+
 
     function resetFormKeterangan() {
         if (jenisKeterangan) {
-            jenisKeterangan.value =
-                "";
+            jenisKeterangan.value = "";
         }
 
-        keteranganOptions.forEach(
-            function (button) {
-                button.classList.remove(
-                    "active"
-                );
-            }
-        );
+        keteranganOptions.forEach(button => {
+            button.classList.remove("active");
+        });
 
         if (keteranganText) {
-            keteranganText.value =
-                "";
+            keteranganText.value = "";
         }
 
         if (jumlahKarakter) {
-            jumlahKarakter.textContent =
-                "0";
+            jumlahKarakter.textContent = "0";
         }
 
         updateStatusKeterangan();
     }
 
-    function updateRequirement(
-        element,
-        selesai
-    ) {
-        if (!element) {
-            return;
-        }
+
+    function updateRequirement(element, selesai) {
+        if (!element) return;
 
         const icon =
-            element.querySelector(
-                "span"
-            );
+            element.querySelector("span");
 
         element.classList.toggle(
             "done",
@@ -2353,103 +1880,63 @@ if (absensiForm) {
 
         if (icon) {
             icon.textContent =
-                selesai
-                    ? "✓"
-                    : "○";
+                selesai ? "✓" : "○";
         }
     }
 
-    function namaJenisKeterangan(
-        kode
-    ) {
+
+    function namaJenisKeterangan(kode) {
         const daftar = {
-            S:
-                "Sakit",
-
-            CT:
-                "Cuti",
-
-            DD:
-                "Dinas Dalam",
-
-            DL:
-                "Dinas Luar",
-
-            IM:
-                "Isolasi Mandiri",
-
-            WFH:
-                "Work from Home",
-
-            MPP:
-                "Masa Persiapan Pensiun"
+            S: "Sakit",
+            CT: "Cuti",
+            DD: "Dinas Dalam",
+            DL: "Dinas Luar",
+            IM: "Isolasi Mandiri",
+            WFH: "Work from Home",
+            MPP: "Masa Persiapan Pensiun"
         };
 
-        return (
-            daftar[kode] ||
-            kode ||
-            "Keterangan"
-        );
+        return daftar[kode] || kode || "Keterangan";
     }
 
-    function tampilkanToast(
-        tipe,
-        judul,
-        pesan
-    ) {
+
+    function tampilkanToast(tipe, judul, pesan) {
         if (!toast) {
             tampilkanDialogInfo(
                 pesan,
-                {
-                    judul:
-                        judul
-                }
+                { judul: judul }
             );
 
             return;
         }
 
-        clearTimeout(
-            toastTimer
-        );
+        clearTimeout(toastTimer);
 
         if (toastTitle) {
-            toastTitle.textContent =
-                judul;
+            toastTitle.textContent = judul;
         }
 
         if (toastMessage) {
-            toastMessage.textContent =
-                pesan;
+            toastMessage.textContent = pesan;
         }
 
         if (toastIcon) {
             toastIcon.textContent =
-                tipe ===
-                "success"
-                    ? "✓"
-                    : "!";
+                tipe === "success" ? "✓" : "!";
         }
 
-        toast.classList.add(
-            "show"
-        );
+        toast.classList.add("show");
 
-        toastTimer =
-            setTimeout(
-                function () {
-                    toast.classList.remove(
-                        "show"
-                    );
-                },
-                4000
-            );
+        toastTimer = setTimeout(function() {
+            toast.classList.remove("show");
+        }, 4000);
     }
+
 
     if (logoutBtn) {
         logoutBtn.addEventListener(
             "click",
-            function () {
+            function() {
                 hentikanKamera();
                 logoutUser();
             }
@@ -2463,30 +1950,17 @@ if (absensiForm) {
 
     updateStatusForm();
     updateStatusKeterangan();
+    updateKontrolWaktu();
 }
 
 /* =====================================================
    ADMIN
 ===================================================== */
-const adminAbsensiSection =
-    document.getElementById(
-        "adminAbsensiSection"
-    );
 
-const adminPegawaiSection =
-    document.getElementById(
-        "adminPegawaiSection"
-    );
-
-const adminKeteranganSection =
-    document.getElementById(
-        "adminKeteranganSection"
-    );
-
-const adminAkunSection =
-    document.getElementById(
-        "adminAkunSection"
-    );
+const adminAbsensiSection = document.getElementById("adminAbsensiSection");
+const adminPegawaiSection = document.getElementById("adminPegawaiSection");
+const adminKeteranganSection = document.getElementById("adminKeteranganSection");
+const adminAkunSection = document.getElementById("adminAkunSection");
 
 if (
     adminAbsensiSection ||
@@ -2494,254 +1968,131 @@ if (
     adminKeteranganSection ||
     adminAkunSection
 ) {
-    const role =
-        localStorage.getItem(
-            "role"
-        );
+    const role = localStorage.getItem("role");
+    const adminToken = localStorage.getItem("adminToken");
 
-    const adminToken =
-        localStorage.getItem(
-            "adminToken"
-        );
-
-    if (
-        role !== "admin" ||
-        !adminToken
-    ) {
-        window.location.href =
-            "index.html";
+    if (role !== "admin" || !adminToken) {
+        window.location.href = "index.html";
     }
 
-    const logoutAdminBtn =
-        document.getElementById(
-            "logoutAdminBtn"
-        );
+    const logoutAdminBtn = document.getElementById("logoutAdminBtn");
 
-    const navAbsensiBtn =
-        document.getElementById(
-            "navAbsensiBtn"
-        );
+    const navAbsensiBtn = document.getElementById("navAbsensiBtn");
+    const navPegawaiBtn = document.getElementById("navPegawaiBtn");
+    const navKeteranganBtn = document.getElementById("navKeteranganBtn");
+    const navAkunAdminBtn = document.getElementById("navAkunAdminBtn");
 
-    const navPegawaiBtn =
-        document.getElementById(
-            "navPegawaiBtn"
-        );
 
-    const navKeteranganBtn =
-        document.getElementById(
-            "navKeteranganBtn"
-        );
+    /* =====================================================
+       ABSENSI ADMIN
+    ===================================================== */
 
-    const navAkunAdminBtn =
-        document.getElementById(
-            "navAkunAdminBtn"
-        );
+    const dataAbsensi = document.getElementById("dataAbsensi");
+    const filterTanggal = document.getElementById("filterTanggal");
+    const filterJenis = document.getElementById("filterJenis");
+    const filterCari = document.getElementById("filterCari");
+    const filterContainer = document.getElementById("filterContainer");
+    const toggleFilterBtn = document.getElementById("toggleFilterBtn");
+    const resetFilterBtn = document.getElementById("resetFilterBtn");
 
-    /* =========================
-       ABSENSI
-    ========================= */
+    const totalAbsensi = document.getElementById("totalAbsensi");
+    const totalMasuk = document.getElementById("totalMasuk");
+    const totalKeluar = document.getElementById("totalKeluar");
+    const jumlahDataText = document.getElementById("jumlahDataText");
 
-    const dataAbsensi =
-        document.getElementById(
-            "dataAbsensi"
-        );
+    const absensiManualBtn = document.getElementById("absensiManualBtn");
 
-    const filterTanggal =
-        document.getElementById(
-            "filterTanggal"
-        );
 
-    const filterJenis =
-        document.getElementById(
-            "filterJenis"
-        );
+    /* =====================================================
+       PEGAWAI ADMIN
+    ===================================================== */
 
-    const filterCari =
-        document.getElementById(
-            "filterCari"
-        );
-
-    const filterContainer =
-        document.getElementById(
-            "filterContainer"
-        );
-
-    const toggleFilterBtn =
-        document.getElementById(
-            "toggleFilterBtn"
-        );
-
-    const resetFilterBtn =
-        document.getElementById(
-            "resetFilterBtn"
-        );
-
-    const totalAbsensi =
-        document.getElementById(
-            "totalAbsensi"
-        );
-
-    const totalMasuk =
-        document.getElementById(
-            "totalMasuk"
-        );
-
-    const totalKeluar =
-        document.getElementById(
-            "totalKeluar"
-        );
-
-    const jumlahDataText =
-        document.getElementById(
-            "jumlahDataText"
-        );
-
-    const absensiManualBtn =
-        document.getElementById(
-            "absensiManualBtn"
-        );
-
-    /* =========================
-       PEGAWAI
-    ========================= */
-
-    const dataPegawai =
-        document.getElementById(
-            "dataPegawai"
-        );
-
-    const totalPegawai =
-        document.getElementById(
-            "totalPegawai"
-        );
-
-    const totalPegawaiAktif =
-        document.getElementById(
-            "totalPegawaiAktif"
-        );
+    const dataPegawai = document.getElementById("dataPegawai");
+    const totalPegawai = document.getElementById("totalPegawai");
+    const totalPegawaiAktif = document.getElementById("totalPegawaiAktif");
 
     const totalPegawaiTidakAktif =
-        document.getElementById(
-            "totalPegawaiTidakAktif"
-        );
+        document.getElementById("totalPegawaiTidakAktif");
 
-    const tambahPegawaiBtn =
-        document.getElementById(
-            "tambahPegawaiBtn"
-        );
-
-    const cariPegawaiAdmin =
-        document.getElementById(
-            "cariPegawaiAdmin"
-        );
+    const tambahPegawaiBtn = document.getElementById("tambahPegawaiBtn");
+    const cariPegawaiAdmin = document.getElementById("cariPegawaiAdmin");
 
     const filterStatusPegawai =
-        document.getElementById(
-            "filterStatusPegawai"
-        );
+        document.getElementById("filterStatusPegawai");
 
-    /* =========================
-       KETERANGAN
-    ========================= */
+
+    /* =====================================================
+       KETERANGAN ADMIN
+    ===================================================== */
 
     const dataKeteranganAdmin =
-        document.getElementById(
-            "dataKeteranganAdmin"
-        );
+        document.getElementById("dataKeteranganAdmin");
 
     const totalKeteranganAdmin =
-        document.getElementById(
-            "totalKeteranganAdmin"
-        );
+        document.getElementById("totalKeteranganAdmin");
 
     const totalKeteranganMenunggu =
-        document.getElementById(
-            "totalKeteranganMenunggu"
-        );
+        document.getElementById("totalKeteranganMenunggu");
 
     const totalKeteranganDisetujui =
-        document.getElementById(
-            "totalKeteranganDisetujui"
-        );
+        document.getElementById("totalKeteranganDisetujui");
 
     const totalKeteranganDitolak =
-        document.getElementById(
-            "totalKeteranganDitolak"
-        );
+        document.getElementById("totalKeteranganDitolak");
 
     const cariKeteranganAdmin =
-        document.getElementById(
-            "cariKeteranganAdmin"
-        );
+        document.getElementById("cariKeteranganAdmin");
 
     const filterStatusKeterangan =
-        document.getElementById(
-            "filterStatusKeterangan"
-        );
+        document.getElementById("filterStatusKeterangan");
 
     const jumlahKeteranganText =
-        document.getElementById(
-            "jumlahKeteranganText"
-        );
+        document.getElementById("jumlahKeteranganText");
 
-    /* =========================
+
+    /* =====================================================
        AKUN ADMIN
-    ========================= */
+    ===================================================== */
 
-    const akunAdminNama =
-        document.getElementById(
-            "akunAdminNama"
-        );
-
-    const akunAdminNip =
-        document.getElementById(
-            "akunAdminNip"
-        );
+    const akunAdminNama = document.getElementById("akunAdminNama");
+    const akunAdminNip = document.getElementById("akunAdminNip");
 
     const gantiPasswordAdminForm =
-        document.getElementById(
-            "gantiPasswordAdminForm"
-        );
+        document.getElementById("gantiPasswordAdminForm");
 
     const passwordAdminLama =
-        document.getElementById(
-            "passwordAdminLama"
-        );
+        document.getElementById("passwordAdminLama");
 
     const passwordAdminBaru =
-        document.getElementById(
-            "passwordAdminBaru"
-        );
+        document.getElementById("passwordAdminBaru");
 
     const konfirmasiPasswordAdmin =
-        document.getElementById(
-            "konfirmasiPasswordAdmin"
-        );
+        document.getElementById("konfirmasiPasswordAdmin");
 
     const passwordAdminStatus =
-        document.getElementById(
-            "passwordAdminStatus"
-        );
+        document.getElementById("passwordAdminStatus");
 
     const simpanPasswordAdminBtn =
-        document.getElementById(
-            "simpanPasswordAdminBtn"
-        );
+        document.getElementById("simpanPasswordAdminBtn");
+
 
     let dataTanggalAktif = [];
     let daftarPegawaiAdmin = [];
     let daftarKeteranganAdmin = [];
     let requestAdminId = 0;
 
+
+    /* =====================================================
+       CEK SESI ADMIN
+    ===================================================== */
+
     cekSesiAdminAwal();
 
     async function cekSesiAdminAwal() {
         try {
-            const hasil =
-                await postAdmin({
-                    action:
-                        "cekSesiAdmin"
-                });
+            const hasil = await postAdmin({
+                action: "cekSesiAdmin"
+            });
 
             if (!hasil.berhasil) {
                 throw new Error(
@@ -2752,41 +2103,24 @@ if (
 
             const nama =
                 hasil.nama ||
-                localStorage.getItem(
-                    "nama"
-                ) ||
+                localStorage.getItem("nama") ||
                 "Admin";
 
             const nip =
                 hasil.nip ||
-                localStorage.getItem(
-                    "nip"
-                ) ||
+                localStorage.getItem("nip") ||
                 "";
 
-            localStorage.setItem(
-                "nama",
-                nama
-            );
-
-            localStorage.setItem(
-                "nip",
-                nip
-            );
-
-            localStorage.setItem(
-                "role",
-                "admin"
-            );
+            localStorage.setItem("nama", nama);
+            localStorage.setItem("nip", nip);
+            localStorage.setItem("role", "admin");
 
             if (akunAdminNama) {
-                akunAdminNama.textContent =
-                    nama;
+                akunAdminNama.textContent = nama;
             }
 
             if (akunAdminNip) {
-                akunAdminNip.textContent =
-                    nip;
+                akunAdminNip.textContent = nip;
             }
 
             if (filterTanggal) {
@@ -2794,10 +2128,7 @@ if (
                     tanggalWITAHariIni();
             }
 
-            tampilkanHalamanAdmin(
-                "absensi"
-            );
-
+            tampilkanHalamanAdmin("absensi");
             await ambilAbsensiAdmin();
 
         } catch (error) {
@@ -2806,149 +2137,90 @@ if (
         }
     }
 
-    if (navAbsensiBtn) {
-        navAbsensiBtn.addEventListener(
-            "click",
-            async function () {
-                tampilkanHalamanAdmin(
-                    "absensi"
-                );
 
-                await ambilAbsensiAdmin();
-            }
-        );
-    }
+    /* =====================================================
+       NAVIGASI ADMIN
+    ===================================================== */
 
-    if (navPegawaiBtn) {
-        navPegawaiBtn.addEventListener(
-            "click",
-            async function () {
-                tampilkanHalamanAdmin(
-                    "pegawai"
-                );
+    navAbsensiBtn?.addEventListener(
+        "click",
+        async function() {
+            tampilkanHalamanAdmin("absensi");
+            await ambilAbsensiAdmin();
+        }
+    );
 
-                await ambilPegawaiAdmin();
-            }
-        );
-    }
+    navPegawaiBtn?.addEventListener(
+        "click",
+        async function() {
+            tampilkanHalamanAdmin("pegawai");
+            await ambilPegawaiAdmin();
+        }
+    );
 
-    if (navKeteranganBtn) {
-        navKeteranganBtn.addEventListener(
-            "click",
-            async function () {
-                tampilkanHalamanAdmin(
-                    "keterangan"
-                );
+    navKeteranganBtn?.addEventListener(
+        "click",
+        async function() {
+            tampilkanHalamanAdmin("keterangan");
+            await ambilKeteranganAdmin();
+        }
+    );
 
-                await ambilKeteranganAdmin();
-            }
-        );
-    }
+    navAkunAdminBtn?.addEventListener(
+        "click",
+        function() {
+            tampilkanHalamanAdmin("akun");
+        }
+    );
 
-    if (navAkunAdminBtn) {
-        navAkunAdminBtn.addEventListener(
-            "click",
-            function () {
-                tampilkanHalamanAdmin(
-                    "akun"
-                );
-            }
-        );
-    }
 
-    function tampilkanHalamanAdmin(
-        halaman
-    ) {
+    function tampilkanHalamanAdmin(halaman) {
         [
             adminAbsensiSection,
             adminPegawaiSection,
             adminKeteranganSection,
             adminAkunSection
-        ].forEach(
-            function (section) {
-                if (section) {
-                    section.classList.remove(
-                        "active"
-                    );
-                }
-            }
-        );
+        ].forEach(function(section) {
+            section?.classList.remove("active");
+        });
 
         [
             navAbsensiBtn,
             navPegawaiBtn,
             navKeteranganBtn,
             navAkunAdminBtn
-        ].forEach(
-            function (button) {
-                if (button) {
-                    button.classList.remove(
-                        "active"
-                    );
-                }
-            }
-        );
+        ].forEach(function(button) {
+            button?.classList.remove("active");
+        });
 
-        if (
-            halaman ===
-            "absensi"
-        ) {
-            adminAbsensiSection
-                ?.classList
-                .add("active");
-
-            navAbsensiBtn
-                ?.classList
-                .add("active");
+        if (halaman === "absensi") {
+            adminAbsensiSection?.classList.add("active");
+            navAbsensiBtn?.classList.add("active");
         }
 
-        if (
-            halaman ===
-            "pegawai"
-        ) {
-            adminPegawaiSection
-                ?.classList
-                .add("active");
-
-            navPegawaiBtn
-                ?.classList
-                .add("active");
+        if (halaman === "pegawai") {
+            adminPegawaiSection?.classList.add("active");
+            navPegawaiBtn?.classList.add("active");
         }
 
-        if (
-            halaman ===
-            "keterangan"
-        ) {
-            adminKeteranganSection
-                ?.classList
-                .add("active");
-
-            navKeteranganBtn
-                ?.classList
-                .add("active");
+        if (halaman === "keterangan") {
+            adminKeteranganSection?.classList.add("active");
+            navKeteranganBtn?.classList.add("active");
         }
 
-        if (
-            halaman ===
-            "akun"
-        ) {
-            adminAkunSection
-                ?.classList
-                .add("active");
-
-            navAkunAdminBtn
-                ?.classList
-                .add("active");
+        if (halaman === "akun") {
+            adminAkunSection?.classList.add("active");
+            navAkunAdminBtn?.classList.add("active");
         }
     }
 
+
     /* =====================================================
-       ABSENSI ADMIN
+       AMBIL ABSENSI ADMIN
     ===================================================== */
 
     async function ambilAbsensiAdmin() {
-        const idRequest =
-            ++requestAdminId;
+        const idRequest = ++requestAdminId;
 
         if (dataAbsensi) {
             dataAbsensi.innerHTML =
@@ -2956,23 +2228,12 @@ if (
         }
 
         try {
-            const hasil =
-                await postAdmin({
-                    action:
-                        "ambilAbsensi",
+            const hasil = await postAdmin({
+                action: "ambilAbsensi",
+                tanggal: filterTanggal?.value || ""
+            });
 
-                    tanggal:
-                        filterTanggal
-                            ?.value ||
-                        ""
-                });
-
-            if (
-                idRequest !==
-                requestAdminId
-            ) {
-                return;
-            }
+            if (idRequest !== requestAdminId) return;
 
             if (!hasil.berhasil) {
                 throw new Error(
@@ -2982,9 +2243,7 @@ if (
             }
 
             dataTanggalAktif =
-                Array.isArray(
-                    hasil.data
-                )
+                Array.isArray(hasil.data)
                     ? hasil.data
                     : [];
 
@@ -2996,67 +2255,52 @@ if (
             if (dataAbsensi) {
                 dataAbsensi.innerHTML =
                     '<tr><td colspan="11" class="empty-cell">' +
-                    escapeHTML(
-                        error.message
-                    ) +
+                    escapeHTML(error.message) +
                     "</td></tr>";
             }
         }
     }
 
+
     function tampilkanAbsensiAdmin() {
         const cari =
-            filterCari
-                ?.value
+            filterCari?.value
                 .trim()
-                .toLowerCase() ||
-            "";
+                .toLowerCase() || "";
 
         const jenis =
-            filterJenis
-                ?.value ||
-            "";
+            filterJenis?.value || "";
 
         const hasilFilter =
-            dataTanggalAktif.filter(
-                function (item) {
-                    const cocokCari =
-                        !cari ||
-                        String(
-                            item.nama ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            ) ||
-                        String(
-                            item.nip ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            );
+            dataTanggalAktif.filter(function(item) {
+                const nama =
+                    String(item.nama || "")
+                        .toLowerCase();
 
-                    const cocokJenis =
-                        !jenis ||
-                        String(
-                            item.jenisAbsen ||
-                            item.jenis ||
-                            ""
-                        ) === jenis;
+                const nip =
+                    String(item.nip || "")
+                        .toLowerCase();
 
-                    return (
-                        cocokCari &&
-                        cocokJenis
+                const jenisItem =
+                    String(
+                        item.jenisAbsen ||
+                        item.jenis ||
+                        ""
                     );
-                }
-            );
 
-        updateStatAbsensi(
-            hasilFilter
-        );
+                const cocokCari =
+                    !cari ||
+                    nama.includes(cari) ||
+                    nip.includes(cari);
+
+                const cocokJenis =
+                    !jenis ||
+                    jenisItem === jenis;
+
+                return cocokCari && cocokJenis;
+            });
+
+        updateStatAbsensi(hasilFilter);
 
         if (jumlahDataText) {
             jumlahDataText.textContent =
@@ -3064,265 +2308,210 @@ if (
                 " data ditemukan";
         }
 
-        if (!dataAbsensi) {
-            return;
-        }
+        if (!dataAbsensi) return;
 
         if (!hasilFilter.length) {
             dataAbsensi.innerHTML =
                 '<tr><td colspan="11" class="empty-cell">Tidak ada data absensi.</td></tr>';
-
             return;
         }
 
         dataAbsensi.innerHTML =
-            hasilFilter.map(
-                function (item) {
-                    const jenisAbsen =
-                        String(
-                            item.jenisAbsen ||
-                            item.jenis ||
-                            "-"
-                        );
+            hasilFilter.map(function(item) {
+                const jenisAbsen =
+                    String(
+                        item.jenisAbsen ||
+                        item.jenis ||
+                        "-"
+                    );
 
-                    const status =
-                        String(
-                            item.status ||
-                            "-"
-                        );
+                const status =
+                    String(item.status || "-");
 
-                    const sumber =
-                        String(
-                            item.sumber ||
-                            "Pegawai"
-                        );
+                const sumber =
+                    String(item.sumber || "Pegawai");
 
-                    const admin =
-                        String(
-                            item.admin ||
-                            "-"
-                        );
+                const admin =
+                    String(item.admin || "-");
 
-                    const alasan =
-                        String(
-                            item.alasanAdmin ||
-                            item.alasan ||
-                            "-"
-                        );
+                const alasan =
+                    String(
+                        item.alasanAdmin ||
+                        item.alasan ||
+                        "-"
+                    );
 
-                    const maps =
-                        safeURL(
-                            item.lokasiMaps ||
-                            item.maps ||
-                            item.lokasi ||
-                            ""
-                        );
+                const maps =
+                    safeURL(
+                        item.lokasiMaps ||
+                        item.maps ||
+                        item.lokasi ||
+                        ""
+                    );
 
-                    const foto =
-                        safeURL(
-                            item.foto ||
-                            item.fotoUrl ||
-                            ""
-                        );
+                const foto =
+                    safeURL(
+                        item.foto ||
+                        item.fotoUrl ||
+                        ""
+                    );
 
-                    const jarak =
-                        item.jarak === "" ||
-                        item.jarak === null ||
-                        item.jarak === undefined ||
-                        Number.isNaN(
-                            Number(
-                                item.jarak
-                            )
-                        )
-                            ? "-"
-                            : Math.round(
-                                Number(
-                                    item.jarak
-                                )
-                            ) + " m";
+                const jarak =
+                    item.jarak === "" ||
+                    item.jarak === null ||
+                    item.jarak === undefined ||
+                    Number.isNaN(Number(item.jarak))
+                        ? "-"
+                        : Math.round(Number(item.jarak)) + " m";
 
-                    const linkMaps =
-                        maps
-                            ? '<a href="' +
-                              maps +
-                              '" target="_blank" rel="noopener noreferrer">Maps</a>'
-                            : "-";
+                const linkMaps = maps
+                    ? '<a href="' +
+                      maps +
+                      '" target="_blank" rel="noopener noreferrer">Maps</a>'
+                    : "-";
 
-                    const linkFoto =
-                        foto
-                            ? '<a href="' +
-                              foto +
-                              '" target="_blank" rel="noopener noreferrer">Foto</a>'
-                            : "-";
+                const linkFoto = foto
+                    ? '<a href="' +
+                      foto +
+                      '" target="_blank" rel="noopener noreferrer">Foto</a>'
+                    : "-";
 
-                    return `
-                        <tr>
-                            <td>${escapeHTML(formatWaktu(item.waktu))}</td>
-                            <td>${escapeHTML(item.nama || "-")}</td>
-                            <td>${escapeHTML(item.nip || "-")}</td>
+                return `
+                    <tr>
+                        <td>${escapeHTML(formatWaktu(item.waktu))}</td>
+                        <td>${escapeHTML(item.nama || "-")}</td>
+                        <td>${escapeHTML(item.nip || "-")}</td>
 
-                            <td>
-                                <span class="badge-absen ${
-                                    jenisAbsen === "Masuk"
-                                        ? "badge-masuk"
-                                        : "badge-keluar"
-                                }">
-                                    ${escapeHTML(jenisAbsen)}
-                                </span>
-                            </td>
+                        <td>
+                            <span class="badge-absen ${
+                                jenisAbsen === "Masuk"
+                                    ? "badge-masuk"
+                                    : "badge-keluar"
+                            }">
+                                ${escapeHTML(jenisAbsen)}
+                            </span>
+                        </td>
 
-                            <td>
-                                <span class="badge-status ${kelasStatusAbsensi(status)}">
-                                    ${escapeHTML(status)}
-                                </span>
-                            </td>
+                        <td>
+                            <span class="badge-status ${kelasStatusAbsensi(status)}">
+                                ${escapeHTML(status)}
+                            </span>
+                        </td>
 
-                            <td>${escapeHTML(jarak)}</td>
-                            <td>${escapeHTML(sumber)}</td>
-                            <td>${escapeHTML(admin)}</td>
-                            <td>${escapeHTML(alasan)}</td>
-                            <td>${linkMaps}</td>
-                            <td>${linkFoto}</td>
-                        </tr>
-                    `;
-                }
-            ).join("");
+                        <td>${escapeHTML(jarak)}</td>
+                        <td>${escapeHTML(sumber)}</td>
+                        <td>${escapeHTML(admin)}</td>
+                        <td>${escapeHTML(alasan)}</td>
+                        <td>${linkMaps}</td>
+                        <td>${linkFoto}</td>
+                    </tr>
+                `;
+            }).join("");
     }
 
-    function updateStatAbsensi(
-        data
-    ) {
+
+    function updateStatAbsensi(data) {
         const masuk =
-            data.filter(
-                function (item) {
-                    return (
-                        String(
-                            item.jenisAbsen ||
-                            item.jenis ||
-                            ""
-                        ) ===
-                        "Masuk"
-                    );
-                }
-            ).length;
+            data.filter(function(item) {
+                return (
+                    String(
+                        item.jenisAbsen ||
+                        item.jenis ||
+                        ""
+                    ) === "Masuk"
+                );
+            }).length;
 
         const keluar =
-            data.filter(
-                function (item) {
-                    return (
-                        String(
-                            item.jenisAbsen ||
-                            item.jenis ||
-                            ""
-                        ) ===
-                        "Keluar"
-                    );
-                }
-            ).length;
+            data.filter(function(item) {
+                return (
+                    String(
+                        item.jenisAbsen ||
+                        item.jenis ||
+                        ""
+                    ) === "Keluar"
+                );
+            }).length;
 
         if (totalAbsensi) {
-            totalAbsensi.textContent =
-                data.length;
+            totalAbsensi.textContent = data.length;
         }
 
         if (totalMasuk) {
-            totalMasuk.textContent =
-                masuk;
+            totalMasuk.textContent = masuk;
         }
 
         if (totalKeluar) {
-            totalKeluar.textContent =
-                keluar;
+            totalKeluar.textContent = keluar;
         }
     }
 
-    function kelasStatusAbsensi(
-        status
-    ) {
-        const nilai =
-            String(status)
-                .toLowerCase();
 
-        if (
-            nilai.includes(
-                "tepat"
-            )
-        ) {
+    function kelasStatusAbsensi(status) {
+        const nilai =
+            String(status).toLowerCase();
+
+        if (nilai.includes("tepat")) {
             return "badge-tepat";
         }
 
-        if (
-            nilai.includes(
-                "lambat"
-            )
-        ) {
+        if (nilai.includes("lambat")) {
             return "badge-lambat";
         }
 
-        if (
-            nilai.includes(
-                "pulang"
-            )
-        ) {
+        if (nilai.includes("pulang")) {
             return "badge-pulang";
         }
 
         return "";
     }
 
-    filterCari
-        ?.addEventListener(
-            "input",
-            tampilkanAbsensiAdmin
-        );
 
-    filterJenis
-        ?.addEventListener(
-            "change",
-            tampilkanAbsensiAdmin
-        );
+    filterCari?.addEventListener(
+        "input",
+        tampilkanAbsensiAdmin
+    );
 
-    filterTanggal
-        ?.addEventListener(
-            "change",
-            ambilAbsensiAdmin
-        );
+    filterJenis?.addEventListener(
+        "change",
+        tampilkanAbsensiAdmin
+    );
 
-    toggleFilterBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                filterContainer
-                    ?.classList
-                    .toggle("show");
+    filterTanggal?.addEventListener(
+        "change",
+        ambilAbsensiAdmin
+    );
+
+    toggleFilterBtn?.addEventListener(
+        "click",
+        function() {
+            filterContainer?.classList.toggle("show");
+        }
+    );
+
+    resetFilterBtn?.addEventListener(
+        "click",
+        async function() {
+            if (filterCari) {
+                filterCari.value = "";
             }
-        );
 
-    resetFilterBtn
-        ?.addEventListener(
-            "click",
-            async function () {
-                if (filterCari) {
-                    filterCari.value =
-                        "";
-                }
-
-                if (filterJenis) {
-                    filterJenis.value =
-                        "";
-                }
-
-                if (filterTanggal) {
-                    filterTanggal.value =
-                        tanggalWITAHariIni();
-                }
-
-                await ambilAbsensiAdmin();
+            if (filterJenis) {
+                filterJenis.value = "";
             }
-        );
+
+            if (filterTanggal) {
+                filterTanggal.value =
+                    tanggalWITAHariIni();
+            }
+
+            await ambilAbsensiAdmin();
+        }
+    );
+
 
     /* =====================================================
-       PEGAWAI ADMIN
+       AMBIL PEGAWAI ADMIN
     ===================================================== */
 
     async function ambilPegawaiAdmin() {
@@ -3332,11 +2521,9 @@ if (
         }
 
         try {
-            const hasil =
-                await postAdmin({
-                    action:
-                        "ambilPegawai"
-                });
+            const hasil = await postAdmin({
+                action: "ambilPegawai"
+            });
 
             if (!hasil.berhasil) {
                 throw new Error(
@@ -3346,9 +2533,7 @@ if (
             }
 
             daftarPegawaiAdmin =
-                Array.isArray(
-                    hasil.data
-                )
+                Array.isArray(hasil.data)
                     ? hasil.data
                     : [];
 
@@ -3361,78 +2546,64 @@ if (
             if (dataPegawai) {
                 dataPegawai.innerHTML =
                     '<tr><td colspan="5" class="empty-cell">' +
-                    escapeHTML(
-                        error.message
-                    ) +
+                    escapeHTML(error.message) +
                     "</td></tr>";
             }
         }
     }
 
+
     function tampilkanPegawaiAdmin() {
         const cari =
-            cariPegawaiAdmin
-                ?.value
+            cariPegawaiAdmin?.value
                 .trim()
-                .toLowerCase() ||
-            "";
+                .toLowerCase() || "";
 
         const filterStatus =
-            filterStatusPegawai
-                ?.value ||
-            "";
+            filterStatusPegawai?.value || "";
 
         const hasilFilter =
-            daftarPegawaiAdmin.filter(
-                function (pegawai) {
-                    const cocokCari =
-                        !cari ||
-                        String(
-                            pegawai.nama ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(cari) ||
-                        String(
-                            pegawai.nip ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(cari) ||
-                        String(
-                            pegawai.email ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(cari);
+            daftarPegawaiAdmin.filter(function(pegawai) {
+                const nama =
+                    String(pegawai.nama || "")
+                        .toLowerCase();
 
-                    const cocokStatus =
-                        !filterStatus ||
-                        String(
-                            pegawai.status ||
-                            "Aktif"
-                        ) ===
-                        filterStatus;
+                const nip =
+                    String(pegawai.nip || "")
+                        .toLowerCase();
 
-                    return (
-                        cocokCari &&
-                        cocokStatus
-                    );
-                }
-            );
+                const email =
+                    String(pegawai.email || "")
+                        .toLowerCase();
 
-        const aktif =
-            daftarPegawaiAdmin.filter(
-                function (pegawai) {
-                    return (
-                        String(
-                            pegawai.status ||
-                            "Aktif"
-                        ) ===
+                const status =
+                    String(
+                        pegawai.status ||
                         "Aktif"
                     );
-                }
-            ).length;
+
+                const cocokCari =
+                    !cari ||
+                    nama.includes(cari) ||
+                    nip.includes(cari) ||
+                    email.includes(cari);
+
+                const cocokStatus =
+                    !filterStatus ||
+                    status === filterStatus;
+
+                return cocokCari && cocokStatus;
+            });
+
+        const aktif =
+            daftarPegawaiAdmin.filter(function(pegawai) {
+                return (
+                    String(
+                        pegawai.status ||
+                        "Aktif"
+                    ) === "Aktif"
+                );
+            }).length;
 
         if (totalPegawai) {
             totalPegawai.textContent =
@@ -3444,18 +2615,14 @@ if (
                 aktif;
         }
 
-        if (
-            totalPegawaiTidakAktif
-        ) {
+        if (totalPegawaiTidakAktif) {
             totalPegawaiTidakAktif.textContent =
                 daftarPegawaiAdmin.length -
                 aktif;
         }
 
         const jumlahPegawaiText =
-            document.getElementById(
-                "jumlahPegawaiText"
-            );
+            document.getElementById("jumlahPegawaiText");
 
         if (jumlahPegawaiText) {
             jumlahPegawaiText.textContent =
@@ -3463,254 +2630,204 @@ if (
                 " pegawai ditemukan";
         }
 
-        if (!dataPegawai) {
-            return;
-        }
+        if (!dataPegawai) return;
 
         if (!hasilFilter.length) {
             dataPegawai.innerHTML =
                 '<tr><td colspan="5" class="empty-cell">Tidak ada pegawai.</td></tr>';
-
             return;
         }
 
         dataPegawai.innerHTML =
-            hasilFilter.map(
-                function (pegawai) {
-                    const status =
-                        String(
-                            pegawai.status ||
-                            "Aktif"
+            hasilFilter.map(function(pegawai) {
+                const status =
+                    String(
+                        pegawai.status ||
+                        "Aktif"
+                    );
+
+                const statusBaru =
+                    status === "Aktif"
+                        ? "Tidak Aktif"
+                        : "Aktif";
+
+                return `
+                    <tr>
+                        <td>${escapeHTML(pegawai.nama || "-")}</td>
+                        <td>${escapeHTML(pegawai.nip || "-")}</td>
+                        <td>${escapeHTML(pegawai.email || "-")}</td>
+
+                        <td>
+                            <span class="pegawai-status-badge ${
+                                status === "Aktif"
+                                    ? "pegawai-status-aktif"
+                                    : "pegawai-status-tidak-aktif"
+                            }">
+                                ${escapeHTML(status)}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="pegawai-action-container">
+                                <button
+                                    type="button"
+                                    class="pegawai-edit-btn"
+                                    data-id="${escapeHTML(pegawai.id || "")}">
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="pegawai-status-btn"
+                                    data-id="${escapeHTML(pegawai.id || "")}"
+                                    data-status="${escapeHTML(statusBaru)}">
+                                    ${
+                                        status === "Aktif"
+                                            ? "Nonaktifkan"
+                                            : "Aktifkan"
+                                    }
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+        dataPegawai
+            .querySelectorAll(".pegawai-edit-btn")
+            .forEach(function(button) {
+                button.addEventListener(
+                    "click",
+                    function() {
+                        bukaEditPegawai(
+                            button.dataset.id
                         );
-
-                    const statusBaru =
-                        status === "Aktif"
-                            ? "Tidak Aktif"
-                            : "Aktif";
-
-                    return `
-                        <tr>
-                            <td>${escapeHTML(pegawai.nama || "-")}</td>
-                            <td>${escapeHTML(pegawai.nip || "-")}</td>
-                            <td>${escapeHTML(pegawai.email || "-")}</td>
-
-                            <td>
-                                <span class="pegawai-status-badge ${
-                                    status === "Aktif"
-                                        ? "pegawai-status-aktif"
-                                        : "pegawai-status-tidak-aktif"
-                                }">
-                                    ${escapeHTML(status)}
-                                </span>
-                            </td>
-
-                            <td>
-                                <div class="pegawai-action-container">
-                                    <button
-                                        type="button"
-                                        class="pegawai-edit-btn"
-                                        data-id="${escapeHTML(pegawai.id || "")}"
-                                    >
-                                        Edit
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        class="pegawai-status-btn"
-                                        data-id="${escapeHTML(pegawai.id || "")}"
-                                        data-status="${escapeHTML(statusBaru)}"
-                                    >
-                                        ${
-                                            status === "Aktif"
-                                                ? "Nonaktifkan"
-                                                : "Aktifkan"
-                                        }
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                }
-            ).join("");
+                    }
+                );
+            });
 
         dataPegawai
-            .querySelectorAll(
-                ".pegawai-edit-btn"
-            )
-            .forEach(
-                function (button) {
-                    button.addEventListener(
-                        "click",
-                        function () {
-                            bukaEditPegawai(
-                                button.dataset.id
-                            );
-                        }
-                    );
-                }
-            );
-
-        dataPegawai
-            .querySelectorAll(
-                ".pegawai-status-btn"
-            )
-            .forEach(
-                function (button) {
-                    button.addEventListener(
-                        "click",
-                        async function () {
-                            await ubahStatusPegawaiAdmin(
-                                button.dataset.id,
-                                button.dataset.status
-                            );
-                        }
-                    );
-                }
-            );
+            .querySelectorAll(".pegawai-status-btn")
+            .forEach(function(button) {
+                button.addEventListener(
+                    "click",
+                    async function() {
+                        await ubahStatusPegawaiAdmin(
+                            button.dataset.id,
+                            button.dataset.status
+                        );
+                    }
+                );
+            });
     }
 
-    cariPegawaiAdmin
-        ?.addEventListener(
-            "input",
-            tampilkanPegawaiAdmin
-        );
 
-    filterStatusPegawai
-        ?.addEventListener(
-            "change",
-            tampilkanPegawaiAdmin
-        );
+    cariPegawaiAdmin?.addEventListener(
+        "input",
+        tampilkanPegawaiAdmin
+    );
+
+    filterStatusPegawai?.addEventListener(
+        "change",
+        tampilkanPegawaiAdmin
+    );
+
+
+    /* =====================================================
+       MODAL PEGAWAI
+    ===================================================== */
 
     const pegawaiModal =
-        document.getElementById(
-            "pegawaiModal"
-        );
+        document.getElementById("pegawaiModal");
 
     const pegawaiModalTitle =
-        document.getElementById(
-            "pegawaiModalTitle"
-        );
+        document.getElementById("pegawaiModalTitle");
 
     const tutupPegawaiModalBtn =
-        document.getElementById(
-            "tutupPegawaiModalBtn"
-        );
+        document.getElementById("tutupPegawaiModalBtn");
 
     const pegawaiForm =
-        document.getElementById(
-            "pegawaiForm"
-        );
+        document.getElementById("pegawaiForm");
 
     const pegawaiId =
-        document.getElementById(
-            "pegawaiId"
-        );
+        document.getElementById("pegawaiId");
 
     const pegawaiNama =
-        document.getElementById(
-            "pegawaiNama"
-        );
+        document.getElementById("pegawaiNama");
 
     const pegawaiNip =
-        document.getElementById(
-            "pegawaiNip"
-        );
+        document.getElementById("pegawaiNip");
 
     const pegawaiEmail =
-        document.getElementById(
-            "pegawaiEmail"
-        );
+        document.getElementById("pegawaiEmail");
 
     const pegawaiStatus =
-        document.getElementById(
-            "pegawaiStatus"
-        );
+        document.getElementById("pegawaiStatus");
 
     const batalPegawaiBtn =
-        document.getElementById(
-            "batalPegawaiBtn"
-        );
+        document.getElementById("batalPegawaiBtn");
 
     const simpanPegawaiBtn =
-        document.getElementById(
-            "simpanPegawaiBtn"
-        );
+        document.getElementById("simpanPegawaiBtn");
 
-    tambahPegawaiBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                pegawaiForm
-                    ?.reset();
 
-                if (pegawaiId) {
-                    pegawaiId.value =
-                        "";
-                }
+    tambahPegawaiBtn?.addEventListener(
+        "click",
+        function() {
+            pegawaiForm?.reset();
 
-                if (pegawaiStatus) {
-                    pegawaiStatus.value =
-                        "Aktif";
-                }
-
-                if (pegawaiModalTitle) {
-                    pegawaiModalTitle.textContent =
-                        "Tambah Pegawai";
-                }
-
-                bukaModal(
-                    pegawaiModal
-                );
+            if (pegawaiId) {
+                pegawaiId.value = "";
             }
-        );
 
-    function bukaEditPegawai(
-        id
-    ) {
-        const pegawai =
-            daftarPegawaiAdmin.find(
-                function (item) {
-                    return (
-                        String(
-                            item.id
-                        ) ===
-                        String(id)
-                    );
-                }
-            );
+            if (pegawaiStatus) {
+                pegawaiStatus.value = "Aktif";
+            }
 
-        if (!pegawai) {
-            return;
+            if (pegawaiModalTitle) {
+                pegawaiModalTitle.textContent =
+                    "Tambah Pegawai";
+            }
+
+            bukaModal(pegawaiModal);
         }
+    );
+
+
+    function bukaEditPegawai(id) {
+        const pegawai =
+            daftarPegawaiAdmin.find(function(item) {
+                return (
+                    String(item.id) ===
+                    String(id)
+                );
+            });
+
+        if (!pegawai) return;
 
         if (pegawaiId) {
             pegawaiId.value =
-                pegawai.id ||
-                "";
+                pegawai.id || "";
         }
 
         if (pegawaiNama) {
             pegawaiNama.value =
-                pegawai.nama ||
-                "";
+                pegawai.nama || "";
         }
 
         if (pegawaiNip) {
             pegawaiNip.value =
-                pegawai.nip ||
-                "";
+                pegawai.nip || "";
         }
 
         if (pegawaiEmail) {
             pegawaiEmail.value =
-                pegawai.email ||
-                "";
+                pegawai.email || "";
         }
 
         if (pegawaiStatus) {
             pegawaiStatus.value =
-                pegawai.status ||
-                "Aktif";
+                pegawai.status || "Aktif";
         }
 
         if (pegawaiModalTitle) {
@@ -3718,178 +2835,136 @@ if (
                 "Edit Pegawai";
         }
 
-        bukaModal(
-            pegawaiModal
-        );
+        bukaModal(pegawaiModal);
     }
 
-    tutupPegawaiModalBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                tutupModal(
-                    pegawaiModal
-                );
-            }
-        );
 
-    batalPegawaiBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                tutupModal(
-                    pegawaiModal
-                );
-            }
-        );
+    tutupPegawaiModalBtn?.addEventListener(
+        "click",
+        function() {
+            tutupModal(pegawaiModal);
+        }
+    );
 
-    pegawaiForm
-        ?.addEventListener(
-            "submit",
-            async function (event) {
-                event.preventDefault();
+    batalPegawaiBtn?.addEventListener(
+        "click",
+        function() {
+            tutupModal(pegawaiModal);
+        }
+    );
 
-                const nama =
-                    pegawaiNama
-                        .value
-                        .trim();
 
-                const nip =
-                    pegawaiNip
-                        .value
-                        .trim();
+    pegawaiForm?.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
 
-                const email =
-                    pegawaiEmail
-                        .value
-                        .trim();
+            const nama =
+                pegawaiNama.value.trim();
 
-                const status =
-                    pegawaiStatus
-                        .value;
+            const nip =
+                pegawaiNip.value.trim();
 
-                if (!nama) {
-                    await tampilkanDialogInfo(
-                        "Nama pegawai wajib diisi.",
-                        {
-                            judul:
-                                "Data Belum Lengkap"
-                        }
-                    );
+            const email =
+                pegawaiEmail.value.trim();
 
-                    return;
-                }
+            const status =
+                pegawaiStatus.value;
 
-                if (
-                    !/^\d{18}$/.test(
-                        nip
-                    )
-                ) {
-                    await tampilkanDialogInfo(
-                        "NIP harus tepat 18 digit angka.",
-                        {
-                            judul:
-                                "NIP Tidak Valid"
-                        }
-                    );
-
-                    return;
-                }
-
-                simpanPegawaiBtn.disabled =
-                    true;
-
-                simpanPegawaiBtn.textContent =
-                    "Menyimpan...";
-
-                try {
-                    const hasil =
-                        await postAdmin({
-                            action:
-                                "simpanPegawai",
-
-                            id:
-                                pegawaiId.value,
-
-                            nama:
-                                nama,
-
-                            nip:
-                                nip,
-
-                            email:
-                                email,
-
-                            status:
-                                status
-                        });
-
-                    if (!hasil.berhasil) {
-                        throw new Error(
-                            hasil.pesan ||
-                            "Pegawai gagal disimpan."
-                        );
+            if (!nama) {
+                await tampilkanDialogInfo(
+                    "Nama pegawai wajib diisi.",
+                    {
+                        judul:
+                            "Data Belum Lengkap"
                     }
+                );
 
-                    tutupModal(
-                        pegawaiModal
-                    );
-
-                    await ambilPegawaiAdmin();
-
-                    await tampilkanDialogInfo(
-                        hasil.pesan ||
-                        "Data pegawai berhasil disimpan.",
-                        {
-                            judul:
-                                "Pegawai Tersimpan"
-                        }
-                    );
-
-                } catch (error) {
-                    console.error(error);
-
-                    await tampilkanDialogInfo(
-                        error.message,
-                        {
-                            judul:
-                                "Gagal Menyimpan"
-                        }
-                    );
-
-                } finally {
-                    simpanPegawaiBtn.disabled =
-                        false;
-
-                    simpanPegawaiBtn.textContent =
-                        "Simpan";
-                }
+                return;
             }
-        );
+
+            if (!/^\d{18}$/.test(nip)) {
+                await tampilkanDialogInfo(
+                    "NIP harus tepat 18 digit angka.",
+                    {
+                        judul:
+                            "NIP Tidak Valid"
+                    }
+                );
+
+                return;
+            }
+
+            simpanPegawaiBtn.disabled = true;
+            simpanPegawaiBtn.textContent =
+                "Menyimpan...";
+
+            try {
+                const hasil =
+                    await postAdmin({
+                        action: "simpanPegawai",
+                        id: pegawaiId.value,
+                        nama: nama,
+                        nip: nip,
+                        email: email,
+                        status: status
+                    });
+
+                if (!hasil.berhasil) {
+                    throw new Error(
+                        hasil.pesan ||
+                        "Pegawai gagal disimpan."
+                    );
+                }
+
+                tutupModal(pegawaiModal);
+                await ambilPegawaiAdmin();
+
+                await tampilkanDialogInfo(
+                    hasil.pesan ||
+                    "Data pegawai berhasil disimpan.",
+                    {
+                        judul:
+                            "Pegawai Tersimpan"
+                    }
+                );
+
+            } catch (error) {
+                console.error(error);
+
+                await tampilkanDialogInfo(
+                    error.message,
+                    {
+                        judul:
+                            "Gagal Menyimpan"
+                    }
+                );
+
+            } finally {
+                simpanPegawaiBtn.disabled = false;
+                simpanPegawaiBtn.textContent =
+                    "Simpan";
+            }
+        }
+    );
+
 
     async function ubahStatusPegawaiAdmin(
         id,
         status
     ) {
         const pegawai =
-            daftarPegawaiAdmin.find(
-                function (item) {
-                    return (
-                        String(
-                            item.id
-                        ) ===
-                        String(id)
-                    );
-                }
-            );
+            daftarPegawaiAdmin.find(function(item) {
+                return (
+                    String(item.id) ===
+                    String(id)
+                );
+            });
 
-        if (!pegawai) {
-            return;
-        }
+        if (!pegawai) return;
 
         const akanAktif =
-            status ===
-            "Aktif";
+            status === "Aktif";
 
         const yakin =
             await tampilkanDialogKonfirmasi(
@@ -3900,7 +2975,6 @@ if (
                     : "Akun " +
                       pegawai.nama +
                       " akan dinonaktifkan dan tidak dapat digunakan untuk login.",
-
                 {
                     judul:
                         akanAktif
@@ -3925,9 +2999,7 @@ if (
                 }
             );
 
-        if (!yakin) {
-            return;
-        }
+        if (!yakin) return;
 
         try {
             const hasil =
@@ -3978,37 +3050,24 @@ if (
             );
         }
     }
-
-    /* =====================================================
+        /* =====================================================
        KETERANGAN ADMIN
     ===================================================== */
-        async function ambilKeteranganAdmin() {
+
+    async function ambilKeteranganAdmin() {
         if (dataKeteranganAdmin) {
             dataKeteranganAdmin.innerHTML =
                 '<tr><td colspan="7" class="loading-cell">Memuat data keterangan...</td></tr>';
         }
 
         try {
-            const hasil =
-                await postAdmin({
-                    action:
-                        "ambilKeteranganAdmin"
-                });
+            const hasil = await postAdmin({ action: "ambilKeteranganAdmin" });
 
             if (!hasil.berhasil) {
-                throw new Error(
-                    hasil.pesan ||
-                    "Data keterangan gagal dimuat."
-                );
+                throw new Error(hasil.pesan || "Data keterangan gagal dimuat.");
             }
 
-            daftarKeteranganAdmin =
-                Array.isArray(
-                    hasil.data
-                )
-                    ? hasil.data
-                    : [];
-
+            daftarKeteranganAdmin = Array.isArray(hasil.data) ? hasil.data : [];
             tampilkanKeteranganAdmin();
 
         } catch (error) {
@@ -4017,521 +3076,243 @@ if (
             if (dataKeteranganAdmin) {
                 dataKeteranganAdmin.innerHTML =
                     '<tr><td colspan="7" class="empty-cell">' +
-                    escapeHTML(
-                        error.message
-                    ) +
+                    escapeHTML(error.message) +
                     "</td></tr>";
             }
         }
     }
 
+
     function tampilkanKeteranganAdmin() {
-        const cari =
-            cariKeteranganAdmin
-                ?.value
-                .trim()
-                .toLowerCase() ||
-            "";
+        const cari = cariKeteranganAdmin?.value.trim().toLowerCase() || "";
+        const filterStatus = filterStatusKeterangan?.value || "";
 
-        const filterStatus =
-            filterStatusKeterangan
-                ?.value ||
-            "";
+        const hasilFilter = daftarKeteranganAdmin.filter(function(item) {
+            const cocokCari =
+                !cari ||
+                String(item.nama || "").toLowerCase().includes(cari) ||
+                String(item.nip || "").toLowerCase().includes(cari) ||
+                String(item.jenis || "").toLowerCase().includes(cari) ||
+                namaJenisKeteranganAdmin(item.jenis).toLowerCase().includes(cari) ||
+                String(item.keterangan || "").toLowerCase().includes(cari);
 
-        const hasilFilter =
-            daftarKeteranganAdmin.filter(
-                function (item) {
-                    const cocokCari =
-                        !cari ||
+            const cocokStatus =
+                !filterStatus ||
+                String(item.status || "") === filterStatus;
 
-                        String(
-                            item.nama ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            ) ||
-
-                        String(
-                            item.nip ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            ) ||
-
-                        String(
-                            item.jenis ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            ) ||
-
-                        namaJenisKeteranganAdmin(
-                            item.jenis
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            ) ||
-
-                        String(
-                            item.keterangan ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                cari
-                            );
-
-                    const cocokStatus =
-                        !filterStatus ||
-                        String(
-                            item.status ||
-                            ""
-                        ) ===
-                        filterStatus;
-
-                    return (
-                        cocokCari &&
-                        cocokStatus
-                    );
-                }
-            );
+            return cocokCari && cocokStatus;
+        });
 
         updateStatKeteranganAdmin();
 
         if (jumlahKeteranganText) {
             jumlahKeteranganText.textContent =
-                hasilFilter.length +
-                " keterangan ditemukan";
+                hasilFilter.length + " keterangan ditemukan";
         }
 
-        if (!dataKeteranganAdmin) {
-            return;
-        }
+        if (!dataKeteranganAdmin) return;
 
         if (!hasilFilter.length) {
             dataKeteranganAdmin.innerHTML =
                 '<tr><td colspan="7" class="empty-cell">Tidak ada data keterangan.</td></tr>';
-
             return;
         }
 
-        dataKeteranganAdmin.innerHTML =
-            hasilFilter.map(
-                function (item) {
-                    const status =
-                        String(
-                            item.status ||
-                            "Menunggu"
-                        );
+        dataKeteranganAdmin.innerHTML = hasilFilter.map(function(item) {
+            const status = String(item.status || "Menunggu");
+            const jenis = namaJenisKeteranganAdmin(item.jenis);
 
-                    const jenis =
-                        namaJenisKeteranganAdmin(
-                            item.jenis
-                        );
+            let aksi = "-";
 
-                    let aksi =
-                        "-";
+            if (status === "Menunggu") {
+                aksi = `
+                    <div class="keterangan-action-container">
+                        <button
+                            type="button"
+                            class="keterangan-setujui-btn"
+                            data-id="${escapeHTML(item.id || "")}">
+                            Setujui
+                        </button>
 
-                    if (
-                        status ===
-                        "Menunggu"
-                    ) {
-                        aksi = `
-                            <div class="keterangan-action-container">
+                        <button
+                            type="button"
+                            class="keterangan-tolak-btn"
+                            data-id="${escapeHTML(item.id || "")}">
+                            Tolak
+                        </button>
+                    </div>
+                `;
+            }
 
-                                <button
-                                    type="button"
-                                    class="keterangan-setujui-btn"
-                                    data-id="${escapeHTML(item.id || "")}"
-                                >
-                                    Setujui
-                                </button>
+            return `
+                <tr>
+                    <td>${escapeHTML(formatWaktu(item.waktu))}</td>
+                    <td>${escapeHTML(item.nama || "-")}</td>
+                    <td>${escapeHTML(item.nip || "-")}</td>
 
-                                <button
-                                    type="button"
-                                    class="keterangan-tolak-btn"
-                                    data-id="${escapeHTML(item.id || "")}"
-                                >
-                                    Tolak
-                                </button>
+                    <td>
+                        <span class="keterangan-jenis-badge">
+                            ${escapeHTML(jenis)}
+                        </span>
+                    </td>
 
-                            </div>
-                        `;
-                    }
+                    <td class="keterangan-text-cell">
+                        ${escapeHTML(item.keterangan || "-")}
+                    </td>
 
-                    return `
-                        <tr>
+                    <td>
+                        <span class="keterangan-status-badge ${kelasStatusKeteranganAdmin(status)}">
+                            ${escapeHTML(status)}
+                        </span>
+                    </td>
 
-                            <td>
-                                ${escapeHTML(
-                                    formatWaktu(
-                                        item.waktu
-                                    )
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHTML(
-                                    item.nama ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHTML(
-                                    item.nip ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                <span class="keterangan-jenis-badge">
-                                    ${escapeHTML(jenis)}
-                                </span>
-                            </td>
-
-                            <td class="keterangan-text-cell">
-                                ${escapeHTML(
-                                    item.keterangan ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                <span class="keterangan-status-badge ${kelasStatusKeteranganAdmin(status)}">
-                                    ${escapeHTML(status)}
-                                </span>
-                            </td>
-
-                            <td>
-                                ${aksi}
-                            </td>
-
-                        </tr>
-                    `;
-                }
-            ).join("");
+                    <td>${aksi}</td>
+                </tr>
+            `;
+        }).join("");
 
         dataKeteranganAdmin
-            .querySelectorAll(
-                ".keterangan-setujui-btn"
-            )
-            .forEach(
-                function (button) {
-                    button.addEventListener(
-                        "click",
-                        async function () {
-                            await verifikasiKeteranganAdmin(
-                                button.dataset.id,
-                                "Disetujui"
-                            );
-                        }
-                    );
-                }
-            );
-
-        dataKeteranganAdmin
-            .querySelectorAll(
-                ".keterangan-tolak-btn"
-            )
-            .forEach(
-                function (button) {
-                    button.addEventListener(
-                        "click",
-                        async function () {
-                            await verifikasiKeteranganAdmin(
-                                button.dataset.id,
-                                "Ditolak"
-                            );
-                        }
-                    );
-                }
-            );
-    }
-
-    function updateStatKeteranganAdmin() {
-        const total =
-            daftarKeteranganAdmin.length;
-
-        const menunggu =
-            daftarKeteranganAdmin.filter(
-                function (item) {
-                    return (
-                        String(
-                            item.status ||
-                            ""
-                        ) ===
-                        "Menunggu"
-                    );
-                }
-            ).length;
-
-        const disetujui =
-            daftarKeteranganAdmin.filter(
-                function (item) {
-                    return (
-                        String(
-                            item.status ||
-                            ""
-                        ) ===
+            .querySelectorAll(".keterangan-setujui-btn")
+            .forEach(function(button) {
+                button.addEventListener("click", async function() {
+                    await verifikasiKeteranganAdmin(
+                        button.dataset.id,
                         "Disetujui"
                     );
-                }
-            ).length;
+                });
+            });
 
-        const ditolak =
-            daftarKeteranganAdmin.filter(
-                function (item) {
-                    return (
-                        String(
-                            item.status ||
-                            ""
-                        ) ===
+        dataKeteranganAdmin
+            .querySelectorAll(".keterangan-tolak-btn")
+            .forEach(function(button) {
+                button.addEventListener("click", async function() {
+                    await verifikasiKeteranganAdmin(
+                        button.dataset.id,
                         "Ditolak"
                     );
-                }
-            ).length;
-
-        if (totalKeteranganAdmin) {
-            totalKeteranganAdmin.textContent =
-                total;
-        }
-
-        if (totalKeteranganMenunggu) {
-            totalKeteranganMenunggu.textContent =
-                menunggu;
-        }
-
-        if (totalKeteranganDisetujui) {
-            totalKeteranganDisetujui.textContent =
-                disetujui;
-        }
-
-        if (totalKeteranganDitolak) {
-            totalKeteranganDitolak.textContent =
-                ditolak;
-        }
+                });
+            });
     }
 
-    function namaJenisKeteranganAdmin(
-        kode
-    ) {
+
+    function updateStatKeteranganAdmin() {
+        const total = daftarKeteranganAdmin.length;
+
+        const menunggu = daftarKeteranganAdmin.filter(
+            item => String(item.status || "") === "Menunggu"
+        ).length;
+
+        const disetujui = daftarKeteranganAdmin.filter(
+            item => String(item.status || "") === "Disetujui"
+        ).length;
+
+        const ditolak = daftarKeteranganAdmin.filter(
+            item => String(item.status || "") === "Ditolak"
+        ).length;
+
+        if (totalKeteranganAdmin) totalKeteranganAdmin.textContent = total;
+        if (totalKeteranganMenunggu) totalKeteranganMenunggu.textContent = menunggu;
+        if (totalKeteranganDisetujui) totalKeteranganDisetujui.textContent = disetujui;
+        if (totalKeteranganDitolak) totalKeteranganDitolak.textContent = ditolak;
+    }
+
+
+    function namaJenisKeteranganAdmin(kode) {
         const daftar = {
-            S:
-                "Sakit",
-
-            CT:
-                "Cuti",
-
-            DD:
-                "Dinas Dalam",
-
-            DL:
-                "Dinas Luar",
-
-            IM:
-                "Isolasi Mandiri",
-
-            WFH:
-                "Work from Home",
-
-            MPP:
-                "Masa Persiapan Pensiun"
+            S: "Sakit",
+            CT: "Cuti",
+            DD: "Dinas Dalam",
+            DL: "Dinas Luar",
+            IM: "Isolasi Mandiri",
+            WFH: "Work from Home",
+            MPP: "Masa Persiapan Pensiun"
         };
 
-        const nilai =
-            String(
-                kode ||
-                ""
-            )
-                .trim()
-                .toUpperCase();
-
-        return (
-            daftar[nilai] ||
-            nilai ||
-            "-"
-        );
+        const nilai = String(kode || "").trim().toUpperCase();
+        return daftar[nilai] || nilai || "-";
     }
 
-    function kelasStatusKeteranganAdmin(
-        status
-    ) {
-        const nilai =
-            String(
-                status ||
-                ""
-            )
-                .trim()
-                .toLowerCase();
 
-        if (
-            nilai ===
-            "menunggu"
-        ) {
-            return "status-menunggu";
-        }
+    function kelasStatusKeteranganAdmin(status) {
+        const nilai = String(status || "").trim().toLowerCase();
 
-        if (
-            nilai ===
-            "disetujui"
-        ) {
-            return "status-disetujui";
-        }
-
-        if (
-            nilai ===
-            "ditolak"
-        ) {
-            return "status-ditolak";
-        }
-
-        if (
-            nilai ===
-            "dibatalkan"
-        ) {
-            return "status-dibatalkan";
-        }
+        if (nilai === "menunggu") return "status-menunggu";
+        if (nilai === "disetujui") return "status-disetujui";
+        if (nilai === "ditolak") return "status-ditolak";
+        if (nilai === "dibatalkan") return "status-dibatalkan";
 
         return "";
     }
 
-    async function verifikasiKeteranganAdmin(
-        id,
-        statusBaru
-    ) {
-        const item =
-            daftarKeteranganAdmin.find(
-                function (data) {
-                    return (
-                        String(
-                            data.id
-                        ) ===
-                        String(id)
-                    );
-                }
-            );
+
+    async function verifikasiKeteranganAdmin(id, statusBaru) {
+        const item = daftarKeteranganAdmin.find(
+            data => String(data.id) === String(id)
+        );
 
         if (!item) {
             await tampilkanDialogInfo(
                 "Data keterangan tidak ditemukan. Muat ulang data lalu coba kembali.",
-                {
-                    judul:
-                        "Data Tidak Ditemukan"
-                }
+                { judul: "Data Tidak Ditemukan" }
             );
-
             return;
         }
 
-        if (
-            String(
-                item.status
-            ) !==
-            "Menunggu"
-        ) {
+        if (String(item.status) !== "Menunggu") {
             await tampilkanDialogInfo(
                 "Keterangan ini sudah tidak berstatus Menunggu sehingga tidak dapat diverifikasi lagi.",
-                {
-                    judul:
-                        "Status Sudah Berubah"
-                }
+                { judul: "Status Sudah Berubah" }
             );
 
             await ambilKeteranganAdmin();
-
             return;
         }
 
-        const disetujui =
-            statusBaru ===
-            "Disetujui";
+        const disetujui = statusBaru === "Disetujui";
 
-        const yakin =
-            await tampilkanDialogKonfirmasi(
-                item.nama +
-                "\n" +
-                namaJenisKeteranganAdmin(
-                    item.jenis
-                ) +
-                "\n\n" +
-                item.keterangan,
+        const yakin = await tampilkanDialogKonfirmasi(
+            item.nama +
+            "\n" +
+            namaJenisKeteranganAdmin(item.jenis) +
+            "\n\n" +
+            item.keterangan,
+            {
+                judul: disetujui
+                    ? "Setujui Keterangan?"
+                    : "Tolak Keterangan?",
 
-                {
-                    judul:
-                        disetujui
-                            ? "Setujui Keterangan?"
-                            : "Tolak Keterangan?",
+                icon: disetujui ? "✓" : "!",
+                bahaya: !disetujui,
 
-                    icon:
-                        disetujui
-                            ? "✓"
-                            : "!",
+                teksKonfirmasi: disetujui
+                    ? "Setujui Keterangan"
+                    : "Tolak Keterangan",
 
-                    bahaya:
-                        !disetujui,
+                teksBatal: "Batal"
+            }
+        );
 
-                    teksKonfirmasi:
-                        disetujui
-                            ? "Setujui Keterangan"
-                            : "Tolak Keterangan",
-
-                    teksBatal:
-                        "Batal"
-                }
-            );
-
-        if (!yakin) {
-            return;
-        }
+        if (!yakin) return;
 
         const selectorId =
             typeof CSS !== "undefined" &&
             typeof CSS.escape === "function"
-                ? CSS.escape(
-                    String(id)
-                )
-                : String(id)
-                    .replace(
-                        /["\\]/g,
-                        "\\$&"
-                    );
+                ? CSS.escape(String(id))
+                : String(id).replace(/["\\]/g, "\\$&");
 
         const semuaTombol =
-            dataKeteranganAdmin
-                ?.querySelectorAll(
-                    '[data-id="' +
-                    selectorId +
-                    '"]'
-                ) ||
-            [];
+            dataKeteranganAdmin?.querySelectorAll(
+                '[data-id="' + selectorId + '"]'
+            ) || [];
 
-        semuaTombol.forEach(
-            function (button) {
-                button.disabled =
-                    true;
-            }
-        );
+        semuaTombol.forEach(button => button.disabled = true);
 
         try {
-            const hasil =
-                await postAdmin({
-                    action:
-                        "verifikasiKeteranganAdmin",
-
-                    id:
-                        id,
-
-                    status:
-                        statusBaru
-                });
+            const hasil = await postAdmin({
+                action: "verifikasiKeteranganAdmin",
+                id: id,
+                status: statusBaru
+            });
 
             if (!hasil.berhasil) {
                 throw new Error(
@@ -4550,10 +3331,9 @@ if (
                         : "Keterangan berhasil ditolak."
                 ),
                 {
-                    judul:
-                        disetujui
-                            ? "Keterangan Disetujui"
-                            : "Keterangan Ditolak"
+                    judul: disetujui
+                        ? "Keterangan Disetujui"
+                        : "Keterangan Ditolak"
                 }
             );
 
@@ -4562,503 +3342,312 @@ if (
 
             await tampilkanDialogInfo(
                 error.message,
-                {
-                    judul:
-                        "Verifikasi Gagal"
-                }
+                { judul: "Verifikasi Gagal" }
             );
 
             await ambilKeteranganAdmin();
         }
     }
 
-    cariKeteranganAdmin
-        ?.addEventListener(
-            "input",
-            tampilkanKeteranganAdmin
-        );
 
-    filterStatusKeterangan
-        ?.addEventListener(
-            "change",
-            tampilkanKeteranganAdmin
-        );
+    cariKeteranganAdmin?.addEventListener(
+        "input",
+        tampilkanKeteranganAdmin
+    );
+
+    filterStatusKeterangan?.addEventListener(
+        "change",
+        tampilkanKeteranganAdmin
+    );
+
 
     /* =====================================================
        ABSENSI MANUAL ADMIN
     ===================================================== */
 
     const absensiManualModal =
-        document.getElementById(
-            "absensiManualModal"
-        );
+        document.getElementById("absensiManualModal");
 
     const tutupAbsensiManualBtn =
-        document.getElementById(
-            "tutupAbsensiManualBtn"
-        );
+        document.getElementById("tutupAbsensiManualBtn");
 
     const absensiManualForm =
-        document.getElementById(
-            "absensiManualForm"
-        );
+        document.getElementById("absensiManualForm");
 
     const manualPegawai =
-        document.getElementById(
-            "manualPegawai"
-        );
+        document.getElementById("manualPegawai");
 
     const manualJenisAbsen =
-        document.getElementById(
-            "manualJenisAbsen"
-        );
+        document.getElementById("manualJenisAbsen");
 
     const manualTanggal =
-        document.getElementById(
-            "manualTanggal"
-        );
+        document.getElementById("manualTanggal");
 
     const manualWaktu =
-        document.getElementById(
-            "manualWaktu"
-        );
+        document.getElementById("manualWaktu");
 
     const manualAlasan =
-        document.getElementById(
-            "manualAlasan"
-        );
+        document.getElementById("manualAlasan");
 
     const batalAbsensiManualBtn =
-        document.getElementById(
-            "batalAbsensiManualBtn"
-        );
+        document.getElementById("batalAbsensiManualBtn");
 
     const simpanAbsensiManualBtn =
-        document.getElementById(
-            "simpanAbsensiManualBtn"
-        );
+        document.getElementById("simpanAbsensiManualBtn");
 
-    absensiManualBtn
-        ?.addEventListener(
-            "click",
-            async function () {
-                if (
-                    !daftarPegawaiAdmin.length
-                ) {
-                    await ambilPegawaiAdmin();
-                }
 
-                isiPilihanPegawaiManual();
-
-                if (manualTanggal) {
-                    manualTanggal.value =
-                        tanggalWITAHariIni();
-                }
-
-                if (manualWaktu) {
-                    manualWaktu.value =
-                        waktuWITASekarang();
-                }
-
-                if (manualJenisAbsen) {
-                    manualJenisAbsen.value =
-                        "Masuk";
-                }
-
-                if (manualAlasan) {
-                    manualAlasan.value =
-                        "";
-                }
-
-                bukaModal(
-                    absensiManualModal
-                );
+    absensiManualBtn?.addEventListener(
+        "click",
+        async function() {
+            if (!daftarPegawaiAdmin.length) {
+                await ambilPegawaiAdmin();
             }
-        );
+
+            isiPilihanPegawaiManual();
+
+            if (manualTanggal) {
+                manualTanggal.value = tanggalWITAHariIni();
+            }
+
+            if (manualWaktu) {
+                manualWaktu.value = waktuWITASekarang();
+            }
+
+            if (manualJenisAbsen) {
+                manualJenisAbsen.value = "Masuk";
+            }
+
+            if (manualAlasan) {
+                manualAlasan.value = "";
+            }
+
+            bukaModal(absensiManualModal);
+        }
+    );
+
 
     function isiPilihanPegawaiManual() {
-        if (!manualPegawai) {
-            return;
-        }
+        if (!manualPegawai) return;
 
-        const pegawaiAktif =
-            daftarPegawaiAdmin
-                .filter(
-                    function (pegawai) {
-                        return (
-                            String(
-                                pegawai.status ||
-                                "Aktif"
-                            ) ===
-                            "Aktif"
-                        );
-                    }
-                )
-                .sort(
-                    function (a, b) {
-                        return String(
-                            a.nama ||
-                            ""
-                        ).localeCompare(
-                            String(
-                                b.nama ||
-                                ""
-                            ),
-                            "id"
-                        );
-                    }
-                );
+        const pegawaiAktif = daftarPegawaiAdmin
+            .filter(
+                pegawai =>
+                    String(pegawai.status || "Aktif") === "Aktif"
+            )
+            .sort(
+                (a, b) =>
+                    String(a.nama || "").localeCompare(
+                        String(b.nama || ""),
+                        "id"
+                    )
+            );
 
         manualPegawai.innerHTML =
             '<option value="">Pilih pegawai</option>' +
-
-            pegawaiAktif.map(
-                function (pegawai) {
-                    return (
-                        '<option value="' +
-
-                        escapeHTML(
-                            pegawai.nip ||
-                            ""
-                        ) +
-
-                        '">' +
-
-                        escapeHTML(
-                            pegawai.nama ||
-                            "-"
-                        ) +
-
-                        " — " +
-
-                        escapeHTML(
-                            pegawai.nip ||
-                            ""
-                        ) +
-
-                        "</option>"
-                    );
-                }
-            ).join("");
+            pegawaiAktif.map(function(pegawai) {
+                return (
+                    '<option value="' +
+                    escapeHTML(pegawai.nip || "") +
+                    '">' +
+                    escapeHTML(pegawai.nama || "-") +
+                    " — " +
+                    escapeHTML(pegawai.nip || "") +
+                    "</option>"
+                );
+            }).join("");
     }
 
-    tutupAbsensiManualBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                tutupModal(
-                    absensiManualModal
+
+    tutupAbsensiManualBtn?.addEventListener(
+        "click",
+        () => tutupModal(absensiManualModal)
+    );
+
+    batalAbsensiManualBtn?.addEventListener(
+        "click",
+        () => tutupModal(absensiManualModal)
+    );
+
+
+    absensiManualForm?.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const nip = manualPegawai.value;
+            const jenisAbsen = manualJenisAbsen.value;
+            const tanggal = manualTanggal.value;
+            const waktu = manualWaktu.value;
+            const alasan = manualAlasan.value.trim();
+
+            if (!nip || !jenisAbsen || !tanggal || !waktu || !alasan) {
+                await tampilkanDialogInfo(
+                    "Pegawai, jenis absensi, tanggal, waktu, dan alasan wajib diisi.",
+                    { judul: "Absensi Belum Lengkap" }
                 );
+                return;
             }
-        );
 
-    batalAbsensiManualBtn
-        ?.addEventListener(
-            "click",
-            function () {
-                tutupModal(
-                    absensiManualModal
+            const pegawaiDipilih = daftarPegawaiAdmin.find(
+                pegawai => String(pegawai.nip) === String(nip)
+            );
+
+            const yakin = await tampilkanDialogKonfirmasi(
+                (pegawaiDipilih?.nama || nip) +
+                "\n" +
+                jenisAbsen +
+                " · " +
+                tanggal +
+                " " +
+                waktu +
+                " WITA\n\nAlasan: " +
+                alasan,
+                {
+                    judul: "Simpan Absensi Manual?",
+                    icon: "✓",
+                    teksKonfirmasi: "Ya, Simpan",
+                    teksBatal: "Batal"
+                }
+            );
+
+            if (!yakin) return;
+
+            simpanAbsensiManualBtn.disabled = true;
+            simpanAbsensiManualBtn.textContent = "Menyimpan...";
+
+            try {
+                const hasil = await postAdmin(
+                    {
+                        action: "absensiManual",
+                        nip: nip,
+                        jenisAbsen: jenisAbsen,
+                        tanggal: tanggal,
+                        waktu: waktu,
+                        alasan: alasan
+                    },
+                    30000
                 );
-            }
-        );
 
-    absensiManualForm
-        ?.addEventListener(
-            "submit",
-            async function (event) {
-                event.preventDefault();
-
-                const nip =
-                    manualPegawai.value;
-
-                const jenisAbsen =
-                    manualJenisAbsen.value;
-
-                const tanggal =
-                    manualTanggal.value;
-
-                const waktu =
-                    manualWaktu.value;
-
-                const alasan =
-                    manualAlasan
-                        .value
-                        .trim();
-
-                if (
-                    !nip ||
-                    !jenisAbsen ||
-                    !tanggal ||
-                    !waktu ||
-                    !alasan
-                ) {
-                    await tampilkanDialogInfo(
-                        "Pegawai, jenis absensi, tanggal, waktu, dan alasan wajib diisi.",
-                        {
-                            judul:
-                                "Absensi Belum Lengkap"
-                        }
-                    );
-
-                    return;
-                }
-
-                const pegawaiDipilih =
-                    daftarPegawaiAdmin.find(
-                        function (pegawai) {
-                            return (
-                                String(
-                                    pegawai.nip
-                                ) ===
-                                String(nip)
-                            );
-                        }
-                    );
-
-                const yakin =
-                    await tampilkanDialogKonfirmasi(
-                        (
-                            pegawaiDipilih?.nama ||
-                            nip
-                        ) +
-                        "\n" +
-                        jenisAbsen +
-                        " · " +
-                        tanggal +
-                        " " +
-                        waktu +
-                        " WITA\n\nAlasan: " +
-                        alasan,
-
-                        {
-                            judul:
-                                "Simpan Absensi Manual?",
-
-                            icon:
-                                "✓",
-
-                            teksKonfirmasi:
-                                "Ya, Simpan",
-
-                            teksBatal:
-                                "Batal"
-                        }
-                    );
-
-                if (!yakin) {
-                    return;
-                }
-
-                simpanAbsensiManualBtn.disabled =
-                    true;
-
-                simpanAbsensiManualBtn.textContent =
-                    "Menyimpan...";
-
-                try {
-                    const hasil =
-                        await postAdmin(
-                            {
-                                action:
-                                    "absensiManual",
-
-                                nip:
-                                    nip,
-
-                                jenisAbsen:
-                                    jenisAbsen,
-
-                                tanggal:
-                                    tanggal,
-
-                                waktu:
-                                    waktu,
-
-                                alasan:
-                                    alasan
-                            },
-                            30000
-                        );
-
-                    if (!hasil.berhasil) {
-                        throw new Error(
-                            hasil.pesan ||
-                            "Absensi manual gagal disimpan."
-                        );
-                    }
-
-                    tutupModal(
-                        absensiManualModal
-                    );
-
-                    if (filterTanggal) {
-                        filterTanggal.value =
-                            tanggal;
-                    }
-
-                    tampilkanHalamanAdmin(
-                        "absensi"
-                    );
-
-                    await ambilAbsensiAdmin();
-
-                    await tampilkanDialogInfo(
+                if (!hasil.berhasil) {
+                    throw new Error(
                         hasil.pesan ||
-                        "Absensi manual berhasil disimpan.",
-                        {
-                            judul:
-                                "Absensi Tersimpan"
-                        }
+                        "Absensi manual gagal disimpan."
                     );
-
-                } catch (error) {
-                    console.error(error);
-
-                    await tampilkanDialogInfo(
-                        error.message,
-                        {
-                            judul:
-                                "Absensi Manual Gagal"
-                        }
-                    );
-
-                } finally {
-                    simpanAbsensiManualBtn.disabled =
-                        false;
-
-                    simpanAbsensiManualBtn.textContent =
-                        "Simpan";
                 }
+
+                tutupModal(absensiManualModal);
+
+                if (filterTanggal) {
+                    filterTanggal.value = tanggal;
+                }
+
+                tampilkanHalamanAdmin("absensi");
+                await ambilAbsensiAdmin();
+
+                await tampilkanDialogInfo(
+                    hasil.pesan ||
+                    "Absensi manual berhasil disimpan.",
+                    { judul: "Absensi Tersimpan" }
+                );
+
+            } catch (error) {
+                console.error(error);
+
+                await tampilkanDialogInfo(
+                    error.message,
+                    { judul: "Absensi Manual Gagal" }
+                );
+
+            } finally {
+                simpanAbsensiManualBtn.disabled = false;
+                simpanAbsensiManualBtn.textContent = "Simpan";
             }
-        );
+        }
+    );
+
 
     /* =====================================================
        PASSWORD ADMIN
     ===================================================== */
 
-    gantiPasswordAdminForm
-        ?.addEventListener(
-            "submit",
-            async function (event) {
-                event.preventDefault();
+    gantiPasswordAdminForm?.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
 
-                const passwordLama =
-                    passwordAdminLama.value;
+            const passwordLama = passwordAdminLama.value;
+            const passwordBaru = passwordAdminBaru.value;
+            const konfirmasi = konfirmasiPasswordAdmin.value;
 
-                const passwordBaru =
-                    passwordAdminBaru.value;
-
-                const konfirmasi =
-                    konfirmasiPasswordAdmin.value;
-
-                if (
-                    !passwordLama ||
-                    !passwordBaru ||
-                    !konfirmasi
-                ) {
-                    setStatusPassword(
-                        "Semua kolom wajib diisi.",
-                        false
-                    );
-
-                    return;
-                }
-
-                if (
-                    passwordBaru.length <
-                    8
-                ) {
-                    setStatusPassword(
-                        "Password baru minimal 8 karakter.",
-                        false
-                    );
-
-                    return;
-                }
-
-                if (
-                    passwordBaru !==
-                    konfirmasi
-                ) {
-                    setStatusPassword(
-                        "Konfirmasi password tidak sama.",
-                        false
-                    );
-
-                    return;
-                }
-
-                simpanPasswordAdminBtn.disabled =
-                    true;
-
-                simpanPasswordAdminBtn.textContent =
-                    "Menyimpan...";
-
-                try {
-                    const hasil =
-                        await postAdmin({
-                            action:
-                                "gantiPasswordAdmin",
-
-                            passwordLama:
-                                passwordLama,
-
-                            passwordBaru:
-                                passwordBaru
-                        });
-
-                    if (!hasil.berhasil) {
-                        throw new Error(
-                            hasil.pesan ||
-                            "Password gagal diubah."
-                        );
-                    }
-
-                    gantiPasswordAdminForm.reset();
-
-                    setStatusPassword(
-                        hasil.pesan ||
-                        "Password berhasil diubah ✓",
-                        true
-                    );
-
-                    await tampilkanDialogInfo(
-                        hasil.pesan ||
-                        "Password admin berhasil diubah.",
-                        {
-                            judul:
-                                "Password Berhasil Diubah"
-                        }
-                    );
-
-                } catch (error) {
-                    console.error(error);
-
-                    setStatusPassword(
-                        error.message,
-                        false
-                    );
-
-                } finally {
-                    simpanPasswordAdminBtn.disabled =
-                        false;
-
-                    simpanPasswordAdminBtn.textContent =
-                        "Simpan Password";
-                }
+            if (!passwordLama || !passwordBaru || !konfirmasi) {
+                setStatusPassword("Semua kolom wajib diisi.", false);
+                return;
             }
-        );
 
-    function setStatusPassword(
-        pesan,
-        berhasil
-    ) {
-        if (!passwordAdminStatus) {
-            return;
+            if (passwordBaru.length < 8) {
+                setStatusPassword(
+                    "Password baru minimal 8 karakter.",
+                    false
+                );
+                return;
+            }
+
+            if (passwordBaru !== konfirmasi) {
+                setStatusPassword(
+                    "Konfirmasi password tidak sama.",
+                    false
+                );
+                return;
+            }
+
+            simpanPasswordAdminBtn.disabled = true;
+            simpanPasswordAdminBtn.textContent = "Menyimpan...";
+
+            try {
+                const hasil = await postAdmin({
+                    action: "gantiPasswordAdmin",
+                    passwordLama: passwordLama,
+                    passwordBaru: passwordBaru
+                });
+
+                if (!hasil.berhasil) {
+                    throw new Error(
+                        hasil.pesan ||
+                        "Password gagal diubah."
+                    );
+                }
+
+                gantiPasswordAdminForm.reset();
+
+                setStatusPassword(
+                    hasil.pesan ||
+                    "Password berhasil diubah ✓",
+                    true
+                );
+
+                await tampilkanDialogInfo(
+                    hasil.pesan ||
+                    "Password admin berhasil diubah.",
+                    { judul: "Password Berhasil Diubah" }
+                );
+
+            } catch (error) {
+                console.error(error);
+                setStatusPassword(error.message, false);
+
+            } finally {
+                simpanPasswordAdminBtn.disabled = false;
+                simpanPasswordAdminBtn.textContent =
+                    "Simpan Password";
+            }
         }
+    );
 
-        passwordAdminStatus.textContent =
-            pesan;
+
+    function setStatusPassword(pesan, berhasil) {
+        if (!passwordAdminStatus) return;
+
+        passwordAdminStatus.textContent = pesan;
 
         passwordAdminStatus.style.color =
             berhasil
@@ -5066,122 +3655,78 @@ if (
                 : "var(--red)";
     }
 
+
     /* =====================================================
        LOGOUT ADMIN
     ===================================================== */
 
-    logoutAdminBtn
-        ?.addEventListener(
-            "click",
-            async function () {
-                const yakin =
-                    await tampilkanDialogKonfirmasi(
-                        "Sesi admin akan diakhiri dan Anda akan kembali ke halaman login.",
-                        {
-                            judul:
-                                "Keluar dari Admin?",
-
-                            icon:
-                                "↪",
-
-                            bahaya:
-                                true,
-
-                            teksKonfirmasi:
-                                "Ya, Keluar",
-
-                            teksBatal:
-                                "Tetap di Sini"
-                        }
-                    );
-
-                if (!yakin) {
-                    return;
+    logoutAdminBtn?.addEventListener(
+        "click",
+        async function() {
+            const yakin = await tampilkanDialogKonfirmasi(
+                "Sesi admin akan diakhiri dan Anda akan kembali ke halaman login.",
+                {
+                    judul: "Keluar dari Admin?",
+                    icon: "↪",
+                    bahaya: true,
+                    teksKonfirmasi: "Ya, Keluar",
+                    teksBatal: "Tetap di Sini"
                 }
+            );
 
-                logoutAdminBtn.disabled =
-                    true;
+            if (!yakin) return;
 
-                try {
-                    await postData({
-                        action:
-                            "logoutAdmin",
+            logoutAdminBtn.disabled = true;
 
-                        adminToken:
-                            localStorage.getItem(
-                                "adminToken"
-                            ) ||
-                            ""
-                    });
-
-                } catch (error) {
-                    console.error(error);
-                }
-
-                keluarAdminLokal();
+            try {
+                await postData({
+                    action: "logoutAdmin",
+                    adminToken:
+                        localStorage.getItem("adminToken") || ""
+                });
+            } catch (error) {
+                console.error(error);
             }
-        );
+
+            keluarAdminLokal();
+        }
+    );
+
 
     function keluarAdminLokal() {
-        localStorage.removeItem(
-            "nama"
-        );
+        localStorage.removeItem("nama");
+        localStorage.removeItem("nip");
+        localStorage.removeItem("role");
+        localStorage.removeItem("adminToken");
 
-        localStorage.removeItem(
-            "nip"
-        );
-
-        localStorage.removeItem(
-            "role"
-        );
-
-        localStorage.removeItem(
-            "adminToken"
-        );
-
-        window.location.href =
-            "index.html";
+        window.location.href = "index.html";
     }
+
 
     /* =====================================================
        REQUEST ADMIN
     ===================================================== */
 
-    async function postAdmin(
-        data,
-        timeout = 20000
-    ) {
-        const token =
-            localStorage.getItem(
-                "adminToken"
-            );
+    async function postAdmin(data, timeout = 20000) {
+        const token = localStorage.getItem("adminToken");
 
         if (!token) {
             keluarAdminLokal();
-
-            throw new Error(
-                "Sesi admin tidak tersedia."
-            );
+            throw new Error("Sesi admin tidak tersedia.");
         }
 
-        const hasil =
-            await postData(
-                {
-                    ...data,
-
-                    adminToken:
-                        token
-                },
-                timeout
-            );
+        const hasil = await postData(
+            {
+                ...data,
+                adminToken: token
+            },
+            timeout
+        );
 
         if (
             !hasil.berhasil &&
             /sesi admin|session admin|token admin/i.test(
-                String(
-                    hasil.pesan ||
-                    ""
-                )
+                String(hasil.pesan || "")
             )
         ) {
             keluarAdminLokal();
@@ -5195,125 +3740,84 @@ if (
         return hasil;
     }
 
+
     /* =====================================================
        MODAL ADMIN
     ===================================================== */
 
-    function bukaModal(
-        modal
-    ) {
-        if (!modal) {
-            return;
-        }
+    function bukaModal(modal) {
+        if (!modal) return;
 
-        modal.hidden =
-            false;
-
-        document.body.style.overflow =
-            "hidden";
+        modal.hidden = false;
+        document.body.style.overflow = "hidden";
     }
 
-    function tutupModal(
-        modal
-    ) {
-        if (!modal) {
-            return;
-        }
 
-        modal.hidden =
-            true;
+    function tutupModal(modal) {
+        if (!modal) return;
 
-        document.body.style.overflow =
-            "";
+        modal.hidden = true;
+        document.body.style.overflow = "";
     }
+
 
     document
-        .querySelectorAll(
-            ".admin-modal-backdrop"
-        )
-        .forEach(
-            function (backdrop) {
-                backdrop.addEventListener(
-                    "click",
-                    function () {
-                        tutupModal(
-                            backdrop.closest(
-                                ".admin-modal"
-                            )
-                        );
-                    }
-                );
-            }
-        );
+        .querySelectorAll(".admin-modal-backdrop")
+        .forEach(function(backdrop) {
+            backdrop.addEventListener(
+                "click",
+                function() {
+                    tutupModal(
+                        backdrop.closest(".admin-modal")
+                    );
+                }
+            );
+        });
+
 
     document.addEventListener(
         "keydown",
-        function (event) {
-            if (
-                event.key !==
-                "Escape"
-            ) {
-                return;
-            }
+        function(event) {
+            if (event.key !== "Escape") return;
 
             document
-                .querySelectorAll(
-                    ".admin-modal"
-                )
-                .forEach(
-                    function (modal) {
-                        if (!modal.hidden) {
-                            tutupModal(
-                                modal
-                            );
-                        }
+                .querySelectorAll(".admin-modal")
+                .forEach(function(modal) {
+                    if (!modal.hidden) {
+                        tutupModal(modal);
                     }
-                );
+                });
         }
     );
+
 }
 
 /* =====================================================
    REQUEST SERVER
 ===================================================== */
 
-async function postData(
-    data,
-    timeout = 20000
-) {
-    const controller =
-        new AbortController();
+async function postData(data, timeout = 20000) {
+    const controller = new AbortController();
 
-    const timer =
-        setTimeout(
-            function () {
-                controller.abort();
-            },
-            timeout
-        );
+    const timer = setTimeout(function() {
+        controller.abort();
+    }, timeout);
 
     try {
-        const response =
-            await fetch(
-                WEB_APP_URL,
-                {
-                    method:
-                        "POST",
+        const response = await fetch(
+            WEB_APP_URL,
+            {
+                method: "POST",
 
-                    headers: {
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-                    },
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
 
-                    body:
-                        JSON.stringify(
-                            data
-                        ),
-
-                    signal:
-                        controller.signal
-                }
-            );
+                body: JSON.stringify(data),
+                signal: controller.signal
+            }
+        );
 
         if (!response.ok) {
             throw new Error(
@@ -5323,13 +3827,10 @@ async function postData(
             );
         }
 
-        const text =
-            await response.text();
+        const text = await response.text();
 
         try {
-            return JSON.parse(
-                text
-            );
+            return JSON.parse(text);
 
         } catch (error) {
             console.error(
@@ -5343,10 +3844,7 @@ async function postData(
         }
 
     } catch (error) {
-        if (
-            error.name ===
-            "AbortError"
-        ) {
+        if (error.name === "AbortError") {
             throw new Error(
                 "Server terlalu lama merespons. Silakan coba lagi."
             );
@@ -5355,56 +3853,39 @@ async function postData(
         throw error;
 
     } finally {
-        clearTimeout(
-            timer
-        );
+        clearTimeout(timer);
     }
 }
+
 
 /* =====================================================
    WITA
 ===================================================== */
 
 function tanggalWITAHariIni() {
-    const bagian =
-        new Intl.DateTimeFormat(
-            "en-CA",
-            {
-                timeZone:
-                    "Asia/Makassar",
-
-                year:
-                    "numeric",
-
-                month:
-                    "2-digit",
-
-                day:
-                    "2-digit"
-            }
-        ).formatToParts(
-            new Date()
-        );
+    const bagian = new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            timeZone: "Asia/Makassar",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }
+    ).formatToParts(new Date());
 
     const tahun =
         bagian.find(
-            item =>
-                item.type ===
-                "year"
+            item => item.type === "year"
         )?.value;
 
     const bulan =
         bagian.find(
-            item =>
-                item.type ===
-                "month"
+            item => item.type === "month"
         )?.value;
 
     const hari =
         bagian.find(
-            item =>
-                item.type ===
-                "day"
+            item => item.type === "day"
         )?.value;
 
     return (
@@ -5416,98 +3897,59 @@ function tanggalWITAHariIni() {
     );
 }
 
+
 function waktuWITASekarang() {
-    const bagian =
-        new Intl.DateTimeFormat(
-            "en-GB",
-            {
-                timeZone:
-                    "Asia/Makassar",
-
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit",
-
-                hour12:
-                    false
-            }
-        ).formatToParts(
-            new Date()
-        );
+    const bagian = new Intl.DateTimeFormat(
+        "en-GB",
+        {
+            timeZone: "Asia/Makassar",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        }
+    ).formatToParts(new Date());
 
     const jam =
         bagian.find(
-            item =>
-                item.type ===
-                "hour"
-        )?.value ||
-        "00";
+            item => item.type === "hour"
+        )?.value || "00";
 
     const menit =
         bagian.find(
-            item =>
-                item.type ===
-                "minute"
-        )?.value ||
-        "00";
+            item => item.type === "minute"
+        )?.value || "00";
 
-    return (
-        jam +
-        ":" +
-        menit
-    );
+    return jam + ":" + menit;
 }
 
-function formatWaktu(
-    value
-) {
-    if (!value) {
-        return "-";
-    }
 
-    const tanggal =
-        new Date(value);
+function formatWaktu(value) {
+    if (!value) return "-";
+
+    const tanggal = new Date(value);
 
     if (
         Number.isNaN(
             tanggal.getTime()
         )
     ) {
-        return String(
-            value
-        );
+        return String(value);
     }
 
     return new Intl.DateTimeFormat(
         "id-ID",
         {
-            timeZone:
-                "Asia/Makassar",
-
-            day:
-                "2-digit",
-
-            month:
-                "2-digit",
-
-            year:
-                "numeric",
-
-            hour:
-                "2-digit",
-
-            minute:
-                "2-digit",
-
-            hour12:
-                false
+            timeZone: "Asia/Makassar",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
         }
-    ).format(
-        tanggal
-    );
+    ).format(tanggal);
 }
+
 
 /* =====================================================
    JARAK GPS
@@ -5519,8 +3961,7 @@ function hitungJarakMeter(
     lat2,
     lon2
 ) {
-    const R =
-        6371000;
+    const R = 6371000;
 
     const rad =
         nilai =>
@@ -5567,38 +4008,40 @@ function hitungJarakMeter(
     );
 }
 
+
 /* =====================================================
    LOGOUT PEGAWAI
 ===================================================== */
 
-function logoutUser() {
-    localStorage.removeItem(
-        "nama"
-    );
+async function logoutUser() {
+    const pegawaiToken = localStorage.getItem("pegawaiToken");
 
-    localStorage.removeItem(
-        "nip"
-    );
+    if (pegawaiToken) {
+        try {
+            await postData({
+                action: "logoutPegawai",
+                pegawaiToken: pegawaiToken
+            });
+        } catch (error) {
+            console.error("Gagal menghapus sesi pegawai:", error);
+        }
+    }
 
-    localStorage.removeItem(
-        "role"
-    );
+    localStorage.removeItem("nama");
+    localStorage.removeItem("nip");
+    localStorage.removeItem("role");
+    localStorage.removeItem("pegawaiToken");
+    localStorage.removeItem("adminToken");
 
-    localStorage.removeItem(
-        "adminToken"
-    );
-
-    window.location.href =
-        "index.html";
+    window.location.href = "index.html";
 }
+
 
 /* =====================================================
    KEAMANAN OUTPUT
 ===================================================== */
 
-function escapeHTML(
-    value
-) {
+function escapeHTML(value) {
     return String(
         value ?? ""
     )
@@ -5624,25 +4067,18 @@ function escapeHTML(
         );
 }
 
-function safeURL(
-    value
-) {
+
+function safeURL(value) {
     const url =
         String(
             value ?? ""
         ).trim();
 
     if (
-        url.startsWith(
-            "https://"
-        ) ||
-        url.startsWith(
-            "http://"
-        )
+        url.startsWith("https://") ||
+        url.startsWith("http://")
     ) {
-        return escapeHTML(
-            url
-        );
+        return escapeHTML(url);
     }
 
     return "";
