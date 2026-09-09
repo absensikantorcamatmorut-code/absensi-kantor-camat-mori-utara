@@ -9,35 +9,72 @@
 </head>
 
 <body class="admin-page">
+
 <main class="admin-container">
 
     <header class="admin-header">
-        <div>
+        <div class="admin-header-info">
             <span class="app-badge">ADMIN PANEL</span>
             <h1>Dashboard Admin</h1>
             <p>Kantor Camat Mori Utara</p>
         </div>
 
-        <button type="button" id="logoutAdminBtn" class="admin-logout-btn">Logout</button>
+        <button type="button" id="logoutAdminBtn" class="admin-logout-btn">
+            Logout
+        </button>
     </header>
 
     <nav class="admin-nav">
-        <button type="button" class="admin-nav-btn active" id="navAbsensiBtn" data-admin-page="absensi">
-            <span>🕐</span><span>Absensi</span>
+        <button
+            type="button"
+            class="admin-nav-btn active"
+            id="navAbsensiBtn"
+            data-admin-page="absensi"
+        >
+            <span class="admin-nav-icon">🕐</span>
+            <span>Absensi</span>
         </button>
 
-        <button type="button" class="admin-nav-btn" id="navPegawaiBtn" data-admin-page="pegawai">
-            <span>👥</span><span>Pegawai</span>
+        <button
+            type="button"
+            class="admin-nav-btn"
+            id="navPegawaiBtn"
+            data-admin-page="pegawai"
+        >
+            <span class="admin-nav-icon">👥</span>
+            <span>Pegawai</span>
         </button>
 
-        <button type="button" class="admin-nav-btn" id="navAkunAdminBtn" data-admin-page="akun">
-            <span>🔐</span><span>Akun Admin</span>
+        <button
+            type="button"
+            class="admin-nav-btn"
+            id="navKeteranganBtn"
+            data-admin-page="keterangan"
+        >
+            <span class="admin-nav-icon">📋</span>
+            <span>Keterangan</span>
+        </button>
+
+        <button
+            type="button"
+            class="admin-nav-btn"
+            id="navAkunAdminBtn"
+            data-admin-page="akun"
+        >
+            <span class="admin-nav-icon">🔐</span>
+            <span>Akun Admin</span>
         </button>
     </nav>
 
 
-    <!-- ABSENSI -->
-    <section class="admin-page-section active" id="adminAbsensiSection">
+    <!-- =================================================
+         ABSENSI
+    ================================================== -->
+
+    <section
+        class="admin-page-section active"
+        id="adminAbsensiSection"
+    >
 
         <section class="stat-container">
             <div class="stat-card">
@@ -62,18 +99,33 @@
         <section class="admin-tools">
             <div class="search-box">
                 <label for="filterCari">Cari Pegawai</label>
-                <input type="text" id="filterCari" placeholder="Cari nama atau NIP...">
+                <input
+                    type="text"
+                    id="filterCari"
+                    placeholder="Cari nama atau NIP..."
+                >
             </div>
 
-            <button type="button" id="toggleFilterBtn" class="toggle-filter-btn">
-                Filter <span>⌄</span>
+            <button
+                type="button"
+                id="toggleFilterBtn"
+                class="toggle-filter-btn"
+            >
+                Filter
+                <span>⌄</span>
             </button>
         </section>
 
-        <section class="filter-container" id="filterContainer">
+        <section
+            class="filter-container"
+            id="filterContainer"
+        >
             <div>
                 <label for="filterTanggal">Tanggal</label>
-                <input type="date" id="filterTanggal">
+                <input
+                    type="date"
+                    id="filterTanggal"
+                >
             </div>
 
             <div>
@@ -85,17 +137,32 @@
                 </select>
             </div>
 
-            <button type="button" id="resetFilterBtn" class="reset-filter-btn">Hari Ini</button>
+            <button
+                type="button"
+                id="resetFilterBtn"
+                class="reset-filter-btn"
+            >
+                Hari Ini
+            </button>
         </section>
 
         <section class="data-section">
             <div class="data-section-header">
                 <div>
+                    <span class="section-label">RIWAYAT</span>
                     <h2>Riwayat Absensi</h2>
-                    <p id="jumlahDataText">Memuat data...</p>
+                    <p id="jumlahDataText">
+                        Memuat data...
+                    </p>
                 </div>
 
-                <button type="button" id="absensiManualBtn" class="admin-primary-btn">+ Absensi Manual</button>
+                <button
+                    type="button"
+                    id="absensiManualBtn"
+                    class="admin-primary-btn"
+                >
+                    + Absensi Manual
+                </button>
             </div>
 
             <div class="table-wrapper">
@@ -118,26 +185,50 @@
 
                     <tbody id="dataAbsensi">
                         <tr>
-                            <td colspan="11" class="loading-cell">Memuat data...</td>
+                            <td
+                                colspan="11"
+                                class="loading-cell"
+                            >
+                                Memuat data...
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+
     </section>
 
 
-    <!-- PEGAWAI -->
-    <section class="admin-page-section" id="adminPegawaiSection">
+    <!-- =================================================
+         PEGAWAI
+    ================================================== -->
 
-        <section class="pegawai-header">
+    <section
+        class="admin-page-section"
+        id="adminPegawaiSection"
+    >
+
+        <section class="admin-section-hero">
             <div>
-                <span class="section-label">MANAJEMEN PEGAWAI</span>
+                <span class="section-label">
+                    MANAJEMEN PEGAWAI
+                </span>
+
                 <h2>Daftar Pegawai</h2>
-                <p>Kelola pegawai Kantor Camat Mori Utara.</p>
+
+                <p>
+                    Kelola data pegawai Kantor Camat Mori Utara.
+                </p>
             </div>
 
-            <button type="button" id="tambahPegawaiBtn" class="admin-primary-btn">+ Tambah Pegawai</button>
+            <button
+                type="button"
+                id="tambahPegawaiBtn"
+                class="admin-primary-btn"
+            >
+                + Tambah Pegawai
+            </button>
         </section>
 
         <section class="pegawai-stat-container">
@@ -159,16 +250,28 @@
 
         <section class="pegawai-tools">
             <div class="search-box">
-                <label for="cariPegawaiAdmin">Cari Pegawai</label>
-                <input type="text" id="cariPegawaiAdmin" placeholder="Cari nama atau NIP...">
+                <label for="cariPegawaiAdmin">
+                    Cari Pegawai
+                </label>
+
+                <input
+                    type="text"
+                    id="cariPegawaiAdmin"
+                    placeholder="Cari nama atau NIP..."
+                >
             </div>
 
             <div class="pegawai-filter-status">
-                <label for="filterStatusPegawai">Status</label>
+                <label for="filterStatusPegawai">
+                    Status
+                </label>
+
                 <select id="filterStatusPegawai">
                     <option value="">Semua</option>
                     <option value="Aktif">Aktif</option>
-                    <option value="Tidak Aktif">Tidak Aktif</option>
+                    <option value="Tidak Aktif">
+                        Tidak Aktif
+                    </option>
                 </select>
             </div>
         </section>
@@ -176,8 +279,15 @@
         <section class="data-section">
             <div class="data-section-header">
                 <div>
+                    <span class="section-label">
+                        DATA PEGAWAI
+                    </span>
+
                     <h2>Data Pegawai</h2>
-                    <p id="jumlahPegawaiText">Memuat data...</p>
+
+                    <p id="jumlahPegawaiText">
+                        Memuat data...
+                    </p>
                 </div>
             </div>
 
@@ -195,189 +305,600 @@
 
                     <tbody id="dataPegawai">
                         <tr>
-                            <td colspan="5" class="loading-cell">Data pegawai akan dimuat di sini.</td>
+                            <td
+                                colspan="5"
+                                class="loading-cell"
+                            >
+                                Data pegawai akan dimuat di sini.
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+
     </section>
 
 
-    <!-- AKUN ADMIN -->
-    <section class="admin-page-section" id="adminAkunSection">
+    <!-- =================================================
+         KETERANGAN
+    ================================================== -->
 
-        <section class="pegawai-header admin-account-header">
-            <div>
-                <span class="section-label">KEAMANAN ADMIN</span>
-                <h2>Akun Admin</h2>
-                <p>Kelola keamanan akun administrator.</p>
+    <section
+        class="admin-page-section"
+        id="adminKeteranganSection"
+    >
+
+        <section class="admin-section-hero">
+            <div class="admin-section-icon">
+                📋
             </div>
+
+            <div>
+                <span class="section-label">
+                    VERIFIKASI KETERANGAN
+                </span>
+
+                <h2>Pengajuan Keterangan</h2>
+
+                <p>
+                    Tinjau pengajuan sakit, cuti, dinas,
+                    WFH, dan keterangan lainnya.
+                </p>
+            </div>
+        </section>
+
+        <section class="keterangan-stat-container">
+
+            <div class="keterangan-stat-card stat-total">
+                <span>Total Pengajuan</span>
+                <strong id="totalKeteranganAdmin">
+                    0
+                </strong>
+            </div>
+
+            <div class="keterangan-stat-card stat-waiting">
+                <span>Menunggu</span>
+                <strong id="totalKeteranganMenunggu">
+                    0
+                </strong>
+            </div>
+
+            <div class="keterangan-stat-card stat-approved">
+                <span>Disetujui</span>
+                <strong id="totalKeteranganDisetujui">
+                    0
+                </strong>
+            </div>
+
+            <div class="keterangan-stat-card stat-rejected">
+                <span>Ditolak</span>
+                <strong id="totalKeteranganDitolak">
+                    0
+                </strong>
+            </div>
+
+        </section>
+
+        <section class="keterangan-filter-card">
+
+            <div class="search-box">
+                <label for="cariKeteranganAdmin">
+                    Cari Pegawai
+                </label>
+
+                <input
+                    type="text"
+                    id="cariKeteranganAdmin"
+                    placeholder="Cari nama atau NIP..."
+                >
+            </div>
+
+            <div class="pegawai-filter-status">
+                <label for="filterStatusKeterangan">
+                    Status
+                </label>
+
+                <select id="filterStatusKeterangan">
+                    <option value="">Semua</option>
+                    <option value="Menunggu">
+                        Menunggu
+                    </option>
+                    <option value="Disetujui">
+                        Disetujui
+                    </option>
+                    <option value="Ditolak">
+                        Ditolak
+                    </option>
+                    <option value="Dibatalkan">
+                        Dibatalkan
+                    </option>
+                </select>
+            </div>
+
+        </section>
+
+        <section class="data-section keterangan-data-section">
+
+            <div class="data-section-header">
+                <div>
+                    <span class="section-label">
+                        PENGAJUAN PEGAWAI
+                    </span>
+
+                    <h2>Daftar Pengajuan</h2>
+
+                    <p id="jumlahKeteranganText">
+                        Memuat data...
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="tabelKeterangan">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Nama</th>
+                            <th>NIP</th>
+                            <th>Jenis</th>
+                            <th>Keterangan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="dataKeteranganAdmin">
+                        <tr>
+                            <td
+                                colspan="7"
+                                class="loading-cell"
+                            >
+                                Memuat pengajuan keterangan...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- =================================================
+         AKUN ADMIN
+    ================================================== -->
+
+    <section
+        class="admin-page-section"
+        id="adminAkunSection"
+    >
+
+        <section class="admin-section-hero admin-account-hero">
+
+            <div class="admin-section-icon">
+                🔐
+            </div>
+
+            <div>
+                <span class="section-label">
+                    KEAMANAN ADMIN
+                </span>
+
+                <h2>Akun Admin</h2>
+
+                <p>
+                    Kelola identitas dan keamanan akun administrator.
+                </p>
+            </div>
+
         </section>
 
         <section class="admin-account-grid">
 
-            <div class="admin-account-card">
-                <span class="admin-account-icon">👤</span>
+            <article class="admin-profile-card">
 
-                <div>
-                    <small>Administrator</small>
-                    <h3 id="akunAdminNama">Admin</h3>
-                    <p id="akunAdminNip">-</p>
+                <div class="admin-profile-avatar">
+                    👤
                 </div>
-            </div>
 
+                <div class="admin-profile-content">
 
-            <div class="admin-password-card">
-                <span class="section-label">GANTI PASSWORD</span>
-                <h2>Password Admin</h2>
-                <p class="admin-password-description">
-                    Gunakan minimal 8 karakter dan jangan berikan password kepada pegawai lain.
-                </p>
+                    <span class="admin-profile-label">
+                        ADMINISTRATOR
+                    </span>
+
+                    <h3 id="akunAdminNama">
+                        Admin
+                    </h3>
+
+                    <div class="admin-profile-meta">
+                        <span>ID Admin</span>
+
+                        <strong id="akunAdminNip">
+                            -
+                        </strong>
+                    </div>
+
+                </div>
+
+            </article>
+
+            <article class="admin-password-card">
+
+                <div class="admin-password-header">
+
+                    <span class="section-label">
+                        GANTI PASSWORD
+                    </span>
+
+                    <h2>Password Admin</h2>
+
+                    <p class="admin-password-description">
+                        Gunakan minimal 8 karakter.
+                        Jangan berikan password kepada pegawai lain.
+                    </p>
+
+                </div>
 
                 <form id="gantiPasswordAdminForm">
 
                     <div class="admin-form-group">
-                        <label for="passwordAdminLama">Password Lama</label>
-                        <input type="password" id="passwordAdminLama" autocomplete="current-password" required>
+                        <label for="passwordAdminLama">
+                            Password Lama
+                        </label>
+
+                        <input
+                            type="password"
+                            id="passwordAdminLama"
+                            autocomplete="current-password"
+                            required
+                        >
                     </div>
 
                     <div class="admin-form-group">
-                        <label for="passwordAdminBaru">Password Baru</label>
-                        <input type="password" id="passwordAdminBaru" minlength="8" autocomplete="new-password" required>
+                        <label for="passwordAdminBaru">
+                            Password Baru
+                        </label>
+
+                        <input
+                            type="password"
+                            id="passwordAdminBaru"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
                     </div>
 
                     <div class="admin-form-group">
-                        <label for="konfirmasiPasswordAdmin">Konfirmasi Password Baru</label>
-                        <input type="password" id="konfirmasiPasswordAdmin" minlength="8" autocomplete="new-password" required>
+                        <label for="konfirmasiPasswordAdmin">
+                            Konfirmasi Password Baru
+                        </label>
+
+                        <input
+                            type="password"
+                            id="konfirmasiPasswordAdmin"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
                     </div>
 
-                    <p id="passwordAdminStatus" class="admin-form-message"></p>
+                    <p
+                        id="passwordAdminStatus"
+                        class="admin-form-message"
+                    ></p>
 
-                    <button type="submit" id="simpanPasswordAdminBtn" class="admin-primary-btn">
+                    <button
+                        type="submit"
+                        id="simpanPasswordAdminBtn"
+                        class="admin-primary-btn"
+                    >
                         Ganti Password
                     </button>
+
                 </form>
-            </div>
+
+            </article>
 
         </section>
+
     </section>
 
 
-    <!-- MODAL PEGAWAI -->
-    <div class="admin-modal" id="pegawaiModal" hidden>
+    <!-- =================================================
+         MODAL PEGAWAI
+    ================================================== -->
+
+    <div
+        class="admin-modal"
+        id="pegawaiModal"
+        hidden
+    >
+
         <div class="admin-modal-backdrop"></div>
 
         <div class="admin-modal-content">
+
             <div class="admin-modal-header">
+
                 <div>
                     <small>DATA PEGAWAI</small>
-                    <h2 id="pegawaiModalTitle">Tambah Pegawai</h2>
+
+                    <h2 id="pegawaiModalTitle">
+                        Tambah Pegawai
+                    </h2>
                 </div>
 
-                <button type="button" id="tutupPegawaiModalBtn" class="modal-close-btn">×</button>
+                <button
+                    type="button"
+                    id="tutupPegawaiModalBtn"
+                    class="modal-close-btn"
+                >
+                    ×
+                </button>
+
             </div>
 
             <form id="pegawaiForm">
-                <input type="hidden" id="pegawaiId">
+
+                <input
+                    type="hidden"
+                    id="pegawaiId"
+                >
 
                 <div class="admin-form-group">
-                    <label for="pegawaiNama">Nama Lengkap</label>
-                    <input type="text" id="pegawaiNama" autocomplete="off" required>
+                    <label for="pegawaiNama">
+                        Nama Lengkap
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pegawaiNama"
+                        autocomplete="off"
+                        required
+                    >
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="pegawaiNip">NIP</label>
-                    <input type="text" id="pegawaiNip" inputmode="numeric" maxlength="18" autocomplete="off" required>
+                    <label for="pegawaiNip">
+                        NIP
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pegawaiNip"
+                        inputmode="numeric"
+                        maxlength="18"
+                        autocomplete="off"
+                        required
+                    >
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="pegawaiEmail">Email</label>
-                    <input type="email" id="pegawaiEmail" autocomplete="off" placeholder="Opsional">
+                    <label for="pegawaiEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="pegawaiEmail"
+                        autocomplete="off"
+                        placeholder="Opsional"
+                    >
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="pegawaiStatus">Status</label>
-                    <select id="pegawaiStatus" required>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
+                    <label for="pegawaiStatus">
+                        Status
+                    </label>
+
+                    <select
+                        id="pegawaiStatus"
+                        required
+                    >
+                        <option value="Aktif">
+                            Aktif
+                        </option>
+
+                        <option value="Tidak Aktif">
+                            Tidak Aktif
+                        </option>
                     </select>
                 </div>
 
                 <div class="admin-modal-actions">
-                    <button type="button" id="batalPegawaiBtn" class="admin-secondary-btn">Batal</button>
-                    <button type="submit" id="simpanPegawaiBtn" class="admin-primary-btn">Simpan Pegawai</button>
+
+                    <button
+                        type="button"
+                        id="batalPegawaiBtn"
+                        class="admin-secondary-btn"
+                    >
+                        Batal
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="simpanPegawaiBtn"
+                        class="admin-primary-btn"
+                    >
+                        Simpan Pegawai
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
 
 
-    <!-- MODAL ABSENSI MANUAL -->
-    <div class="admin-modal" id="absensiManualModal" hidden>
+    <!-- =================================================
+         MODAL ABSENSI MANUAL
+    ================================================== -->
+
+    <div
+        class="admin-modal"
+        id="absensiManualModal"
+        hidden
+    >
+
         <div class="admin-modal-backdrop"></div>
 
         <div class="admin-modal-content">
+
             <div class="admin-modal-header">
+
                 <div>
                     <small>ABSENSI ADMIN</small>
                     <h2>Absensi Manual</h2>
                 </div>
 
-                <button type="button" id="tutupAbsensiManualBtn" class="modal-close-btn">×</button>
+                <button
+                    type="button"
+                    id="tutupAbsensiManualBtn"
+                    class="modal-close-btn"
+                >
+                    ×
+                </button>
+
             </div>
 
             <form id="absensiManualForm">
 
                 <div class="manual-warning">
-                    <strong>⚠ Absensi oleh Admin</strong>
-                    <p>Data ini akan dicatat sebagai absensi manual dan tidak menggunakan GPS maupun foto pegawai.</p>
+
+                    <strong>
+                        ⚠ Absensi oleh Admin
+                    </strong>
+
+                    <p>
+                        Data ini akan dicatat sebagai absensi manual
+                        dan tidak menggunakan GPS maupun foto pegawai.
+                    </p>
+
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="manualPegawai">Pegawai</label>
-                    <select id="manualPegawai" required>
-                        <option value="">Pilih pegawai...</option>
+
+                    <label for="manualPegawai">
+                        Pegawai
+                    </label>
+
+                    <select
+                        id="manualPegawai"
+                        required
+                    >
+                        <option value="">
+                            Pilih pegawai...
+                        </option>
                     </select>
+
                 </div>
 
                 <div class="admin-form-row">
+
                     <div class="admin-form-group">
-                        <label for="manualJenisAbsen">Jenis Absensi</label>
-                        <select id="manualJenisAbsen" required>
-                            <option value="">Pilih...</option>
-                            <option value="Masuk">Masuk</option>
-                            <option value="Keluar">Keluar</option>
+
+                        <label for="manualJenisAbsen">
+                            Jenis Absensi
+                        </label>
+
+                        <select
+                            id="manualJenisAbsen"
+                            required
+                        >
+                            <option value="">
+                                Pilih...
+                            </option>
+
+                            <option value="Masuk">
+                                Masuk
+                            </option>
+
+                            <option value="Keluar">
+                                Keluar
+                            </option>
                         </select>
+
                     </div>
 
                     <div class="admin-form-group">
-                        <label for="manualTanggal">Tanggal</label>
-                        <input type="date" id="manualTanggal" required>
+
+                        <label for="manualTanggal">
+                            Tanggal
+                        </label>
+
+                        <input
+                            type="date"
+                            id="manualTanggal"
+                            required
+                        >
+
                     </div>
+
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="manualWaktu">Waktu</label>
-                    <input type="time" id="manualWaktu" required>
+
+                    <label for="manualWaktu">
+                        Waktu
+                    </label>
+
+                    <input
+                        type="time"
+                        id="manualWaktu"
+                        required
+                    >
+
                 </div>
 
                 <div class="admin-form-group">
-                    <label for="manualAlasan">Alasan</label>
-                    <textarea id="manualAlasan" maxlength="300" placeholder="Contoh: Pegawai mengalami kendala perangkat saat absensi." required></textarea>
+
+                    <label for="manualAlasan">
+                        Alasan
+                    </label>
+
+                    <textarea
+                        id="manualAlasan"
+                        maxlength="300"
+                        placeholder="Contoh: Pegawai mengalami kendala perangkat saat absensi."
+                        required
+                    ></textarea>
+
                 </div>
 
                 <div class="admin-modal-actions">
-                    <button type="button" id="batalAbsensiManualBtn" class="admin-secondary-btn">Batal</button>
-                    <button type="submit" id="simpanAbsensiManualBtn" class="admin-primary-btn">Simpan Absensi</button>
+
+                    <button
+                        type="button"
+                        id="batalAbsensiManualBtn"
+                        class="admin-secondary-btn"
+                    >
+                        Batal
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="simpanAbsensiManualBtn"
+                        class="admin-primary-btn"
+                    >
+                        Simpan Absensi
+                    </button>
+
                 </div>
 
             </form>
+
         </div>
+
     </div>
 
 </main>
 
 <script src="js/script.js"></script>
+
 </body>
 </html>
