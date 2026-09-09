@@ -425,7 +425,813 @@
         <div>
 
             <strong id="toastTitle"></strong>
+<!DOCTYPE html>
+<html lang="id">
 
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#050811"
+    >
+
+    <title>
+        Absensi Pegawai
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body class="absensi-page">
+
+    <main class="absensi-container">
+
+        <header class="absensi-header">
+
+            <div>
+
+                <span class="app-badge">
+                    ABSENSI PEGAWAI
+                </span>
+
+                <h1>
+                    Kantor Camat<br>
+                    Mori Utara
+                </h1>
+
+                <p id="tanggalSekarang"></p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutBtn"
+                class="logout-icon"
+            >
+                ↗
+            </button>
+
+        </header>
+
+
+        <section class="pegawai-card">
+
+            <div class="avatar">
+                <span id="avatarHuruf">
+                    P
+                </span>
+            </div>
+
+
+            <div>
+
+                <p class="welcome-text">
+                    Selamat datang 👋
+                </p>
+
+                <h2 id="namaPegawai">
+                    Pegawai
+                </h2>
+
+                <p class="nip-text">
+                    NIP
+                    <span id="nipPegawai">
+                        -
+                    </span>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="clock-card">
+
+            <p>
+                Waktu sekarang · WITA
+            </p>
+
+            <h2 id="jamSekarang">
+                00:00
+            </h2>
+
+            <span id="detikSekarang">
+                00
+            </span>
+
+        </section>
+
+
+        <section
+            class="status-hari-card"
+            id="statusHariCard"
+        >
+
+            <div>
+                <small>Status hari ini</small>
+
+                <strong id="statusHariText">
+                    Memeriksa...
+                </strong>
+            </div>
+
+        </section>
+
+
+        <!-- PILIH MODE -->
+
+        <section class="mode-section">
+
+            <div class="section-heading">
+
+                <span class="step-number">
+                    01
+                </span>
+
+                <div>
+                    <h3>
+                        Aktivitas Hari Ini
+                    </h3>
+
+                    <p>
+                        Pilih hadir di kantor atau mengirim keterangan
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="mode-options">
+
+                <button
+                    type="button"
+                    class="mode-option"
+                    id="modeHadirBtn"
+                    data-mode="hadir"
+                >
+
+                    <span class="mode-icon">
+                        🏢
+                    </span>
+
+                    <span>
+                        <strong>
+                            Hadir di Kantor
+                        </strong>
+
+                        <small>
+                            Absensi Masuk dan Keluar
+                        </small>
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="mode-option"
+                    id="modeKeteranganBtn"
+                    data-mode="keterangan"
+                >
+
+                    <span class="mode-icon">
+                        📋
+                    </span>
+
+                    <span>
+                        <strong>
+                            Keterangan
+                        </strong>
+
+                        <small>
+                            Sakit, Cuti, Dinas, WFH, dan lainnya
+                        </small>
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             HADIR DI KANTOR
+        =================================================== -->
+
+        <div
+            id="hadirContainer"
+            hidden
+        >
+
+            <form id="absensiForm">
+
+                <input
+                    type="hidden"
+                    id="jenisAbsen"
+                >
+
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <span class="step-number">
+                            02
+                        </span>
+
+                        <div>
+                            <h3>
+                                Jenis Absensi
+                            </h3>
+
+                            <p>
+                                Masuk mulai 07.00 · Keluar mulai 15.45 WITA
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="attendance-options">
+
+                        <button
+                            type="button"
+                            class="attendance-option masuk-option"
+                            data-value="Masuk"
+                        >
+
+                            <span class="option-icon">
+                                ↓
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Masuk
+                                </strong>
+
+                                <small>
+                                    Lewat 09.00 = Lambat
+                                </small>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="attendance-option keluar-option"
+                            data-value="Keluar"
+                        >
+
+                            <span class="option-icon">
+                                ↑
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Keluar
+                                </strong>
+
+                                <small>
+                                    Mulai 15.45 WITA
+                                </small>
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <span class="step-number">
+                            03
+                        </span>
+
+                        <div>
+                            <h3>
+                                Lokasi
+                            </h3>
+
+                            <p>
+                                Maksimal 150 meter dari kantor
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="lokasiBtn"
+                        class="action-card"
+                    >
+
+                        <span class="action-icon">
+                            ⌖
+                        </span>
+
+
+                        <span class="action-text">
+
+                            <strong id="statusLokasi">
+                                Ambil lokasi sekarang
+                            </strong>
+
+                            <small id="akurasiLokasi">
+                                Lokasi belum diperiksa
+                            </small>
+
+                        </span>
+
+
+                        <span class="action-arrow">
+                            ›
+                        </span>
+
+                    </button>
+
+                </section>
+
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <span class="step-number">
+                            04
+                        </span>
+
+                        <div>
+                            <h3>
+                                Foto Absensi
+                            </h3>
+
+                            <p>
+                                Foto harus diambil langsung menggunakan kamera
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="camera-live-container"
+                        id="cameraLiveContainer"
+                    >
+
+                        <video
+                            id="cameraVideo"
+                            autoplay
+                            playsinline
+                            muted
+                        ></video>
+
+
+                        <div
+                            class="camera-placeholder"
+                            id="cameraPlaceholder"
+                        >
+
+                            <span class="camera-icon">
+                                ◉
+                            </span>
+
+                            <strong>
+                                Kamera belum aktif
+                            </strong>
+
+                            <small>
+                                Aktifkan kamera untuk mengambil foto absensi
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="aktifkanKameraBtn"
+                        class="camera-action-btn"
+                    >
+                        Aktifkan Kamera
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="ambilFotoBtn"
+                        class="camera-action-btn"
+                        hidden
+                    >
+                        Ambil Foto
+                    </button>
+
+
+                    <canvas
+                        id="cameraCanvas"
+                        hidden
+                    ></canvas>
+
+
+                    <div
+                        class="photo-preview-wrapper"
+                        id="photoPreviewWrapper"
+                    >
+
+                        <img
+                            id="previewFoto"
+                            alt="Preview foto absensi"
+                        >
+
+
+                        <button
+                            type="button"
+                            id="ulangFotoBtn"
+                            class="ulang-foto-btn"
+                        >
+                            Foto Ulang
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <section class="submit-section">
+
+                    <div class="progress-status">
+
+                        <div
+                            class="requirement"
+                            id="checkJenis"
+                        >
+                            <span>○</span>
+                            Jenis
+                        </div>
+
+
+                        <div
+                            class="requirement"
+                            id="checkLokasi"
+                        >
+                            <span>○</span>
+                            Lokasi
+                        </div>
+
+
+                        <div
+                            class="requirement"
+                            id="checkFoto"
+                        >
+                            <span>○</span>
+                            Foto
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="submitAbsensi"
+                        disabled
+                    >
+
+                        <span id="submitText">
+                            Lengkapi Absensi
+                        </span>
+
+                    </button>
+
+                </section>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             KETERANGAN
+        =================================================== -->
+
+        <div
+            id="keteranganContainer"
+            hidden
+        >
+
+            <form id="keteranganForm">
+
+                <input
+                    type="hidden"
+                    id="jenisKeterangan"
+                >
+
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <span class="step-number">
+                            02
+                        </span>
+
+                        <div>
+                            <h3>
+                                Jenis Keterangan
+                            </h3>
+
+                            <p>
+                                Pilih kondisi yang sesuai
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="keterangan-options">
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="S"
+                        >
+                            <span class="keterangan-code">
+                                S
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Sakit
+                                </strong>
+
+                                <small>
+                                    Tidak masuk karena sakit
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="CT"
+                        >
+                            <span class="keterangan-code">
+                                CT
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Cuti
+                                </strong>
+
+                                <small>
+                                    Sedang menjalani cuti
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="DD"
+                        >
+                            <span class="keterangan-code">
+                                DD
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Dinas Dalam
+                                </strong>
+
+                                <small>
+                                    Menjalankan tugas dinas
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="DL"
+                        >
+                            <span class="keterangan-code">
+                                DL
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Dinas Luar
+                                </strong>
+
+                                <small>
+                                    Menjalankan tugas di luar kantor
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="IM"
+                        >
+                            <span class="keterangan-code">
+                                IM
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Isolasi Mandiri
+                                </strong>
+
+                                <small>
+                                    Menjalani isolasi mandiri
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="WFH"
+                        >
+                            <span class="keterangan-code">
+                                WFH
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Work from Home
+                                </strong>
+
+                                <small>
+                                    Bekerja dari rumah
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="keterangan-option"
+                            data-value="MPP"
+                        >
+                            <span class="keterangan-code">
+                                MPP
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Masa Persiapan Pensiun
+                                </strong>
+
+                                <small>
+                                    Menjalani masa persiapan pensiun
+                                </small>
+                            </span>
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <span class="step-number">
+                            03
+                        </span>
+
+                        <div>
+                            <h3>
+                                Keterangan Singkat
+                            </h3>
+
+                            <p>
+                                Jelaskan alasan atau kegiatan secara singkat
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="keterangan-input-wrapper">
+
+                        <textarea
+                            id="keteranganText"
+                            maxlength="500"
+                            placeholder="Contoh: Mengikuti kegiatan dinas di..."
+                        ></textarea>
+
+
+                        <div class="keterangan-counter">
+                            <span id="jumlahKarakter">
+                                0
+                            </span>
+                            / 500
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="submit-section">
+
+                    <div class="progress-status">
+
+                        <div
+                            class="requirement"
+                            id="checkJenisKeterangan"
+                        >
+                            <span>○</span>
+                            Jenis
+                        </div>
+
+
+                        <div
+                            class="requirement"
+                            id="checkIsiKeterangan"
+                        >
+                            <span>○</span>
+                            Keterangan
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="submitKeterangan"
+                        disabled
+                    >
+
+                        <span id="submitKeteranganText">
+                            Lengkapi Keterangan
+                        </span>
+
+                    </button>
+
+                </section>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+
+    <div
+        id="toast"
+        class="toast"
+    >
+
+        <span id="toastIcon">
+            ✓
+        </span>
+
+        <div>
+
+            <strong id="toastTitle"></strong>
+
+            <p id="toastMessage"></p>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
             <p id="toastMessage"></p>
 
         </div>
