@@ -20,24 +20,27 @@ if (loginForm) {
         document.getElementById("loginStatus");
 
     const loginButton =
-        loginForm.querySelector('button[type="submit"]');
+        loginForm.querySelector(
+            'button[type="submit"]'
+        );
 
     loginForm.addEventListener(
         "submit",
         async function (event) {
             event.preventDefault();
 
-            const nama =
-                document
-                    .getElementById("loginNama")
-                    .value
-                    .trim();
-
             const nip =
                 document
                     .getElementById("loginNip")
                     .value
                     .trim();
+
+            if (!nip) {
+                loginStatus.textContent =
+                    "NIP wajib diisi.";
+
+                return;
+            }
 
             loginStatus.textContent =
                 "Memeriksa akun...";
@@ -50,14 +53,13 @@ if (loginForm) {
                 const hasil =
                     await postData({
                         action: "login",
-                        nama: nama,
                         nip: nip
                     });
 
                 if (!hasil.berhasil) {
                     loginStatus.textContent =
                         hasil.pesan ||
-                        "Nama atau NIP salah.";
+                        "NIP tidak ditemukan.";
 
                     return;
                 }
@@ -816,14 +818,6 @@ if (absensiForm) {
                 return;
             }
 
-            /*
-               Foto absensi tidak membutuhkan
-               resolusi kamera penuh.
-
-               Maksimum 720 px membuat upload
-               jauh lebih ringan.
-            */
-
             const maxSize = 720;
 
             let width =
@@ -886,12 +880,6 @@ if (absensiForm) {
 
             context.restore();
 
-            /*
-               JPEG quality 0.65 cukup untuk
-               dokumentasi absensi tetapi
-               ukurannya lebih kecil.
-            */
-
             const fotoData =
                 cameraCanvas.toDataURL(
                     "image/jpeg",
@@ -909,11 +897,6 @@ if (absensiForm) {
                 .add(
                     "active"
                 );
-
-            /*
-               Hilangkan kotak kamera setelah
-               foto selesai diambil.
-            */
 
             cameraLiveContainer.style.display =
                 "none";
@@ -1102,9 +1085,6 @@ if (absensiForm) {
                         {
                             action:
                                 "absensi",
-
-                            nama:
-                                namaLogin,
 
                             nip:
                                 nipLogin,
@@ -1413,11 +1393,6 @@ if (dataAbsensi) {
     );
 
 
-    /*
-       Kalau tanggal berubah, data baru
-       diminta dari server.
-    */
-
     filterTanggal.addEventListener(
         "change",
         function () {
@@ -1425,12 +1400,6 @@ if (dataAbsensi) {
         }
     );
 
-
-    /*
-       Jenis dan pencarian cukup difilter
-       dari data tanggal yang sudah ada.
-       Tidak perlu request server lagi.
-    */
 
     filterJenis.addEventListener(
         "change",
@@ -1480,12 +1449,6 @@ if (dataAbsensi) {
                     tanggal:
                         tanggal
                 });
-
-            /*
-               Jika user mengganti tanggal
-               dengan cepat, abaikan response
-               request lama.
-            */
 
             if (
                 currentRequestId !==
