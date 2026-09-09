@@ -40,25 +40,7 @@
             Kantor Camat Mori Utara
         </p>
 
-
         <form id="loginForm">
-
-            <div class="input-group">
-
-                <label for="loginNama">
-                    Nama
-                </label>
-
-                <input
-                    type="text"
-                    id="loginNama"
-                    placeholder="Masukkan nama lengkap"
-                    autocomplete="name"
-                    required
-                >
-
-            </div>
-
 
             <div class="input-group">
 
@@ -71,11 +53,12 @@
                     id="loginNip"
                     placeholder="Masukkan NIP"
                     inputmode="numeric"
+                    autocomplete="username"
+                    maxlength="18"
                     required
                 >
 
             </div>
-
 
             <button
                 type="submit"
@@ -84,13 +67,11 @@
                 Login
             </button>
 
-
             <p id="loginStatus"></p>
 
         </form>
 
     </main>
-
 
     <script src="js/script.js"></script>
 
