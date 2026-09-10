@@ -2082,97 +2082,89 @@ if (
     let requestAdminId = 0;
 
 
-    /* =====================================================
-       CEK SESI ADMIN
-    ===================================================== */
+/* =====================================================
+   ADMIN START + CACHE
+===================================================== */
+const CACHE_ADMIN_MS = 60000;
+const cacheAdmin = {
+    absensi: { waktu: 0, kunci: "" },
+    pegawai: { waktu: 0 },
+    keterangan: { waktu: 0 }
+};
 
-    cekSesiAdminAwal();
+function cacheMasihFresh(nama, kunci = "") {
+    const cache = cacheAdmin[nama];
+    if (!cache || Date.now() - cache.waktu >= CACHE_ADMIN_MS) return false;
+    return !kunci || cache.kunci === kunci;
+}
 
-    async function cekSesiAdminAwal() {
-        try {
-            const hasil = await postAdmin({
-                action: "cekSesiAdmin"
-            });
+function setCacheAdmin(nama, kunci = "") {
+    if (!cacheAdmin[nama]) return;
+    cacheAdmin[nama].waktu = Date.now();
+    if (kunci) cacheAdmin[nama].kunci = kunci;
+}
 
-            if (!hasil.berhasil) {
-                throw new Error(
-                    hasil.pesan ||
-                    "Sesi admin tidak valid."
-                );
-            }
+function hapusCacheAdmin(...nama) {
+    nama.forEach(key => {
+        if (!cacheAdmin[key]) return;
+        cacheAdmin[key].waktu = 0;
+        if ("kunci" in cacheAdmin[key]) cacheAdmin[key].kunci = "";
+    });
+}
 
-            const nama =
-                hasil.nama ||
-                localStorage.getItem("nama") ||
-                "Admin";
+mulaiAdmin();
 
-            const nip =
-                hasil.nip ||
-                localStorage.getItem("nip") ||
-                "";
+async function mulaiAdmin() {
+    const token = localStorage.getItem("adminToken");
+    const role = localStorage.getItem("role");
+    if (!token || role !== "admin") return keluarAdminLokal();
 
-            localStorage.setItem("nama", nama);
-            localStorage.setItem("nip", nip);
-            localStorage.setItem("role", "admin");
+    const nama = localStorage.getItem("nama") || "Admin";
+    const nip = localStorage.getItem("nip") || "";
+    if (akunAdminNama) akunAdminNama.textContent = nama;
+    if (akunAdminNip) akunAdminNip.textContent = nip;
+    if (filterTanggal) filterTanggal.value = tanggalWITAHariIni();
 
-            if (akunAdminNama) {
-                akunAdminNama.textContent = nama;
-            }
+    tampilkanHalamanAdmin("absensi");
 
-            if (akunAdminNip) {
-                akunAdminNip.textContent = nip;
-            }
-
-            if (filterTanggal) {
-                filterTanggal.value =
-                    tanggalWITAHariIni();
-            }
-
-            tampilkanHalamanAdmin("absensi");
-            await ambilAbsensiAdmin();
-
-        } catch (error) {
-            console.error(error);
-            keluarAdminLokal();
-        }
+    try {
+        await ambilAbsensiAdmin();
+    } catch (error) {
+        console.error(error);
     }
+}
 
+/* =====================================================
+   NAVIGASI ADMIN
+===================================================== */
+navAbsensiBtn?.addEventListener("click", async function() {
+    tampilkanHalamanAdmin("absensi");
+    const tanggal = filterTanggal?.value || "";
+    if (!cacheMasihFresh("absensi", tanggal)) await ambilAbsensiAdmin();
+});
 
-    /* =====================================================
-       NAVIGASI ADMIN
-    ===================================================== */
+navPegawaiBtn?.addEventListener("click", async function() {
+    tampilkanHalamanAdmin("pegawai");
+    if (cacheMasihFresh("pegawai")) {
+        tampilkanPegawaiAdmin();
+        isiPilihanPegawaiManual();
+        return;
+    }
+    await ambilPegawaiAdmin();
+});
 
-    navAbsensiBtn?.addEventListener(
-        "click",
-        async function() {
-            tampilkanHalamanAdmin("absensi");
-            await ambilAbsensiAdmin();
-        }
-    );
+navKeteranganBtn?.addEventListener("click", async function() {
+    tampilkanHalamanAdmin("keterangan");
+    if (cacheMasihFresh("keterangan")) {
+        tampilkanKeteranganAdmin();
+        return;
+    }
+    await ambilKeteranganAdmin();
+});
 
-    navPegawaiBtn?.addEventListener(
-        "click",
-        async function() {
-            tampilkanHalamanAdmin("pegawai");
-            await ambilPegawaiAdmin();
-        }
-    );
-
-    navKeteranganBtn?.addEventListener(
-        "click",
-        async function() {
-            tampilkanHalamanAdmin("keterangan");
-            await ambilKeteranganAdmin();
-        }
-    );
-
-    navAkunAdminBtn?.addEventListener(
-        "click",
-        function() {
-            tampilkanHalamanAdmin("akun");
-        }
-    );
-
+navAkunAdminBtn?.addEventListener("click", function() {
+    tampilkanHalamanAdmin("akun");
+});
 
     function tampilkanHalamanAdmin(halaman) {
         [
@@ -2220,47 +2212,26 @@ if (
     ===================================================== */
 
     async function ambilAbsensiAdmin() {
-        const idRequest = ++requestAdminId;
+    const idRequest = ++requestAdminId;
+    const tanggal = filterTanggal?.value || "";
 
-        if (dataAbsensi) {
-            dataAbsensi.innerHTML =
-                '<tr><td colspan="11" class="loading-cell">Memuat data absensi...</td></tr>';
-        }
+    if (dataAbsensi) dataAbsensi.innerHTML =
+        '<tr><td colspan="11" class="loading-cell">Memuat data absensi...</td></tr>';
 
-        try {
-            const hasil = await postAdmin({
-                action: "ambilAbsensi",
-                tanggal: filterTanggal?.value || ""
-            });
+    try {
+        const hasil = await postAdmin({ action: "ambilAbsensi", tanggal });
+        if (idRequest !== requestAdminId) return;
+        if (!hasil.berhasil) throw new Error(hasil.pesan || "Data absensi gagal dimuat.");
 
-            if (idRequest !== requestAdminId) return;
-
-            if (!hasil.berhasil) {
-                throw new Error(
-                    hasil.pesan ||
-                    "Data absensi gagal dimuat."
-                );
-            }
-
-            dataTanggalAktif =
-                Array.isArray(hasil.data)
-                    ? hasil.data
-                    : [];
-
-            tampilkanAbsensiAdmin();
-
-        } catch (error) {
-            console.error(error);
-
-            if (dataAbsensi) {
-                dataAbsensi.innerHTML =
-                    '<tr><td colspan="11" class="empty-cell">' +
-                    escapeHTML(error.message) +
-                    "</td></tr>";
-            }
-        }
+        dataTanggalAktif = Array.isArray(hasil.data) ? hasil.data : [];
+        setCacheAdmin("absensi", tanggal);
+        tampilkanAbsensiAdmin();
+    } catch (error) {
+        console.error(error);
+        if (dataAbsensi) dataAbsensi.innerHTML =
+            '<tr><td colspan="11" class="empty-cell">' + escapeHTML(error.message) + "</td></tr>";
     }
-
+}
 
     function tampilkanAbsensiAdmin() {
         const cari =
@@ -2515,42 +2486,23 @@ if (
     ===================================================== */
 
     async function ambilPegawaiAdmin() {
-        if (dataPegawai) {
-            dataPegawai.innerHTML =
-                '<tr><td colspan="5" class="loading-cell">Memuat daftar pegawai...</td></tr>';
-        }
+    if (dataPegawai) dataPegawai.innerHTML =
+        '<tr><td colspan="5" class="loading-cell">Memuat daftar pegawai...</td></tr>';
 
-        try {
-            const hasil = await postAdmin({
-                action: "ambilPegawai"
-            });
+    try {
+        const hasil = await postAdmin({ action: "ambilPegawai" });
+        if (!hasil.berhasil) throw new Error(hasil.pesan || "Daftar pegawai gagal dimuat.");
 
-            if (!hasil.berhasil) {
-                throw new Error(
-                    hasil.pesan ||
-                    "Daftar pegawai gagal dimuat."
-                );
-            }
-
-            daftarPegawaiAdmin =
-                Array.isArray(hasil.data)
-                    ? hasil.data
-                    : [];
-
-            tampilkanPegawaiAdmin();
-            isiPilihanPegawaiManual();
-
-        } catch (error) {
-            console.error(error);
-
-            if (dataPegawai) {
-                dataPegawai.innerHTML =
-                    '<tr><td colspan="5" class="empty-cell">' +
-                    escapeHTML(error.message) +
-                    "</td></tr>";
-            }
-        }
+        daftarPegawaiAdmin = Array.isArray(hasil.data) ? hasil.data : [];
+        setCacheAdmin("pegawai");
+        tampilkanPegawaiAdmin();
+        isiPilihanPegawaiManual();
+    } catch (error) {
+        console.error(error);
+        if (dataPegawai) dataPegawai.innerHTML =
+            '<tr><td colspan="5" class="empty-cell">' + escapeHTML(error.message) + "</td></tr>";
     }
+}
 
 
     function tampilkanPegawaiAdmin() {
@@ -2918,6 +2870,7 @@ if (
                 }
 
                 tutupModal(pegawaiModal);
+                hapusCacheAdmin("pegawai");
                 await ambilPegawaiAdmin();
 
                 await tampilkanDialogInfo(
@@ -3021,6 +2974,7 @@ if (
                 );
             }
 
+            hapusCacheAdmin("pegawai");
             await ambilPegawaiAdmin();
 
             await tampilkanDialogInfo(
@@ -3050,37 +3004,27 @@ if (
             );
         }
     }
-        /* =====================================================
-       KETERANGAN ADMIN
+    /* =====================================================
+    KETERANGAN ADMIN
     ===================================================== */
 
     async function ambilKeteranganAdmin() {
-        if (dataKeteranganAdmin) {
-            dataKeteranganAdmin.innerHTML =
-                '<tr><td colspan="7" class="loading-cell">Memuat data keterangan...</td></tr>';
-        }
+    if (dataKeteranganAdmin) dataKeteranganAdmin.innerHTML =
+        '<tr><td colspan="7" class="loading-cell">Memuat data keterangan...</td></tr>';
 
-        try {
-            const hasil = await postAdmin({ action: "ambilKeteranganAdmin" });
+    try {
+        const hasil = await postAdmin({ action: "ambilKeteranganAdmin" });
+        if (!hasil.berhasil) throw new Error(hasil.pesan || "Data keterangan gagal dimuat.");
 
-            if (!hasil.berhasil) {
-                throw new Error(hasil.pesan || "Data keterangan gagal dimuat.");
-            }
-
-            daftarKeteranganAdmin = Array.isArray(hasil.data) ? hasil.data : [];
-            tampilkanKeteranganAdmin();
-
-        } catch (error) {
-            console.error(error);
-
-            if (dataKeteranganAdmin) {
-                dataKeteranganAdmin.innerHTML =
-                    '<tr><td colspan="7" class="empty-cell">' +
-                    escapeHTML(error.message) +
-                    "</td></tr>";
-            }
-        }
+        daftarKeteranganAdmin = Array.isArray(hasil.data) ? hasil.data : [];
+        setCacheAdmin("keterangan");
+        tampilkanKeteranganAdmin();
+    } catch (error) {
+        console.error(error);
+        if (dataKeteranganAdmin) dataKeteranganAdmin.innerHTML =
+            '<tr><td colspan="7" class="empty-cell">' + escapeHTML(error.message) + "</td></tr>";
     }
+}
 
 
     function tampilkanKeteranganAdmin() {
@@ -3321,6 +3265,7 @@ if (
                 );
             }
 
+            hapusCacheAdmin("keterangan");
             await ambilKeteranganAdmin();
 
             await tampilkanDialogInfo(
@@ -3541,6 +3486,7 @@ if (
                     filterTanggal.value = tanggal;
                 }
 
+                hapusCacheAdmin("absensi");
                 tampilkanHalamanAdmin("absensi");
                 await ambilAbsensiAdmin();
 
