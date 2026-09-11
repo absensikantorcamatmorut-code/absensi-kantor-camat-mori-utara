@@ -412,7 +412,7 @@
        REQUEST
     ===================================================== */
 
-    async function postDataRekapPegawai(data, timeout = 20000) {
+    async function postDataRekapPegawai(data, timeout = 45000) {
         const controller = new AbortController();
 
         const timer = setTimeout(

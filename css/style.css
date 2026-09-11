@@ -9203,3 +9203,28 @@ button.is-loading { cursor: wait; opacity: .78; }
   .admin-page .calendar-nav-btn{width:40px;height:40px}
   .admin-page .calendar-day{min-height:42px;font-size:12px}
 }
+
+
+/* =====================================================
+   FASE 6/7 — FINAL UX, RESPONSIVE & PROTEKSI INTERAKSI
+   Fokus: sederhana, mudah disentuh, minim salah klik.
+===================================================== */
+.admin-page .table-actions{display:flex;flex-wrap:wrap;gap:7px}
+.admin-page .table-action{min-height:40px;padding:8px 12px;white-space:nowrap}
+.admin-page button:disabled,.absensi-page button:disabled{cursor:not-allowed;opacity:.68}
+.admin-page input,.admin-page select,.admin-page textarea{font-size:15px}
+.admin-page .table-wrapper,.admin-page .table-container{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.admin-page .empty-cell{padding:28px 16px!important;line-height:1.5;color:#64748b;text-align:center}
+
+@media(max-width:760px){
+  .admin-page input,.admin-page select,.admin-page textarea{font-size:16px}
+  .admin-page .table-action{min-height:44px;padding:9px 13px}
+  .admin-page .table-actions{gap:8px}
+  .admin-page .admin-modal-content{width:min(100% - 20px,680px);max-height:92vh;overflow:auto}
+}
+
+@media(max-width:480px){
+  .admin-page .table-actions{display:grid;grid-template-columns:1fr}
+  .admin-page .table-action{width:100%}
+  .admin-page .app-toast{bottom:12px;width:calc(100% - 20px)}
+}

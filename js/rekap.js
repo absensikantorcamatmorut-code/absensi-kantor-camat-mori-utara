@@ -133,9 +133,10 @@ if (rekapPage) {
             return;
         }
 
-        if (tampilkanRekapBtn) {
+        if (typeof setButtonLoading === "function") {
+            setButtonLoading(tampilkanRekapBtn, true, "Memuat...");
+        } else if (tampilkanRekapBtn) {
             tampilkanRekapBtn.disabled = true;
-            tampilkanRekapBtn.textContent = "Memuat...";
         }
 
         if (dataRekapBulanan) {
@@ -167,9 +168,10 @@ if (rekapPage) {
             tampilkanInfoRekap(error.message);
 
         } finally {
-            if (tampilkanRekapBtn) {
+            if (typeof setButtonLoading === "function") {
+                setButtonLoading(tampilkanRekapBtn, false);
+            } else if (tampilkanRekapBtn) {
                 tampilkanRekapBtn.disabled = false;
-                tampilkanRekapBtn.textContent = "Tampilkan Rekap";
             }
         }
     }
@@ -354,10 +356,10 @@ if (rekapPage) {
 
         const sedangEdit = Boolean(editHariLiburId);
 
-        if (simpanHariLiburBtn) {
+        if (typeof setButtonLoading === "function") {
+            setButtonLoading(simpanHariLiburBtn, true, "Menyimpan...");
+        } else if (simpanHariLiburBtn) {
             simpanHariLiburBtn.disabled = true;
-            simpanHariLiburBtn.textContent =
-                sedangEdit ? "Menyimpan..." : "Menyimpan...";
         }
 
         try {
@@ -396,12 +398,10 @@ if (rekapPage) {
             tampilkanInfoRekap(error.message);
 
         } finally {
-            if (simpanHariLiburBtn) {
+            if (typeof setButtonLoading === "function") {
+                setButtonLoading(simpanHariLiburBtn, false);
+            } else if (simpanHariLiburBtn) {
                 simpanHariLiburBtn.disabled = false;
-                simpanHariLiburBtn.textContent =
-                    editHariLiburId
-                        ? "Simpan Perubahan"
-                        : "Simpan Hari Libur";
             }
         }
     });
@@ -576,7 +576,8 @@ if (rekapPage) {
                 button.addEventListener("click", function() {
                     hapusHariLibur(
                         button.dataset.id,
-                        button.dataset.nama
+                        button.dataset.nama,
+                        button
                     );
                 });
             });
@@ -586,7 +587,7 @@ if (rekapPage) {
        HAPUS HARI LIBUR
     ===================================================== */
 
-    async function hapusHariLibur(id, nama) {
+    async function hapusHariLibur(id, nama, tombol) {
         let lanjut = true;
 
         if (typeof tampilkanDialogKonfirmasi === "function") {
@@ -605,6 +606,12 @@ if (rekapPage) {
         }
 
         if (!lanjut) return;
+
+        if (typeof setButtonLoading === "function") {
+            setButtonLoading(tombol, true, "Menghapus...");
+        } else if (tombol) {
+            tombol.disabled = true;
+        }
 
         try {
             const hasil = await postRekap({
@@ -630,6 +637,12 @@ if (rekapPage) {
         } catch (error) {
             console.error(error);
             tampilkanInfoRekap(error.message);
+        } finally {
+            if (typeof setButtonLoading === "function") {
+                setButtonLoading(tombol, false);
+            } else if (tombol) {
+                tombol.disabled = false;
+            }
         }
     }
 

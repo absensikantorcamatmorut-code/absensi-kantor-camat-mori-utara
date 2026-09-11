@@ -3018,10 +3018,12 @@ if (
 
     window.setButtonLoading = (button, loading, text = "Memproses...") => {
         if (!button) return;
-        if (!button.dataset.label) button.dataset.label = button.textContent.trim();
+        if (loading && !button.classList.contains("is-loading")) {
+            button.dataset.label = button.textContent.trim();
+        }
         button.disabled = loading;
         button.classList.toggle("is-loading", loading);
-        button.textContent = loading ? text : button.dataset.label;
+        button.textContent = loading ? text : (button.dataset.label || button.textContent);
         button.setAttribute("aria-busy", String(loading));
     };
 
@@ -4734,7 +4736,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
        REQUEST ADMIN
     ===================================================== */
 
-    async function postAdmin(data, timeout = 20000) {
+    async function postAdmin(data, timeout = null) {
         const token = localStorage.getItem("adminToken");
 
         if (!token) {
