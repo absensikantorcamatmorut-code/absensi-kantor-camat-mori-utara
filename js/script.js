@@ -16,7 +16,7 @@ const JAM_ABSENSI = {
 
 
 /* =====================================================
-   CUSTOM DIALOG - FINAL CENTER
+   CUSTOM DIALOG - FINAL BUBBLE
 ===================================================== */
 
 function pastikanCustomDialog() {
@@ -33,7 +33,8 @@ function pastikanCustomDialog() {
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(15, 23, 42, .42);
+            overflow: hidden;
+            background: rgba(15, 23, 42, .38);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             opacity: 0;
@@ -48,32 +49,418 @@ function pastikanCustomDialog() {
             visibility: visible;
         }
 
+        /* =============================================
+           EFEK GELEMBUNG DARI TENGAH
+        ============================================= */
+
+        .custom-dialog-bubble-layer {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-dialog-bubble-layer::before,
+        .custom-dialog-bubble-layer::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(.1);
+            opacity: 0;
+            border: 1px solid rgba(255, 255, 255, .38);
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    rgba(255,255,255,.45),
+                    rgba(59,130,246,.12) 35%,
+                    rgba(14,165,233,.04) 70%
+                );
+            box-shadow:
+                inset 0 0 18px rgba(255,255,255,.18),
+                0 0 35px rgba(37,99,235,.10);
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-bubble-layer::before {
+            animation:
+                dialogBubbleWaveOne .75s
+                cubic-bezier(.2,.8,.2,1)
+                forwards;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-bubble-layer::after {
+            animation:
+                dialogBubbleWaveTwo .85s
+                cubic-bezier(.2,.8,.2,1)
+                .08s forwards;
+        }
+
+        @keyframes dialogBubbleWaveOne {
+            0% {
+                width: 20px;
+                height: 20px;
+                opacity: .75;
+                transform:
+                    translate(-50%, -50%)
+                    scale(.15);
+            }
+
+            55% {
+                opacity: .34;
+            }
+
+            100% {
+                width: 520px;
+                height: 520px;
+                opacity: 0;
+                transform:
+                    translate(-50%, -50%)
+                    scale(1);
+            }
+        }
+
+        @keyframes dialogBubbleWaveTwo {
+            0% {
+                width: 15px;
+                height: 15px;
+                opacity: .65;
+                transform:
+                    translate(-50%, -50%)
+                    scale(.12);
+            }
+
+            100% {
+                width: 380px;
+                height: 380px;
+                opacity: 0;
+                transform:
+                    translate(-50%, -50%)
+                    scale(1);
+            }
+        }
+
+        /* Bubble kecil */
+
+        .custom-dialog-floating-bubbles {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 280px;
+            height: 280px;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-dialog-floating-bubbles span {
+            position: absolute;
+            display: block;
+            border-radius: 50%;
+            opacity: 0;
+            background:
+                radial-gradient(
+                    circle at 30% 28%,
+                    rgba(255,255,255,.65),
+                    rgba(147,197,253,.28) 40%,
+                    rgba(59,130,246,.07) 75%
+                );
+            border: 1px solid rgba(255,255,255,.5);
+            box-shadow:
+                inset 0 0 9px rgba(255,255,255,.22),
+                0 5px 18px rgba(37,99,235,.08);
+        }
+
+        .custom-dialog-floating-bubbles span:nth-child(1) {
+            width: 28px;
+            height: 28px;
+            left: 10%;
+            top: 48%;
+        }
+
+        .custom-dialog-floating-bubbles span:nth-child(2) {
+            width: 18px;
+            height: 18px;
+            right: 14%;
+            top: 28%;
+        }
+
+        .custom-dialog-floating-bubbles span:nth-child(3) {
+            width: 23px;
+            height: 23px;
+            right: 8%;
+            bottom: 25%;
+        }
+
+        .custom-dialog-floating-bubbles span:nth-child(4) {
+            width: 14px;
+            height: 14px;
+            left: 22%;
+            top: 20%;
+        }
+
+        .custom-dialog-floating-bubbles span:nth-child(5) {
+            width: 19px;
+            height: 19px;
+            left: 32%;
+            bottom: 12%;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-floating-bubbles span:nth-child(1) {
+            animation:
+                dialogFloatBubbleOne .85s ease-out
+                .06s forwards;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-floating-bubbles span:nth-child(2) {
+            animation:
+                dialogFloatBubbleTwo .8s ease-out
+                .1s forwards;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-floating-bubbles span:nth-child(3) {
+            animation:
+                dialogFloatBubbleThree .9s ease-out
+                .04s forwards;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-floating-bubbles span:nth-child(4) {
+            animation:
+                dialogFloatBubbleFour .75s ease-out
+                .12s forwards;
+        }
+
+        .custom-dialog-overlay.show
+        .custom-dialog-floating-bubbles span:nth-child(5) {
+            animation:
+                dialogFloatBubbleFive .82s ease-out
+                .08s forwards;
+        }
+
+        @keyframes dialogFloatBubbleOne {
+            0% {
+                opacity: 0;
+                transform:
+                    translate(70px, 0)
+                    scale(.2);
+            }
+
+            35% {
+                opacity: .75;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(-25px, -22px)
+                    scale(1.15);
+            }
+        }
+
+        @keyframes dialogFloatBubbleTwo {
+            0% {
+                opacity: 0;
+                transform:
+                    translate(-65px, 55px)
+                    scale(.2);
+            }
+
+            40% {
+                opacity: .7;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(20px, -26px)
+                    scale(1);
+            }
+        }
+
+        @keyframes dialogFloatBubbleThree {
+            0% {
+                opacity: 0;
+                transform:
+                    translate(-80px, -45px)
+                    scale(.2);
+            }
+
+            35% {
+                opacity: .68;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(24px, 32px)
+                    scale(1.15);
+            }
+        }
+
+        @keyframes dialogFloatBubbleFour {
+            0% {
+                opacity: 0;
+                transform:
+                    translate(55px, 60px)
+                    scale(.15);
+            }
+
+            40% {
+                opacity: .72;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(-18px, -24px)
+                    scale(1);
+            }
+        }
+
+        @keyframes dialogFloatBubbleFive {
+            0% {
+                opacity: 0;
+                transform:
+                    translate(35px, -65px)
+                    scale(.2);
+            }
+
+            40% {
+                opacity: .65;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(-18px, 24px)
+                    scale(1.1);
+            }
+        }
+
+        /* =============================================
+           CARD
+        ============================================= */
+
         .custom-dialog-box {
+            position: relative;
+            z-index: 3;
             width: min(430px, 100%);
             padding: 27px;
             overflow: hidden;
             text-align: center;
             border: 1px solid #dbe5ef;
             border-radius: 22px;
-            background: #fff;
-            box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    rgba(59,130,246,.08),
+                    transparent 48%
+                ),
+                #fff;
+            box-shadow:
+                0 24px 70px rgba(15,23,42,.22);
 
             opacity: 0;
             transform:
-                translateY(18px)
-                scale(.94);
+                scale(.82);
 
             transition:
-                opacity .25s ease,
-                transform .25s cubic-bezier(.2,.8,.2,1);
+                opacity .28s ease,
+                transform .34s cubic-bezier(
+                    .16,
+                    1,
+                    .3,
+                    1
+                );
         }
 
-        .custom-dialog-overlay.show .custom-dialog-box {
+        .custom-dialog-overlay.show
+        .custom-dialog-box {
             opacity: 1;
-            transform:
-                translateY(0)
-                scale(1);
+            transform: scale(1);
         }
+
+        /* tekstur gelembung halus dalam card */
+
+        .custom-dialog-box::before,
+        .custom-dialog-box::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .custom-dialog-box::before {
+            width: 160px;
+            height: 160px;
+            right: -75px;
+            top: -80px;
+            border: 22px solid rgba(37,99,235,.035);
+            animation:
+                dialogInnerBubble 6s
+                ease-in-out infinite;
+        }
+
+        .custom-dialog-box::after {
+            width: 85px;
+            height: 85px;
+            left: -38px;
+            bottom: -40px;
+            background:
+                rgba(14,165,233,.035);
+            animation:
+                dialogInnerBubbleTwo 7s
+                ease-in-out infinite;
+        }
+
+        @keyframes dialogInnerBubble {
+            0%,100% {
+                transform:
+                    translate(0,0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(-8px,10px)
+                    scale(1.06);
+            }
+        }
+
+        @keyframes dialogInnerBubbleTwo {
+            0%,100% {
+                transform:
+                    translate(0,0);
+            }
+
+            50% {
+                transform:
+                    translate(9px,-7px)
+                    scale(1.08);
+            }
+        }
+
+        .custom-dialog-icon,
+        .custom-dialog-title,
+        .custom-dialog-message,
+        .custom-dialog-actions {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =============================================
+           ICON
+        ============================================= */
 
         .custom-dialog-icon {
             width: 62px;
@@ -85,37 +472,82 @@ function pastikanCustomDialog() {
             font-size: 27px;
             font-weight: 800;
             border: 1px solid #bfdbfe;
-            border-radius: 18px;
-            background: #eff6ff;
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle at 32% 26%,
+                    #fff,
+                    #eff6ff 45%,
+                    #dbeafe 100%
+                );
+            box-shadow:
+                inset 0 0 10px rgba(255,255,255,.8),
+                0 7px 18px rgba(37,99,235,.10);
 
             opacity: 0;
-            transform: scale(.75);
-            transition:
-                opacity .25s ease .08s,
-                transform .25s cubic-bezier(.2,.8,.2,1) .08s;
+            transform: scale(.35);
         }
 
-        .custom-dialog-overlay.show .custom-dialog-icon {
-            opacity: 1;
-            transform: scale(1);
+        .custom-dialog-overlay.show
+        .custom-dialog-icon {
+            animation:
+                dialogIconBubble .48s
+                cubic-bezier(.16,1,.3,1)
+                .08s forwards;
+        }
+
+        @keyframes dialogIconBubble {
+            0% {
+                opacity: 0;
+                transform: scale(.3);
+            }
+
+            65% {
+                opacity: 1;
+                transform: scale(1.12);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .custom-dialog-icon.success {
             color: #047857;
             border-color: #bbf7d0;
-            background: #ecfdf5;
+            background:
+                radial-gradient(
+                    circle at 32% 26%,
+                    #fff,
+                    #ecfdf5 48%,
+                    #d1fae5
+                );
         }
 
         .custom-dialog-icon.danger {
             color: #b91c1c;
             border-color: #fecaca;
-            background: #fef2f2;
+            background:
+                radial-gradient(
+                    circle at 32% 26%,
+                    #fff,
+                    #fef2f2 48%,
+                    #fee2e2
+                );
         }
+
+        /* =============================================
+           TEXT
+        ============================================= */
 
         .custom-dialog-title {
             margin: 0 0 9px;
             color: #172033;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
             font-size: 22px;
             font-weight: 700;
             line-height: 1.3;
@@ -124,12 +556,19 @@ function pastikanCustomDialog() {
         .custom-dialog-message {
             margin: 0;
             color: #64748b;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
             font-size: 16px;
             line-height: 1.6;
             white-space: pre-line;
             overflow-wrap: anywhere;
         }
+
+        /* =============================================
+           BUTTON
+        ============================================= */
 
         .custom-dialog-actions {
             display: flex;
@@ -142,7 +581,10 @@ function pastikanCustomDialog() {
             min-width: 125px;
             min-height: 48px;
             padding: 10px 18px;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
             font-size: 15px;
             font-weight: 700;
             line-height: 1.2;
@@ -164,7 +606,8 @@ function pastikanCustomDialog() {
         }
 
         .custom-dialog-btn:focus-visible {
-            outline: 3px solid rgba(59, 130, 246, .22);
+            outline: 3px solid
+                rgba(59,130,246,.22);
             outline-offset: 2px;
         }
 
@@ -183,29 +626,42 @@ function pastikanCustomDialog() {
         .custom-dialog-confirm {
             color: #fff;
             border: 1px solid transparent;
-            background: linear-gradient(90deg, #2563eb, #0ea5e9);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, .18);
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #0ea5e9
+                );
+            box-shadow:
+                0 8px 20px
+                rgba(37,99,235,.18);
         }
 
         .custom-dialog-confirm:hover {
-            box-shadow: 0 10px 24px rgba(37, 99, 235, .22);
+            box-shadow:
+                0 10px 24px
+                rgba(37,99,235,.22);
         }
 
         .custom-dialog-confirm.danger {
             color: #fff;
             background: #dc2626;
-            box-shadow: 0 8px 20px rgba(220, 38, 38, .17);
+            box-shadow:
+                0 8px 20px
+                rgba(220,38,38,.17);
         }
 
         .custom-dialog-confirm.danger:hover {
             background: #b91c1c;
         }
 
+        /* =============================================
+           MOBILE
+        ============================================= */
+
         @media (max-width: 520px) {
             .custom-dialog-overlay {
                 padding: 14px;
-                align-items: center;
-                justify-content: center;
             }
 
             .custom-dialog-box {
@@ -220,7 +676,6 @@ function pastikanCustomDialog() {
                 height: 58px;
                 margin-bottom: 15px;
                 font-size: 25px;
-                border-radius: 17px;
             }
 
             .custom-dialog-title {
@@ -243,25 +698,105 @@ function pastikanCustomDialog() {
                 min-height: 50px;
                 font-size: 16px;
             }
+
+            .custom-dialog-floating-bubbles {
+                width: 240px;
+                height: 240px;
+            }
+
+            @keyframes dialogBubbleWaveOne {
+                0% {
+                    width: 20px;
+                    height: 20px;
+                    opacity: .7;
+                    transform:
+                        translate(-50%, -50%)
+                        scale(.15);
+                }
+
+                100% {
+                    width: 360px;
+                    height: 360px;
+                    opacity: 0;
+                    transform:
+                        translate(-50%, -50%)
+                        scale(1);
+                }
+            }
+
+            @keyframes dialogBubbleWaveTwo {
+                0% {
+                    width: 15px;
+                    height: 15px;
+                    opacity: .6;
+                    transform:
+                        translate(-50%, -50%)
+                        scale(.12);
+                }
+
+                100% {
+                    width: 280px;
+                    height: 280px;
+                    opacity: 0;
+                    transform:
+                        translate(-50%, -50%)
+                        scale(1);
+                }
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .custom-dialog-overlay,
             .custom-dialog-box,
             .custom-dialog-icon,
-            .custom-dialog-btn {
-                transition: none;
+            .custom-dialog-btn,
+            .custom-dialog-bubble-layer::before,
+            .custom-dialog-bubble-layer::after,
+            .custom-dialog-floating-bubbles span,
+            .custom-dialog-box::before,
+            .custom-dialog-box::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .custom-dialog-overlay.show
+            .custom-dialog-box,
+            .custom-dialog-overlay.show
+            .custom-dialog-icon {
+                opacity: 1;
+                transform: none;
             }
         }
     `;
 
     document.head.appendChild(style);
 
-    const overlay = document.createElement("div");
-    overlay.id = "customDialogOverlay";
-    overlay.className = "custom-dialog-overlay";
+    const overlay =
+        document.createElement("div");
+
+    overlay.id =
+        "customDialogOverlay";
+
+    overlay.className =
+        "custom-dialog-overlay";
 
     overlay.innerHTML = `
+        <div
+            class="custom-dialog-bubble-layer"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            class="custom-dialog-floating-bubbles"
+            aria-hidden="true"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <div
             class="custom-dialog-box"
             role="dialog"
@@ -292,7 +827,10 @@ function pastikanCustomDialog() {
             <div class="custom-dialog-actions">
                 <button
                     type="button"
-                    class="custom-dialog-btn custom-dialog-cancel"
+                    class="
+                        custom-dialog-btn
+                        custom-dialog-cancel
+                    "
                     id="customDialogCancel"
                 >
                     Batal
@@ -300,7 +838,10 @@ function pastikanCustomDialog() {
 
                 <button
                     type="button"
-                    class="custom-dialog-btn custom-dialog-confirm"
+                    class="
+                        custom-dialog-btn
+                        custom-dialog-confirm
+                    "
                     id="customDialogConfirm"
                 >
                     Ya, Lanjutkan
@@ -313,39 +854,57 @@ function pastikanCustomDialog() {
 }
 
 
-function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
+function tampilkanDialogKonfirmasi(
+    pesan,
+    opsi = {}
+) {
     pastikanCustomDialog();
 
     return new Promise(function(resolve) {
         const overlay =
-            document.getElementById("customDialogOverlay");
+            document.getElementById(
+                "customDialogOverlay"
+            );
 
         const icon =
-            document.getElementById("customDialogIcon");
+            document.getElementById(
+                "customDialogIcon"
+            );
 
         const title =
-            document.getElementById("customDialogTitle");
+            document.getElementById(
+                "customDialogTitle"
+            );
 
         const message =
-            document.getElementById("customDialogMessage");
+            document.getElementById(
+                "customDialogMessage"
+            );
 
         const cancelBtn =
-            document.getElementById("customDialogCancel");
+            document.getElementById(
+                "customDialogCancel"
+            );
 
         const confirmBtn =
-            document.getElementById("customDialogConfirm");
+            document.getElementById(
+                "customDialogConfirm"
+            );
 
-        const bahaya = Boolean(opsi.bahaya);
+        const bahaya =
+            Boolean(opsi.bahaya);
 
         icon.textContent =
-            opsi.icon || (bahaya ? "!" : "?");
+            opsi.icon ||
+            (bahaya ? "!" : "?");
 
         icon.className =
             "custom-dialog-icon" +
             (bahaya ? " danger" : "");
 
         title.textContent =
-            opsi.judul || "Konfirmasi";
+            opsi.judul ||
+            "Konfirmasi";
 
         message.textContent =
             String(
@@ -354,7 +913,8 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
             );
 
         cancelBtn.textContent =
-            opsi.teksBatal || "Batal";
+            opsi.teksBatal ||
+            "Batal";
 
         confirmBtn.textContent =
             opsi.teksKonfirmasi ||
@@ -373,7 +933,9 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 
             selesaiDipanggil = true;
 
-            overlay.classList.remove("show");
+            overlay.classList.remove(
+                "show"
+            );
 
             document.removeEventListener(
                 "keydown",
@@ -382,47 +944,66 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 
             setTimeout(function() {
                 resolve(nilai);
-            }, 180);
+            }, 200);
         }
 
         function tekanEscape(event) {
-            if (event.key === "Escape") {
+            if (
+                event.key === "Escape"
+            ) {
                 selesai(false);
             }
         }
 
-        cancelBtn.onclick = function() {
-            selesai(false);
-        };
-
-        confirmBtn.onclick = function() {
-            selesai(true);
-        };
-
-        overlay.onclick = function(event) {
-            if (event.target === overlay) {
+        cancelBtn.onclick =
+            function() {
                 selesai(false);
-            }
-        };
+            };
+
+        confirmBtn.onclick =
+            function() {
+                selesai(true);
+            };
+
+        overlay.onclick =
+            function(event) {
+                if (
+                    event.target ===
+                    overlay
+                ) {
+                    selesai(false);
+                }
+            };
 
         document.addEventListener(
             "keydown",
             tekanEscape
         );
 
-        requestAnimationFrame(function() {
-            overlay.classList.add("show");
-            confirmBtn.focus();
-        });
+        requestAnimationFrame(
+            function() {
+                overlay.classList.add(
+                    "show"
+                );
+
+                confirmBtn.focus();
+            }
+        );
     });
 }
 
 
-function tampilkanDialogInfo(pesan, opsi = {}) {
+function tampilkanDialogInfo(
+    pesan,
+    opsi = {}
+) {
     pastikanCustomDialog();
 
     const teks =
-        String(pesan || "Informasi");
+        String(
+            pesan ||
+            "Informasi"
+        );
 
     const teksKecil =
         teks.toLowerCase();
@@ -438,22 +1019,34 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
 
     return new Promise(function(resolve) {
         const overlay =
-            document.getElementById("customDialogOverlay");
+            document.getElementById(
+                "customDialogOverlay"
+            );
 
         const icon =
-            document.getElementById("customDialogIcon");
+            document.getElementById(
+                "customDialogIcon"
+            );
 
         const title =
-            document.getElementById("customDialogTitle");
+            document.getElementById(
+                "customDialogTitle"
+            );
 
         const message =
-            document.getElementById("customDialogMessage");
+            document.getElementById(
+                "customDialogMessage"
+            );
 
         const cancelBtn =
-            document.getElementById("customDialogCancel");
+            document.getElementById(
+                "customDialogCancel"
+            );
 
         const confirmBtn =
-            document.getElementById("customDialogConfirm");
+            document.getElementById(
+                "customDialogConfirm"
+            );
 
         icon.textContent =
             sukses
@@ -482,24 +1075,33 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
                         : "Informasi"
             );
 
-        message.textContent = teks;
+        message.textContent =
+            teks;
 
-        cancelBtn.hidden = true;
+        cancelBtn.hidden =
+            true;
 
         confirmBtn.textContent =
-            opsi.teksTombol || "Oke";
+            opsi.teksTombol ||
+            "Oke";
 
         confirmBtn.className =
             "custom-dialog-btn custom-dialog-confirm";
 
-        let selesaiDipanggil = false;
+        let selesaiDipanggil =
+            false;
 
         function selesai() {
-            if (selesaiDipanggil) return;
+            if (
+                selesaiDipanggil
+            ) return;
 
-            selesaiDipanggil = true;
+            selesaiDipanggil =
+                true;
 
-            overlay.classList.remove("show");
+            overlay.classList.remove(
+                "show"
+            );
 
             document.removeEventListener(
                 "keydown",
@@ -508,11 +1110,13 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
 
             setTimeout(
                 resolve,
-                180
+                200
             );
         }
 
-        function tekanEscape(event) {
+        function tekanEscape(
+            event
+        ) {
             if (
                 event.key === "Escape" ||
                 event.key === "Enter"
@@ -521,26 +1125,35 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
             }
         }
 
-        confirmBtn.onclick = selesai;
+        confirmBtn.onclick =
+            selesai;
 
-        overlay.onclick = function(event) {
-            if (event.target === overlay) {
-                selesai();
-            }
-        };
+        overlay.onclick =
+            function(event) {
+                if (
+                    event.target ===
+                    overlay
+                ) {
+                    selesai();
+                }
+            };
 
         document.addEventListener(
             "keydown",
             tekanEscape
         );
 
-        requestAnimationFrame(function() {
-            overlay.classList.add("show");
-            confirmBtn.focus();
-        });
+        requestAnimationFrame(
+            function() {
+                overlay.classList.add(
+                    "show"
+                );
+
+                confirmBtn.focus();
+            }
+        );
     });
-}
-/* =====================================================
+}/* =====================================================
    LOGIN PEGAWAI + ADMIN
 ===================================================== */
 
