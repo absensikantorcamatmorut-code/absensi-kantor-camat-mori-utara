@@ -9979,3 +9979,25 @@ textarea {
         border-radius: 14px;
     }
 }
+
+
+/* Aksi data absensi admin */
+.absensi-admin-actions{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    flex-wrap:wrap;
+}
+.table-action-danger{
+    color:#b42318 !important;
+    border-color:#fecaca !important;
+    background:#fff7f7 !important;
+}
+.table-action-danger:hover{
+    color:#991b1b !important;
+    background:#fee2e2 !important;
+}
+@media(max-width:800px){
+    .absensi-admin-actions{justify-content:flex-start}
+}

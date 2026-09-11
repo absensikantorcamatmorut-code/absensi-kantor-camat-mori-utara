@@ -3557,13 +3557,23 @@ navAkunAdminBtn?.addEventListener("click", function() {
                         <td>${escapeHTML(alasan)}</td>
                         <td>${linkMaps}</td>
                         <td>${linkFoto}</td>
-                        <td><button type="button" class="table-action-btn koreksi-absensi-btn" data-id="${escapeHTML(item.id || "")}">Koreksi</button></td>
+                        <td>
+                            <div class="absensi-admin-actions">
+                                <button type="button" class="table-action-btn koreksi-absensi-btn" data-id="${escapeHTML(item.id || "")}">Koreksi</button>
+                                ${/^Admin(?:\s+Koreksi)?$/i.test(sumber)
+                                    ? `<button type="button" class="table-action-btn table-action-danger hapus-absensi-manual-btn" data-id="${escapeHTML(item.id || "")}">Hapus</button>`
+                                    : ""}
+                            </div>
+                        </td>
                     </tr>
                 `;
             }).join("");
 
         dataAbsensi.querySelectorAll(".koreksi-absensi-btn").forEach(btn =>
             btn.addEventListener("click", () => bukaKoreksiAbsensi(btn.dataset.id))
+        );
+        dataAbsensi.querySelectorAll(".hapus-absensi-manual-btn").forEach(btn =>
+            btn.addEventListener("click", () => hapusAbsensiManual(btn.dataset.id))
         );
         dataAbsensi.querySelectorAll(".foto-preview-btn").forEach(btn =>
             btn.addEventListener("click", () => bukaPreviewFotoAdmin(btn.dataset.foto, btn.dataset.nama))
@@ -4937,6 +4947,46 @@ navAkunAdminBtn?.addEventListener("click", function() {
     const koreksiWaktu = document.getElementById("koreksiAbsensiWaktu");
     const koreksiAlasan = document.getElementById("koreksiAbsensiAlasan");
     const simpanKoreksiBtn = document.getElementById("simpanKoreksiAbsensiBtn");
+
+    async function hapusAbsensiManual(id) {
+        const item = dataTanggalAktif.find(x => String(x.id) === String(id));
+        if (!item) return appToast("Data absensi tidak ditemukan. Muat ulang halaman.", "error");
+
+        const sumber = String(item.sumber || "");
+        if (!/^Admin(?:\s+Koreksi)?$/i.test(sumber)) {
+            return appToast("Hanya absensi manual dari admin yang dapat dihapus.", "error");
+        }
+
+        const yakin = await tampilkanDialogKonfirmasi(
+            `${item.nama || "Pegawai"}\n${item.jenisAbsen || "Absensi"} • ${formatWaktu(item.waktu)}\n\nData ini akan dihapus dari absensi dan memengaruhi rekap. Tindakan tetap dicatat di Log Admin.`,
+            {
+                judul: "Hapus Absensi Manual?",
+                teksKonfirmasi: "Ya, Hapus",
+                teksBatal: "Batal",
+                icon: "🗑️",
+                bahaya: true
+            }
+        );
+
+        if (!yakin) return;
+
+        const tombol = document.querySelector(`.hapus-absensi-manual-btn[data-id="${CSS.escape(String(id))}"]`);
+        try {
+            if (tombol) setButtonLoading(tombol, true, "Menghapus...");
+            const hasil = await postAdmin({ action:"hapusAbsensiManual", id });
+            if (!hasil.berhasil) throw new Error(hasil.pesan || "Absensi manual gagal dihapus.");
+
+            hapusCacheAdmin("absensi");
+            await ambilAbsensiAdmin();
+            // Dashboard ikut diperbarui agar angka hadir/belum absen langsung benar.
+            await muatDashboardRealtime(true);
+            appToast(hasil.pesan || "Absensi manual berhasil dihapus.", "success", "Data Dihapus");
+        } catch (err) {
+            appToast(err.message || "Absensi manual gagal dihapus.", "error", "Hapus Gagal");
+        } finally {
+            if (tombol && document.body.contains(tombol)) setButtonLoading(tombol, false);
+        }
+    }
 
     function bukaKoreksiAbsensi(id) {
         const item = dataTanggalAktif.find(x => String(x.id) === String(id));
