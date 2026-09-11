@@ -4583,24 +4583,21 @@ button:disabled {
         grid-template-columns: 1fr;
     }
 }
-
 /* =====================================================
-   REDESIGN ABSENSI PEGAWAI - FINAL OVERRIDE
-   TEMPEL PALING BAWAH STYLE.CSS
+   ABSENSI PEGAWAI - FINAL
 ===================================================== */
-
-/* ===== PAGE ===== */
 
 .absensi-page {
     position: relative;
     min-height: 100vh;
-    padding: 22px 15px 55px;
+    padding: 24px 16px 56px;
     display: block;
     overflow-x: hidden;
     color: #1e293b;
+    font-family: Arial, Helvetica, sans-serif;
     background:
-        radial-gradient(circle at 8% 7%, rgba(37,99,235,.14), transparent 24%),
-        radial-gradient(circle at 94% 88%, rgba(14,165,233,.12), transparent 27%),
+        radial-gradient(circle at 8% 7%, rgba(37, 99, 235, .13), transparent 25%),
+        radial-gradient(circle at 94% 88%, rgba(14, 165, 233, .11), transparent 28%),
         linear-gradient(180deg, #f8fbff 0%, #eef5fc 52%, #eaf2fb 100%);
 }
 
@@ -4609,15 +4606,17 @@ button:disabled {
     display: none;
 }
 
+/* BACKGROUND */
+
 .absensi-page .pegawai-bg-grid {
     position: fixed;
     inset: 0;
     z-index: 0;
-    opacity: .34;
+    opacity: .3;
     pointer-events: none;
     background-image:
-        linear-gradient(rgba(37,99,235,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37,99,235,.045) 1px, transparent 1px);
+        linear-gradient(rgba(37, 99, 235, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, .045) 1px, transparent 1px);
     background-size: 44px 44px;
 }
 
@@ -4626,7 +4625,7 @@ button:disabled {
     z-index: 0;
     border-radius: 50%;
     pointer-events: none;
-    filter: blur(7px);
+    filter: blur(8px);
 }
 
 .absensi-page .pegawai-blob-one {
@@ -4634,7 +4633,7 @@ button:disabled {
     height: 320px;
     top: -150px;
     left: -130px;
-    background: rgba(37,99,235,.10);
+    background: rgba(37, 99, 235, .1);
     animation: pegawaiBlobA 11s ease-in-out infinite;
 }
 
@@ -4643,33 +4642,35 @@ button:disabled {
     height: 380px;
     right: -190px;
     bottom: -180px;
-    background: rgba(14,165,233,.11);
+    background: rgba(14, 165, 233, .1);
     animation: pegawaiBlobB 13s ease-in-out infinite;
 }
 
 @keyframes pegawaiBlobA {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(34px,28px) scale(1.08); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(34px, 28px) scale(1.08); }
 }
 
 @keyframes pegawaiBlobB {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(-30px,-24px) scale(1.07); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, -24px) scale(1.07); }
 }
+
+/* CONTAINER */
 
 .absensi-page .absensi-container {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 560px;
+    max-width: 580px;
     margin: 0 auto;
-    animation: pegawaiMasuk .45s ease both;
+    animation: pegawaiMasuk .4s ease both;
 }
 
 @keyframes pegawaiMasuk {
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(14px);
     }
 
     to {
@@ -4678,93 +4679,100 @@ button:disabled {
     }
 }
 
-
-/* ===== HEADER ===== */
+/* =====================================================
+   HEADER
+===================================================== */
 
 .absensi-page .absensi-header {
     margin-bottom: 18px;
-    padding: 3px 2px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 15px;
+    gap: 16px;
 }
 
 .absensi-page .absensi-header .app-badge {
+    display: block;
     margin-bottom: 7px;
     color: #2563eb;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .8px;
     text-shadow: none;
 }
 
 .absensi-page .absensi-header h1 {
-    max-width: 360px;
-    color: #162033;
-    font-size: 29px;
-    line-height: 1.1;
+    max-width: 390px;
+    color: #172033;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
     letter-spacing: -.6px;
     background: none;
     -webkit-text-fill-color: initial;
 }
 
 .absensi-page #tanggalSekarang {
-    margin-top: 7px;
-    color: #718096;
-    font-size: 12px;
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.45;
 }
 
 .absensi-page .logout-icon {
-    width: 45px;
-    height: 45px;
+    min-width: 74px;
+    min-height: 46px;
+    padding: 0 14px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #536176;
-    font-size: 19px;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 700;
     border: 1px solid #d8e3ef;
     border-radius: 14px;
-    background: rgba(255,255,255,.86);
-    box-shadow: 0 7px 20px rgba(15,23,42,.055);
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 7px 20px rgba(15, 23, 42, .055);
 }
 
 .absensi-page .logout-icon:hover {
-    color: #2563eb;
-    border-color: #bcd2f2;
-    transform: translateY(-2px);
+    color: #dc2626;
+    border-color: #fecaca;
+    background: #fff7f7;
 }
 
-
-/* ===== PROFILE ===== */
+/* =====================================================
+   PROFIL
+===================================================== */
 
 .absensi-page .pegawai-card {
     margin-bottom: 14px;
-    padding: 16px;
+    padding: 18px;
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 15px;
     color: #1e293b;
     border: 1px solid #dbe5ef;
-    border-radius: 19px;
-    background: rgba(255,255,255,.91);
-    box-shadow: 0 10px 27px rgba(15,23,42,.055);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 10px 27px rgba(15, 23, 42, .055);
 }
 
 .absensi-page .avatar {
-    width: 56px;
-    height: 56px;
+    width: 58px;
+    height: 58px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 22px;
-    font-weight: 900;
-    border-radius: 17px;
+    font-size: 23px;
+    font-weight: 800;
+    border-radius: 18px;
     background: linear-gradient(135deg, #0ea5e9, #2563eb);
-    box-shadow: 0 8px 18px rgba(37,99,235,.19);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, .19);
 }
 
 .absensi-page .pegawai-info {
@@ -4772,53 +4780,53 @@ button:disabled {
 }
 
 .absensi-page .welcome-text {
-    color: #718096;
-    font-size: 11px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .absensi-page .pegawai-card h2 {
-    margin: 2px 0 3px;
-    overflow: hidden;
+    margin: 3px 0 4px;
     color: #172033;
-    font-size: 19px;
-    line-height: 1.25;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
 }
 
 .absensi-page .nip-text {
-    color: #7d8999;
-    font-size: 11px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
-
-/* ===== NAV ===== */
+/* =====================================================
+   NAVIGASI
+===================================================== */
 
 .absensi-page .pegawai-nav {
     margin: 0 0 16px;
-    padding: 5px;
+    padding: 6px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
+    gap: 6px;
     border: 1px solid #dbe5ef;
-    border-radius: 16px;
-    background: rgba(255,255,255,.84);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 22px rgba(15,23,42,.045);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .045);
 }
 
 .absensi-page .pegawai-nav-btn {
-    min-height: 47px;
+    min-height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 7px;
-    color: #66758a;
-    font-size: 13px;
-    font-weight: 800;
+    gap: 8px;
+    color: #526176;
+    font-size: 17px;
+    font-weight: 700;
     border-radius: 12px;
     background: transparent;
-    box-shadow: none;
 }
 
 .absensi-page .pegawai-nav-btn span {
@@ -4832,170 +4840,174 @@ button:disabled {
 
 .absensi-page .pegawai-nav-btn.active {
     color: #fff;
-    border: none;
     background: linear-gradient(90deg, #2563eb, #0ea5e9);
-    box-shadow: 0 8px 18px rgba(37,99,235,.18);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, .18);
 }
 
-
 /* =====================================================
-   HANYA ISI HALAMAN ABSENSI
+   WAKTU & STATUS
 ===================================================== */
-
-/* ===== TODAY ===== */
 
 .absensi-page #absensiPegawaiSection .today-card {
     margin-bottom: 15px;
-    padding: 18px;
+    padding: 20px;
     display: grid;
     grid-template-columns: auto 1px 1fr;
     align-items: center;
-    gap: 17px;
+    gap: 20px;
     border: 1px solid #dbe5ef;
     border-radius: 20px;
-    background: rgba(255,255,255,.94);
-    box-shadow: 0 11px 28px rgba(15,23,42,.055);
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 11px 28px rgba(15, 23, 42, .055);
+}
+
+.absensi-page #absensiPegawaiSection .today-time p,
+.absensi-page #absensiPegawaiSection .today-status small {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .absensi-page #absensiPegawaiSection .today-time p {
-    margin-bottom: 5px;
-    color: #7a8799;
-    font-size: 10px;
+    margin-bottom: 6px;
 }
 
 .absensi-page #absensiPegawaiSection .time-row {
     display: flex;
     align-items: baseline;
-    gap: 5px;
+    gap: 6px;
 }
 
 .absensi-page #absensiPegawaiSection .time-row h2 {
     color: #172033;
-    font-size: 32px;
+    font-size: 40px;
+    font-weight: 700;
     line-height: 1;
     letter-spacing: -1px;
 }
 
 .absensi-page #absensiPegawaiSection .time-row > span {
     color: #0284c7;
-    font-size: 14px;
-    font-weight: 900;
+    font-size: 20px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .time-row small {
     color: #64748b;
-    font-size: 9px;
-    font-weight: 900;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .today-divider {
     width: 1px;
-    height: 50px;
+    height: 58px;
     background: #e1e8f0;
 }
 
 .absensi-page #absensiPegawaiSection .today-status small {
     display: block;
-    margin-bottom: 4px;
-    color: #7a8799;
-    font-size: 10px;
+    margin-bottom: 6px;
 }
 
 .absensi-page #absensiPegawaiSection .today-status strong {
     display: block;
     color: #253247;
-    font-size: 13px;
-    line-height: 1.45;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
-
-/* ===== SECTION CARD ===== */
+/* =====================================================
+   CARD UTAMA
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .mode-section,
 .absensi-page #absensiPegawaiSection .form-section,
 .absensi-page #absensiPegawaiSection .keterangan-aktif-card {
     margin-bottom: 14px;
-    padding: 18px;
+    padding: 20px;
     color: #1e293b;
     border: 1px solid #dbe5ef;
     border-radius: 20px;
-    background: rgba(255,255,255,.94);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 26px rgba(15,23,42,.05);
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, .05);
 }
 
-.absensi-page #absensiPegawaiSection .simple-section-heading {
-    margin-bottom: 15px;
+.absensi-page #absensiPegawaiSection .simple-section-heading,
+.absensi-page #absensiPegawaiSection .submit-heading {
+    margin-bottom: 17px;
 }
 
 .absensi-page #absensiPegawaiSection .section-eyebrow {
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     color: #2563eb;
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 1.3px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .8px;
 }
 
-.absensi-page #absensiPegawaiSection .simple-section-heading h2 {
+.absensi-page #absensiPegawaiSection .simple-section-heading h2,
+.absensi-page #absensiPegawaiSection .submit-heading h2 {
     color: #172033;
-    font-size: 18px;
-    line-height: 1.25;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.3;
 }
 
-.absensi-page #absensiPegawaiSection .simple-section-heading p {
-    margin-top: 4px;
-    color: #758195;
-    font-size: 11px;
-    line-height: 1.45;
+.absensi-page #absensiPegawaiSection .simple-section-heading p,
+.absensi-page #absensiPegawaiSection .submit-heading p {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.55;
 }
 
-
-/* ===== PILIH AKTIVITAS ===== */
+/* =====================================================
+   PILIH AKTIVITAS
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .mode-options {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 11px;
 }
 
 .absensi-page #absensiPegawaiSection .mode-option {
     width: 100%;
-    min-height: 74px;
-    padding: 13px;
+    min-height: 88px;
+    padding: 15px;
     display: grid;
-    grid-template-columns: 45px 1fr auto;
+    grid-template-columns: 50px 1fr auto;
     align-items: center;
-    gap: 11px;
+    gap: 13px;
     color: #1e293b;
     text-align: left;
     border: 2px solid #e2e8f0;
-    border-radius: 15px;
+    border-radius: 16px;
     background: #f8fafc;
-    transition: .2s ease;
 }
 
 .absensi-page #absensiPegawaiSection .mode-option:hover {
     border-color: #b6cdf0;
     background: #f2f7fd;
-    transform: translateY(-1px);
 }
 
 .absensi-page #absensiPegawaiSection .mode-option.active,
 .absensi-page #absensiPegawaiSection .mode-option.selected {
     border-color: #3b82f6;
     background: #eff6ff;
-    box-shadow: 0 0 0 3px rgba(59,130,246,.075);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .075);
 }
 
 .absensi-page #absensiPegawaiSection .mode-icon {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 21px;
-    border-radius: 13px;
+    font-size: 24px;
+    border-radius: 14px;
     background: #e9f2ff;
 }
 
@@ -5006,58 +5018,64 @@ button:disabled {
 .absensi-page #absensiPegawaiSection .mode-content strong {
     display: block;
     color: #1e293b;
-    font-size: 13px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .mode-content small {
     display: block;
-    margin-top: 3px;
-    color: #7c8798;
-    font-size: 10px;
-    line-height: 1.4;
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.45;
 }
 
 .absensi-page #absensiPegawaiSection .mode-arrow {
-    color: #94a3b8;
-    font-size: 23px;
+    color: #64748b;
+    font-size: 28px;
 }
 
-
-/* ===== MASUK / KELUAR ===== */
+/* =====================================================
+   MASUK / KELUAR
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .attendance-options {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 9px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .absensi-page #absensiPegawaiSection .attendance-option {
-    min-height: 85px;
-    padding: 12px;
+    min-height: 92px;
+    padding: 14px;
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 11px;
     color: #1e293b;
     text-align: left;
     border: 2px solid #e2e8f0;
-    border-radius: 15px;
+    border-radius: 16px;
     background: #f8fafc;
 }
 
 .absensi-page #absensiPegawaiSection .attendance-option:hover {
     border-color: #b9ccea;
-    transform: translateY(-1px);
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option:disabled {
+    opacity: .5;
 }
 
 .absensi-page #absensiPegawaiSection .option-icon {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #2563eb;
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: 700;
     border-radius: 12px;
     background: #eaf2ff;
 }
@@ -5065,14 +5083,16 @@ button:disabled {
 .absensi-page #absensiPegawaiSection .attendance-option strong {
     display: block;
     color: #1e293b;
-    font-size: 12px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .attendance-option small {
     display: block;
-    margin-top: 2px;
-    color: #7b8798;
-    font-size: 9px;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .absensi-page #absensiPegawaiSection .masuk-option.active {
@@ -5086,30 +5106,32 @@ button:disabled {
 }
 
 .absensi-page #absensiPegawaiSection .attendance-note {
-    margin-top: 10px;
-    padding: 9px 11px;
-    color: #785b09;
-    font-size: 10px;
-    line-height: 1.45;
-    border-radius: 10px;
+    margin-top: 12px;
+    padding: 11px 13px;
+    color: #725507;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    border-radius: 11px;
     background: #fff8dc;
 }
 
-
-/* ===== LOCATION ===== */
+/* =====================================================
+   LOKASI
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .action-card {
     width: 100%;
-    min-height: 68px;
-    padding: 12px 13px;
+    min-height: 80px;
+    padding: 14px 15px;
     display: grid;
-    grid-template-columns: 43px 1fr auto;
+    grid-template-columns: 48px 1fr auto;
     align-items: center;
-    gap: 11px;
+    gap: 13px;
     color: #1e293b;
     text-align: left;
     border: 2px solid #e2e8f0;
-    border-radius: 15px;
+    border-radius: 16px;
     background: #f8fafc;
 }
 
@@ -5129,14 +5151,14 @@ button:disabled {
 }
 
 .absensi-page #absensiPegawaiSection .action-icon {
-    width: 43px;
-    height: 43px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #0284c7;
-    font-size: 20px;
-    border-radius: 12px;
+    font-size: 23px;
+    border-radius: 13px;
     background: #e0f2fe;
 }
 
@@ -5147,44 +5169,46 @@ button:disabled {
 .absensi-page #absensiPegawaiSection .action-text strong {
     display: block;
     color: #1e293b;
-    font-size: 13px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .action-text small {
     display: block;
-    margin-top: 2px;
-    color: #7b8798;
-    font-size: 10px;
-    line-height: 1.4;
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.45;
 }
 
 .absensi-page #absensiPegawaiSection .action-arrow {
-    color: #94a3b8;
-    font-size: 22px;
+    color: #64748b;
+    font-size: 27px;
 }
 
-
-/* ===== CAMERA ===== */
+/* =====================================================
+   KAMERA
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .camera-live-container {
     position: relative;
     width: 100%;
-    min-height: 230px;
+    min-height: 250px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid #dbe7f1;
-    border-radius: 16px;
+    border-radius: 17px;
     background: #edf5fc;
 }
 
 .absensi-page #absensiPegawaiSection #cameraVideo {
     display: none;
     width: 100%;
-    max-height: 390px;
+    max-height: 420px;
     object-fit: cover;
-    border-radius: 14px;
+    border-radius: 15px;
     transform: scaleX(-1);
 }
 
@@ -5193,56 +5217,57 @@ button:disabled {
 }
 
 .absensi-page #absensiPegawaiSection .camera-placeholder {
-    min-height: 220px;
-    padding: 18px;
+    min-height: 240px;
+    padding: 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 9px;
     color: #1e293b;
     text-align: center;
 }
 
 .absensi-page #absensiPegawaiSection .camera-icon {
-    width: 46px;
-    height: 46px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #0284c7;
-    font-size: 21px;
-    border-radius: 14px;
+    font-size: 23px;
+    border-radius: 15px;
     background: #dff3ff;
 }
 
 .absensi-page #absensiPegawaiSection .camera-placeholder strong {
     color: #263247;
-    font-size: 13px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .camera-placeholder small {
-    max-width: 280px;
-    color: #7b8798;
-    font-size: 10px;
-    line-height: 1.45;
+    max-width: 320px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 .absensi-page #absensiPegawaiSection .camera-action-btn {
     width: 100%;
-    min-height: 51px;
-    margin-top: 10px;
+    min-height: 56px;
+    margin-top: 11px;
     color: #fff;
-    font-size: 13px;
-    font-weight: 900;
-    border-radius: 13px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 14px;
     background: linear-gradient(90deg, #2563eb, #0ea5e9);
-    box-shadow: 0 8px 18px rgba(37,99,235,.16);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, .16);
 }
 
 .absensi-page #absensiPegawaiSection .photo-preview-wrapper {
     display: none;
-    margin-top: 10px;
+    margin-top: 11px;
 }
 
 .absensi-page #absensiPegawaiSection .photo-preview-wrapper.active {
@@ -5252,42 +5277,43 @@ button:disabled {
 .absensi-page #absensiPegawaiSection #previewFoto {
     display: block;
     width: 100%;
-    max-height: 390px;
+    max-height: 420px;
     object-fit: cover;
-    border-radius: 15px;
+    border-radius: 16px;
 }
 
 .absensi-page #absensiPegawaiSection .ulang-foto-btn {
     width: 100%;
-    min-height: 44px;
-    margin-top: 8px;
+    min-height: 50px;
+    margin-top: 9px;
     color: #475569;
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 700;
     border: 1px solid #dbe3ec;
-    border-radius: 11px;
+    border-radius: 12px;
     background: #fff;
 }
 
-
-/* ===== KETERANGAN ===== */
+/* =====================================================
+   KETERANGAN
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .keterangan-options {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 9px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-option {
-    min-height: 74px;
-    padding: 11px;
+    min-height: 88px;
+    padding: 13px;
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 11px;
     color: #1e293b;
     text-align: left;
     border: 2px solid #e2e8f0;
-    border-radius: 14px;
+    border-radius: 15px;
     background: #f8fafc;
 }
 
@@ -5302,15 +5328,16 @@ button:disabled {
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-code {
-    width: 39px;
-    height: 39px;
+    min-width: 42px;
+    height: 42px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 7px;
     color: #0369a1;
-    font-size: 10px;
-    font-weight: 900;
+    font-size: 13px;
+    font-weight: 800;
     border-radius: 11px;
     background: #e0f2fe;
 }
@@ -5318,81 +5345,83 @@ button:disabled {
 .absensi-page #absensiPegawaiSection .keterangan-option strong {
     display: block;
     color: #253247;
-    font-size: 11px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-option small {
     display: block;
-    margin-top: 2px;
-    color: #7b8798;
-    font-size: 9px;
-    line-height: 1.35;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .absensi-page #absensiPegawaiSection #keteranganText {
     width: 100%;
-    min-height: 115px;
-    padding: 13px;
+    min-height: 140px;
+    padding: 15px;
     resize: vertical;
     color: #1e293b;
-    font-size: 13px;
-    line-height: 1.5;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.55;
     border: 2px solid #e2e8f0;
     border-radius: 14px;
     background: #f8fafc;
 }
 
 .absensi-page #absensiPegawaiSection #keteranganText::placeholder {
-    color: #94a3b8;
+    color: #8491a3;
 }
 
 .absensi-page #absensiPegawaiSection #keteranganText:focus {
     border-color: #3b82f6;
     background: #fff;
-    box-shadow: 0 0 0 4px rgba(59,130,246,.08);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, .08);
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-counter {
-    margin-top: 5px;
-    color: #8793a5;
+    margin-top: 7px;
+    color: #64748b;
     text-align: right;
-    font-size: 9px;
+    font-size: 14px;
 }
 
-
-/* ===== KETERANGAN AKTIF ===== */
+/* KETERANGAN AKTIF */
 
 .absensi-page #absensiPegawaiSection .keterangan-aktif-header {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-aktif-header small {
-    color: #718096;
-    font-size: 9px;
+    color: #64748b;
+    font-size: 14px;
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-aktif-header h3 {
-    margin-top: 4px;
+    margin-top: 5px;
     color: #1e293b;
-    font-size: 15px;
+    font-size: 19px;
 }
 
 .absensi-page #absensiPegawaiSection .keterangan-aktif-header p {
-    margin-top: 3px;
-    color: #7b8798;
-    font-size: 10px;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 .absensi-page #absensiPegawaiSection .status-keterangan-badge {
     flex-shrink: 0;
-    padding: 6px 9px;
+    padding: 7px 10px;
     color: #92400e;
-    font-size: 9px;
-    font-weight: 900;
+    font-size: 13px;
+    font-weight: 700;
     border: 1px solid #fde68a;
     border-radius: 999px;
     background: #fef3c7;
@@ -5400,42 +5429,43 @@ button:disabled {
 
 .absensi-page #absensiPegawaiSection .batalkan-keterangan-btn {
     width: 100%;
-    min-height: 43px;
+    min-height: 50px;
     color: #b42318;
-    font-size: 11px;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 700;
     border: 1px solid #fecaca;
-    border-radius: 11px;
+    border-radius: 12px;
     background: #fff5f5;
 }
 
-
-/* ===== SUBMIT ===== */
+/* =====================================================
+   SUBMIT
+===================================================== */
 
 .absensi-page #absensiPegawaiSection .submit-section {
     margin-bottom: 18px;
-    padding: 15px;
+    padding: 20px;
     border: 1px solid #dbe5ef;
-    border-radius: 17px;
-    background: rgba(255,255,255,.94);
-    box-shadow: 0 9px 23px rgba(15,23,42,.045);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 9px 23px rgba(15, 23, 42, .045);
 }
 
 .absensi-page #absensiPegawaiSection .progress-status {
-    margin: 0 0 11px;
+    margin: 0 0 14px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 7px;
+    gap: 8px;
 }
 
 .absensi-page #absensiPegawaiSection .requirement {
-    padding: 5px 9px;
+    padding: 7px 11px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    color: #6b7789;
-    font-size: 10px;
+    gap: 5px;
+    color: #5f6d80;
+    font-size: 14px;
     font-weight: 700;
     border: 1px solid #e0e6ed;
     border-radius: 999px;
@@ -5451,76 +5481,77 @@ button:disabled {
 .absensi-page #absensiPegawaiSection #submitAbsensi,
 .absensi-page #absensiPegawaiSection #submitKeterangan {
     width: 100%;
-    min-height: 54px;
+    min-height: 60px;
     color: #fff;
-    font-size: 14px;
-    font-weight: 900;
-    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 15px;
     background: linear-gradient(90deg, #2563eb, #0ea5e9);
-    box-shadow: 0 9px 20px rgba(37,99,235,.17);
+    box-shadow: 0 9px 20px rgba(37, 99, 235, .17);
 }
 
 .absensi-page #absensiPegawaiSection #submitAbsensi:disabled,
 .absensi-page #absensiPegawaiSection #submitKeterangan:disabled {
-    color: #98a2b3;
+    color: #7c8798;
     background: #e5e7eb;
     box-shadow: none;
 }
 
-
-/* ===== TOAST PEGAWAI ===== */
+/* =====================================================
+   TOAST
+===================================================== */
 
 .absensi-page .toast {
     position: fixed;
     left: 50%;
-    right: auto;
     bottom: 20px;
     z-index: 9999;
     width: calc(100% - 28px);
-    max-width: 440px;
-    padding: 13px 14px;
+    max-width: 460px;
+    padding: 15px 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     opacity: 0;
     color: #1e293b;
     pointer-events: none;
     transform: translate(-50%, 28px);
     border: 1px solid #dce5ef;
-    border-radius: 14px;
-    background: rgba(255,255,255,.98);
-    box-shadow: 0 15px 40px rgba(15,23,42,.13);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, .13);
     transition: .3s ease;
 }
 
 .absensi-page .toast.show {
     opacity: 1;
-    transform: translate(-50%,0);
+    transform: translate(-50%, 0);
 }
 
 .absensi-page #toastIcon {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #059669;
-    border-radius: 10px;
+    font-size: 18px;
+    border-radius: 11px;
     background: #ecfdf5;
 }
 
 .absensi-page .toast strong {
     color: #1e293b;
-    font-size: 11px;
+    font-size: 16px;
 }
 
 .absensi-page .toast p {
-    margin-top: 2px;
-    color: #718096;
-    font-size: 10px;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.4;
 }
-
 
 /* =====================================================
    MOBILE
@@ -5528,7 +5559,7 @@ button:disabled {
 
 @media (max-width: 520px) {
     .absensi-page {
-        padding: 17px 12px 42px;
+        padding: 18px 12px 44px;
     }
 
     .absensi-page .absensi-container {
@@ -5536,36 +5567,57 @@ button:disabled {
     }
 
     .absensi-page .absensi-header {
+        gap: 10px;
         margin-bottom: 15px;
     }
 
+    .absensi-page .absensi-header .app-badge {
+        font-size: 12px;
+    }
+
     .absensi-page .absensi-header h1 {
-        font-size: 24px;
+        font-size: 27px;
+    }
+
+    .absensi-page #tanggalSekarang {
+        font-size: 15px;
     }
 
     .absensi-page .logout-icon {
-        width: 42px;
-        height: 42px;
+        min-width: 66px;
+        min-height: 44px;
+        padding: 0 11px;
+        font-size: 14px;
     }
 
     .absensi-page .pegawai-card {
-        padding: 14px;
+        padding: 16px;
     }
 
     .absensi-page .avatar {
-        width: 52px;
-        height: 52px;
-        font-size: 20px;
+        width: 54px;
+        height: 54px;
+        font-size: 21px;
     }
 
     .absensi-page .pegawai-card h2 {
-        font-size: 17px;
+        font-size: 20px;
+    }
+
+    .absensi-page .welcome-text,
+    .absensi-page .nip-text {
+        font-size: 15px;
+    }
+
+    .absensi-page .pegawai-nav-btn {
+        min-height: 52px;
+        font-size: 16px;
     }
 
     .absensi-page #absensiPegawaiSection .today-card {
-        padding: 16px;
+        padding: 18px;
         grid-template-columns: 1fr;
-        gap: 11px;
+        gap: 13px;
     }
 
     .absensi-page #absensiPegawaiSection .today-divider {
@@ -5574,26 +5626,67 @@ button:disabled {
     }
 
     .absensi-page #absensiPegawaiSection .time-row h2 {
-        font-size: 31px;
+        font-size: 38px;
     }
 
     .absensi-page #absensiPegawaiSection .mode-section,
     .absensi-page #absensiPegawaiSection .form-section,
-    .absensi-page #absensiPegawaiSection .keterangan-aktif-card {
-        padding: 16px;
+    .absensi-page #absensiPegawaiSection .keterangan-aktif-card,
+    .absensi-page #absensiPegawaiSection .submit-section {
+        padding: 17px;
         border-radius: 18px;
     }
 
-    .absensi-page #absensiPegawaiSection .simple-section-heading h2 {
+    .absensi-page #absensiPegawaiSection .simple-section-heading h2,
+    .absensi-page #absensiPegawaiSection .submit-heading h2 {
+        font-size: 21px;
+    }
+
+    .absensi-page #absensiPegawaiSection .simple-section-heading p,
+    .absensi-page #absensiPegawaiSection .submit-heading p {
+        font-size: 15px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-content strong {
         font-size: 17px;
     }
 
-    .absensi-page #absensiPegawaiSection .attendance-option {
-        min-height: 82px;
-        padding: 11px;
+    .absensi-page #absensiPegawaiSection .mode-content small {
+        font-size: 14px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-option strong {
+        font-size: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-option small {
+        font-size: 14px;
+    }
+
+    .absensi-page #absensiPegawaiSection .action-text strong {
+        font-size: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .action-text small {
+        font-size: 14px;
+    }
+
+    .absensi-page #absensiPegawaiSection .camera-placeholder strong {
+        font-size: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .camera-placeholder small {
+        font-size: 14px;
+    }
+
+    .absensi-page #absensiPegawaiSection .keterangan-option strong {
+        font-size: 15px;
+    }
+
+    .absensi-page #absensiPegawaiSection .keterangan-option small {
+        font-size: 13px;
     }
 }
-
 
 /* HP KECIL */
 
@@ -5604,41 +5697,31 @@ button:disabled {
     }
 
     .absensi-page .absensi-header h1 {
-        font-size: 22px;
+        font-size: 24px;
     }
 
-    .absensi-page #absensiPegawaiSection .mode-option {
-        grid-template-columns: 41px 1fr auto;
-    }
-
-    .absensi-page #absensiPegawaiSection .mode-icon {
-        width: 41px;
-        height: 41px;
-        font-size: 19px;
+    .absensi-page .logout-icon {
+        min-width: 60px;
+        padding: 0 9px;
+        font-size: 13px;
     }
 
     .absensi-page #absensiPegawaiSection .attendance-options {
-        gap: 7px;
-    }
-
-    .absensi-page #absensiPegawaiSection .attendance-option {
-        padding: 10px;
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 1fr;
     }
 
     .absensi-page #absensiPegawaiSection .keterangan-options {
-        gap: 7px;
-    }
-
-    .absensi-page #absensiPegawaiSection .keterangan-option {
-        min-height: 82px;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
+        grid-template-columns: 1fr;
     }
 }
 
+/* SAFE AREA */
+
+@supports (padding: max(0px)) {
+    .absensi-page .toast {
+        bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
 
 /* AKSESIBILITAS */
 
@@ -5646,5 +5729,12 @@ button:disabled {
     .absensi-page .absensi-container,
     .absensi-page .pegawai-bg-blob {
         animation: none;
+    }
+
+    .absensi-page button,
+    .absensi-page input,
+    .absensi-page textarea,
+    .absensi-page select {
+        transition: none;
     }
 }
