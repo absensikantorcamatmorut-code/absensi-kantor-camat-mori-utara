@@ -1510,7 +1510,7 @@ button:disabled {
 
 .admin-page .keterangan-stat-container {
     display: grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
     gap: 11px;
     margin-bottom: 17px;
 }
@@ -1691,7 +1691,7 @@ button:disabled {
 
 .admin-page .rekap-stats {
     display: grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
     gap: 11px;
     margin-bottom: 17px;
 }
@@ -3055,7 +3055,7 @@ button:disabled {
 
 .admin-page .keterangan-stat-container {
     display: grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
     gap: 11px;
     margin-bottom: 17px;
 }
@@ -3236,7 +3236,7 @@ button:disabled {
 
 .admin-page .rekap-stats {
     display: grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
     gap: 11px;
     margin-bottom: 17px;
 }
@@ -9341,7 +9341,11 @@ textarea {
     }
 
     .absensi-page .absensi-header .logout-icon {
-        display: none;
+        display: inline-flex;
+        min-width: 72px;
+        min-height: 44px;
+        justify-content: center;
+        align-items: center;
     }
 
     .absensi-page .pegawai-card {
@@ -9374,7 +9378,7 @@ textarea {
     .absensi-page .pegawai-nav {
         margin-bottom: 12px;
         padding: 5px;
-        grid-template-columns: repeat(4,minmax(0,1fr));
+        grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 4px;
         border-radius: 15px;
     }

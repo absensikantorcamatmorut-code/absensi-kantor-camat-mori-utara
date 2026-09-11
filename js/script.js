@@ -1435,7 +1435,6 @@ const bagianKirim =
         document.getElementById("submitKeteranganText");
 
     const logoutBtn = document.getElementById("logoutBtn");
-    const logoutBtnMenu = document.getElementById("logoutBtnMenu");
 
     const toast = document.getElementById("toast");
     const toastIcon = document.getElementById("toastIcon");
@@ -2848,10 +2847,15 @@ function updateAlurAbsensi() {
     }
 
 
-    [logoutBtn, logoutBtnMenu].forEach(btn => btn?.addEventListener("click", function() {
+    logoutBtn?.addEventListener("click", async function() {
+        const yakin = await tampilkanDialogKonfirmasi(
+            "Apakah Anda yakin ingin keluar dari akun?",
+            { judul: "Keluar dari Akun", teksKonfirmasi: "Ya, Keluar", teksBatal: "Batal", bahaya: true }
+        );
+        if (!yakin) return;
         hentikanKamera();
         logoutUser();
-    }));
+    });
 
     window.addEventListener(
         "beforeunload",
