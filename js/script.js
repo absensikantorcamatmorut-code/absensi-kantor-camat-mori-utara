@@ -16,7 +16,7 @@ const JAM_ABSENSI = {
 
 
 /* =====================================================
-   CUSTOM DIALOG - FINAL LIGHT
+   CUSTOM DIALOG - FINAL CENTER
 ===================================================== */
 
 function pastikanCustomDialog() {
@@ -33,14 +33,14 @@ function pastikanCustomDialog() {
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(15, 23, 42, 0.46);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: rgba(15, 23, 42, .42);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             opacity: 0;
             visibility: hidden;
             transition:
-                opacity .18s ease,
-                visibility .18s ease;
+                opacity .22s ease,
+                visibility .22s ease;
         }
 
         .custom-dialog-overlay.show {
@@ -55,14 +55,24 @@ function pastikanCustomDialog() {
             text-align: center;
             border: 1px solid #dbe5ef;
             border-radius: 22px;
-            background: #ffffff;
-            box-shadow: 0 24px 70px rgba(15, 23, 42, .20);
-            transform: translateY(14px) scale(.98);
-            transition: transform .18s ease;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+
+            opacity: 0;
+            transform:
+                translateY(18px)
+                scale(.94);
+
+            transition:
+                opacity .25s ease,
+                transform .25s cubic-bezier(.2,.8,.2,1);
         }
 
         .custom-dialog-overlay.show .custom-dialog-box {
-            transform: translateY(0) scale(1);
+            opacity: 1;
+            transform:
+                translateY(0)
+                scale(1);
         }
 
         .custom-dialog-icon {
@@ -77,6 +87,17 @@ function pastikanCustomDialog() {
             border: 1px solid #bfdbfe;
             border-radius: 18px;
             background: #eff6ff;
+
+            opacity: 0;
+            transform: scale(.75);
+            transition:
+                opacity .25s ease .08s,
+                transform .25s cubic-bezier(.2,.8,.2,1) .08s;
+        }
+
+        .custom-dialog-overlay.show .custom-dialog-icon {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .custom-dialog-icon.success {
@@ -128,14 +149,18 @@ function pastikanCustomDialog() {
             cursor: pointer;
             border-radius: 12px;
             transition:
+                transform .15s ease,
                 background-color .15s ease,
                 border-color .15s ease,
-                box-shadow .15s ease,
-                transform .15s ease;
+                box-shadow .15s ease;
         }
 
         .custom-dialog-btn:hover {
             transform: translateY(-1px);
+        }
+
+        .custom-dialog-btn:active {
+            transform: scale(.98);
         }
 
         .custom-dialog-btn:focus-visible {
@@ -156,7 +181,7 @@ function pastikanCustomDialog() {
         }
 
         .custom-dialog-confirm {
-            color: #ffffff;
+            color: #fff;
             border: 1px solid transparent;
             background: linear-gradient(90deg, #2563eb, #0ea5e9);
             box-shadow: 0 8px 20px rgba(37, 99, 235, .18);
@@ -167,26 +192,27 @@ function pastikanCustomDialog() {
         }
 
         .custom-dialog-confirm.danger {
-            color: #ffffff;
+            color: #fff;
             background: #dc2626;
             box-shadow: 0 8px 20px rgba(220, 38, 38, .17);
         }
 
         .custom-dialog-confirm.danger:hover {
             background: #b91c1c;
-            box-shadow: 0 10px 24px rgba(220, 38, 38, .20);
         }
 
         @media (max-width: 520px) {
             .custom-dialog-overlay {
                 padding: 14px;
-                align-items: flex-end;
+                align-items: center;
+                justify-content: center;
             }
 
             .custom-dialog-box {
                 width: 100%;
-                padding: 23px 18px calc(18px + env(safe-area-inset-bottom));
-                border-radius: 22px;
+                max-width: 380px;
+                padding: 23px 18px;
+                border-radius: 20px;
             }
 
             .custom-dialog-icon {
@@ -222,6 +248,7 @@ function pastikanCustomDialog() {
         @media (prefers-reduced-motion: reduce) {
             .custom-dialog-overlay,
             .custom-dialog-box,
+            .custom-dialog-icon,
             .custom-dialog-btn {
                 transition: none;
             }
@@ -355,7 +382,7 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 
             setTimeout(function() {
                 resolve(nilai);
-            }, 160);
+            }, 180);
         }
 
         function tekanEscape(event) {
@@ -481,7 +508,7 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
 
             setTimeout(
                 resolve,
-                160
+                180
             );
         }
 
@@ -513,7 +540,6 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
         });
     });
 }
-
 /* =====================================================
    LOGIN PEGAWAI + ADMIN
 ===================================================== */
