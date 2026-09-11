@@ -11193,3 +11193,221 @@ body.absensi-page[data-ui-theme="nova"] .photo-preview {
         transition-duration: .01ms !important;
     }
 }
+
+
+/* ============================================================
+   NOVA DARK CONSISTENCY FIX
+   Menghapus permukaan putih legacy yang masih bocor ke tema Nova.
+============================================================ */
+
+/* Semua surface/card generik di Nova */
+body[data-ui-theme="nova"] .card,
+body[data-ui-theme="nova"] .panel,
+body[data-ui-theme="nova"] .section-card,
+body[data-ui-theme="nova"] .stat-box,
+body[data-ui-theme="nova"] .summary-card,
+body[data-ui-theme="nova"] .summary-item,
+body[data-ui-theme="nova"] .status-card,
+body[data-ui-theme="nova"] .filter-card,
+body[data-ui-theme="nova"] .data-card,
+body[data-ui-theme="nova"] .form-card,
+body[data-ui-theme="nova"] .detail-card,
+body[data-ui-theme="nova"] .settings-card,
+body[data-ui-theme="nova"] .info-box {
+    color: var(--nova-text) !important;
+    background: linear-gradient(145deg, rgba(13,30,53,.86), rgba(7,17,31,.82)) !important;
+    border-color: var(--nova-line) !important;
+    box-shadow: var(--nova-glow) !important;
+}
+
+/* ---------- Admin: kartu statistik Keterangan ---------- */
+body.admin-page[data-ui-theme="nova"] .keterangan-stat-container,
+body.admin-page[data-ui-theme="nova"] .keterangan-stats,
+body.admin-page[data-ui-theme="nova"] .rekap-stat-container {
+    gap: 10px !important;
+}
+body.admin-page[data-ui-theme="nova"] .keterangan-stat-card,
+body.admin-page[data-ui-theme="nova"] .keterangan-stat,
+body.admin-page[data-ui-theme="nova"] .rekap-stat-card,
+body.admin-page[data-ui-theme="nova"] .summary-stat-card {
+    position: relative;
+    overflow: hidden;
+    color: var(--nova-text) !important;
+    background: linear-gradient(145deg, rgba(15,35,60,.94), rgba(8,20,36,.88)) !important;
+    border: 1px solid var(--nova-line) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.18) !important;
+}
+body.admin-page[data-ui-theme="nova"] .keterangan-stat-card::before,
+body.admin-page[data-ui-theme="nova"] .keterangan-stat::before,
+body.admin-page[data-ui-theme="nova"] .rekap-stat-card::before,
+body.admin-page[data-ui-theme="nova"] .summary-stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--nova-cyan), var(--nova-violet));
+    opacity: .9;
+}
+body.admin-page[data-ui-theme="nova"] .keterangan-stat-card strong,
+body.admin-page[data-ui-theme="nova"] .keterangan-stat strong,
+body.admin-page[data-ui-theme="nova"] .rekap-stat-card strong,
+body.admin-page[data-ui-theme="nova"] .summary-stat-card strong {
+    color: #f7fbff !important;
+}
+body.admin-page[data-ui-theme="nova"] .keterangan-stat-card span,
+body.admin-page[data-ui-theme="nova"] .keterangan-stat span,
+body.admin-page[data-ui-theme="nova"] .rekap-stat-card span,
+body.admin-page[data-ui-theme="nova"] .summary-stat-card span {
+    color: #91a8c0 !important;
+}
+
+/* ---------- Admin: Data Pegawai mobile cards ---------- */
+@media (max-width: 1000px) {
+    body.admin-page[data-ui-theme="nova"] #dataPegawai tr,
+    body.admin-page[data-ui-theme="nova"] #dataKeteranganAdmin tr,
+    body.admin-page[data-ui-theme="nova"] #dataLogAdmin tr,
+    body.admin-page[data-ui-theme="nova"] #dataAbsensi tr,
+    body.admin-page[data-ui-theme="nova"] .mobile-table-card {
+        color: var(--nova-text) !important;
+        background:
+            radial-gradient(circle at 100% 0, rgba(92,225,230,.055), transparent 30%),
+            linear-gradient(145deg, rgba(14,32,55,.96), rgba(7,18,33,.93)) !important;
+        border: 1px solid var(--nova-line) !important;
+        box-shadow: 0 16px 38px rgba(0,0,0,.18) !important;
+    }
+
+    body.admin-page[data-ui-theme="nova"] #dataPegawai td,
+    body.admin-page[data-ui-theme="nova"] #dataKeteranganAdmin td,
+    body.admin-page[data-ui-theme="nova"] #dataLogAdmin td,
+    body.admin-page[data-ui-theme="nova"] #dataAbsensi td {
+        color: #dbe9f6 !important;
+        background: transparent !important;
+        border-color: rgba(148,163,184,.09) !important;
+    }
+
+    body.admin-page[data-ui-theme="nova"] #dataPegawai td::before,
+    body.admin-page[data-ui-theme="nova"] #dataKeteranganAdmin td::before,
+    body.admin-page[data-ui-theme="nova"] #dataLogAdmin td::before,
+    body.admin-page[data-ui-theme="nova"] #dataAbsensi td::before {
+        color: #8198b1 !important;
+    }
+
+    body.admin-page[data-ui-theme="nova"] #dataPegawai td:last-child,
+    body.admin-page[data-ui-theme="nova"] #dataKeteranganAdmin td:last-child,
+    body.admin-page[data-ui-theme="nova"] #dataLogAdmin td:last-child,
+    body.admin-page[data-ui-theme="nova"] #dataAbsensi td:last-child {
+        border-bottom-color: transparent !important;
+    }
+}
+
+/* ---------- Pegawai/admin table desktop ---------- */
+body.admin-page[data-ui-theme="nova"] .table-wrapper,
+body.admin-page[data-ui-theme="nova"] .responsive-table,
+body.admin-page[data-ui-theme="nova"] .admin-table {
+    background: rgba(4,13,24,.55) !important;
+}
+body.admin-page[data-ui-theme="nova"] table tbody,
+body.admin-page[data-ui-theme="nova"] table tr,
+body.admin-page[data-ui-theme="nova"] table td {
+    background-color: transparent !important;
+}
+
+/* ---------- Kartu kecil / rows / option yang masih putih ---------- */
+body.admin-page[data-ui-theme="nova"] .setting-row,
+body.admin-page[data-ui-theme="nova"] .settings-row,
+body.admin-page[data-ui-theme="nova"] .detail-row,
+body.admin-page[data-ui-theme="nova"] .rekap-row,
+body.admin-page[data-ui-theme="nova"] .pegawai-row,
+body.admin-page[data-ui-theme="nova"] .log-row,
+body.admin-page[data-ui-theme="nova"] .calendar-day,
+body.admin-page[data-ui-theme="nova"] .holiday-item,
+body.admin-page[data-ui-theme="nova"] .announcement-item {
+    color: #dceaf7 !important;
+    background: rgba(255,255,255,.032) !important;
+    border-color: var(--nova-line) !important;
+}
+
+/* ---------- Modal/dialog: seluruh inner surface gelap ---------- */
+body[data-ui-theme="nova"] .modal,
+body[data-ui-theme="nova"] .dialog,
+body[data-ui-theme="nova"] .modal-box,
+body[data-ui-theme="nova"] .dialog-box,
+body[data-ui-theme="nova"] .modal-card,
+body[data-ui-theme="nova"] .dialog-card,
+body[data-ui-theme="nova"] .confirm-dialog,
+body[data-ui-theme="nova"] .app-dialog,
+body[data-ui-theme="nova"] .app-dialog-card {
+    color: var(--nova-text) !important;
+    background: #0b1b2f !important;
+    border-color: var(--nova-line) !important;
+}
+body[data-ui-theme="nova"] .modal h1,
+body[data-ui-theme="nova"] .modal h2,
+body[data-ui-theme="nova"] .modal h3,
+body[data-ui-theme="nova"] .dialog h1,
+body[data-ui-theme="nova"] .dialog h2,
+body[data-ui-theme="nova"] .dialog h3 {
+    color: var(--nova-text) !important;
+}
+body[data-ui-theme="nova"] .modal p,
+body[data-ui-theme="nova"] .dialog p {
+    color: var(--nova-muted) !important;
+}
+
+/* ---------- Skeleton/loading juga menyatu ---------- */
+body[data-ui-theme="nova"] .skeleton,
+body[data-ui-theme="nova"] [class*="skeleton"] {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,.035),
+        rgba(92,225,230,.075),
+        rgba(255,255,255,.035)) !important;
+    background-size: 220% 100% !important;
+}
+
+/* ---------- Teks legacy gelap yang tidak terbaca di dark surface ---------- */
+body[data-ui-theme="nova"] .data-section,
+body[data-ui-theme="nova"] .admin-page-section,
+body[data-ui-theme="nova"] .pegawai-section {
+    color: var(--nova-text);
+}
+body[data-ui-theme="nova"] .data-section h1,
+body[data-ui-theme="nova"] .data-section h2,
+body[data-ui-theme="nova"] .data-section h3,
+body[data-ui-theme="nova"] .data-section h4,
+body[data-ui-theme="nova"] .admin-page-section h1,
+body[data-ui-theme="nova"] .admin-page-section h2,
+body[data-ui-theme="nova"] .admin-page-section h3,
+body[data-ui-theme="nova"] .admin-page-section h4 {
+    color: var(--nova-text) !important;
+}
+
+/* Status aktif tetap hijau tetapi cocok dengan Nova */
+body.admin-page[data-ui-theme="nova"] .status-aktif,
+body.admin-page[data-ui-theme="nova"] .badge-aktif {
+    color: #77f5c9 !important;
+    background: rgba(55,214,153,.10) !important;
+    border-color: rgba(55,214,153,.18) !important;
+}
+
+/* Tombol aksi legacy yang terang diselaraskan */
+body.admin-page[data-ui-theme="nova"] .detail-btn,
+body.admin-page[data-ui-theme="nova"] .edit-btn {
+    color: #8eeeff !important;
+    background: rgba(92,225,230,.07) !important;
+    border-color: rgba(92,225,230,.20) !important;
+}
+body.admin-page[data-ui-theme="nova"] .nonaktif-btn,
+body.admin-page[data-ui-theme="nova"] .warning-btn {
+    color: #ffd77d !important;
+    background: rgba(255,209,102,.07) !important;
+    border-color: rgba(255,209,102,.22) !important;
+}
+
+/* Login browser autofill jangan putih */
+body[data-ui-theme="nova"] input:-webkit-autofill,
+body[data-ui-theme="nova"] input:-webkit-autofill:hover,
+body[data-ui-theme="nova"] input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--nova-text) !important;
+    -webkit-box-shadow: 0 0 0 1000px #071526 inset !important;
+    transition: background-color 9999s ease-out 0s;
+}
