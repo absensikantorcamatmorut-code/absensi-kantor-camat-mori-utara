@@ -707,6 +707,7 @@ if (rekapPage) {
 
 /* =====================================================
    BUAT REKAP BULANAN KE GOOGLE SHEETS
+   Format sheet tetap ditangani RekapSheet.gs.
 ===================================================== */
 
 const buatSheetRekapBtn = document.getElementById("buatSheetRekapBtn");
@@ -715,17 +716,28 @@ if (buatSheetRekapBtn) {
     buatSheetRekapBtn.addEventListener("click", async () => {
         const bulan = Number(document.getElementById("rekapBulan")?.value);
         const tahun = Number(document.getElementById("rekapTahun")?.value);
+        const namaBulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
         if (!bulan || !tahun) {
-            alert("Pilih bulan dan tahun terlebih dahulu.");
-            return;
+            return typeof appToast === "function"
+                ? appToast("Pilih bulan dan tahun terlebih dahulu.", "error", "Periode Belum Dipilih")
+                : alert("Pilih bulan dan tahun terlebih dahulu.");
         }
 
-        const teksAwal = buatSheetRekapBtn.innerHTML;
+        const pesan = `Buat rekap Google Sheets untuk ${namaBulan[bulan]} ${tahun}?\n\nRekap akan dibuat menggunakan format yang sudah ditetapkan.`;
+        const lanjut = typeof tampilkanDialogKonfirmasi === "function"
+            ? await tampilkanDialogKonfirmasi(pesan, {
+                judul: "Buat Rekap Bulanan",
+                teksKonfirmasi: "Ya, Buat Rekap",
+                icon: "📊"
+            })
+            : confirm(pesan);
+
+        if (!lanjut) return;
 
         try {
-            buatSheetRekapBtn.disabled = true;
-            buatSheetRekapBtn.innerHTML = "⏳ Membuat Rekap...";
+            if (typeof setButtonLoading === "function") setButtonLoading(buatSheetRekapBtn, true, "Membuat Rekap...");
+            else buatSheetRekapBtn.disabled = true;
 
             const hasil = await postData({
                 action: "buatSheetRekapBulanan",
@@ -734,32 +746,22 @@ if (buatSheetRekapBtn) {
                 adminToken: sessionStorage.getItem("adminToken") || localStorage.getItem("adminToken")
             });
 
-            if (!hasil || !hasil.berhasil) {
-                throw new Error(
-                    hasil?.pesan || "Gagal membuat rekap Google Sheets."
-                );
-            }
+            if (!hasil?.berhasil) throw new Error(hasil?.pesan || "Gagal membuat rekap Google Sheets.");
 
-            await tampilkanDialogInfo(
-    hasil.pesan + "\n\nTab Google Sheets: " + hasil.namaSheet,
-    {
-        judul: "Rekap Berhasil Dibuat",
-        teksTombol: "Oke"
-    }
-);
+            if (typeof appToast === "function") appToast(
+                `${hasil.pesan || "Rekap berhasil dibuat."} Tab: ${hasil.namaSheet || "Rekap Bulanan"}`,
+                "success",
+                "Rekap Berhasil"
+            );
+            else await tampilkanDialogInfo(hasil.pesan || "Rekap berhasil dibuat.", { judul: "Rekap Berhasil Dibuat", teksTombol: "Oke" });
         } catch (error) {
             console.error("Gagal membuat rekap:", error);
-
-            await tampilkanDialogInfo(
-    error.message || "Gagal membuat rekap Google Sheets.",
-    {
-        judul: "Gagal Membuat Rekap",
-        teksTombol: "Oke"
-    }
-);
+            const pesanError = error.message || "Gagal membuat rekap Google Sheets.";
+            if (typeof appToast === "function") appToast(pesanError, "error", "Rekap Gagal");
+            else await tampilkanDialogInfo(pesanError, { judul: "Gagal Membuat Rekap", teksTombol: "Oke" });
         } finally {
-            buatSheetRekapBtn.disabled = false;
-            buatSheetRekapBtn.innerHTML = teksAwal;
+            if (typeof setButtonLoading === "function") setButtonLoading(buatSheetRekapBtn, false);
+            else buatSheetRekapBtn.disabled = false;
         }
     });
 }
