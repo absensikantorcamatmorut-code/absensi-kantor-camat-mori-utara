@@ -61,6 +61,11 @@
                 <span>Rekap</span>
             </button>
 
+            <button type="button" class="admin-nav-btn" id="navLogAdminBtn" data-admin-page="log">
+                <span class="admin-nav-icon">🧾</span>
+                <span>Log Admin</span>
+            </button>
+
             <button type="button" class="admin-nav-btn" id="navAkunAdminBtn" data-admin-page="akun">
                 <span class="admin-nav-icon">🔐</span>
                 <span>Akun Admin</span>
@@ -177,12 +182,13 @@
                                 <th>Alasan</th>
                                 <th>Lokasi</th>
                                 <th>Foto</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
 
                         <tbody id="dataAbsensi">
                             <tr>
-                                <td colspan="11" class="loading-cell">
+                                <td colspan="12" class="loading-cell">
                                     Memuat data...
                                 </td>
                             </tr>
@@ -456,9 +462,8 @@
                         <input type="number" id="rekapTahun" min="2020" max="2100">
                     </div>
 
-                    <button type="button" id="tampilkanRekapBtn" class="admin-primary-btn">
-                        Tampilkan Rekap
-                    </button>
+                    <button type="button" id="tampilkanRekapBtn" class="admin-primary-btn">Tampilkan Rekap</button>
+                    <button type="button" id="kunciRekapBtn" class="admin-secondary-btn">🔓 Kunci Rekap</button>
 
                 </div>
 
@@ -469,6 +474,7 @@
             <div class="rekap-periode">
                 <span>PERIODE REKAP</span>
                 <strong id="rekapPeriodeText">-</strong>
+                <small id="statusKunciRekap" class="rekap-lock-status">Belum dikunci</small>
             </div>
 
 
@@ -654,6 +660,19 @@
 
         </section>
 
+
+
+        <section class="admin-page-section" id="adminLogSection">
+            <section class="admin-section-hero">
+                <div class="admin-section-icon">🧾</div>
+                <div><span class="section-label">AUDIT ADMIN</span><h2>Log Aktivitas Admin</h2><p>Catatan perubahan penting yang dilakukan administrator.</p></div>
+                <button type="button" id="refreshLogAdminBtn" class="admin-primary-btn">Perbarui</button>
+            </section>
+            <section class="data-section">
+                <div class="table-wrapper"><table><thead><tr><th>Waktu</th><th>Admin</th><th>Aksi</th><th>Target</th><th>Detail</th></tr></thead>
+                <tbody id="dataLogAdmin"><tr><td colspan="5" class="loading-cell">Buka menu ini untuk memuat log.</td></tr></tbody></table></div>
+            </section>
+        </section>
 
         <!-- ==================================================
              AKUN ADMIN
@@ -1144,6 +1163,19 @@
 
 
         <!-- DETAIL & RIWAYAT PEGAWAI -->
+
+        <div class="admin-modal" id="koreksiAbsensiModal" hidden>
+            <div class="admin-modal-backdrop"></div><div class="admin-modal-content compact-admin-modal">
+                <div class="admin-modal-header"><div><small>KONTROL ADMIN</small><h2>Koreksi Absensi</h2><p id="koreksiAbsensiNama">-</p></div><button type="button" id="tutupKoreksiAbsensiBtn" class="modal-close-btn">×</button></div>
+                <form id="koreksiAbsensiForm"><input type="hidden" id="koreksiAbsensiId">
+                    <div class="admin-form-group"><label for="koreksiAbsensiTanggal">Tanggal</label><input type="date" id="koreksiAbsensiTanggal" required></div>
+                    <div class="admin-form-group"><label for="koreksiAbsensiWaktu">Jam</label><input type="time" id="koreksiAbsensiWaktu" required></div>
+                    <div class="admin-form-group"><label for="koreksiAbsensiAlasan">Alasan Koreksi</label><textarea id="koreksiAbsensiAlasan" maxlength="300" rows="3" placeholder="Contoh: Pegawai lupa absen pulang." required></textarea></div>
+                    <div class="admin-modal-actions"><button type="button" id="batalKoreksiAbsensiBtn" class="admin-secondary-btn">Batal</button><button type="submit" id="simpanKoreksiAbsensiBtn" class="admin-primary-btn">Simpan Koreksi</button></div>
+                </form>
+            </div>
+        </div>
+
         <div class="admin-modal" id="detailPegawaiModal" hidden>
             <div class="admin-modal-backdrop"></div>
             <div class="admin-modal-content detail-pegawai-modal">
@@ -1155,6 +1187,7 @@
                     <label>Bulan <select id="detailPegawaiBulan"></select></label>
                     <label>Tahun <select id="detailPegawaiTahun"></select></label>
                     <button type="button" id="muatDetailPegawaiBtn" class="admin-primary-btn">Tampilkan</button>
+                    <button type="button" id="resetAksesPegawaiBtn" class="admin-secondary-btn">Reset Akses</button>
                 </div>
                 <div id="detailPegawaiIsi" class="detail-pegawai-isi"><div class="detail-loading">Pilih periode untuk melihat riwayat.</div></div>
             </div>

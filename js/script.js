@@ -2875,12 +2875,14 @@ const adminAbsensiSection = document.getElementById("adminAbsensiSection");
 const adminPegawaiSection = document.getElementById("adminPegawaiSection");
 const adminKeteranganSection = document.getElementById("adminKeteranganSection");
 const adminAkunSection = document.getElementById("adminAkunSection");
+const adminLogSection = document.getElementById("adminLogSection");
 
 if (
     adminAbsensiSection ||
     adminPegawaiSection ||
     adminKeteranganSection ||
-    adminAkunSection
+    adminAkunSection ||
+    adminLogSection
 ) {
     const role = localStorage.getItem("role");
     const adminToken = localStorage.getItem("adminToken");
@@ -2895,6 +2897,7 @@ if (
     const navPegawaiBtn = document.getElementById("navPegawaiBtn");
     const navKeteranganBtn = document.getElementById("navKeteranganBtn");
     const navAkunAdminBtn = document.getElementById("navAkunAdminBtn");
+    const navLogAdminBtn = document.getElementById("navLogAdminBtn");
 
 
     /* =====================================================
@@ -3112,6 +3115,11 @@ navKeteranganBtn?.addEventListener("click", async function() {
     await ambilKeteranganAdmin();
 });
 
+navLogAdminBtn?.addEventListener("click", async function() {
+    tampilkanHalamanAdmin("log");
+    await muatLogAdmin();
+});
+
 navAkunAdminBtn?.addEventListener("click", function() {
     tampilkanHalamanAdmin("akun");
 });
@@ -3121,6 +3129,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             adminAbsensiSection,
             adminPegawaiSection,
             adminKeteranganSection,
+            adminLogSection,
             adminAkunSection
         ].forEach(function(section) {
             section?.classList.remove("active");
@@ -3130,6 +3139,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             navAbsensiBtn,
             navPegawaiBtn,
             navKeteranganBtn,
+            navLogAdminBtn,
             navAkunAdminBtn
         ].forEach(function(button) {
             button?.classList.remove("active");
@@ -3148,6 +3158,11 @@ navAkunAdminBtn?.addEventListener("click", function() {
         if (halaman === "keterangan") {
             adminKeteranganSection?.classList.add("active");
             navKeteranganBtn?.classList.add("active");
+        }
+
+        if (halaman === "log") {
+            adminLogSection?.classList.add("active");
+            navLogAdminBtn?.classList.add("active");
         }
 
         if (halaman === "akun") {
@@ -3262,7 +3277,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
     const tanggal = filterTanggal?.value || "";
 
     if (dataAbsensi) dataAbsensi.innerHTML =
-        tableSkeleton(11);
+        tableSkeleton(12);
 
     try {
         const hasil = await postAdmin({ action: "ambilAbsensi", tanggal });
@@ -3275,7 +3290,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
     } catch (error) {
         console.error(error);
         if (dataAbsensi) dataAbsensi.innerHTML =
-            '<tr><td colspan="11" class="empty-cell">' + escapeHTML(error.message) + "</td></tr>";
+            '<tr><td colspan="12" class="empty-cell">' + escapeHTML(error.message) + "</td></tr>";
     }
 }
 
@@ -3327,7 +3342,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
         if (!hasilFilter.length) {
             dataAbsensi.innerHTML =
-                '<tr><td colspan="11" class="empty-cell">Tidak ada data absensi.</td></tr>';
+                '<tr><td colspan="12" class="empty-cell">Tidak ada data absensi.</td></tr>';
             return;
         }
 
@@ -3419,9 +3434,14 @@ navAkunAdminBtn?.addEventListener("click", function() {
                         <td>${escapeHTML(alasan)}</td>
                         <td>${linkMaps}</td>
                         <td>${linkFoto}</td>
+                        <td><button type="button" class="table-action-btn koreksi-absensi-btn" data-id="${escapeHTML(item.id || "")}">Koreksi</button></td>
                     </tr>
                 `;
             }).join("");
+
+        dataAbsensi.querySelectorAll(".koreksi-absensi-btn").forEach(btn =>
+            btn.addEventListener("click", () => bukaKoreksiAbsensi(btn.dataset.id))
+        );
     }
 
 
@@ -4763,6 +4783,75 @@ navAkunAdminBtn?.addEventListener("click", function() {
         return hasil;
     }
 
+
+
+    /* =====================================================
+       KONTROL ADMIN LANJUTAN
+    ===================================================== */
+    const koreksiModal = document.getElementById("koreksiAbsensiModal");
+    const koreksiForm = document.getElementById("koreksiAbsensiForm");
+    const koreksiId = document.getElementById("koreksiAbsensiId");
+    const koreksiNama = document.getElementById("koreksiAbsensiNama");
+    const koreksiTanggal = document.getElementById("koreksiAbsensiTanggal");
+    const koreksiWaktu = document.getElementById("koreksiAbsensiWaktu");
+    const koreksiAlasan = document.getElementById("koreksiAbsensiAlasan");
+    const simpanKoreksiBtn = document.getElementById("simpanKoreksiAbsensiBtn");
+
+    function bukaKoreksiAbsensi(id) {
+        const item = dataTanggalAktif.find(x => String(x.id) === String(id));
+        if (!item) return appToast("Data absensi tidak ditemukan.", "error");
+        const d = new Date(item.waktu);
+        const parts = new Intl.DateTimeFormat("en-CA", { timeZone:"Asia/Makassar", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false }).formatToParts(d);
+        const get = t => parts.find(p => p.type === t)?.value || "";
+        koreksiId.value = item.id || "";
+        koreksiNama.textContent = `${item.nama || "Pegawai"} • ${item.jenisAbsen || ""}`;
+        koreksiTanggal.value = `${get("year")}-${get("month")}-${get("day")}`;
+        koreksiWaktu.value = `${get("hour")}:${get("minute")}`;
+        koreksiAlasan.value = "";
+        bukaModal(koreksiModal);
+    }
+
+    koreksiForm?.addEventListener("submit", async e => {
+        e.preventDefault();
+        const alasan = koreksiAlasan.value.trim();
+        if (alasan.length < 5) return appToast("Tuliskan alasan koreksi dengan jelas.", "error");
+        const lanjut = await tampilkanDialogKonfirmasi("Simpan koreksi absensi ini? Perubahan akan dicatat di Log Admin.", { judul:"Konfirmasi Koreksi", teksKonfirmasi:"Ya, Simpan", icon:"✏️" });
+        if (!lanjut) return;
+        try {
+            setButtonLoading(simpanKoreksiBtn, true, "Menyimpan...");
+            const h = await postAdmin({ action:"koreksiAbsensi", id:koreksiId.value, tanggal:koreksiTanggal.value, waktu:koreksiWaktu.value, alasan });
+            if (!h.berhasil) throw new Error(h.pesan || "Koreksi gagal disimpan.");
+            tutupModal(koreksiModal); hapusCacheAdmin("absensi"); await ambilAbsensiAdmin(); appToast(h.pesan, "success");
+        } catch (err) { appToast(err.message, "error", "Koreksi Gagal"); }
+        finally { setButtonLoading(simpanKoreksiBtn, false); }
+    });
+    document.getElementById("tutupKoreksiAbsensiBtn")?.addEventListener("click", () => tutupModal(koreksiModal));
+    document.getElementById("batalKoreksiAbsensiBtn")?.addEventListener("click", () => tutupModal(koreksiModal));
+
+    document.getElementById("resetAksesPegawaiBtn")?.addEventListener("click", async () => {
+        if (!nipDetailPegawai) return;
+        const p = daftarPegawaiAdmin.find(x => String(x.nip) === String(nipDetailPegawai));
+        const lanjut = await tampilkanDialogKonfirmasi(`Reset akses ${p?.nama || "pegawai"}? Pegawai tetap dapat login dengan NIP.`, { judul:"Reset Akses Pegawai", teksKonfirmasi:"Ya, Reset", icon:"🔑" });
+        if (!lanjut) return;
+        try {
+            const h = await postAdmin({ action:"resetAksesPegawai", nip:nipDetailPegawai });
+            if (!h.berhasil) throw new Error(h.pesan || "Reset akses gagal.");
+            appToast(h.pesan, "success", "Akses Direset");
+        } catch (err) { appToast(err.message, "error", "Reset Gagal"); }
+    });
+
+    async function muatLogAdmin() {
+        const tbody = document.getElementById("dataLogAdmin");
+        if (!tbody) return;
+        tbody.innerHTML = tableSkeleton(5, 4);
+        try {
+            const h = await postAdmin({ action:"ambilLogAdmin" });
+            if (!h.berhasil) throw new Error(h.pesan || "Log gagal dimuat.");
+            const data = Array.isArray(h.data) ? h.data : [];
+            tbody.innerHTML = data.length ? data.map(x => `<tr><td>${escapeHTML(formatWaktu(x.waktu))}</td><td>${escapeHTML(x.admin || "-")}</td><td><strong>${escapeHTML(x.aksi || "-")}</strong></td><td>${escapeHTML(x.target || x.targetNip || "-")}</td><td>${escapeHTML(x.detail || "-")}</td></tr>`).join("") : '<tr><td colspan="5" class="empty-cell">Belum ada aktivitas admin.</td></tr>';
+        } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="empty-cell">${escapeHTML(err.message)}</td></tr>`; }
+    }
+    document.getElementById("refreshLogAdminBtn")?.addEventListener("click", muatLogAdmin);
 
     /* =====================================================
        MODAL ADMIN

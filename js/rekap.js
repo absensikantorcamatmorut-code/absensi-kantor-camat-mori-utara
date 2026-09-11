@@ -6,16 +6,21 @@ if (rekapPage) {
     const navKeteranganBtnRekap = document.getElementById("navKeteranganBtn");
     const navRekapBtn = document.getElementById("navRekapBtn");
     const navAkunAdminBtnRekap = document.getElementById("navAkunAdminBtn");
+    const navLogAdminBtnRekap = document.getElementById("navLogAdminBtn");
 
     const adminAbsensiSectionRekap = document.getElementById("adminAbsensiSection");
     const adminPegawaiSectionRekap = document.getElementById("adminPegawaiSection");
     const adminKeteranganSectionRekap = document.getElementById("adminKeteranganSection");
     const adminAkunSectionRekap = document.getElementById("adminAkunSection");
+    const adminLogSectionRekap = document.getElementById("adminLogSection");
 
     const rekapBulan = document.getElementById("rekapBulan");
     const rekapTahun = document.getElementById("rekapTahun");
     const tampilkanRekapBtn = document.getElementById("tampilkanRekapBtn");
     const rekapPeriodeText = document.getElementById("rekapPeriodeText");
+    const kunciRekapBtn = document.getElementById("kunciRekapBtn");
+    const statusKunciRekap = document.getElementById("statusKunciRekap");
+    let rekapTerkunci = false;
 
     const rekapHariKerja = document.getElementById("rekapHariKerja");
     const rekapTotalPegawai = document.getElementById("rekapTotalPegawai");
@@ -59,6 +64,7 @@ if (rekapPage) {
             adminAbsensiSectionRekap,
             adminPegawaiSectionRekap,
             adminKeteranganSectionRekap,
+            adminLogSectionRekap,
             adminAkunSectionRekap
         ].forEach(section => section?.classList.remove("active"));
 
@@ -66,6 +72,7 @@ if (rekapPage) {
             navAbsensiBtnRekap,
             navPegawaiBtnRekap,
             navKeteranganBtnRekap,
+            navLogAdminBtnRekap,
             navAkunAdminBtnRekap
         ].forEach(button => button?.classList.remove("active"));
 
@@ -91,6 +98,7 @@ if (rekapPage) {
         navAbsensiBtnRekap,
         navPegawaiBtnRekap,
         navKeteranganBtnRekap,
+        navLogAdminBtnRekap,
         navAkunAdminBtnRekap
     ].forEach(button => {
         button?.addEventListener("click", tutupHalamanRekap);
@@ -156,6 +164,7 @@ if (rekapPage) {
             }
 
             tampilkanRekap(hasil);
+            await muatStatusKunciRekap(bulan, tahun);
 
         } catch (error) {
             console.error(error);
@@ -697,6 +706,36 @@ if (rekapPage) {
 
         alert(pesan);
     }
+
+
+
+    async function muatStatusKunciRekap(bulan = Number(rekapBulan?.value), tahun = Number(rekapTahun?.value)) {
+        if (!bulan || !tahun || !kunciRekapBtn) return;
+        try {
+            const h = await postRekap({ action:"ambilStatusKunciRekap", bulan, tahun });
+            if (!h.berhasil) throw new Error(h.pesan || "Status kunci gagal dimuat.");
+            rekapTerkunci = Boolean(h.terkunci);
+            kunciRekapBtn.textContent = rekapTerkunci ? "🔓 Buka Kunci" : "🔒 Kunci Rekap";
+            kunciRekapBtn.classList.toggle("is-locked", rekapTerkunci);
+            if (statusKunciRekap) statusKunciRekap.textContent = rekapTerkunci ? `🔒 Dikunci${h.oleh ? " oleh " + h.oleh : ""}${h.waktu ? " • " + h.waktu + " WITA" : ""}` : "🔓 Belum dikunci";
+        } catch (e) { if (statusKunciRekap) statusKunciRekap.textContent = "Status kunci tidak tersedia"; }
+    }
+
+    kunciRekapBtn?.addEventListener("click", async () => {
+        const bulan = Number(rekapBulan?.value), tahun = Number(rekapTahun?.value);
+        if (!bulan || !tahun) return;
+        const aksi = rekapTerkunci ? "membuka kembali" : "mengunci";
+        const lanjut = await tampilkanDialogKonfirmasi(`Yakin ingin ${aksi} rekap periode ini?`, { judul: rekapTerkunci ? "Buka Kunci Rekap" : "Kunci Rekap Bulanan", teksKonfirmasi: rekapTerkunci ? "Ya, Buka Kunci" : "Ya, Kunci", icon: rekapTerkunci ? "🔓" : "🔒" });
+        if (!lanjut) return;
+        try {
+            setButtonLoading(kunciRekapBtn, true, "Memproses...");
+            const h = await postRekap({ action:"aturKunciRekap", bulan, tahun, kunci:!rekapTerkunci });
+            if (!h.berhasil) throw new Error(h.pesan || "Gagal mengubah kunci rekap.");
+            if (typeof appToast === "function") appToast(h.pesan, "success");
+            await muatStatusKunciRekap(bulan, tahun);
+        } catch (e) { if (typeof appToast === "function") appToast(e.message, "error", "Gagal"); }
+        finally { setButtonLoading(kunciRekapBtn, false); }
+    });
 
     function formatTanggalRekap(tanggal) {
         const bagian = String(tanggal || "").split("-");
