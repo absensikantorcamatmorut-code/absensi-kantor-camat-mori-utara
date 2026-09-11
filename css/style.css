@@ -5077,3 +5077,156 @@ body.login-page {
         padding: 7px;
     }
 }
+
+/* =====================================================
+   ABSENSI - PROGRESSIVE FLOW ANIMATION
+===================================================== */
+
+/* Pastikan elemen hidden benar-benar hilang */
+.absensi-page #hadirContainer [hidden],
+.absensi-page #keteranganContainer [hidden] {
+    display: none !important;
+}
+
+/* Tahapan yang baru dibuka */
+.absensi-page #hadirContainer .form-section:not([hidden]),
+.absensi-page #hadirContainer .submit-section:not([hidden]) {
+    animation: absensiStepMasuk .38s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes absensiStepMasuk {
+    0% {
+        opacity: 0;
+        transform:
+            translateY(18px)
+            scale(.985);
+    }
+
+    100% {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* Sedikit efek hidup pada card saat muncul */
+.absensi-page #hadirContainer .form-section:not([hidden])::before,
+.absensi-page #hadirContainer .submit-section:not([hidden])::before {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: -48px;
+    right: -42px;
+    pointer-events: none;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(59, 130, 246, .09),
+            rgba(14, 165, 233, .025) 60%,
+            transparent 70%
+        );
+}
+
+/* Card perlu relative agar dekorasi tetap di dalam */
+.absensi-page #hadirContainer .form-section,
+.absensi-page #hadirContainer .submit-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Tombol lokasi */
+.absensi-page #lokasiBtn {
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.absensi-page #lokasiBtn:hover {
+    transform: translateY(-1px);
+}
+
+.absensi-page #lokasiBtn:active {
+    transform: scale(.99);
+}
+
+/* Saat lokasi berhasil */
+.absensi-page #lokasiBtn.location-success {
+    animation: lokasiBerhasil .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes lokasiBerhasil {
+    0% {
+        transform: scale(.98);
+    }
+
+    55% {
+        transform: scale(1.015);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Foto selesai */
+.absensi-page .photo-preview-wrapper.active {
+    animation: fotoSiapMasuk .38s cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes fotoSiapMasuk {
+    from {
+        opacity: 0;
+        transform:
+            translateY(12px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* Tombol submit ketika akhirnya aktif */
+.absensi-page #submitAbsensi:not(:disabled) {
+    animation: submitSiap .38s cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes submitSiap {
+    0% {
+        transform: scale(.97);
+        box-shadow:
+            0 4px 12px
+            rgba(37, 99, 235, .10);
+    }
+
+    55% {
+        transform: scale(1.01);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 9px 20px
+            rgba(37, 99, 235, .17);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .absensi-page #hadirContainer .form-section,
+    .absensi-page #hadirContainer .submit-section,
+    .absensi-page #lokasiBtn,
+    .absensi-page .photo-preview-wrapper,
+    .absensi-page #submitAbsensi {
+        animation: none !important;
+        transition: none !important;
+    }
+}
