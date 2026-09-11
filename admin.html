@@ -727,6 +727,113 @@
 
         </section>
 
+        <!-- =================================================
+     PENGUMUMAN PEGAWAI
+================================================== -->
+
+<section class="admin-announcement-card">
+
+    <div class="admin-announcement-header">
+
+        <div class="admin-announcement-icon">
+            📢
+        </div>
+
+        <div>
+            <span class="section-label">
+                INFORMASI PEGAWAI
+            </span>
+
+            <h2>Running Text</h2>
+
+            <p>
+                Tulis informasi yang akan berjalan
+                di halaman absensi seluruh pegawai.
+            </p>
+        </div>
+
+    </div>
+
+
+    <form id="pengumumanAdminForm">
+
+        <div class="admin-form-group">
+
+            <label for="pengumumanAdminText">
+                Isi Pengumuman
+            </label>
+
+            <textarea
+                id="pengumumanAdminText"
+                maxlength="250"
+                rows="4"
+                placeholder="Contoh: Besok apel pagi pukul 07.30 WITA."
+            ></textarea>
+
+            <div class="announcement-counter">
+                <span id="pengumumanCounter">
+                    0
+                </span>
+                / 250
+            </div>
+
+        </div>
+
+
+        <label class="announcement-switch-row">
+
+            <div>
+                <strong>Tampilkan kepada pegawai</strong>
+                <small>
+                    Jika dimatikan, running text
+                    tidak akan ditampilkan.
+                </small>
+            </div>
+
+            <span class="announcement-switch">
+
+                <input
+                    type="checkbox"
+                    id="pengumumanAdminAktif"
+                >
+
+                <span class="announcement-slider"></span>
+
+            </span>
+
+        </label>
+
+
+        <div
+            class="announcement-preview"
+            id="pengumumanPreview"
+        >
+            <span>PREVIEW</span>
+
+            <p id="pengumumanPreviewText">
+                Belum ada pengumuman.
+            </p>
+        </div>
+
+
+        <p
+            class="announcement-status"
+            id="pengumumanAdminStatus"
+        ></p>
+
+
+        <button
+            type="submit"
+            class="admin-primary-btn"
+            id="simpanPengumumanAdminBtn"
+        >
+            Simpan Pengumuman
+        </button>
+
+    </form>
+
+</section>
+
 
         <!-- ==================================================
              MODAL PEGAWAI
