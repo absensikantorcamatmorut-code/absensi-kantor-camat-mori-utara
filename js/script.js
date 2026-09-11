@@ -3211,24 +3211,18 @@ navAkunAdminBtn?.addEventListener("click", function() {
     async function muatDashboardRealtime(paksa = false) {
         const btn = refreshRealtimeBtn;
         if (btn) setButtonLoading(btn, true, "Memperbarui...");
-        Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "…"));
+        if (!cacheMasihFresh("absensi", tanggalWITAHariIni())) {
+            Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "…"));
+        }
 
         try {
-            const hariIni = tanggalWITAHariIni();
-            const [absensiRes, pegawaiRes, keteranganRes] = await Promise.all([
-                postAdmin({ action: "ambilAbsensi", tanggal: hariIni }),
-                postAdmin({ action: "ambilPegawai" }),
-                postAdmin({ action: "ambilKeteranganAdmin" })
-            ]);
-            [absensiRes, pegawaiRes, keteranganRes].forEach(r => {
-                if (!r?.berhasil) throw new Error(r?.pesan || "Ringkasan hari ini gagal dimuat.");
-            });
+            const hasil = await postAdmin({ action: "ambilDashboardAdmin" }, 40000);
+            if (!hasil?.berhasil) throw new Error(hasil?.pesan || "Ringkasan hari ini gagal dimuat.");
 
-            const absensiHariIni = Array.isArray(absensiRes.data) ? absensiRes.data : [];
-            daftarPegawaiAdmin = Array.isArray(pegawaiRes.data) ? pegawaiRes.data : [];
-            daftarKeteranganAdmin = Array.isArray(keteranganRes.data) ? keteranganRes.data : [];
+            const hariIni = hasil.tanggal || tanggalWITAHariIni();
+            const absensiHariIni = Array.isArray(hasil.absensi) ? hasil.absensi : [];
+            daftarPegawaiAdmin = Array.isArray(hasil.pegawai) ? hasil.pegawai : [];
             setCacheAdmin("pegawai");
-            setCacheAdmin("keterangan");
 
             if ((filterTanggal?.value || hariIni) === hariIni) {
                 dataTanggalAktif = absensiHariIni;
@@ -3236,7 +3230,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
                 tampilkanAbsensiAdmin();
             }
 
-            const data = hitungDashboardRealtime(absensiHariIni, daftarPegawaiAdmin, daftarKeteranganAdmin);
+            const data = hasil.ringkasan || hitungDashboardRealtime(absensiHariIni, daftarPegawaiAdmin, []);
             Object.entries(data).forEach(([k, v]) => setRealtimeStat(k, v));
             if (realtimeUpdatedAt) {
                 realtimeUpdatedAt.textContent = "Diperbarui " + new Intl.DateTimeFormat("id-ID", {
@@ -3246,7 +3240,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             if (paksa) appToast("Ringkasan hari ini sudah diperbarui.", "success");
         } catch (error) {
             console.error(error);
-            Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "–"));
+            if (!dataTanggalAktif.length) Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "–"));
             if (realtimeUpdatedAt) realtimeUpdatedAt.textContent = "Gagal memuat ringkasan";
             if (paksa) appToast(error.message || "Ringkasan gagal diperbarui.", "error");
         } finally {
