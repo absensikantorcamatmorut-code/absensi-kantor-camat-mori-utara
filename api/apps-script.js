@@ -24,7 +24,15 @@ module.exports = async function handler(req, res) {
 
     const action = String(body.action || "");
     const actionLogin = action === "login" || action === "loginAdmin";
-    const batasWaktu = actionLogin ? 45000 : 55000;
+    const actionRingan = [
+        "ambilPengaturanAbsensi",
+        "ambilPengaturanAdmin",
+        "simpanPengaturanAdmin",
+        "simpanTanggalMulaiPerhitunganAdmin",
+        "simpanHariKerjaAdmin",
+        "resetPengaturanAdmin"
+    ].includes(action);
+    const batasWaktu = actionLogin ? 45000 : (actionRingan ? 58000 : 55000);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), batasWaktu);
 

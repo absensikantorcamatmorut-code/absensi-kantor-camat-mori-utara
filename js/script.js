@@ -5052,7 +5052,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
 async function postData(data, timeout = null) {
     const action = String(data?.action || "");
     const login = action === "login" || action === "loginAdmin";
-    const batasWaktu = timeout ?? (login ? 40000 : 50000);
+    const batasWaktu = timeout ?? (login ? 45000 : 60000);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), batasWaktu);
 
@@ -5731,10 +5731,18 @@ function tokenAdminModule() {
     return localStorage.getItem("adminToken") || "";
 }
 
-async function requestAdminModule(payload, timeout = null) {
+let antreanPengaturan = Promise.resolve();
+
+async function requestAdminModule(payload, timeout = 60000) {
     const token = tokenAdminModule();
     if (!token) throw new Error("Sesi admin tidak tersedia. Silakan login kembali.");
-    return postData({ ...payload, adminToken: token }, timeout);
+
+    const jalankan = () => postData({ ...payload, adminToken: token }, timeout);
+    const hasil = antreanPengaturan.then(jalankan, jalankan);
+
+    // Request pengaturan dibuat berurutan agar Apps Script tidak dibanjiri request bersamaan.
+    antreanPengaturan = hasil.catch(() => {});
+    return hasil;
 }
 
 function isiFormPengaturan(p = {}) {
@@ -5748,7 +5756,7 @@ window.__muatPengaturanAdminImpl = async function() {
     if (!pengaturanAbsensiFormModule) return;
     setButtonLoading(simpanPengaturanBtnModule, true, "Memuat...");
     try {
-        const r = await requestAdminModule({ action:"ambilPengaturanAdmin" });
+        const r = await postData({ action:"ambilPengaturanAbsensi" }, 30000);
         if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal dimuat.");
         isiFormPengaturan(r.pengaturan);
     } catch (e) { appToast(e.message, "error"); }
@@ -5773,7 +5781,7 @@ hariKerjaFormModule?.addEventListener("submit", async e => {
 
 tanggalMulaiPerhitunganFormModule?.addEventListener("submit", async e => {
     e.preventDefault();
-    const tanggal = settingEl.TanggalMulaiPerhitungan?.value;
+    const tanggal = settingElModule.TanggalMulaiPerhitungan?.value;
     if (!tanggal) return appToast("Pilih tanggal mulai perhitungan.", "error");
     const yakin = await tampilkanDialogKonfirmasi(
         "Tanggal mulai akan diubah menjadi " + tanggal + ". Radius, lokasi, dan jam absensi tidak berubah.",
@@ -5796,10 +5804,10 @@ pengaturanAbsensiFormModule?.addEventListener("submit", async e => {
     const yakin = await tampilkanDialogKonfirmasi("Simpan pengaturan absensi baru? Perubahan akan langsung dipakai oleh sistem.", { judul:"Konfirmasi Pengaturan", teksKonfirmasi:"Ya, Simpan", icon:"⚙️" });
     if (!yakin) return;
     const pengaturan = {
-        radius: settingEl.Radius?.value, latitude: settingEl.Latitude?.value, longitude: settingEl.Longitude?.value,
-        tanggalMulaiPerhitungan: settingEl.TanggalMulaiPerhitungan?.value,
-        masukMulai: settingEl.MasukMulai?.value, jamLambat: settingEl.JamLambat?.value, masukSelesai: settingEl.MasukSelesai?.value,
-        keluarMulai: settingEl.KeluarMulai?.value, keluarSelesai: settingEl.KeluarSelesai?.value
+        radius: settingElModule.Radius?.value, latitude: settingElModule.Latitude?.value, longitude: settingElModule.Longitude?.value,
+        tanggalMulaiPerhitungan: settingElModule.TanggalMulaiPerhitungan?.value,
+        masukMulai: settingElModule.MasukMulai?.value, jamLambat: settingElModule.JamLambat?.value, masukSelesai: settingElModule.MasukSelesai?.value,
+        keluarMulai: settingElModule.KeluarMulai?.value, keluarSelesai: settingElModule.KeluarSelesai?.value
     };
     setButtonLoading(simpanPengaturanBtnModule, true, "Menyimpan...");
     try {
@@ -5817,6 +5825,7 @@ resetPengaturanBtnModule?.addEventListener("click", async () => {
         { judul:"Reset ke Default?", teksKonfirmasi:"Ya, Reset", icon:"↺" }
     );
     if (!yakin) return;
+    [simpanPengaturanBtnModule, simpanTanggalMulaiBtnModule, simpanHariKerjaBtnModule].forEach(btn => { if (btn) btn.disabled = true; });
     setButtonLoading(resetPengaturanBtnModule, true, "Mereset...");
     try {
         const r = await requestAdminModule({ action:"resetPengaturanAdmin" });
@@ -5825,15 +5834,18 @@ resetPengaturanBtnModule?.addEventListener("click", async () => {
         terapkanPengaturanAbsensi(r.pengaturan);
         appToast(r.pesan || "Pengaturan kembali ke default.");
     } catch (e) { appToast(e.message, "error"); }
-    finally { setButtonLoading(resetPengaturanBtnModule, false); }
+    finally {
+        setButtonLoading(resetPengaturanBtnModule, false);
+        [simpanPengaturanBtnModule, simpanTanggalMulaiBtnModule, simpanHariKerjaBtnModule].forEach(btn => { if (btn) btn.disabled = false; });
+    }
 });
 
 gunakanLokasiKantorBtnModule?.addEventListener("click", () => {
     if (!navigator.geolocation) return appToast("GPS tidak tersedia di perangkat ini.", "error");
     setButtonLoading(gunakanLokasiKantorBtnModule, true, "Mencari lokasi...");
     navigator.geolocation.getCurrentPosition(pos => {
-        if (settingEl.Latitude) settingEl.Latitude.value = pos.coords.latitude.toFixed(7);
-        if (settingEl.Longitude) settingEl.Longitude.value = pos.coords.longitude.toFixed(7);
+        if (settingElModule.Latitude) settingElModule.Latitude.value = pos.coords.latitude.toFixed(7);
+        if (settingElModule.Longitude) settingElModule.Longitude.value = pos.coords.longitude.toFixed(7);
         setButtonLoading(gunakanLokasiKantorBtnModule, false);
         appToast("Lokasi perangkat berhasil dimasukkan. Periksa sebelum menyimpan.");
     }, () => {
