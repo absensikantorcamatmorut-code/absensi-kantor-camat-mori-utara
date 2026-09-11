@@ -11876,3 +11876,368 @@ body.absensi-page[data-ui-theme="nova"] :is(
         background: rgba(255,255,255,.03) !important;
     }
 }
+
+
+/* ============================================================
+   NOVA ZERO-WHITE LAYER
+   Final high-specificity layer: no legacy light surface may leak
+   into Tema Nova. Tema Lama remains untouched.
+============================================================ */
+
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] {
+    --nz-bg: #07111f;
+    --nz-panel: #0b1a2d;
+    --nz-panel-2: #0e2037;
+    --nz-panel-3: #10253f;
+    --nz-soft: rgba(255,255,255,.035);
+    --nz-soft-2: rgba(255,255,255,.055);
+    --nz-line: rgba(151,181,216,.16);
+    --nz-line-hot: rgba(92,225,230,.28);
+    --nz-text: #edf8ff;
+    --nz-muted: #93a9bf;
+}
+
+/* Root + broad semantic surfaces */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    main, section, article, aside,
+    .container, .content, .content-area, .page-content,
+    .admin-content, .pegawai-content,
+    .card, .panel, .box, .widget,
+    [class$="-card"], [class*="-card "],
+    [class$="-panel"], [class*="-panel "],
+    [class$="-box"], [class*="-box "],
+    [class$="-section"], [class*="-section "],
+    [class$="-container"], [class*="-container "]
+) {
+    border-color: var(--nz-line);
+}
+
+/* IMPORTANT: surfaces which visually render as cards/panels */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .data-section,
+    .admin-section-intro,
+    .admin-section-hero,
+    .admin-tools,
+    .filter-container,
+    .action-needed-card,
+    .action-needed-item,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card,
+    .summary-stat-card,
+    .admin-card,
+    .form-card,
+    .admin-form-card,
+    .settings-panel,
+    .settings-card,
+    .settings-save-row,
+    .admin-announcement-card,
+    .admin-announcement-preview,
+    .announcement-switch-row,
+    .holiday-summary-card,
+    .holiday-calendar-card,
+    .calendar-section,
+    .calendar-wrap,
+    .calendar-grid,
+    .calendar-legend,
+    .detail-pegawai-filter,
+    .detail-loading,
+    .detail-error,
+    .detail-empty,
+    .detail-ringkasan > div,
+    .detail-total-terlambat,
+    .detail-riwayat-header,
+    .detail-riwayat-item,
+    .rekap-preview-tools,
+    .rekap-preview-card,
+    .rekap-preview-empty,
+    .rekap-preview-error,
+    .log-card,
+    .akun-admin-card,
+    .pengaturan-card,
+    .photo-admin-loading,
+    .today-card,
+    .mode-section,
+    .form-section,
+    .keterangan-aktif-card,
+    .pegawai-notification-card,
+    .rekap-pegawai-card,
+    .info-card,
+    .camera-card,
+    .location-card,
+    .pegawai-card,
+    .rekap-pegawai-hero,
+    .rekap-stat-item,
+    .rekap-terlambat-item,
+    .riwayat-rekap-item,
+    .riwayat-rekap-detail > div,
+    .rekap-pegawai-empty,
+    .rekap-pegawai-error,
+    .mode-option,
+    .attendance-option,
+    .action-card,
+    .keterangan-option,
+    .requirement,
+    .status-box,
+    .location-status,
+    .camera-status,
+    .preview-card,
+    .camera-preview,
+    .photo-preview,
+    .foto-preview
+) {
+    color: var(--nz-text) !important;
+    background-color: var(--nz-panel) !important;
+    background-image: linear-gradient(145deg, rgba(14,32,55,.96), rgba(7,18,33,.96)) !important;
+    border-color: var(--nz-line) !important;
+}
+
+/* Header/nav remain styled but never white */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-nav,
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .pegawai-nav {
+    background-color: rgba(7,18,33,.94) !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+
+/* Every admin table surface, desktop + mobile */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .table-wrapper, .responsive-table, .admin-table,
+    table, thead, tbody, tfoot, tr, td, th
+) {
+    border-color: var(--nz-line) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .table-wrapper, .responsive-table, .admin-table, table, tbody
+) {
+    background: transparent !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] thead th {
+    color: #9bb0c5 !important;
+    background: #0a1829 !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] tbody td {
+    color: #dceaf7 !important;
+    background: transparent !important;
+}
+
+/* Mobile tables: force each row/card dark regardless of old rules */
+@media (max-width: 1000px) {
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+        #tabelAbsensi tbody tr,
+        #tabelPegawai tbody tr,
+        #tabelKeterangan tbody tr,
+        .log-admin-table tbody tr,
+        #dataAbsensi tr,
+        #dataPegawai tr,
+        #dataKeteranganAdmin tr,
+        #dataLogAdmin tr,
+        tbody tr
+    ) {
+        background-color: #0c1c30 !important;
+        background-image: linear-gradient(145deg, #0f223a, #09182a) !important;
+        border-color: var(--nz-line) !important;
+        box-shadow: 0 14px 34px rgba(0,0,0,.18) !important;
+    }
+
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] tbody td {
+        background: transparent !important;
+    }
+}
+
+/* Inputs, selects, textarea and search fields */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select, textarea
+) {
+    color: var(--nz-text) !important;
+    background-color: #071525 !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select, textarea
+):focus {
+    color: #fff !important;
+    background-color: #091a2c !important;
+    background-image: none !important;
+    border-color: rgba(92,225,230,.55) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] select option {
+    color: #edf8ff !important;
+    background: #0a192b !important;
+}
+
+/* Safari/autofill */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] input:-webkit-autofill,
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] input:-webkit-autofill:hover,
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #edf8ff !important;
+    -webkit-box-shadow: 0 0 0 1000px #071525 inset !important;
+    caret-color: #edf8ff !important;
+}
+
+/* Modal/dialogs, including dynamically generated confirmations */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-modal-content,
+    .modal-content,
+    .modal-card,
+    .dialog-card,
+    .confirm-dialog,
+    .confirm-box,
+    .app-dialog,
+    .app-dialog-card,
+    [role="dialog"]
+) {
+    color: var(--nz-text) !important;
+    background-color: #0b1b2f !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+
+/* Secondary buttons / legacy light controls */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-secondary-btn,
+    .toggle-filter-btn,
+    .reset-filter-btn,
+    .calendar-nav-btn,
+    .ulang-foto-btn,
+    .modal-close-btn,
+    .simple-logout-btn,
+    .logout-icon
+) {
+    background-color: rgba(255,255,255,.045) !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+
+/* Danger/warning buttons should be tinted dark, never pastel-white */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .table-action-danger,
+    .batalkan-keterangan-btn,
+    .simple-logout-btn,
+    .logout-icon
+) {
+    color: #ff9eae !important;
+    background-color: rgba(255,122,144,.075) !important;
+    background-image: none !important;
+    border-color: rgba(255,122,144,.24) !important;
+}
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .pegawai-status-btn,
+    .warning-btn,
+    .nonaktif-btn,
+    .manual-warning,
+    .attendance-note,
+    .rekap-terlambat-item,
+    .is-locked
+) {
+    color: #ffd77d !important;
+    background-color: rgba(255,209,102,.07) !important;
+    background-image: none !important;
+    border-color: rgba(255,209,102,.22) !important;
+}
+
+/* Calendar cells / picker chips */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .calendar-day,
+    .weekday-picker label
+) {
+    color: #dceaf7 !important;
+    background-color: rgba(255,255,255,.035) !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .calendar-day.weekend {
+    color: #6f879f !important;
+    background-color: rgba(255,255,255,.018) !important;
+}
+
+/* Running announcement fades */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .running-announcement-window::before {
+    background: linear-gradient(90deg, #0b1b2f, rgba(11,27,47,0)) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .running-announcement-window::after {
+    background: linear-gradient(-90deg, #0b1b2f, rgba(11,27,47,0)) !important;
+}
+
+/* Image/preview holder */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .absensi-foto-thumb {
+    background-color: #0b1b2f !important;
+    background-image: none !important;
+    border-color: var(--nz-line) !important;
+}
+
+/* Skeletons */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] [class*="skeleton"] {
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,.025),
+        rgba(92,225,230,.075),
+        rgba(255,255,255,.025)
+    ) !important;
+    background-size: 220% 100% !important;
+}
+
+/* Text color cleanup on legacy light components */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-page-section,
+    .data-section,
+    .pegawai-section,
+    .detail-ringkasan,
+    .detail-riwayat-item,
+    .rekap-stat-item,
+    .riwayat-rekap-item,
+    .riwayat-rekap-detail
+) :is(h1,h2,h3,h4,strong) {
+    color: var(--nz-text) !important;
+}
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-page-section,
+    .data-section,
+    .pegawai-section,
+    .detail-ringkasan,
+    .detail-riwayat-item,
+    .rekap-stat-item,
+    .riwayat-rekap-item,
+    .riwayat-rekap-detail
+) :is(p,small,label,span) {
+    color: var(--nz-muted);
+}
+
+/* Preserve semantic badges with dark tints */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .status-aktif,.badge-aktif
+) {
+    color: #78f6c9 !important;
+    background: rgba(55,214,153,.10) !important;
+    border-color: rgba(55,214,153,.18) !important;
+}
+
+/* Last-resort guard against inline white backgrounds on app content.
+   Excludes media, primary CTA and theme switch. */
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-page-section,
+    #absensiPegawaiSection,
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) [style*="background: white"],
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-page-section,
+    #absensiPegawaiSection,
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) [style*="background:#fff"],
+html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
+    .admin-page-section,
+    #absensiPegawaiSection,
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) [style*="background: #fff"] {
+    background: #0b1b2f !important;
+}
+
+/* Nova itself contains no intentionally white surface.
+   Pure white remains only for text/icons where appropriate. */
