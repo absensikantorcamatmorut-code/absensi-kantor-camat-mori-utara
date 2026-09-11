@@ -7883,3 +7883,125 @@ body.login-page {
         transition-duration: .01ms !important;
     }
 }
+
+
+/* =====================================================
+   RUNNING TEXT - PEGAWAI
+===================================================== */
+
+.absensi-page .running-text {
+    position: relative;
+    width: 100%;
+    margin: 0 0 16px;
+    overflow: hidden;
+    border: 1px solid #dbe7f5;
+    border-radius: 14px;
+    background: rgba(255,255,255,.88);
+    box-shadow: 0 7px 20px rgba(15,23,42,.045);
+}
+
+.absensi-page .running-text::before,
+.absensi-page .running-text::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 45px;
+    pointer-events: none;
+}
+
+.absensi-page .running-text::before {
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,1),
+        rgba(255,255,255,0)
+    );
+}
+
+.absensi-page .running-text::after {
+    right: 0;
+    background: linear-gradient(
+        270deg,
+        rgba(255,255,255,1),
+        rgba(255,255,255,0)
+    );
+}
+
+.absensi-page .running-text-track {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 70px;
+    padding: 11px 0;
+    animation: runningTextMove 24s linear infinite;
+    will-change: transform;
+}
+
+.absensi-page .running-text-track span {
+    flex-shrink: 0;
+    color: #526175;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.absensi-page .running-text-track b {
+    margin: 0 14px;
+    color: #3b82f6;
+}
+
+@keyframes runningTextMove {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 35px));
+    }
+}
+
+/* Desktop: pause saat diarahkan */
+@media (hover:hover) {
+    .absensi-page .running-text:hover .running-text-track {
+        animation-play-state: paused;
+    }
+}
+
+/* HP */
+@media (max-width:520px) {
+    .absensi-page .running-text {
+        margin-bottom: 14px;
+        border-radius: 13px;
+    }
+
+    .absensi-page .running-text-track {
+        gap: 55px;
+        padding: 10px 0;
+        animation-duration: 27s;
+    }
+
+    .absensi-page .running-text-track span {
+        font-size: 11px;
+    }
+
+    .absensi-page .running-text-track b {
+        margin: 0 11px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion:reduce) {
+    .absensi-page .running-text {
+        overflow-x: auto;
+    }
+
+    .absensi-page .running-text-track {
+        animation: none !important;
+    }
+
+    .absensi-page .running-text-track span[aria-hidden="true"] {
+        display: none;
+    }
+}
