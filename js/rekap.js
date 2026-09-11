@@ -128,7 +128,7 @@ if (rekapPage) {
 
         if (dataRekapBulanan) {
             dataRekapBulanan.innerHTML =
-                '<tr><td colspan="15" class="loading-cell">Memuat rekap bulanan...</td></tr>';
+                tableSkeleton(15);
         }
 
         try {
@@ -401,7 +401,7 @@ if (rekapPage) {
     async function ambilHariLibur() {
         if (dataHariLibur) {
             dataHariLibur.innerHTML =
-                '<tr><td colspan="3" class="loading-cell">Memuat hari libur...</td></tr>';
+                tableSkeleton(3);
         }
 
         try {

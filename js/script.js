@@ -3130,7 +3130,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
     const tanggal = filterTanggal?.value || "";
 
     if (dataAbsensi) dataAbsensi.innerHTML =
-        '<tr><td colspan="11" class="loading-cell">Memuat data absensi...</td></tr>';
+        tableSkeleton(11);
 
     try {
         const hasil = await postAdmin({ action: "ambilAbsensi", tanggal });
@@ -3401,7 +3401,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
     async function ambilPegawaiAdmin() {
     if (dataPegawai) dataPegawai.innerHTML =
-        '<tr><td colspan="5" class="loading-cell">Memuat daftar pegawai...</td></tr>';
+        tableSkeleton(5);
 
     try {
         const hasil = await postAdmin({ action: "ambilPegawai" });
@@ -3924,7 +3924,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
     async function ambilKeteranganAdmin() {
     if (dataKeteranganAdmin) dataKeteranganAdmin.innerHTML =
-        '<tr><td colspan="7" class="loading-cell">Memuat data keterangan...</td></tr>';
+        tableSkeleton(7);
 
     try {
         const hasil = await postAdmin({ action: "ambilKeteranganAdmin" });
@@ -5376,4 +5376,37 @@ function safeURL(value) {
 
         requestAnimationFrame(frame);
     }
+})();
+
+
+/* =====================================================
+   UI HELPERS — reusable, ringan, ramah pengguna
+===================================================== */
+(() => {
+    let toastTimer;
+    window.appToast = (message, type = "success", title = type === "success" ? "Berhasil" : "Perhatian") => {
+        const el = document.getElementById("adminToast");
+        if (!el) return;
+        clearTimeout(toastTimer);
+        el.className = `app-toast ${type}`;
+        el.querySelector(".app-toast-icon").textContent = type === "success" ? "✓" : "!";
+        el.querySelector("strong").textContent = title;
+        el.querySelector("p").textContent = message;
+        el.hidden = false;
+        requestAnimationFrame(() => el.classList.add("show"));
+        toastTimer = setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.hidden = true, 250); }, 4000);
+    };
+
+    window.setButtonLoading = (button, loading, text = "Memproses...") => {
+        if (!button) return;
+        if (!button.dataset.label) button.dataset.label = button.textContent.trim();
+        button.disabled = loading;
+        button.classList.toggle("is-loading", loading);
+        button.textContent = loading ? text : button.dataset.label;
+        button.setAttribute("aria-busy", String(loading));
+    };
+
+    window.tableSkeleton = (cols, rows = 3) => Array.from({ length: rows }, () =>
+        `<tr class="skeleton-row">${Array.from({ length: cols }, () => '<td><span></span></td>').join("")}</tr>`
+    ).join("");
 })();
