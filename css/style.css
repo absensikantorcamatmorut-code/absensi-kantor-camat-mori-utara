@@ -4947,3 +4947,133 @@ button:disabled {
         transition: none;
     }
 }
+
+/* =====================================================
+   LOGIN - PERFORMANCE & OVERFLOW FIX
+===================================================== */
+
+body.login-page {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
+    padding: 18px;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+/* Dekorasi tidak boleh menambah ukuran halaman */
+.login-page .login-bg-grid,
+.login-page .login-blob,
+.login-page .login-dot,
+.login-page .login-ring {
+    pointer-events: none;
+}
+
+/* Grid lebih ringan */
+.login-page .login-bg-grid {
+    inset: 0;
+    opacity: .24;
+    mask-image: none;
+    -webkit-mask-image: none;
+}
+
+/* Blob tetap ada, tapi jauh lebih ringan */
+.login-page .login-blob {
+    filter: none;
+    animation: none;
+}
+
+.login-page .blob-one {
+    width: 260px;
+    height: 260px;
+    top: -110px;
+    left: -100px;
+    background: rgba(59, 130, 246, .09);
+}
+
+.login-page .blob-two {
+    width: 300px;
+    height: 300px;
+    right: -130px;
+    bottom: -140px;
+    background: rgba(14, 165, 233, .09);
+}
+
+/* Dot cukup statis */
+.login-page .login-dot {
+    animation: none;
+    opacity: .65;
+}
+
+/* Ring tetap menjadi dekorasi, tanpa animasi terus-menerus */
+.login-page .login-ring {
+    animation: none;
+}
+
+/* Logo tidak perlu backdrop-filter dan animasi terus menerus */
+.login-page .login-logo {
+    animation: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* Card hanya animasi sekali saat masuk */
+.login-page .login-panel {
+    animation-duration: .3s;
+}
+
+/* Hindari efek berat ketika hover */
+.login-page .login-btn,
+.login-page .login-input-wrapper input,
+.login-page .admin-login-link {
+    transition:
+        background-color .15s ease,
+        border-color .15s ease,
+        color .15s ease,
+        box-shadow .15s ease;
+}
+
+.login-page .login-btn:hover {
+    transform: none;
+}
+
+/* HP */
+@media (max-width: 520px) {
+    body.login-page {
+        padding: 12px;
+        height: 100dvh;
+    }
+
+    .login-page .blob-one {
+        width: 200px;
+        height: 200px;
+        top: -90px;
+        left: -90px;
+    }
+
+    .login-page .blob-two {
+        width: 220px;
+        height: 220px;
+        right: -100px;
+        bottom: -100px;
+    }
+
+    .login-page .login-ring {
+        display: none;
+    }
+
+    .login-page .login-dot {
+        display: none;
+    }
+}
+
+/* Layar pendek */
+@media (max-height: 650px) {
+    body.login-page {
+        padding: 7px;
+    }
+}
