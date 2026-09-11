@@ -16,7 +16,7 @@ const JAM_ABSENSI = {
 
 
 /* =====================================================
-   CUSTOM DIALOG
+   CUSTOM DIALOG - FINAL LIGHT
 ===================================================== */
 
 function pastikanCustomDialog() {
@@ -33,11 +33,14 @@ function pastikanCustomDialog() {
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(2, 6, 15, 0.72);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.46);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             opacity: 0;
             visibility: hidden;
-            transition: 0.2s ease;
+            transition:
+                opacity .18s ease,
+                visibility .18s ease;
         }
 
         .custom-dialog-overlay.show {
@@ -47,20 +50,15 @@ function pastikanCustomDialog() {
 
         .custom-dialog-box {
             width: min(430px, 100%);
-            padding: 26px;
-            border: 1px solid rgba(34, 211, 238, 0.18);
-            border-radius: 24px;
-            background: linear-gradient(
-                145deg,
-                rgba(10, 17, 30, 0.98),
-                rgba(6, 9, 18, 0.98)
-            );
-            box-shadow:
-                0 24px 80px rgba(0, 0, 0, 0.5),
-                0 0 35px rgba(34, 211, 238, 0.08);
-            transform: translateY(16px) scale(0.97);
-            transition: 0.2s ease;
+            padding: 27px;
+            overflow: hidden;
             text-align: center;
+            border: 1px solid #dbe5ef;
+            border-radius: 22px;
+            background: #ffffff;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, .20);
+            transform: translateY(14px) scale(.98);
+            transition: transform .18s ease;
         }
 
         .custom-dialog-overlay.show .custom-dialog-box {
@@ -70,96 +68,162 @@ function pastikanCustomDialog() {
         .custom-dialog-icon {
             width: 62px;
             height: 62px;
-            margin: 0 auto 18px;
-            border-radius: 20px;
+            margin: 0 auto 17px;
             display: grid;
             place-items: center;
-            font-size: 28px;
+            color: #2563eb;
+            font-size: 27px;
             font-weight: 800;
-            background: rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.22);
-            color: #67e8f9;
+            border: 1px solid #bfdbfe;
+            border-radius: 18px;
+            background: #eff6ff;
         }
 
         .custom-dialog-icon.success {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: rgba(34, 197, 94, 0.25);
-            color: #4ade80;
+            color: #047857;
+            border-color: #bbf7d0;
+            background: #ecfdf5;
         }
 
         .custom-dialog-icon.danger {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.25);
-            color: #fb7185;
+            color: #b91c1c;
+            border-color: #fecaca;
+            background: #fef2f2;
         }
 
         .custom-dialog-title {
             margin: 0 0 9px;
-            color: #f8fafc;
-            font-size: 1.25rem;
-            font-weight: 800;
+            color: #172033;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
         }
 
         .custom-dialog-message {
             margin: 0;
-            color: #aeb8c8;
-            line-height: 1.65;
+            color: #64748b;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
             white-space: pre-line;
             overflow-wrap: anywhere;
         }
 
         .custom-dialog-actions {
             display: flex;
-            gap: 12px;
             justify-content: center;
-            margin-top: 24px;
+            gap: 10px;
+            margin-top: 23px;
         }
 
         .custom-dialog-btn {
-            min-width: 120px;
-            border: 0;
-            border-radius: 14px;
-            padding: 12px 18px;
-            font: inherit;
-            font-weight: 800;
+            min-width: 125px;
+            min-height: 48px;
+            padding: 10px 18px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.2;
             cursor: pointer;
-            transition: 0.18s ease;
+            border-radius: 12px;
+            transition:
+                background-color .15s ease,
+                border-color .15s ease,
+                box-shadow .15s ease,
+                transform .15s ease;
         }
 
         .custom-dialog-btn:hover {
             transform: translateY(-1px);
         }
 
+        .custom-dialog-btn:focus-visible {
+            outline: 3px solid rgba(59, 130, 246, .22);
+            outline-offset: 2px;
+        }
+
         .custom-dialog-cancel {
-            color: #dbe5f3;
-            background: #151d2b;
-            border: 1px solid rgba(148, 163, 184, 0.16);
+            color: #475569;
+            border: 1px solid #dbe3ec;
+            background: #f8fafc;
+        }
+
+        .custom-dialog-cancel:hover {
+            color: #334155;
+            border-color: #cbd5e1;
+            background: #f1f5f9;
         }
 
         .custom-dialog-confirm {
-            color: #041014;
-            background: linear-gradient(135deg, #22d3ee, #67e8f9);
-            box-shadow: 0 8px 25px rgba(34, 211, 238, 0.18);
+            color: #ffffff;
+            border: 1px solid transparent;
+            background: linear-gradient(90deg, #2563eb, #0ea5e9);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, .18);
+        }
+
+        .custom-dialog-confirm:hover {
+            box-shadow: 0 10px 24px rgba(37, 99, 235, .22);
         }
 
         .custom-dialog-confirm.danger {
-            color: #fff;
-            background: linear-gradient(135deg, #ef4444, #fb7185);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.18);
+            color: #ffffff;
+            background: #dc2626;
+            box-shadow: 0 8px 20px rgba(220, 38, 38, .17);
+        }
+
+        .custom-dialog-confirm.danger:hover {
+            background: #b91c1c;
+            box-shadow: 0 10px 24px rgba(220, 38, 38, .20);
         }
 
         @media (max-width: 520px) {
+            .custom-dialog-overlay {
+                padding: 14px;
+                align-items: flex-end;
+            }
+
             .custom-dialog-box {
-                padding: 22px 18px;
-                border-radius: 20px;
+                width: 100%;
+                padding: 23px 18px calc(18px + env(safe-area-inset-bottom));
+                border-radius: 22px;
+            }
+
+            .custom-dialog-icon {
+                width: 58px;
+                height: 58px;
+                margin-bottom: 15px;
+                font-size: 25px;
+                border-radius: 17px;
+            }
+
+            .custom-dialog-title {
+                font-size: 21px;
+            }
+
+            .custom-dialog-message {
+                font-size: 16px;
+                line-height: 1.55;
             }
 
             .custom-dialog-actions {
                 flex-direction: column-reverse;
+                gap: 8px;
+                margin-top: 20px;
             }
 
             .custom-dialog-btn {
                 width: 100%;
+                min-height: 50px;
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .custom-dialog-overlay,
+            .custom-dialog-box,
+            .custom-dialog-btn {
+                transition: none;
             }
         }
     `;
@@ -171,29 +235,47 @@ function pastikanCustomDialog() {
     overlay.className = "custom-dialog-overlay";
 
     overlay.innerHTML = `
-        <div class="custom-dialog-box"
-             role="dialog"
-             aria-modal="true"
-             aria-labelledby="customDialogTitle">
+        <div
+            class="custom-dialog-box"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="customDialogTitle"
+            aria-describedby="customDialogMessage"
+        >
+            <div
+                class="custom-dialog-icon"
+                id="customDialogIcon"
+                aria-hidden="true"
+            >
+                ?
+            </div>
 
-            <div class="custom-dialog-icon" id="customDialogIcon">?</div>
-
-            <h3 class="custom-dialog-title" id="customDialogTitle">
+            <h3
+                class="custom-dialog-title"
+                id="customDialogTitle"
+            >
                 Konfirmasi
             </h3>
 
-            <p class="custom-dialog-message" id="customDialogMessage"></p>
+            <p
+                class="custom-dialog-message"
+                id="customDialogMessage"
+            ></p>
 
             <div class="custom-dialog-actions">
-                <button type="button"
-                        class="custom-dialog-btn custom-dialog-cancel"
-                        id="customDialogCancel">
+                <button
+                    type="button"
+                    class="custom-dialog-btn custom-dialog-cancel"
+                    id="customDialogCancel"
+                >
                     Batal
                 </button>
 
-                <button type="button"
-                        class="custom-dialog-btn custom-dialog-confirm"
-                        id="customDialogConfirm">
+                <button
+                    type="button"
+                    class="custom-dialog-btn custom-dialog-confirm"
+                    id="customDialogConfirm"
+                >
                     Ya, Lanjutkan
                 </button>
             </div>
@@ -208,22 +290,48 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
     pastikanCustomDialog();
 
     return new Promise(function(resolve) {
-        const overlay = document.getElementById("customDialogOverlay");
-        const icon = document.getElementById("customDialogIcon");
-        const title = document.getElementById("customDialogTitle");
-        const message = document.getElementById("customDialogMessage");
-        const cancelBtn = document.getElementById("customDialogCancel");
-        const confirmBtn = document.getElementById("customDialogConfirm");
+        const overlay =
+            document.getElementById("customDialogOverlay");
+
+        const icon =
+            document.getElementById("customDialogIcon");
+
+        const title =
+            document.getElementById("customDialogTitle");
+
+        const message =
+            document.getElementById("customDialogMessage");
+
+        const cancelBtn =
+            document.getElementById("customDialogCancel");
+
+        const confirmBtn =
+            document.getElementById("customDialogConfirm");
+
         const bahaya = Boolean(opsi.bahaya);
 
-        icon.textContent = opsi.icon || (bahaya ? "!" : "?");
-        icon.className = "custom-dialog-icon" + (bahaya ? " danger" : "");
+        icon.textContent =
+            opsi.icon || (bahaya ? "!" : "?");
 
-        title.textContent = opsi.judul || "Konfirmasi";
-        message.textContent = String(pesan || "Apakah Anda yakin?");
+        icon.className =
+            "custom-dialog-icon" +
+            (bahaya ? " danger" : "");
 
-        cancelBtn.textContent = opsi.teksBatal || "Batal";
-        confirmBtn.textContent = opsi.teksKonfirmasi || "Ya, Lanjutkan";
+        title.textContent =
+            opsi.judul || "Konfirmasi";
+
+        message.textContent =
+            String(
+                pesan ||
+                "Apakah Anda yakin?"
+            );
+
+        cancelBtn.textContent =
+            opsi.teksBatal || "Batal";
+
+        confirmBtn.textContent =
+            opsi.teksKonfirmasi ||
+            "Ya, Lanjutkan";
 
         confirmBtn.className =
             "custom-dialog-btn custom-dialog-confirm" +
@@ -231,9 +339,19 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 
         cancelBtn.hidden = false;
 
+        let selesaiDipanggil = false;
+
         function selesai(nilai) {
+            if (selesaiDipanggil) return;
+
+            selesaiDipanggil = true;
+
             overlay.classList.remove("show");
-            document.removeEventListener("keydown", tekanEscape);
+
+            document.removeEventListener(
+                "keydown",
+                tekanEscape
+            );
 
             setTimeout(function() {
                 resolve(nilai);
@@ -241,17 +359,29 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
         }
 
         function tekanEscape(event) {
-            if (event.key === "Escape") selesai(false);
+            if (event.key === "Escape") {
+                selesai(false);
+            }
         }
 
-        cancelBtn.onclick = () => selesai(false);
-        confirmBtn.onclick = () => selesai(true);
-
-        overlay.onclick = function(event) {
-            if (event.target === overlay) selesai(false);
+        cancelBtn.onclick = function() {
+            selesai(false);
         };
 
-        document.addEventListener("keydown", tekanEscape);
+        confirmBtn.onclick = function() {
+            selesai(true);
+        };
+
+        overlay.onclick = function(event) {
+            if (event.target === overlay) {
+                selesai(false);
+            }
+        };
+
+        document.addEventListener(
+            "keydown",
+            tekanEscape
+        );
 
         requestAnimationFrame(function() {
             overlay.classList.add("show");
@@ -264,56 +394,118 @@ function tampilkanDialogKonfirmasi(pesan, opsi = {}) {
 function tampilkanDialogInfo(pesan, opsi = {}) {
     pastikanCustomDialog();
 
-    const teks = String(pesan || "Informasi");
-    const teksKecil = teks.toLowerCase();
+    const teks =
+        String(pesan || "Informasi");
+
+    const teksKecil =
+        teks.toLowerCase();
 
     const gagal =
-        /gagal|wajib|tidak|harus|error|ditolak|ditutup|belum dibuka/.test(teksKecil);
+        /gagal|wajib|tidak|harus|error|ditolak|ditutup|belum dibuka/
+            .test(teksKecil);
 
     const sukses =
-        /berhasil|disetujui|tersimpan|selesai/.test(teksKecil) &&
+        /berhasil|disetujui|tersimpan|selesai/
+            .test(teksKecil) &&
         !gagal;
 
     return new Promise(function(resolve) {
-        const overlay = document.getElementById("customDialogOverlay");
-        const icon = document.getElementById("customDialogIcon");
-        const title = document.getElementById("customDialogTitle");
-        const message = document.getElementById("customDialogMessage");
-        const cancelBtn = document.getElementById("customDialogCancel");
-        const confirmBtn = document.getElementById("customDialogConfirm");
+        const overlay =
+            document.getElementById("customDialogOverlay");
 
-        icon.textContent = sukses ? "✓" : gagal ? "!" : "i";
+        const icon =
+            document.getElementById("customDialogIcon");
+
+        const title =
+            document.getElementById("customDialogTitle");
+
+        const message =
+            document.getElementById("customDialogMessage");
+
+        const cancelBtn =
+            document.getElementById("customDialogCancel");
+
+        const confirmBtn =
+            document.getElementById("customDialogConfirm");
+
+        icon.textContent =
+            sukses
+                ? "✓"
+                : gagal
+                    ? "!"
+                    : "i";
 
         icon.className =
             "custom-dialog-icon" +
-            (sukses ? " success" : gagal ? " danger" : "");
+            (
+                sukses
+                    ? " success"
+                    : gagal
+                        ? " danger"
+                        : ""
+            );
 
         title.textContent =
             opsi.judul ||
-            (sukses ? "Berhasil" : gagal ? "Perhatian" : "Informasi");
+            (
+                sukses
+                    ? "Berhasil"
+                    : gagal
+                        ? "Perhatian"
+                        : "Informasi"
+            );
 
         message.textContent = teks;
+
         cancelBtn.hidden = true;
-        confirmBtn.textContent = opsi.teksTombol || "Oke";
-        confirmBtn.className = "custom-dialog-btn custom-dialog-confirm";
+
+        confirmBtn.textContent =
+            opsi.teksTombol || "Oke";
+
+        confirmBtn.className =
+            "custom-dialog-btn custom-dialog-confirm";
+
+        let selesaiDipanggil = false;
 
         function selesai() {
+            if (selesaiDipanggil) return;
+
+            selesaiDipanggil = true;
+
             overlay.classList.remove("show");
-            document.removeEventListener("keydown", tekanEscape);
-            setTimeout(resolve, 160);
+
+            document.removeEventListener(
+                "keydown",
+                tekanEscape
+            );
+
+            setTimeout(
+                resolve,
+                160
+            );
         }
 
         function tekanEscape(event) {
-            if (event.key === "Escape" || event.key === "Enter") selesai();
+            if (
+                event.key === "Escape" ||
+                event.key === "Enter"
+            ) {
+                selesai();
+            }
         }
 
         confirmBtn.onclick = selesai;
 
         overlay.onclick = function(event) {
-            if (event.target === overlay) selesai();
+            if (event.target === overlay) {
+                selesai();
+            }
         };
 
-        document.addEventListener("keydown", tekanEscape);
+        document.addEventListener(
+            "keydown",
+            tekanEscape
+        );
 
         requestAnimationFrame(function() {
             overlay.classList.add("show");
@@ -321,7 +513,6 @@ function tampilkanDialogInfo(pesan, opsi = {}) {
         });
     });
 }
-
 
 /* =====================================================
    LOGIN PEGAWAI + ADMIN
