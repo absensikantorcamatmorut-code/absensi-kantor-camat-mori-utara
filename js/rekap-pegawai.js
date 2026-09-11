@@ -412,7 +412,7 @@
        REQUEST
     ===================================================== */
 
-    async function postDataRekapPegawai(data, timeout = 45000) {
+    async function postDataRekapPegawai(data, timeout = 50000) {
         const controller = new AbortController();
 
         const timer = setTimeout(
@@ -431,14 +431,20 @@
             });
 
             const text = await response.text();
-
-            let hasil;
+            let hasil = null;
 
             try {
                 hasil = JSON.parse(text);
             } catch {
+                if (response.ok) {
+                    throw new Error("Respons server tidak valid.");
+                }
+            }
+
+            if (!response.ok) {
                 throw new Error(
-                    "Respons server tidak valid."
+                    hasil?.pesan ||
+                    "Server absensi sedang bermasalah. Silakan coba lagi."
                 );
             }
 
