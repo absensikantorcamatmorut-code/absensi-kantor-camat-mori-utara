@@ -3208,7 +3208,9 @@ navLogAdminBtn?.addEventListener("click", async function() {
 
 navPengaturanAdminBtn?.addEventListener("click", async function() {
     tampilkanHalamanAdmin("pengaturan");
-    await muatPengaturanAdmin();
+    if (typeof window.muatPengaturanAdmin === "function") {
+        await window.muatPengaturanAdmin();
+    }
 });
 
 navAkunAdminBtn?.addEventListener("click", function() {
@@ -5693,41 +5695,76 @@ function safeURL(value) {
 /* =====================================================
    PENGATURAN ADMIN + PREVIEW FOTO
 ===================================================== */
-function isiFormPengaturan(p = {}) {
-    const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, TanggalMulaiPerhitungan:p.tanggalMulaiPerhitungan, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
-    Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
-    const aktif = new Set((Array.isArray(p.hariKerjaAktif) ? p.hariKerjaAktif : [1,2,3,4,5]).map(String));
-    hariKerjaForm?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));
+
+// Referensi lokal modul pengaturan.
+// Jangan bergantung pada "global element by id" milik browser.
+const pengaturanAbsensiFormModule = document.getElementById("pengaturanAbsensiForm");
+const tanggalMulaiPerhitunganFormModule = document.getElementById("tanggalMulaiPerhitunganForm");
+const simpanTanggalMulaiBtnModule = document.getElementById("simpanTanggalMulaiBtn");
+const hariKerjaFormModule = document.getElementById("hariKerjaForm");
+const simpanHariKerjaBtnModule = document.getElementById("simpanHariKerjaBtn");
+const simpanPengaturanBtnModule = document.getElementById("simpanPengaturanBtn");
+const resetPengaturanBtnModule = document.getElementById("resetPengaturanBtn");
+const gunakanLokasiKantorBtnModule = document.getElementById("gunakanLokasiKantorBtn");
+const fotoAbsensiModalModule = document.getElementById("fotoAbsensiModal");
+const fotoAbsensiPreviewModule = document.getElementById("fotoAbsensiPreview");
+const fotoAbsensiLoadingModule = document.getElementById("fotoAbsensiLoading");
+const fotoAbsensiJudulModule = document.getElementById("fotoAbsensiJudul");
+const tutupFotoAbsensiBtnModule = document.getElementById("tutupFotoAbsensiBtn");
+
+const settingIdsModule = [
+    "Radius","Latitude","Longitude","TanggalMulaiPerhitungan",
+    "MasukMulai","JamLambat","MasukSelesai","KeluarMulai","KeluarSelesai"
+];
+const settingElModule = Object.fromEntries(
+    settingIdsModule.map(k => [k, document.getElementById("setting" + k)])
+);
+
+function tokenAdminModule() {
+    return localStorage.getItem("adminToken") || "";
 }
 
-async function muatPengaturanAdmin() {
-    if (!pengaturanAbsensiForm) return;
-    setButtonLoading(simpanPengaturanBtn, true, "Memuat...");
+async function requestAdminModule(payload, timeout = null) {
+    const token = tokenAdminModule();
+    if (!token) throw new Error("Sesi admin tidak tersedia. Silakan login kembali.");
+    return postData({ ...payload, adminToken: token }, timeout);
+}
+
+function isiFormPengaturan(p = {}) {
+    const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, TanggalMulaiPerhitungan:p.tanggalMulaiPerhitungan, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
+    Object.entries(values).forEach(([k,v]) => { if (settingElModule[k]) settingElModule[k].value = v ?? ""; });
+    const aktif = new Set((Array.isArray(p.hariKerjaAktif) ? p.hariKerjaAktif : [1,2,3,4,5]).map(String));
+    hariKerjaFormModule?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));
+}
+
+window.muatPengaturanAdmin = async function muatPengaturanAdmin() {
+    if (!pengaturanAbsensiFormModule) return;
+    setButtonLoading(simpanPengaturanBtnModule, true, "Memuat...");
     try {
-        const r = await postData({ action: "ambilPengaturanAdmin", adminToken });
+        const r = await requestAdminModule({ action:"ambilPengaturanAdmin" });
         if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal dimuat.");
         isiFormPengaturan(r.pengaturan);
     } catch (e) { appToast(e.message, "error"); }
-    finally { setButtonLoading(simpanPengaturanBtn, false); }
-}
+    finally { setButtonLoading(simpanPengaturanBtnModule, false); }
+};
 
-hariKerjaForm?.addEventListener("submit", async e => {
+hariKerjaFormModule?.addEventListener("submit", async e => {
     e.preventDefault();
-    const hari = [...hariKerjaForm.querySelectorAll('input[name="hariKerja"]:checked')].map(x => Number(x.value));
+    const hari = [...hariKerjaFormModule.querySelectorAll('input[name="hariKerja"]:checked')].map(x => Number(x.value));
     if (!hari.length) return appToast("Pilih minimal satu hari kerja.", "error");
     const yakin = await tampilkanDialogKonfirmasi("Hari yang dipilih akan dipakai untuk perhitungan TK dan rekap. Hari libur tetap dikecualikan.", { judul:"Simpan Hari Kerja?", teksKonfirmasi:"Ya, Simpan", icon:"📅" });
     if (!yakin) return;
-    setButtonLoading(simpanHariKerjaBtn, true, "Menyimpan...");
+    setButtonLoading(simpanHariKerjaBtnModule, true, "Menyimpan...");
     try {
-        const hasil = await postAdmin({ action:"simpanHariKerjaAdmin", hariKerjaAktif:hari });
+        const hasil = await requestAdminModule({ action:"simpanHariKerjaAdmin", hariKerjaAktif:hari });
         if (!hasil.berhasil) throw new Error(hasil.pesan || "Hari kerja gagal disimpan.");
         isiFormPengaturan(hasil.pengaturan);
         appToast(hasil.pesan || "Hari kerja berhasil disimpan.");
     } catch(err) { appToast(err.message, "error"); }
-    finally { setButtonLoading(simpanHariKerjaBtn, false); }
+    finally { setButtonLoading(simpanHariKerjaBtnModule, false); }
 });
 
-tanggalMulaiPerhitunganForm?.addEventListener("submit", async e => {
+tanggalMulaiPerhitunganFormModule?.addEventListener("submit", async e => {
     e.preventDefault();
     const tanggal = settingEl.TanggalMulaiPerhitungan?.value;
     if (!tanggal) return appToast("Pilih tanggal mulai perhitungan.", "error");
@@ -5736,18 +5773,18 @@ tanggalMulaiPerhitunganForm?.addEventListener("submit", async e => {
         { judul:"Simpan Tanggal Mulai?", teksKonfirmasi:"Ya, Simpan", icon:"📅" }
     );
     if (!yakin) return;
-    setButtonLoading(simpanTanggalMulaiBtn, true, "Menyimpan...");
+    setButtonLoading(simpanTanggalMulaiBtnModule, true, "Menyimpan...");
     try {
-        const r = await postData({action:"simpanTanggalMulaiPerhitunganAdmin", adminToken, tanggalMulaiPerhitungan:tanggal});
+        const r = await requestAdminModule({ action:"simpanTanggalMulaiPerhitunganAdmin", tanggalMulaiPerhitungan:tanggal });
         if (!r.berhasil) throw new Error(r.pesan || "Tanggal gagal disimpan.");
         isiFormPengaturan(r.pengaturan);
         terapkanPengaturanAbsensi(r.pengaturan);
         appToast(r.pesan || "Tanggal mulai berhasil disimpan.");
     } catch(err) { appToast(err.message || "Tanggal gagal disimpan.", "error"); }
-    finally { setButtonLoading(simpanTanggalMulaiBtn, false); }
+    finally { setButtonLoading(simpanTanggalMulaiBtnModule, false); }
 });
 
-pengaturanAbsensiForm?.addEventListener("submit", async e => {
+pengaturanAbsensiFormModule?.addEventListener("submit", async e => {
     e.preventDefault();
     const yakin = await tampilkanDialogKonfirmasi("Simpan pengaturan absensi baru? Perubahan akan langsung dipakai oleh sistem.", { judul:"Konfirmasi Pengaturan", teksKonfirmasi:"Ya, Simpan", icon:"⚙️" });
     if (!yakin) return;
@@ -5757,43 +5794,43 @@ pengaturanAbsensiForm?.addEventListener("submit", async e => {
         masukMulai: settingEl.MasukMulai?.value, jamLambat: settingEl.JamLambat?.value, masukSelesai: settingEl.MasukSelesai?.value,
         keluarMulai: settingEl.KeluarMulai?.value, keluarSelesai: settingEl.KeluarSelesai?.value
     };
-    setButtonLoading(simpanPengaturanBtn, true, "Menyimpan...");
+    setButtonLoading(simpanPengaturanBtnModule, true, "Menyimpan...");
     try {
-        const r = await postData({ action:"simpanPengaturanAdmin", adminToken, pengaturan });
+        const r = await requestAdminModule({ action:"simpanPengaturanAdmin", pengaturan });
         if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal disimpan.");
         terapkanPengaturanAbsensi(r.pengaturan);
         appToast(r.pesan || "Pengaturan berhasil disimpan.");
     } catch (e) { appToast(e.message, "error"); }
-    finally { setButtonLoading(simpanPengaturanBtn, false); }
+    finally { setButtonLoading(simpanPengaturanBtnModule, false); }
 });
 
-resetPengaturanBtn?.addEventListener("click", async () => {
+resetPengaturanBtnModule?.addEventListener("click", async () => {
     const yakin = await tampilkanDialogKonfirmasi(
         "Semua pengaturan lokasi, radius, jam absensi, dan tanggal mulai perhitungan akan dikembalikan ke default. Lanjutkan?",
         { judul:"Reset ke Default?", teksKonfirmasi:"Ya, Reset", icon:"↺" }
     );
     if (!yakin) return;
-    setButtonLoading(resetPengaturanBtn, true, "Mereset...");
+    setButtonLoading(resetPengaturanBtnModule, true, "Mereset...");
     try {
-        const r = await postData({ action:"resetPengaturanAdmin", adminToken });
+        const r = await requestAdminModule({ action:"resetPengaturanAdmin" });
         if (!r.berhasil) throw new Error(r.pesan || "Reset pengaturan gagal.");
         isiFormPengaturan(r.pengaturan);
         terapkanPengaturanAbsensi(r.pengaturan);
         appToast(r.pesan || "Pengaturan kembali ke default.");
     } catch (e) { appToast(e.message, "error"); }
-    finally { setButtonLoading(resetPengaturanBtn, false); }
+    finally { setButtonLoading(resetPengaturanBtnModule, false); }
 });
 
-gunakanLokasiKantorBtn?.addEventListener("click", () => {
+gunakanLokasiKantorBtnModule?.addEventListener("click", () => {
     if (!navigator.geolocation) return appToast("GPS tidak tersedia di perangkat ini.", "error");
-    setButtonLoading(gunakanLokasiKantorBtn, true, "Mencari lokasi...");
+    setButtonLoading(gunakanLokasiKantorBtnModule, true, "Mencari lokasi...");
     navigator.geolocation.getCurrentPosition(pos => {
         if (settingEl.Latitude) settingEl.Latitude.value = pos.coords.latitude.toFixed(7);
         if (settingEl.Longitude) settingEl.Longitude.value = pos.coords.longitude.toFixed(7);
-        setButtonLoading(gunakanLokasiKantorBtn, false);
+        setButtonLoading(gunakanLokasiKantorBtnModule, false);
         appToast("Lokasi perangkat berhasil dimasukkan. Periksa sebelum menyimpan.");
     }, () => {
-        setButtonLoading(gunakanLokasiKantorBtn, false);
+        setButtonLoading(gunakanLokasiKantorBtnModule, false);
         appToast("Lokasi tidak dapat diambil. Pastikan izin GPS aktif.", "error");
     }, { enableHighAccuracy:true, timeout:15000, maximumAge:0 });
 });
@@ -5804,7 +5841,7 @@ async function muatThumbnailFotoAdmin(btn) {
     const img = btn.querySelector("img");
     const loading = btn.querySelector(".absensi-foto-loading");
     try {
-        const r = await postData({ action:"ambilFotoAbsensiAdmin", adminToken, fotoUrl:btn.dataset.foto });
+        const r = await requestAdminModule({ action:"ambilFotoAbsensiAdmin", fotoUrl:btn.dataset.foto });
         if (!r.berhasil || !r.dataUrl) throw new Error(r.pesan || "Foto gagal dimuat.");
         if (img) {
             img.src = r.dataUrl;
@@ -5825,24 +5862,24 @@ function muatThumbnailFotoTerlihat() {
 }
 
 async function bukaPreviewFotoAdmin(url, nama) {
-    if (!fotoAbsensiModal || !url) return;
-    if (fotoAbsensiJudul) fotoAbsensiJudul.textContent = "Foto " + (nama || "Pegawai");
-    if (fotoAbsensiPreview) { fotoAbsensiPreview.hidden = true; fotoAbsensiPreview.removeAttribute("src"); }
-    if (fotoAbsensiLoading) { fotoAbsensiLoading.hidden = false; fotoAbsensiLoading.textContent = "Memuat foto..."; }
-    fotoAbsensiModal.hidden = false;
+    if (!fotoAbsensiModalModule || !url) return;
+    if (fotoAbsensiJudulModule) fotoAbsensiJudulModule.textContent = "Foto " + (nama || "Pegawai");
+    if (fotoAbsensiPreviewModule) { fotoAbsensiPreviewModule.hidden = true; fotoAbsensiPreviewModule.removeAttribute("src"); }
+    if (fotoAbsensiLoadingModule) { fotoAbsensiLoadingModule.hidden = false; fotoAbsensiLoadingModule.textContent = "Memuat foto..."; }
+    fotoAbsensiModalModule.hidden = false;
     try {
-        const r = await postData({ action:"ambilFotoAbsensiAdmin", adminToken, fotoUrl:url });
+        const r = await requestAdminModule({ action:"ambilFotoAbsensiAdmin", fotoUrl:url });
         if (!r.berhasil || !r.dataUrl) throw new Error(r.pesan || "Foto gagal dimuat.");
-        if (fotoAbsensiPreview) { fotoAbsensiPreview.src = r.dataUrl; fotoAbsensiPreview.hidden = false; }
-        if (fotoAbsensiLoading) fotoAbsensiLoading.hidden = true;
+        if (fotoAbsensiPreviewModule) { fotoAbsensiPreviewModule.src = r.dataUrl; fotoAbsensiPreviewModule.hidden = false; }
+        if (fotoAbsensiLoadingModule) fotoAbsensiLoadingModule.hidden = true;
     } catch (e) {
-        if (fotoAbsensiLoading) fotoAbsensiLoading.textContent = e.message || "Foto gagal dimuat.";
+        if (fotoAbsensiLoadingModule) fotoAbsensiLoadingModule.textContent = e.message || "Foto gagal dimuat.";
     }
 }
 
-function tutupPreviewFotoAdmin() { if (fotoAbsensiModal) fotoAbsensiModal.hidden = true; }
-tutupFotoAbsensiBtn?.addEventListener("click", tutupPreviewFotoAdmin);
-fotoAbsensiModal?.querySelector(".admin-modal-backdrop")?.addEventListener("click", tutupPreviewFotoAdmin);
+function tutupPreviewFotoAdmin() { if (fotoAbsensiModal) fotoAbsensiModalModule.hidden = true; }
+tutupFotoAbsensiBtnModule?.addEventListener("click", tutupPreviewFotoAdmin);
+fotoAbsensiModalModule?.querySelector(".admin-modal-backdrop")?.addEventListener("click", tutupPreviewFotoAdmin);
 document.addEventListener("click", (e) => {
     const btn = e.target.closest(".foto-preview-btn");
     if (btn) bukaPreviewFotoAdmin(btn.dataset.foto, btn.dataset.nama);
