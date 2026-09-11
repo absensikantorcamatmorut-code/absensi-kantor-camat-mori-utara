@@ -9228,3 +9228,371 @@ button.is-loading { cursor: wait; opacity: .78; }
   .admin-page .table-action{width:100%}
   .admin-page .app-toast{bottom:12px;width:calc(100% - 20px)}
 }
+
+/* =====================================================
+   MOBILE UX SIMPLE MODE
+   Fokus: font konsisten, sedikit teks, menu bertahap
+===================================================== */
+html,
+body,
+button,
+input,
+select,
+textarea {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+
+.absensi-page .pegawai-simple-panel {
+    display: grid;
+    gap: 14px;
+}
+
+.absensi-page .simple-panel-head {
+    padding: 6px 2px 0;
+}
+
+.absensi-page .simple-panel-head h2 {
+    margin-top: 4px;
+    color: #172033;
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+.absensi-page .simple-info-card {
+    padding: 18px;
+    border: 1px solid #dbe5ef;
+    border-radius: 18px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 8px 22px rgba(15,23,42,.045);
+}
+
+.absensi-page .simple-info-card > strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #172033;
+    font-size: 18px;
+}
+
+.absensi-page .simple-info-card p {
+    margin: 4px 0 0;
+    color: #5f6d80;
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.absensi-page .account-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.absensi-page .account-avatar {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    border-radius: 16px;
+    background: linear-gradient(135deg,#0ea5e9,#2563eb);
+}
+
+.absensi-page .simple-logout-btn {
+    width: 100%;
+    min-height: 56px;
+    color: #b42318;
+    font-size: 17px;
+    font-weight: 700;
+    border: 1px solid #fecaca;
+    border-radius: 14px;
+    background: #fff7f7;
+}
+
+@media (max-width: 640px) {
+    .absensi-page {
+        padding: 14px 12px 28px;
+    }
+
+    .absensi-page .absensi-container {
+        max-width: 100%;
+    }
+
+    .absensi-page .absensi-header {
+        margin-bottom: 12px;
+        align-items: center;
+    }
+
+    .absensi-page .absensi-header .app-badge {
+        margin-bottom: 4px;
+        font-size: 11px;
+        letter-spacing: .6px;
+    }
+
+    .absensi-page .absensi-header h1 {
+        font-size: 22px;
+        letter-spacing: -.35px;
+    }
+
+    .absensi-page #tanggalSekarang {
+        margin-top: 4px;
+        font-size: 14px;
+    }
+
+    .absensi-page .absensi-header .logout-icon {
+        display: none;
+    }
+
+    .absensi-page .pegawai-card {
+        margin-bottom: 10px;
+        padding: 13px 14px;
+        gap: 11px;
+        border-radius: 16px;
+    }
+
+    .absensi-page .avatar {
+        width: 46px;
+        height: 46px;
+        font-size: 19px;
+        border-radius: 14px;
+    }
+
+    .absensi-page .welcome-text {
+        display: none;
+    }
+
+    .absensi-page .pegawai-card h2 {
+        margin: 0 0 2px;
+        font-size: 18px;
+    }
+
+    .absensi-page .nip-text {
+        font-size: 13px;
+    }
+
+    .absensi-page .pegawai-nav {
+        margin-bottom: 12px;
+        padding: 5px;
+        grid-template-columns: repeat(4,minmax(0,1fr));
+        gap: 4px;
+        border-radius: 15px;
+    }
+
+    .absensi-page .pegawai-nav-btn {
+        min-height: 58px;
+        padding: 7px 3px;
+        flex-direction: column;
+        gap: 3px;
+        font-size: 11px;
+        line-height: 1.15;
+        border-radius: 11px;
+    }
+
+    .absensi-page .pegawai-nav-btn .nav-icon {
+        font-size: 19px;
+        line-height: 1;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-card {
+        margin-bottom: 10px;
+        padding: 15px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        border-radius: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-divider {
+        display: none;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-time {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-time p {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    .absensi-page #absensiPegawaiSection .time-row h2 {
+        font-size: 31px;
+    }
+
+    .absensi-page #absensiPegawaiSection .time-row > span {
+        font-size: 16px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-status {
+        padding-top: 10px;
+        border-top: 1px solid #edf1f5;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-status small {
+        margin-bottom: 3px;
+        font-size: 13px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-status strong {
+        font-size: 16px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-section,
+    .absensi-page #absensiPegawaiSection .form-section,
+    .absensi-page #absensiPegawaiSection .keterangan-aktif-card,
+    .absensi-page #absensiPegawaiSection .submit-section {
+        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .simple-section-heading,
+    .absensi-page #absensiPegawaiSection .submit-heading {
+        margin-bottom: 12px;
+    }
+
+    .absensi-page #absensiPegawaiSection .section-eyebrow {
+        margin-bottom: 4px;
+        font-size: 11px;
+    }
+
+    .absensi-page #absensiPegawaiSection .simple-section-heading h2,
+    .absensi-page #absensiPegawaiSection .submit-heading h2 {
+        font-size: 19px;
+    }
+
+    .absensi-page #absensiPegawaiSection .simple-section-heading p,
+    .absensi-page #absensiPegawaiSection .submit-heading p {
+        margin-top: 4px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-option {
+        min-height: 70px;
+        padding: 11px 12px;
+        grid-template-columns: 42px 1fr auto;
+        gap: 10px;
+        border-radius: 14px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+        border-radius: 12px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-content strong,
+    .absensi-page #absensiPegawaiSection .action-text strong {
+        font-size: 16px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-content small,
+    .absensi-page #absensiPegawaiSection .action-text small,
+    .absensi-page #absensiPegawaiSection .attendance-option small,
+    .absensi-page #absensiPegawaiSection .keterangan-option small {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-options,
+    .absensi-page #absensiPegawaiSection .keterangan-options {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-option,
+    .absensi-page #absensiPegawaiSection .keterangan-option,
+    .absensi-page #absensiPegawaiSection .action-card {
+        min-height: 64px;
+        padding: 10px 12px;
+        border-radius: 13px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-note {
+        margin-top: 9px;
+        padding: 9px 11px;
+        font-size: 13px;
+    }
+
+    .absensi-page #absensiPegawaiSection .camera-live-container,
+    .absensi-page #absensiPegawaiSection .camera-placeholder {
+        min-height: 195px;
+    }
+
+    .absensi-page #absensiPegawaiSection .camera-placeholder small {
+        display: none;
+    }
+
+    .absensi-page #absensiPegawaiSection .progress-status {
+        justify-content: flex-start;
+    }
+
+    .absensi-page #absensiPegawaiSection #submitAbsensi,
+    .absensi-page #absensiPegawaiSection #submitKeterangan,
+    .absensi-page #absensiPegawaiSection .camera-action-btn {
+        min-height: 54px;
+        font-size: 16px;
+    }
+
+    .absensi-page .rekap-pegawai-hero {
+        padding: 17px;
+    }
+
+    .absensi-page .rekap-pegawai-hero p,
+    .absensi-page .rekap-pegawai-section-title p {
+        display: none;
+    }
+
+    .absensi-page .rekap-pegawai-filter-card,
+    .absensi-page .rekap-pegawai-info-card,
+    .absensi-page .rekap-pegawai-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .absensi-page .rekap-pegawai-stats {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 8px;
+    }
+
+    .absensi-page .rekap-stat-item {
+        min-height: 84px;
+        padding: 11px 8px;
+    }
+
+    .absensi-page .rekap-stat-item small {
+        font-size: 11px;
+        line-height: 1.25;
+    }
+
+    .absensi-page .riwayat-rekap-detail {
+        gap: 6px;
+    }
+
+    .absensi-page .riwayat-rekap-detail > div {
+        padding: 9px 7px;
+    }
+
+    .absensi-page .simple-panel-head h2 {
+        font-size: 22px;
+    }
+
+    .absensi-page .simple-info-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .absensi-page .simple-info-card > strong {
+        font-size: 17px;
+    }
+
+    .absensi-page .simple-info-card p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#eef4fb">
     <title>Absensi Pegawai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -20,7 +23,7 @@
         <!-- HEADER -->
         <header class="absensi-header">
             <div class="header-info">
-                <span class="app-badge">ABSENSI PEGAWAI</span>
+                <span class="app-badge">ABSENSI</span>
                 <h1>Kantor Camat Mori Utara</h1>
                 <p id="tanggalSekarang">-</p>
             </div>
@@ -53,92 +56,21 @@
         </section>
 
 
-        <!-- NAVIGASI -->
-        <nav class="pegawai-nav">
-            <button
-                type="button"
-                class="pegawai-nav-btn active"
-                id="navAbsensiPegawaiBtn"
-            >
-                <span class="nav-icon">⌂</span>
-                <span>Absensi</span>
+        <!-- NAVIGASI SEDERHANA -->
+        <nav class="pegawai-nav" aria-label="Menu pegawai">
+            <button type="button" class="pegawai-nav-btn active" id="navAbsensiPegawaiBtn">
+                <span class="nav-icon">⌂</span><span>Beranda</span>
             </button>
-
-            <button
-                type="button"
-                class="pegawai-nav-btn"
-                id="navRekapPegawaiBtn"
-            >
-                <span class="nav-icon">▦</span>
-                <span>Rekap Saya</span>
+            <button type="button" class="pegawai-nav-btn" id="navRekapPegawaiBtn">
+                <span class="nav-icon">▦</span><span>Riwayat</span>
+            </button>
+            <button type="button" class="pegawai-nav-btn" id="navInfoPegawaiBtn">
+                <span class="nav-icon">ⓘ</span><span>Info</span>
+            </button>
+            <button type="button" class="pegawai-nav-btn" id="navAkunPegawaiBtn">
+                <span class="nav-icon">●</span><span>Akun</span>
             </button>
         </nav>
-
-        <div class="running-text" aria-label="Informasi Absensi">
-    <div class="running-text-track">
-        <span>
-            📢 Kantor Camat Mori Utara
-            <b>•</b>
-            Datang tepat waktu
-            <b>•</b>
-            Pastikan lokasi dan foto sebelum mengirim absensi
-            <b>•</b>
-            Pelayanan disiplin, kerja lebih baik
-        </span>
-
-        <span aria-hidden="true">
-            📢 Kantor Camat Mori Utara
-            <b>•</b>
-            Datang tepat waktu
-            <b>•</b>
-            Pastikan lokasi dan foto sebelum mengirim absensi
-            <b>•</b>
-            Pelayanan disiplin, kerja lebih baik
-        </span>
-    </div>
-</div>
-
-        <!-- ==================================================
-     PENGUMUMAN / RUNNING TEXT
-=================================================== -->
-
-<section
-    class="running-announcement"
-    id="runningAnnouncement"
-    aria-label="Pengumuman Kantor"
-    hidden
->
-    <div class="running-announcement-label">
-        <span class="announcement-dot"></span>
-        INFO
-    </div>
-
-    <div class="running-announcement-window">
-        <div
-            class="running-announcement-track"
-            id="runningAnnouncementTrack"
-        >
-            <span
-                class="running-announcement-text"
-                id="runningAnnouncementText"
-            ></span>
-
-            <span
-                class="running-announcement-separator"
-                aria-hidden="true"
-            >
-                •
-            </span>
-
-            <span
-                class="running-announcement-text"
-                id="runningAnnouncementTextClone"
-                aria-hidden="true"
-            ></span>
-        </div>
-    </div>
-</section>
-
 
         <!-- ==================================================
              ABSENSI
@@ -206,9 +138,8 @@
             <!-- PILIH AKTIVITAS -->
             <section class="mode-section">
                 <div class="simple-section-heading">
-                    <span class="section-eyebrow">AKTIVITAS HARI INI</span>
-                    <h2>Apa aktivitas Anda hari ini?</h2>
-                    <p>Pilih salah satu pilihan di bawah.</p>
+                    <span class="section-eyebrow">PILIH AKSI</span>
+                    <h2>Apa yang ingin dilakukan?</h2>
                 </div>
 
                 <div class="mode-options">
@@ -223,7 +154,7 @@
 
                         <span class="mode-content">
                             <strong>Hadir di Kantor</strong>
-                            <small>Untuk melakukan absensi masuk atau keluar</small>
+                            <small>Absen masuk atau pulang</small>
                         </span>
 
                         <span class="mode-arrow">›</span>
@@ -238,8 +169,8 @@
                         <span class="mode-icon">📋</span>
 
                         <span class="mode-content">
-                            <strong>Kirim Keterangan</strong>
-                            <small>Sakit, cuti, dinas, WFH, dan lainnya</small>
+                            <strong>Keterangan / Izin</strong>
+                            <small>Sakit, cuti, dinas, dan lainnya</small>
                         </span>
 
                         <span class="mode-arrow">›</span>
@@ -265,9 +196,7 @@
                             <span class="section-eyebrow">LANGKAH 1</span>
                             <h2>Pilih Masuk atau Keluar</h2>
 
-                            <p>
-                                Masuk 06.30–09.00 · Keluar 15.45–16.30 WITA
-                            </p>
+                            <p>Masuk atau pulang.</p>
                         </div>
 
                         <div class="attendance-options">
@@ -312,9 +241,7 @@
                             <span class="section-eyebrow">LANGKAH 2</span>
                             <h2>Periksa Lokasi</h2>
 
-                            <p>
-                                Pastikan Anda berada maksimal 150 meter dari kantor.
-                            </p>
+                            <p>Tekan tombol untuk cek lokasi.</p>
                         </div>
 
                         <button
@@ -345,9 +272,7 @@
                             <span class="section-eyebrow">LANGKAH 3</span>
                             <h2>Ambil Foto</h2>
 
-                            <p>
-                                Foto diambil langsung menggunakan kamera perangkat Anda.
-                            </p>
+                            <p>Ambil foto langsung dari kamera.</p>
                         </div>
 
                         <div
@@ -419,7 +344,7 @@
                         <div class="submit-heading">
                             <span class="section-eyebrow">LANGKAH 4</span>
                             <h2>Kirim Absensi</h2>
-                            <p>Pastikan semua langkah sudah selesai.</p>
+                            
                         </div>
 
                         <div class="progress-status">
@@ -473,9 +398,7 @@
                             <span class="section-eyebrow">LANGKAH 1</span>
                             <h2>Pilih Jenis Keterangan</h2>
 
-                            <p>
-                                Pilih kondisi yang sesuai untuk hari ini.
-                            </p>
+                            
                         </div>
 
                         <div class="keterangan-options">
@@ -605,7 +528,7 @@
                         <div class="submit-heading">
                             <span class="section-eyebrow">LANGKAH 3</span>
                             <h2>Kirim Keterangan</h2>
-                            <p>Pastikan jenis dan keterangan sudah diisi.</p>
+                            
                         </div>
 
                         <div class="progress-status">
@@ -655,15 +578,8 @@
 
             <!-- HERO -->
             <div class="rekap-pegawai-hero">
-                <span class="rekap-pegawai-badge">
-                    REKAP PRIBADI
-                </span>
-
-                <h2>Rekap Saya</h2>
-
-                <p>
-                    Lihat ringkasan kehadiran dan aktivitas absensi bulanan Anda.
-                </p>
+                <span class="rekap-pegawai-badge">RIWAYAT</span>
+                <h2>Riwayat Absensi</h2>
             </div>
 
 
@@ -714,7 +630,7 @@
             <!-- HARI KERJA -->
             <section class="rekap-pegawai-info-card">
                 <div>
-                    <small>Hari kerja yang dihitung</small>
+                    <small>Hari kerja</small>
 
                     <strong id="rekapPegawaiHariKerja">
                         0 Hari
@@ -731,8 +647,7 @@
                     <span class="step-number">01</span>
 
                     <div>
-                        <h3>Ringkasan Kehadiran</h3>
-                        <p>Jumlah status kehadiran pada periode terpilih</p>
+                        <h3>Ringkasan</h3>
                     </div>
                 </div>
 
@@ -809,7 +724,6 @@
 
                     <div>
                         <h3>Keterlambatan</h3>
-                        <p>Rekap waktu masuk setelah pukul 08.00 WITA</p>
                     </div>
                 </div>
 
@@ -842,7 +756,6 @@
 
                     <div>
                         <h3>Riwayat Harian</h3>
-                        <p>Status absensi berdasarkan hari kerja</p>
                     </div>
                 </div>
 
@@ -873,6 +786,48 @@
                 ></div>
             </section>
 
+        </section>
+
+        <!-- INFO -->
+        <section id="infoPegawaiSection" class="pegawai-simple-panel" hidden>
+            <div class="simple-panel-head">
+                <span class="section-eyebrow">INFO</span>
+                <h2>Informasi</h2>
+            </div>
+
+            <section class="simple-info-card" id="runningAnnouncement" hidden>
+                <strong>Pengumuman Kantor</strong>
+                <p id="runningAnnouncementText"></p>
+                <span id="runningAnnouncementTextClone" hidden></span>
+                <span id="runningAnnouncementTrack" hidden></span>
+            </section>
+
+            <section class="simple-info-card">
+                <strong>Jam Absensi</strong>
+                <p>Masuk 06.30–09.00 WITA. Setelah 08.00 tercatat terlambat.</p>
+                <p>Pulang 15.45–16.30 WITA.</p>
+            </section>
+
+            <section class="simple-info-card">
+                <strong>Cara Absensi</strong>
+                <p>Pilih Hadir → pilih Masuk/Pulang → cek lokasi → ambil foto → kirim.</p>
+            </section>
+        </section>
+
+        <!-- AKUN -->
+        <section id="akunPegawaiSection" class="pegawai-simple-panel" hidden>
+            <div class="simple-panel-head">
+                <span class="section-eyebrow">AKUN</span>
+                <h2>Akun Saya</h2>
+            </div>
+            <section class="simple-info-card account-summary">
+                <span class="account-avatar" id="avatarHurufAkun">P</span>
+                <div>
+                    <strong id="namaPegawaiAkun">Pegawai</strong>
+                    <p>NIP <span id="nipPegawaiAkun">-</span></p>
+                </div>
+            </section>
+            <button type="button" id="logoutBtnMenu" class="simple-logout-btn">Keluar dari Akun</button>
         </section>
 
     </main>

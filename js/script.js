@@ -1435,6 +1435,7 @@ const bagianKirim =
         document.getElementById("submitKeteranganText");
 
     const logoutBtn = document.getElementById("logoutBtn");
+    const logoutBtnMenu = document.getElementById("logoutBtnMenu");
 
     const toast = document.getElementById("toast");
     const toastIcon = document.getElementById("toastIcon");
@@ -2847,15 +2848,10 @@ function updateAlurAbsensi() {
     }
 
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener(
-            "click",
-            function() {
-                hentikanKamera();
-                logoutUser();
-            }
-        );
-    }
+    [logoutBtn, logoutBtnMenu].forEach(btn => btn?.addEventListener("click", function() {
+        hentikanKamera();
+        logoutUser();
+    }));
 
     window.addEventListener(
         "beforeunload",

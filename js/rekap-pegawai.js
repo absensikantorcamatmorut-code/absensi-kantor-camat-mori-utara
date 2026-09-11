@@ -10,6 +10,10 @@
 
     const navAbsensi = document.getElementById("navAbsensiPegawaiBtn");
     const navRekap = document.getElementById("navRekapPegawaiBtn");
+    const navInfo = document.getElementById("navInfoPegawaiBtn");
+    const navAkun = document.getElementById("navAkunPegawaiBtn");
+    const infoSection = document.getElementById("infoPegawaiSection");
+    const akunSection = document.getElementById("akunPegawaiSection");
 
     const bulanSelect = document.getElementById("rekapPegawaiBulan");
     const tahunSelect = document.getElementById("rekapPegawaiTahun");
@@ -96,31 +100,45 @@
        NAVIGASI
     ===================================================== */
 
-    function bukaAbsensi() {
-        if (absensiSection) absensiSection.hidden = false;
-        rekapSection.hidden = true;
-
-        navAbsensi?.classList.add("active");
-        navRekap?.classList.remove("active");
+    function tampilkanMenu(target, tombol) {
+        [absensiSection, rekapSection, infoSection, akunSection].forEach(section => {
+            if (section) section.hidden = section !== target;
+        });
+        [navAbsensi, navRekap, navInfo, navAkun].forEach(btn => btn?.classList.toggle("active", btn === tombol));
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    function bukaAbsensi() {
+        tampilkanMenu(absensiSection, navAbsensi);
+    }
 
     async function bukaRekap() {
-        if (absensiSection) absensiSection.hidden = true;
-        rekapSection.hidden = false;
-
-        navAbsensi?.classList.remove("active");
-        navRekap?.classList.add("active");
-
+        tampilkanMenu(rekapSection, navRekap);
         if (!rekapPernahDibuka) {
             rekapPernahDibuka = true;
             await ambilRekap();
         }
     }
 
+    function bukaInfo() {
+        tampilkanMenu(infoSection, navInfo);
+    }
+
+    function bukaAkun() {
+        tampilkanMenu(akunSection, navAkun);
+        const salin = (asal, tujuan) => {
+            const a = document.getElementById(asal), t = document.getElementById(tujuan);
+            if (a && t) t.textContent = a.textContent;
+        };
+        salin("namaPegawai", "namaPegawaiAkun");
+        salin("nipPegawai", "nipPegawaiAkun");
+        salin("avatarHuruf", "avatarHurufAkun");
+    }
 
     navAbsensi?.addEventListener("click", bukaAbsensi);
     navRekap?.addEventListener("click", bukaRekap);
+    navInfo?.addEventListener("click", bukaInfo);
+    navAkun?.addEventListener("click", bukaAkun);
 
 
     /* =====================================================
