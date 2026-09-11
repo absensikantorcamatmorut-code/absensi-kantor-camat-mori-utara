@@ -2999,6 +2999,38 @@ if (
 
 
 /* =====================================================
+   UI HELPERS — reusable, ringan, ramah pengguna
+===================================================== */
+(() => {
+    let toastTimer;
+    window.appToast = (message, type = "success", title = type === "success" ? "Berhasil" : "Perhatian") => {
+        const el = document.getElementById("adminToast");
+        if (!el) return;
+        clearTimeout(toastTimer);
+        el.className = `app-toast ${type}`;
+        el.querySelector(".app-toast-icon").textContent = type === "success" ? "✓" : "!";
+        el.querySelector("strong").textContent = title;
+        el.querySelector("p").textContent = message;
+        el.hidden = false;
+        requestAnimationFrame(() => el.classList.add("show"));
+        toastTimer = setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.hidden = true, 250); }, 4000);
+    };
+
+    window.setButtonLoading = (button, loading, text = "Memproses...") => {
+        if (!button) return;
+        if (!button.dataset.label) button.dataset.label = button.textContent.trim();
+        button.disabled = loading;
+        button.classList.toggle("is-loading", loading);
+        button.textContent = loading ? text : button.dataset.label;
+        button.setAttribute("aria-busy", String(loading));
+    };
+
+    window.tableSkeleton = (cols, rows = 3) => Array.from({ length: rows }, () =>
+        `<tr class="skeleton-row">${Array.from({ length: cols }, () => '<td><span></span></td>').join("")}</tr>`
+    ).join("");
+})();
+
+/* =====================================================
    ADMIN START + CACHE
 ===================================================== */
 const CACHE_ADMIN_MS = 60000;
@@ -4733,7 +4765,7 @@ async function postData(data, timeout = null) {
             ? timeout
             : bolehRetry
                 ? 8000
-                : 20000;
+                : 45000;
 
     const maksimalPercobaan =
         bolehRetry ? 2 : 1;
@@ -5444,34 +5476,4 @@ function safeURL(value) {
 })();
 
 
-/* =====================================================
-   UI HELPERS — reusable, ringan, ramah pengguna
-===================================================== */
-(() => {
-    let toastTimer;
-    window.appToast = (message, type = "success", title = type === "success" ? "Berhasil" : "Perhatian") => {
-        const el = document.getElementById("adminToast");
-        if (!el) return;
-        clearTimeout(toastTimer);
-        el.className = `app-toast ${type}`;
-        el.querySelector(".app-toast-icon").textContent = type === "success" ? "✓" : "!";
-        el.querySelector("strong").textContent = title;
-        el.querySelector("p").textContent = message;
-        el.hidden = false;
-        requestAnimationFrame(() => el.classList.add("show"));
-        toastTimer = setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.hidden = true, 250); }, 4000);
-    };
 
-    window.setButtonLoading = (button, loading, text = "Memproses...") => {
-        if (!button) return;
-        if (!button.dataset.label) button.dataset.label = button.textContent.trim();
-        button.disabled = loading;
-        button.classList.toggle("is-loading", loading);
-        button.textContent = loading ? text : button.dataset.label;
-        button.setAttribute("aria-busy", String(loading));
-    };
-
-    window.tableSkeleton = (cols, rows = 3) => Array.from({ length: rows }, () =>
-        `<tr class="skeleton-row">${Array.from({ length: cols }, () => '<td><span></span></td>').join("")}</tr>`
-    ).join("");
-})();
