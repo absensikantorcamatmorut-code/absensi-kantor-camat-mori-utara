@@ -11411,3 +11411,468 @@ body[data-ui-theme="nova"] input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px #071526 inset !important;
     transition: background-color 9999s ease-out 0s;
 }
+
+
+/* ============================================================
+   NOVA FULL DARK AUDIT — ADMIN + PEGAWAI
+   Audit menyeluruh untuk menutup semua surface terang dari tema lama.
+   Berlaku HANYA saat data-ui-theme="nova".
+============================================================ */
+
+/* ---------- Surface primitives ---------- */
+body[data-ui-theme="nova"] {
+    --nova-panel: linear-gradient(145deg, rgba(13,30,53,.92), rgba(7,17,31,.88));
+    --nova-panel-2: rgba(7,18,33,.88);
+    --nova-panel-soft: rgba(255,255,255,.035);
+    --nova-panel-hover: rgba(92,225,230,.06);
+    --nova-border: rgba(154,183,220,.15);
+    --nova-border-hot: rgba(92,225,230,.28);
+}
+
+/* ---------- ADMIN: semua kartu/form/modal legacy ---------- */
+body.admin-page[data-ui-theme="nova"] :is(
+    .admin-modal-content,
+    .admin-announcement-card,
+    .holiday-summary-card,
+    .holiday-calendar-card,
+    .detail-pegawai-filter,
+    .detail-loading,
+    .detail-error,
+    .detail-empty,
+    .detail-ringkasan > div,
+    .detail-total-terlambat,
+    .detail-riwayat-header,
+    .detail-riwayat-item,
+    .settings-save-row,
+    .photo-admin-loading,
+    .action-needed-item,
+    .weekday-picker label,
+    .rekap-preview-tools,
+    .rekap-preview-card,
+    .rekap-preview-empty,
+    .rekap-preview-error,
+    .calendar-wrap,
+    .calendar-grid,
+    .calendar-legend,
+    .admin-announcement-preview,
+    .announcement-switch-row
+) {
+    color: var(--nova-text) !important;
+    background: var(--nova-panel) !important;
+    border-color: var(--nova-border) !important;
+    box-shadow: 0 16px 40px rgba(0,0,0,.16) !important;
+}
+
+/* Modal dan close button */
+body.admin-page[data-ui-theme="nova"] .admin-modal {
+    background: rgba(1,7,14,.76) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-modal-content {
+    box-shadow: 0 32px 90px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+body.admin-page[data-ui-theme="nova"] .modal-close-btn {
+    color: #9fb3c8 !important;
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--nova-border) !important;
+}
+body.admin-page[data-ui-theme="nova"] .modal-close-btn:hover {
+    color: #fff !important;
+    background: rgba(255,122,144,.10) !important;
+    border-color: rgba(255,122,144,.24) !important;
+}
+
+/* Absensi manual warning */
+body.admin-page[data-ui-theme="nova"] .manual-warning {
+    color: #ffd986 !important;
+    background: rgba(255,209,102,.065) !important;
+    border-color: rgba(255,209,102,.19) !important;
+}
+
+/* Semua input/select/textarea admin, termasuk yang punya selector khusus */
+body.admin-page[data-ui-theme="nova"] :is(
+    input,
+    select,
+    textarea,
+    #pengumumanAdminText,
+    .detail-pegawai-filter select,
+    .rekap-preview-tools input
+) {
+    color: #eaf7ff !important;
+    background: rgba(3,12,24,.72) !important;
+    border-color: var(--nova-border) !important;
+}
+body.admin-page[data-ui-theme="nova"] :is(
+    input,
+    select,
+    textarea,
+    #pengumumanAdminText,
+    .detail-pegawai-filter select,
+    .rekap-preview-tools input
+):focus {
+    color: #fff !important;
+    background: rgba(4,15,28,.92) !important;
+    border-color: rgba(92,225,230,.55) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+body.admin-page[data-ui-theme="nova"] select option {
+    color: #edf9ff !important;
+    background: #0a192b !important;
+}
+
+/* Secondary controls */
+body.admin-page[data-ui-theme="nova"] :is(
+    .admin-secondary-btn,
+    .toggle-filter-btn,
+    .reset-filter-btn,
+    .calendar-nav-btn
+) {
+    color: #cfe5f5 !important;
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--nova-border) !important;
+}
+body.admin-page[data-ui-theme="nova"] :is(
+    .admin-secondary-btn,
+    .toggle-filter-btn,
+    .reset-filter-btn,
+    .calendar-nav-btn
+):hover {
+    color: #fff !important;
+    background: rgba(92,225,230,.08) !important;
+    border-color: var(--nova-border-hot) !important;
+}
+
+/* Tombol status/nonaktif dan hapus */
+body.admin-page[data-ui-theme="nova"] .pegawai-status-btn {
+    color: #ffd77d !important;
+    background: rgba(255,209,102,.07) !important;
+    border-color: rgba(255,209,102,.22) !important;
+}
+body.admin-page[data-ui-theme="nova"] .table-action-danger {
+    color: #ff9dad !important;
+    background: rgba(255,122,144,.07) !important;
+    border-color: rgba(255,122,144,.23) !important;
+}
+body.admin-page[data-ui-theme="nova"] .is-locked {
+    color: #ffc781 !important;
+    background: rgba(255,171,82,.075) !important;
+    border-color: rgba(255,171,82,.24) !important;
+}
+
+/* Switch */
+body.admin-page[data-ui-theme="nova"] .announcement-switch-row {
+    box-shadow: none !important;
+}
+body.admin-page[data-ui-theme="nova"] .announcement-slider {
+    background: rgba(148,163,184,.25) !important;
+}
+body.admin-page[data-ui-theme="nova"] .announcement-slider::before {
+    background: linear-gradient(135deg, var(--nova-cyan), var(--nova-mint)) !important;
+    box-shadow: 0 0 16px rgba(92,225,230,.26) !important;
+}
+
+/* Calendar */
+body.admin-page[data-ui-theme="nova"] .calendar-day {
+    color: #dce9f6 !important;
+    background: rgba(255,255,255,.032) !important;
+    border-color: rgba(148,163,184,.11) !important;
+}
+body.admin-page[data-ui-theme="nova"] .calendar-day:hover {
+    background: rgba(92,225,230,.06) !important;
+    border-color: rgba(92,225,230,.20) !important;
+}
+body.admin-page[data-ui-theme="nova"] .calendar-day.weekend {
+    color: #647c94 !important;
+    background: rgba(255,255,255,.018) !important;
+}
+body.admin-page[data-ui-theme="nova"] .calendar-day.is-holiday,
+body.admin-page[data-ui-theme="nova"] .calendar-day.holiday {
+    color: #ffb5c1 !important;
+    background: rgba(255,122,144,.07) !important;
+    border-color: rgba(255,122,144,.20) !important;
+}
+
+/* Foto/table surfaces */
+body.admin-page[data-ui-theme="nova"] .absensi-foto-thumb {
+    background: rgba(255,255,255,.035) !important;
+    border-color: var(--nova-border) !important;
+}
+body.admin-page[data-ui-theme="nova"] .photo-admin-loading {
+    color: #91a6bd !important;
+}
+
+/* NAV mobile: paksa dark, mencegah rule legacy navbar 3-baris putih */
+@media (max-width: 1000px) {
+    body.admin-page[data-ui-theme="nova"] .admin-nav {
+        background: rgba(7,18,33,.88) !important;
+        border-color: var(--nova-border) !important;
+        box-shadow: 0 16px 46px rgba(0,0,0,.24) !important;
+    }
+
+    /* Semua tabel admin jadi dark cards */
+    body.admin-page[data-ui-theme="nova"] :is(
+        #tabelAbsensi tbody tr,
+        #tabelPegawai tbody tr,
+        #tabelKeterangan tbody tr,
+        .log-admin-table tbody tr,
+        #dataAbsensi tr,
+        #dataPegawai tr,
+        #dataKeteranganAdmin tr,
+        #dataLogAdmin tr
+    ) {
+        color: #eaf6ff !important;
+        background:
+            radial-gradient(circle at 100% 0, rgba(92,225,230,.05), transparent 31%),
+            linear-gradient(145deg, rgba(14,32,55,.97), rgba(7,18,33,.95)) !important;
+        border-color: var(--nova-border) !important;
+        box-shadow: 0 14px 34px rgba(0,0,0,.17) !important;
+    }
+
+    body.admin-page[data-ui-theme="nova"] :is(
+        #tabelAbsensi tbody td,
+        #tabelPegawai tbody td,
+        #tabelKeterangan tbody td,
+        .log-admin-table tbody td,
+        #dataAbsensi td,
+        #dataPegawai td,
+        #dataKeteranganAdmin td,
+        #dataLogAdmin td
+    ) {
+        color: #dceaf7 !important;
+        background: transparent !important;
+        border-color: rgba(148,163,184,.10) !important;
+    }
+}
+
+/* ---------- ADMIN: summary/stat cards that were still white ---------- */
+body.admin-page[data-ui-theme="nova"] :is(
+    .keterangan-stat-card,
+    .keterangan-stat,
+    .rekap-stat-card,
+    .summary-stat-card,
+    .pegawai-stat-card
+) {
+    color: var(--nova-text) !important;
+    background:
+        radial-gradient(circle at 100% 0, rgba(92,225,230,.055), transparent 34%),
+        linear-gradient(145deg, rgba(15,35,60,.94), rgba(8,20,36,.90)) !important;
+    border: 1px solid var(--nova-border) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.18) !important;
+}
+body.admin-page[data-ui-theme="nova"] :is(
+    .keterangan-stat-card,
+    .keterangan-stat,
+    .rekap-stat-card,
+    .summary-stat-card,
+    .pegawai-stat-card
+) :is(span, small, p) {
+    color: #91a8c0 !important;
+}
+body.admin-page[data-ui-theme="nova"] :is(
+    .keterangan-stat-card,
+    .keterangan-stat,
+    .rekap-stat-card,
+    .summary-stat-card,
+    .pegawai-stat-card
+) :is(strong, h3) {
+    color: #f7fbff !important;
+}
+
+/* ============================================================
+   PEGAWAI — ABSENSI, RIWAYAT, INFO
+============================================================ */
+
+/* Logout */
+body.absensi-page[data-ui-theme="nova"] :is(.logout-icon, .simple-logout-btn) {
+    color: #ff9aaa !important;
+    background: rgba(255,122,144,.065) !important;
+    border-color: rgba(255,122,144,.20) !important;
+}
+body.absensi-page[data-ui-theme="nova"] :is(.logout-icon, .simple-logout-btn):hover {
+    color: #ffc0ca !important;
+    background: rgba(255,122,144,.10) !important;
+    border-color: rgba(255,122,144,.30) !important;
+}
+
+/* Pilihan utama absensi */
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection :is(
+    .mode-option,
+    .attendance-option,
+    .action-card,
+    .keterangan-option,
+    .requirement
+) {
+    color: #e7f3fc !important;
+    background: rgba(255,255,255,.035) !important;
+    border-color: var(--nova-border) !important;
+    box-shadow: none !important;
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection :is(
+    .mode-option,
+    .attendance-option,
+    .action-card,
+    .keterangan-option
+):hover {
+    background: rgba(92,225,230,.065) !important;
+    border-color: var(--nova-border-hot) !important;
+    transform: translateY(-3px);
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection :is(
+    .mode-option,
+    .attendance-option,
+    .action-card,
+    .keterangan-option
+).active,
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection :is(
+    .mode-option,
+    .attendance-option,
+    .action-card,
+    .keterangan-option
+).selected {
+    background: rgba(92,225,230,.10) !important;
+    border-color: rgba(92,225,230,.42) !important;
+    box-shadow: 0 0 0 3px rgba(92,225,230,.07) !important;
+}
+
+/* Warning/note */
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection .attendance-note {
+    color: #ffd77d !important;
+    background: rgba(255,209,102,.065) !important;
+    border: 1px solid rgba(255,209,102,.16) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection .action-card.location-error {
+    color: #ffacba !important;
+    background: rgba(255,122,144,.07) !important;
+    border-color: rgba(255,122,144,.28) !important;
+}
+
+/* Foto ulang, batal keterangan */
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection .ulang-foto-btn {
+    color: #cfe5f5 !important;
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--nova-border) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection .ulang-foto-btn:hover {
+    background: rgba(92,225,230,.07) !important;
+    border-color: var(--nova-border-hot) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection .batalkan-keterangan-btn {
+    color: #ff9aaa !important;
+    background: rgba(255,122,144,.065) !important;
+    border-color: rgba(255,122,144,.21) !important;
+}
+
+/* Textarea keterangan */
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection #keteranganText {
+    color: #ecf8ff !important;
+    background: rgba(3,12,24,.72) !important;
+    border-color: var(--nova-border) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection #keteranganText:focus {
+    background: rgba(4,15,28,.92) !important;
+    border-color: rgba(92,225,230,.55) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+
+/* Rekap pegawai: hero, filter, statistik, riwayat */
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection .rekap-pegawai-hero {
+    color: var(--nova-text) !important;
+    background:
+        radial-gradient(circle at 92% 12%, rgba(92,225,230,.12), transparent 34%),
+        radial-gradient(circle at 12% 90%, rgba(157,124,255,.10), transparent 38%),
+        linear-gradient(145deg, rgba(13,30,53,.92), rgba(7,17,31,.88)) !important;
+    border-color: var(--nova-border) !important;
+    box-shadow: var(--nova-glow) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection .rekap-pegawai-filter-grid select,
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection input {
+    color: #ecf8ff !important;
+    background: rgba(3,12,24,.72) !important;
+    border-color: var(--nova-border) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(input,select):focus {
+    color: #fff !important;
+    background: rgba(4,15,28,.92) !important;
+    border-color: rgba(92,225,230,.55) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection select option {
+    color: #edf9ff !important;
+    background: #0a192b !important;
+}
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-stat-item,
+    .riwayat-rekap-item,
+    .riwayat-rekap-detail > div,
+    .rekap-pegawai-empty,
+    .rekap-pegawai-error
+) {
+    color: #e6f2fb !important;
+    background: rgba(255,255,255,.032) !important;
+    border-color: var(--nova-border) !important;
+}
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection .rekap-terlambat-item {
+    color: #ffe2a1 !important;
+    background: rgba(255,209,102,.065) !important;
+    border-color: rgba(255,209,102,.18) !important;
+}
+
+/* Running announcement edge fade mengikuti background gelap */
+body.absensi-page[data-ui-theme="nova"] .running-announcement-window::before {
+    background: linear-gradient(90deg, #0b1b2f, rgba(11,27,47,0)) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .running-announcement-window::after {
+    background: linear-gradient(-90deg, #0b1b2f, rgba(11,27,47,0)) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .announcement-dot {
+    background: var(--nova-cyan) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.12), 0 0 14px rgba(92,225,230,.28) !important;
+}
+
+/* Kamera / foto / status area */
+body.absensi-page[data-ui-theme="nova"] :is(
+    .camera-preview,
+    .photo-preview,
+    .foto-preview,
+    .preview-card,
+    .status-box,
+    .location-status,
+    .camera-status
+) {
+    color: #e5f3fc !important;
+    background: rgba(255,255,255,.03) !important;
+    border-color: var(--nova-border) !important;
+}
+
+/* Generic surfaces inside employee sections that might be added later */
+body.absensi-page[data-ui-theme="nova"] :is(
+    #absensiPegawaiSection,
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) :is(.card,.panel,.box,.item) {
+    border-color: var(--nova-border);
+}
+
+/* ============================================================
+   MOBILE CONTRAST
+============================================================ */
+@media (max-width: 560px) {
+    body.admin-page[data-ui-theme="nova"] :is(
+        .keterangan-stat-card,
+        .keterangan-stat,
+        .rekap-stat-card,
+        .summary-stat-card,
+        .pegawai-stat-card
+    ) {
+        background: linear-gradient(145deg, rgba(15,35,60,.98), rgba(8,20,36,.95)) !important;
+    }
+
+    body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+        .rekap-stat-item,
+        .riwayat-rekap-item,
+        .riwayat-rekap-detail > div
+    ) {
+        background: rgba(255,255,255,.03) !important;
+    }
+}
