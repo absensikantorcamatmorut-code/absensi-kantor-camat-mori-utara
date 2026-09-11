@@ -3176,6 +3176,15 @@ async function mulaiAdmin() {
 /* =====================================================
    NAVIGASI ADMIN
 ===================================================== */
+
+// Bridge global agar pemanggilan langsung maupun window.muatPengaturanAdmin sama-sama aman.
+var muatPengaturanAdmin = async function() {
+    if (typeof window.__muatPengaturanAdminImpl === "function") {
+        return window.__muatPengaturanAdminImpl();
+    }
+};
+window.muatPengaturanAdmin = muatPengaturanAdmin;
+
 navAbsensiBtn?.addEventListener("click", async function() {
     tampilkanHalamanAdmin("absensi");
     const tanggal = filterTanggal?.value || "";
@@ -3208,9 +3217,7 @@ navLogAdminBtn?.addEventListener("click", async function() {
 
 navPengaturanAdminBtn?.addEventListener("click", async function() {
     tampilkanHalamanAdmin("pengaturan");
-    if (typeof window.muatPengaturanAdmin === "function") {
-        await window.muatPengaturanAdmin();
-    }
+    await muatPengaturanAdmin();
 });
 
 navAkunAdminBtn?.addEventListener("click", function() {
@@ -5737,7 +5744,7 @@ function isiFormPengaturan(p = {}) {
     hariKerjaFormModule?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));
 }
 
-window.muatPengaturanAdmin = async function muatPengaturanAdmin() {
+window.__muatPengaturanAdminImpl = async function() {
     if (!pengaturanAbsensiFormModule) return;
     setButtonLoading(simpanPengaturanBtnModule, true, "Memuat...");
     try {
