@@ -3030,7 +3030,7 @@ if (
     const simpanPengaturanBtn = document.getElementById("simpanPengaturanBtn");
     const resetPengaturanBtn = document.getElementById("resetPengaturanBtn");
     const gunakanLokasiKantorBtn = document.getElementById("gunakanLokasiKantorBtn");
-    const settingIds = ["Radius","Latitude","Longitude","MasukMulai","JamLambat","MasukSelesai","KeluarMulai","KeluarSelesai"];
+    const settingIds = ["Radius","Latitude","Longitude","TanggalMulaiPerhitungan","MasukMulai","JamLambat","MasukSelesai","KeluarMulai","KeluarSelesai"];
     const settingEl = Object.fromEntries(settingIds.map(k => [k, document.getElementById("setting" + k)]));
 
     const fotoAbsensiModal = document.getElementById("fotoAbsensiModal");
@@ -5619,7 +5619,7 @@ function safeURL(value) {
    PENGATURAN ADMIN + PREVIEW FOTO
 ===================================================== */
 function isiFormPengaturan(p = {}) {
-    const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
+    const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, TanggalMulaiPerhitungan:p.tanggalMulaiPerhitungan, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
     Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
 }
 
@@ -5640,6 +5640,7 @@ pengaturanAbsensiForm?.addEventListener("submit", async e => {
     if (!yakin) return;
     const pengaturan = {
         radius: settingEl.Radius?.value, latitude: settingEl.Latitude?.value, longitude: settingEl.Longitude?.value,
+        tanggalMulaiPerhitungan: settingEl.TanggalMulaiPerhitungan?.value,
         masukMulai: settingEl.MasukMulai?.value, jamLambat: settingEl.JamLambat?.value, masukSelesai: settingEl.MasukSelesai?.value,
         keluarMulai: settingEl.KeluarMulai?.value, keluarSelesai: settingEl.KeluarSelesai?.value
     };
@@ -5655,7 +5656,7 @@ pengaturanAbsensiForm?.addEventListener("submit", async e => {
 
 resetPengaturanBtn?.addEventListener("click", async () => {
     const yakin = await tampilkanDialogKonfirmasi(
-        "Semua pengaturan lokasi, radius, dan jam absensi akan dikembalikan ke pengaturan awal. Lanjutkan?",
+        "Semua pengaturan lokasi, radius, jam absensi, dan tanggal mulai perhitungan akan dikembalikan ke default. Lanjutkan?",
         { judul:"Reset ke Default?", teksKonfirmasi:"Ya, Reset", icon:"↺" }
     );
     if (!yakin) return;
