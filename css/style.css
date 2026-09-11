@@ -9704,3 +9704,4 @@ textarea {
 .absensi-foto-loading{font-size:12px;font-weight:800;color:#64748b;letter-spacing:1px}
 .absensi-foto-kosong{color:#94a3b8}
 @media(max-width:800px){.absensi-foto-thumb{width:46px;height:46px;border-radius:10px}}
+.settings-section-actions{display:flex;justify-content:flex-end;margin-top:18px}.settings-section-actions .admin-primary-btn{min-width:190px}.settings-date-card{margin-bottom:20px}@media(max-width:800px){.settings-section-actions{display:block}.settings-section-actions .admin-primary-btn{width:100%}}

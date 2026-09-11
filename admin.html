@@ -688,6 +688,18 @@
                 <div><span class="section-label">KONTROL SISTEM</span><h2>Pengaturan Absensi</h2><p>Atur lokasi, radius, dan jam absensi tanpa mengubah kode.</p></div>
             </section>
 
+            <form id="tanggalMulaiPerhitunganForm" class="settings-card settings-date-card">
+                <div class="settings-block">
+                    <div class="settings-title"><strong>Mulai Perhitungan Rekap</strong><small>Disimpan sendiri. Radius, lokasi, dan jam absensi tidak ikut berubah.</small></div>
+                    <div class="settings-grid"><div class="admin-form-group">
+                        <label for="settingTanggalMulaiPerhitungan">Tanggal Mulai Perhitungan</label>
+                        <input type="date" id="settingTanggalMulaiPerhitungan" required>
+                        <small class="settings-help">15 September → September dihitung 15–30. Oktober tetap mulai 1 Oktober.</small>
+                    </div></div>
+                    <div class="settings-section-actions"><button type="submit" id="simpanTanggalMulaiBtn" class="admin-primary-btn">Simpan Tanggal Mulai</button></div>
+                </div>
+            </form>
+
             <form id="pengaturanAbsensiForm" class="settings-card">
                 <div class="settings-block">
                     <div class="settings-title"><strong>Lokasi Kantor</strong><small>Dipakai untuk memeriksa jarak pegawai saat absensi.</small></div>
@@ -700,20 +712,7 @@
                     <p class="settings-help">Gunakan tombol ini hanya saat admin sedang berada di kantor.</p>
                 </div>
 
-                <div class="settings-block">
-                    <div class="settings-title">
-                        <strong>Mulai Perhitungan Rekap</strong>
-                        <small>Tanggal ini hanya berlaku sebagai awal penggunaan sistem. Bulan berikutnya tetap dihitung mulai tanggal 1.</small>
-                    </div>
-                    <div class="settings-grid">
-                        <div class="admin-form-group">
-                            <label for="settingTanggalMulaiPerhitungan">Tanggal Mulai Perhitungan</label>
-                            <input type="date" id="settingTanggalMulaiPerhitungan" required>
-                            <small class="settings-help">Contoh: jika 15 September, September dihitung 15–30. Oktober tetap mulai 1 Oktober.</small>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <div class="settings-block">
                     <div class="settings-title"><strong>Jam Absensi</strong><small>Semua waktu menggunakan WITA.</small></div>
                     <div class="settings-grid">

@@ -3027,6 +3027,8 @@ if (
 
 
     const pengaturanAbsensiForm = document.getElementById("pengaturanAbsensiForm");
+    const tanggalMulaiPerhitunganForm = document.getElementById("tanggalMulaiPerhitunganForm");
+    const simpanTanggalMulaiBtn = document.getElementById("simpanTanggalMulaiBtn");
     const simpanPengaturanBtn = document.getElementById("simpanPengaturanBtn");
     const resetPengaturanBtn = document.getElementById("resetPengaturanBtn");
     const gunakanLokasiKantorBtn = document.getElementById("gunakanLokasiKantorBtn");
@@ -5633,6 +5635,26 @@ async function muatPengaturanAdmin() {
     } catch (e) { appToast(e.message, "error"); }
     finally { setButtonLoading(simpanPengaturanBtn, false); }
 }
+
+tanggalMulaiPerhitunganForm?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const tanggal = settingEl.TanggalMulaiPerhitungan?.value;
+    if (!tanggal) return appToast("Pilih tanggal mulai perhitungan.", "error");
+    const yakin = await tampilkanDialogKonfirmasi(
+        "Tanggal mulai akan diubah menjadi " + tanggal + ". Radius, lokasi, dan jam absensi tidak berubah.",
+        { judul:"Simpan Tanggal Mulai?", teksKonfirmasi:"Ya, Simpan", icon:"📅" }
+    );
+    if (!yakin) return;
+    setButtonLoading(simpanTanggalMulaiBtn, true, "Menyimpan...");
+    try {
+        const r = await postData({action:"simpanTanggalMulaiPerhitunganAdmin", adminToken, tanggalMulaiPerhitungan:tanggal});
+        if (!r.berhasil) throw new Error(r.pesan || "Tanggal gagal disimpan.");
+        isiFormPengaturan(r.pengaturan);
+        terapkanPengaturanAbsensi(r.pengaturan);
+        appToast(r.pesan || "Tanggal mulai berhasil disimpan.");
+    } catch(err) { appToast(err.message || "Tanggal gagal disimpan.", "error"); }
+    finally { setButtonLoading(simpanTanggalMulaiBtn, false); }
+});
 
 pengaturanAbsensiForm?.addEventListener("submit", async e => {
     e.preventDefault();
