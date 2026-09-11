@@ -1353,6 +1353,10 @@ if (absensiForm) {
     const jamSekarang = document.getElementById("jamSekarang");
     const detikSekarang = document.getElementById("detikSekarang");
     const statusHariText = document.getElementById("statusHariText");
+    const pegawaiNotificationCard = document.getElementById("pegawaiNotificationCard");
+    const pegawaiNotificationIcon = document.getElementById("pegawaiNotificationIcon");
+    const pegawaiNotificationTitle = document.getElementById("pegawaiNotificationTitle");
+    const pegawaiNotificationText = document.getElementById("pegawaiNotificationText");
 
     const keteranganAktifCard =
         document.getElementById("keteranganAktifCard");
@@ -1473,6 +1477,8 @@ const bagianKirim =
     let jenisKeteranganHariIni = "";
     let statusKeteranganHariIni = "";
     let bisaBatalkanKeterangan = false;
+    let hariLiburHariIni = false;
+    let namaHariLiburHariIni = "";
 
     let toastTimer;
 
@@ -1607,6 +1613,7 @@ const bagianKirim =
         }
 
         updateStatusHariDenganWaktu(waktu);
+        updateNotifikasiPegawai();
     }
 
 
@@ -1705,8 +1712,11 @@ const bagianKirim =
 
             bisaBatalkanKeterangan =
                 Boolean(hasil.bisaBatalkanKeterangan);
+            hariLiburHariIni = Boolean(hasil.hariLibur);
+            namaHariLiburHariIni = String(hasil.namaHariLibur || "");
 
             updatePilihanAbsensi();
+            updateNotifikasiPegawai();
 
         } catch (error) {
             console.error(error);
@@ -1761,6 +1771,28 @@ const bagianKirim =
         updateKontrolWaktu();
     }
 
+
+    function updateNotifikasiPegawai() {
+        if (!pegawaiNotificationCard) return;
+        const waktu = statusWaktuAbsensi();
+        let judul = "", teks = "", icon = "ⓘ";
+        if (hariLiburHariIni) {
+            judul = "Hari Libur"; teks = namaHariLiburHariIni || "Hari ini ditetapkan sebagai hari libur."; icon = "🎉";
+        } else if (adaKeterangan) {
+            judul = "Keterangan " + (statusKeteranganHariIni || "Menunggu");
+            teks = statusKeteranganHariIni === "Disetujui" ? "Keterangan Anda sudah disetujui admin." : "Keterangan Anda sedang menunggu pemeriksaan admin.";
+            icon = "📋";
+        } else if (sudahMasuk && !sudahKeluar && waktu.sekarang >= JAM_ABSENSI.keluarMulai) {
+            judul = "Jangan Lupa Absen Pulang"; teks = "Absensi Masuk sudah tercatat. Silakan lakukan absensi Pulang sebelum waktu ditutup."; icon = "↗";
+        } else if (!sudahMasuk && waktu.masukDibuka) {
+            judul = "Absensi Masuk Tersedia"; teks = "Silakan lakukan absensi Masuk saat sudah berada di kantor."; icon = "✓";
+        }
+        pegawaiNotificationCard.hidden = !judul;
+        if (!judul) return;
+        if (pegawaiNotificationIcon) pegawaiNotificationIcon.textContent = icon;
+        if (pegawaiNotificationTitle) pegawaiNotificationTitle.textContent = judul;
+        if (pegawaiNotificationText) pegawaiNotificationText.textContent = teks;
+    }
 
     function updateKeteranganAktifCard() {
         if (!keteranganAktifCard) return;
@@ -2951,6 +2983,12 @@ if (
         keterangan: "totalKeteranganHariIni", belum: "totalBelumAbsenHariIni"
     };
     const absensiManualBtn = document.getElementById("absensiManualBtn");
+    const actionPendingKetCount = document.getElementById("actionPendingKetCount");
+    const actionBelumKeluarCount = document.getElementById("actionBelumKeluarCount");
+    const actionPerluDicekCount = document.getElementById("actionPerluDicekCount");
+    const actionPendingKet = document.getElementById("actionPendingKet");
+    const actionBelumKeluar = document.getElementById("actionBelumKeluar");
+    const actionPerluDicek = document.getElementById("actionPerluDicek");
 
 
     /* =====================================================
@@ -3029,6 +3067,8 @@ if (
     const pengaturanAbsensiForm = document.getElementById("pengaturanAbsensiForm");
     const tanggalMulaiPerhitunganForm = document.getElementById("tanggalMulaiPerhitunganForm");
     const simpanTanggalMulaiBtn = document.getElementById("simpanTanggalMulaiBtn");
+    const hariKerjaForm = document.getElementById("hariKerjaForm");
+    const simpanHariKerjaBtn = document.getElementById("simpanHariKerjaBtn");
     const simpanPengaturanBtn = document.getElementById("simpanPengaturanBtn");
     const resetPengaturanBtn = document.getElementById("resetPengaturanBtn");
     const gunakanLokasiKantorBtn = document.getElementById("gunakanLokasiKantorBtn");
@@ -3305,6 +3345,9 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
             const data = hasil.ringkasan || hitungDashboardRealtime(absensiHariIni, daftarPegawaiAdmin, []);
             Object.entries(data).forEach(([k, v]) => setRealtimeStat(k, v));
+            if (actionPendingKetCount) actionPendingKetCount.textContent = data.menungguKeterangan ?? 0;
+            if (actionBelumKeluarCount) actionBelumKeluarCount.textContent = data.belumKeluar ?? 0;
+            if (actionPerluDicekCount) actionPerluDicekCount.textContent = data.perluDicek ?? 0;
             if (realtimeUpdatedAt) {
                 realtimeUpdatedAt.textContent = "Diperbarui " + new Intl.DateTimeFormat("id-ID", {
                     timeZone: "Asia/Makassar", hour: "2-digit", minute: "2-digit", hour12: false
@@ -3320,6 +3363,21 @@ navAkunAdminBtn?.addEventListener("click", function() {
             if (btn) setButtonLoading(btn, false);
         }
     }
+
+    actionPendingKet?.addEventListener("click", async () => {
+        tampilkanHalamanAdmin("keterangan");
+        if (filterStatusKeterangan) filterStatusKeterangan.value = "Menunggu";
+        await ambilKeteranganAdmin();
+    });
+    actionBelumKeluar?.addEventListener("click", () => {
+        tampilkanHalamanAdmin("absensi");
+        if (filterJenis) filterJenis.value = "Masuk";
+        tampilkanAbsensiAdmin();
+    });
+    actionPerluDicek?.addEventListener("click", () => {
+        tampilkanHalamanAdmin("absensi");
+        appToast("Periksa pegawai yang sudah Masuk tetapi belum memiliki absensi Pulang.", "error", "Perlu Dicek");
+    });
 
     refreshRealtimeBtn?.addEventListener("click", () => muatDashboardRealtime(true));
     setInterval(() => {
@@ -3672,7 +3730,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
         if (!hasilFilter.length) {
             dataPegawai.innerHTML =
-                '<tr><td colspan="5" class="empty-cell">Tidak ada pegawai.</td></tr>';
+                '<tr><td colspan="7" class="empty-cell">Tidak ada pegawai.</td></tr>';
             return;
         }
 
@@ -3694,6 +3752,8 @@ navAkunAdminBtn?.addEventListener("click", function() {
                         <td>${escapeHTML(pegawai.nama || "-")}</td>
                         <td>${escapeHTML(pegawai.nip || "-")}</td>
                         <td>${escapeHTML(pegawai.email || "-")}</td>
+                        <td><strong>${escapeHTML(pegawai.jabatan || "-")}</strong><br><small>${escapeHTML(pegawai.unitKerja || "-")}</small></td>
+                        <td>${escapeHTML(pegawai.tanggalMulaiKerja || "-")}</td>
 
                         <td>
                             <span class="pegawai-status-badge ${
@@ -3808,7 +3868,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
         if (!p) return;
         nipDetailPegawai = nip;
         detailPegawaiNama.textContent = p.nama || "Pegawai";
-        detailPegawaiIdentitas.textContent = `NIP ${p.nip || "-"} • ${p.status || "Aktif"}`;
+        detailPegawaiIdentitas.textContent = `NIP ${p.nip || "-"} • ${p.jabatan || "Jabatan belum diisi"} • ${p.unitKerja || "Unit belum diisi"} • ${p.status || "Aktif"}`;
         bukaModal(detailPegawaiModal);
         muatDetailPegawai();
     }
@@ -3871,6 +3931,9 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
     const pegawaiStatus =
         document.getElementById("pegawaiStatus");
+    const pegawaiJabatan = document.getElementById("pegawaiJabatan");
+    const pegawaiUnitKerja = document.getElementById("pegawaiUnitKerja");
+    const pegawaiTanggalMulaiKerja = document.getElementById("pegawaiTanggalMulaiKerja");
 
     const batalPegawaiBtn =
         document.getElementById("batalPegawaiBtn");
@@ -3888,9 +3951,10 @@ navAkunAdminBtn?.addEventListener("click", function() {
                 pegawaiId.value = "";
             }
 
-            if (pegawaiStatus) {
-                pegawaiStatus.value = "Aktif";
-            }
+            if (pegawaiStatus) pegawaiStatus.value = "Aktif";
+            if (pegawaiJabatan) pegawaiJabatan.value = "";
+            if (pegawaiUnitKerja) pegawaiUnitKerja.value = "";
+            if (pegawaiTanggalMulaiKerja) pegawaiTanggalMulaiKerja.value = settingEl.TanggalMulaiPerhitungan?.value || tanggalWITAHariIni();
 
             if (pegawaiModalTitle) {
                 pegawaiModalTitle.textContent =
@@ -3937,6 +4001,9 @@ navAkunAdminBtn?.addEventListener("click", function() {
             pegawaiStatus.value =
                 pegawai.status || "Aktif";
         }
+        if (pegawaiJabatan) pegawaiJabatan.value = pegawai.jabatan || "";
+        if (pegawaiUnitKerja) pegawaiUnitKerja.value = pegawai.unitKerja || "";
+        if (pegawaiTanggalMulaiKerja) pegawaiTanggalMulaiKerja.value = pegawai.tanggalMulaiKerja || settingEl.TanggalMulaiPerhitungan?.value || tanggalWITAHariIni();
 
         if (pegawaiModalTitle) {
             pegawaiModalTitle.textContent =
@@ -3978,6 +4045,9 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
             const status =
                 pegawaiStatus.value;
+            const jabatan = pegawaiJabatan?.value.trim() || "";
+            const unitKerja = pegawaiUnitKerja?.value.trim() || "";
+            const tanggalMulaiKerja = pegawaiTanggalMulaiKerja?.value || "";
 
             if (!nama) {
                 await tampilkanDialogInfo(
@@ -4015,7 +4085,10 @@ navAkunAdminBtn?.addEventListener("click", function() {
                         nama: nama,
                         nip: nip,
                         email: email,
-                        status: status
+                        status: status,
+                        jabatan: jabatan,
+                        unitKerja: unitKerja,
+                        tanggalMulaiKerja: tanggalMulaiKerja
                     });
 
                 if (!hasil.berhasil) {
@@ -4907,7 +4980,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             const h = await postAdmin({ action:"ambilLogAdmin" });
             if (!h.berhasil) throw new Error(h.pesan || "Log gagal dimuat.");
             const data = Array.isArray(h.data) ? h.data : [];
-            tbody.innerHTML = data.length ? data.map(x => `<tr><td>${escapeHTML(formatWaktu(x.waktu))}</td><td>${escapeHTML(x.admin || "-")}</td><td><strong>${escapeHTML(x.aksi || "-")}</strong></td><td>${escapeHTML(x.target || x.targetNip || "-")}</td><td>${escapeHTML(x.detail || "-")}</td></tr>`).join("") : '<tr><td colspan="5" class="empty-cell">Belum ada aktivitas admin.</td></tr>';
+            tbody.innerHTML = data.length ? data.map(x => `<tr><td data-label="Waktu">${escapeHTML(formatWaktu(x.waktu))}</td><td data-label="Admin">${escapeHTML(x.admin || "-")}</td><td data-label="Aksi"><strong>${escapeHTML(x.aksi || "-")}</strong></td><td data-label="Target">${escapeHTML(x.target || x.targetNip || "-")}</td><td data-label="Detail">${escapeHTML(x.detail || "-")}</td></tr>`).join("") : '<tr><td colspan="5" class="empty-cell">Belum ada aktivitas admin.</td></tr>';
         } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="empty-cell">${escapeHTML(err.message)}</td></tr>`; }
     }
     document.getElementById("refreshLogAdminBtn")?.addEventListener("click", muatLogAdmin);
@@ -5623,6 +5696,8 @@ function safeURL(value) {
 function isiFormPengaturan(p = {}) {
     const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, TanggalMulaiPerhitungan:p.tanggalMulaiPerhitungan, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
     Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
+    const aktif = new Set((Array.isArray(p.hariKerjaAktif) ? p.hariKerjaAktif : [1,2,3,4,5]).map(String));
+    hariKerjaForm?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));
 }
 
 async function muatPengaturanAdmin() {
@@ -5635,6 +5710,22 @@ async function muatPengaturanAdmin() {
     } catch (e) { appToast(e.message, "error"); }
     finally { setButtonLoading(simpanPengaturanBtn, false); }
 }
+
+hariKerjaForm?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const hari = [...hariKerjaForm.querySelectorAll('input[name="hariKerja"]:checked')].map(x => Number(x.value));
+    if (!hari.length) return appToast("Pilih minimal satu hari kerja.", "error");
+    const yakin = await tampilkanDialogKonfirmasi("Hari yang dipilih akan dipakai untuk perhitungan TK dan rekap. Hari libur tetap dikecualikan.", { judul:"Simpan Hari Kerja?", teksKonfirmasi:"Ya, Simpan", icon:"📅" });
+    if (!yakin) return;
+    setButtonLoading(simpanHariKerjaBtn, true, "Menyimpan...");
+    try {
+        const hasil = await postAdmin({ action:"simpanHariKerjaAdmin", hariKerjaAktif:hari });
+        if (!hasil.berhasil) throw new Error(hasil.pesan || "Hari kerja gagal disimpan.");
+        isiFormPengaturan(hasil.pengaturan);
+        appToast(hasil.pesan || "Hari kerja berhasil disimpan.");
+    } catch(err) { appToast(err.message, "error"); }
+    finally { setButtonLoading(simpanHariKerjaBtn, false); }
+});
 
 tanggalMulaiPerhitunganForm?.addEventListener("submit", async e => {
     e.preventDefault();

@@ -30,6 +30,8 @@ if (rekapPage) {
     const judulRekapBulanan = document.getElementById("judulRekapBulanan");
     const jumlahRekapText = document.getElementById("jumlahRekapText");
     const dataRekapBulanan = document.getElementById("dataRekapBulanan");
+    const cariRekapPegawai = document.getElementById("cariRekapPegawai");
+    let dataRekapAktif = [];
 
     const tambahHariLiburBtn = document.getElementById("tambahHariLiburBtn");
     const dataHariLibur = document.getElementById("dataHariLibur");
@@ -200,19 +202,19 @@ if (rekapPage) {
         if (rekapTotalTerlambat) rekapTotalTerlambat.textContent = hasil.totalTerlambat ?? 0;
 
         const daftar = Array.isArray(hasil.data) ? hasil.data : [];
+        dataRekapAktif = daftar;
+        renderPreviewRekap();
+    }
 
-        if (jumlahRekapText) {
-            jumlahRekapText.textContent = `${daftar.length} pegawai`;
-        }
-
+    function renderPreviewRekap() {
+        const q = String(cariRekapPegawai?.value || "").trim().toLowerCase();
+        const daftar = dataRekapAktif.filter(item => !q || String(item.nama || "").toLowerCase().includes(q) || String(item.nip || "").toLowerCase().includes(q));
+        if (jumlahRekapText) jumlahRekapText.textContent = `${daftar.length} pegawai${q ? " ditemukan" : ""}`;
         if (!dataRekapBulanan) return;
-
         if (!daftar.length) {
-            dataRekapBulanan.innerHTML =
-                '<tr><td colspan="15" class="empty-cell">Belum ada data rekap.</td></tr>';
+            dataRekapBulanan.innerHTML = '<tr><td colspan="15" class="empty-cell">Tidak ada data rekap yang cocok.</td></tr>';
             return;
         }
-
         dataRekapBulanan.innerHTML = daftar.map(item => `
             <tr>
                 <td>${escapeHTMLRekap(item.no)}</td>
@@ -233,6 +235,8 @@ if (rekapPage) {
             </tr>
         `).join("");
     }
+
+    cariRekapPegawai?.addEventListener("input", renderPreviewRekap);
 
     function angkaRekap(nilai) {
         const angka = Number(nilai) || 0;

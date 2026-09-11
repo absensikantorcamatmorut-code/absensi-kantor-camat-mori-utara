@@ -119,6 +119,15 @@
                 </div>
             </section>
 
+            <section class="action-needed-card" id="actionNeededCard">
+                <div class="action-needed-head"><div><span class="section-label">PERLU TINDAKAN</span><h3>Yang Perlu Dicek Admin</h3></div><small>Ringkasan hari ini</small></div>
+                <div class="action-needed-grid">
+                    <button type="button" id="actionPendingKet" class="action-needed-item"><span>📋</span><div><strong id="actionPendingKetCount">0</strong><small>Keterangan menunggu</small></div></button>
+                    <button type="button" id="actionBelumKeluar" class="action-needed-item"><span>↗</span><div><strong id="actionBelumKeluarCount">0</strong><small>Belum absen pulang</small></div></button>
+                    <button type="button" id="actionPerluDicek" class="action-needed-item"><span>!</span><div><strong id="actionPerluDicekCount">0</strong><small>Perlu dicek setelah jam kerja</small></div></button>
+                </div>
+            </section>
+
 
             <!-- PENCARIAN -->
             <section class="admin-tools">
@@ -293,6 +302,8 @@
                                 <th>Nama</th>
                                 <th>NIP</th>
                                 <th>Email</th>
+                                <th>Jabatan / Unit</th>
+                                <th>Mulai Kerja</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -300,7 +311,7 @@
 
                         <tbody id="dataPegawai">
                             <tr>
-                                <td colspan="5" class="loading-cell">
+                                <td colspan="7" class="loading-cell">
                                     Data pegawai akan dimuat di sini.
                                 </td>
                             </tr>
@@ -544,6 +555,12 @@
                     </button>
                 </div>
 
+                <div class="rekap-preview-tools">
+                    <label for="cariRekapPegawai">Cari Pegawai</label>
+                    <input type="search" id="cariRekapPegawai" placeholder="Cari nama atau NIP...">
+                    <small>Preview ini tidak mengubah format rekap Google Sheet.</small>
+                </div>
+
                 <div class="table-wrapper rekap-table-wrapper">
                     <table id="tabelRekapBulanan">
 
@@ -674,7 +691,7 @@
                 <button type="button" id="refreshLogAdminBtn" class="admin-primary-btn">Perbarui</button>
             </section>
             <section class="data-section">
-                <div class="table-wrapper"><table><thead><tr><th>Waktu</th><th>Admin</th><th>Aksi</th><th>Target</th><th>Detail</th></tr></thead>
+                <div class="table-wrapper log-admin-table"><table><thead><tr><th>Waktu</th><th>Admin</th><th>Aksi</th><th>Target</th><th>Detail</th></tr></thead>
                 <tbody id="dataLogAdmin"><tr><td colspan="5" class="loading-cell">Buka menu ini untuk memuat log.</td></tr></tbody></table></div>
             </section>
         </section>
@@ -697,6 +714,16 @@
                         <small class="settings-help">15 September → September dihitung 15–30. Oktober tetap mulai 1 Oktober.</small>
                     </div></div>
                     <div class="settings-section-actions"><button type="submit" id="simpanTanggalMulaiBtn" class="admin-primary-btn">Simpan Tanggal Mulai</button></div>
+                </div>
+            </form>
+
+            <form id="hariKerjaForm" class="settings-card settings-date-card">
+                <div class="settings-block">
+                    <div class="settings-title"><strong>Hari Kerja</strong><small>Pilih hari yang dihitung sebagai hari kerja. Hari libur tetap dikecualikan.</small></div>
+                    <div class="weekday-picker">
+                        <label><input type="checkbox" name="hariKerja" value="1"> Senin</label><label><input type="checkbox" name="hariKerja" value="2"> Selasa</label><label><input type="checkbox" name="hariKerja" value="3"> Rabu</label><label><input type="checkbox" name="hariKerja" value="4"> Kamis</label><label><input type="checkbox" name="hariKerja" value="5"> Jumat</label><label><input type="checkbox" name="hariKerja" value="6"> Sabtu</label><label><input type="checkbox" name="hariKerja" value="0"> Minggu</label>
+                    </div>
+                    <div class="settings-section-actions"><button type="submit" id="simpanHariKerjaBtn" class="admin-primary-btn">Simpan Hari Kerja</button></div>
                 </div>
             </form>
 
@@ -1010,9 +1037,10 @@
                         >
                     </div>
 
-                    <div class="admin-form-group">
-                        <label for="pegawaiStatus">Status</label>
-
+                    <div class="admin-form-group"><label for="pegawaiJabatan">Jabatan</label><input type="text" id="pegawaiJabatan" maxlength="100" placeholder="Contoh: Staf Pelayanan"></div>
+                    <div class="admin-form-group"><label for="pegawaiUnitKerja">Unit Kerja</label><input type="text" id="pegawaiUnitKerja" maxlength="100" placeholder="Contoh: Seksi Pemerintahan"></div>
+                    <div class="admin-form-group"><label for="pegawaiTanggalMulaiKerja">Tanggal Mulai Kerja</label><input type="date" id="pegawaiTanggalMulaiKerja" required><small class="settings-help">Pegawai tidak dihitung TK sebelum tanggal ini.</small></div>
+                    <div class="admin-form-group"><label for="pegawaiStatus">Status</label>
                         <select id="pegawaiStatus" required>
                             <option value="Aktif">Aktif</option>
                             <option value="Tidak Aktif">Tidak Aktif</option>
