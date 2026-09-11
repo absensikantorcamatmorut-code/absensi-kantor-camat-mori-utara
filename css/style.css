@@ -9069,3 +9069,73 @@ button.is-loading { cursor: wait; opacity: .78; }
   .app-toast { bottom:16px; }
 }
 @media (prefers-reduced-motion:reduce) { .skeleton-row td span { animation:none; } .app-toast { transition:none; } }
+
+/* =====================================================
+   FASE 2 - DASHBOARD REAL-TIME
+===================================================== */
+.admin-page .realtime-heading {
+    align-items: center;
+    gap: 16px;
+}
+
+.admin-page .realtime-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-page .realtime-updated {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-page .realtime-stats {
+    grid-template-columns: repeat(5,minmax(0,1fr));
+}
+
+.admin-page .realtime-stats .stat-card {
+    min-height: 112px;
+    padding: 16px;
+    gap: 12px;
+}
+
+.admin-page .realtime-stats .stat-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 19px;
+}
+
+.admin-page .stat-present .stat-icon,
+.admin-page .stat-present strong {
+    color: #047857;
+}
+
+.admin-page .stat-present .stat-icon { background: #dcfce7; }
+.admin-page .stat-late .stat-icon,
+.admin-page .stat-late strong { color: #b45309; }
+.admin-page .stat-late .stat-icon { background: #fef3c7; }
+.admin-page .stat-note .stat-icon,
+.admin-page .stat-note strong { color: #6d28d9; }
+.admin-page .stat-note .stat-icon { background: #ede9fe; }
+.admin-page .stat-missing .stat-icon,
+.admin-page .stat-missing strong { color: #b91c1c; }
+.admin-page .stat-missing .stat-icon { background: #fee2e2; }
+
+@media (max-width: 1180px) {
+    .admin-page .realtime-stats { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (max-width: 760px) {
+    .admin-page .realtime-heading { align-items: flex-start; }
+    .admin-page .realtime-actions { width: 100%; margin-left: 0; justify-content: space-between; }
+    .admin-page .realtime-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 480px) {
+    .admin-page .realtime-stats { grid-template-columns: 1fr; }
+    .admin-page .realtime-actions { align-items: stretch; flex-direction: column; }
+    .admin-page .realtime-updated { white-space: normal; }
+}

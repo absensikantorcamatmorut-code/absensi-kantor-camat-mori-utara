@@ -71,43 +71,39 @@
         =================================================== -->
         <section class="admin-page-section active" id="adminAbsensiSection">
 
-            <section class="admin-section-intro">
+            <section class="admin-section-intro realtime-heading">
                 <div>
-                    <span class="section-label">ABSENSI HARI INI</span>
-                    <h2>Aktivitas Absensi</h2>
-                    <p>Pantau absensi masuk dan keluar pegawai.</p>
+                    <span class="section-label">RINGKASAN HARI INI</span>
+                    <h2>Status Absensi Real-Time</h2>
+                    <p>Lihat kondisi kehadiran pegawai hari ini secara cepat.</p>
+                </div>
+                <div class="realtime-actions">
+                    <span id="realtimeUpdatedAt" class="realtime-updated">Memuat data...</span>
+                    <button type="button" id="refreshRealtimeBtn" class="admin-secondary-btn">↻ Perbarui</button>
                 </div>
             </section>
 
-            <section class="stat-container">
-
-                <div class="stat-card">
-                    <span class="stat-icon">📋</span>
-                    <div>
-                        <span class="stat-label">Total Absensi</span>
-                        <strong id="totalAbsensi">0</strong>
-                        <small>Hari ini</small>
-                    </div>
+            <section class="stat-container realtime-stats" aria-label="Ringkasan absensi hari ini">
+                <div class="stat-card stat-active">
+                    <span class="stat-icon">👥</span>
+                    <div><span class="stat-label">Pegawai Aktif</span><strong id="totalAktifHariIni">–</strong><small>Total pegawai aktif</small></div>
                 </div>
-
-                <div class="stat-card stat-masuk">
-                    <span class="stat-icon">↓</span>
-                    <div>
-                        <span class="stat-label">Masuk</span>
-                        <strong id="totalMasuk">0</strong>
-                        <small>Hari ini</small>
-                    </div>
+                <div class="stat-card stat-present">
+                    <span class="stat-icon">✓</span>
+                    <div><span class="stat-label">Hadir</span><strong id="totalHadirHariIni">–</strong><small>Sudah absen masuk</small></div>
                 </div>
-
-                <div class="stat-card stat-keluar">
-                    <span class="stat-icon">↑</span>
-                    <div>
-                        <span class="stat-label">Keluar</span>
-                        <strong id="totalKeluar">0</strong>
-                        <small>Hari ini</small>
-                    </div>
+                <div class="stat-card stat-late">
+                    <span class="stat-icon">⏱</span>
+                    <div><span class="stat-label">Terlambat</span><strong id="totalTerlambatHariIni">–</strong><small>Dari pegawai hadir</small></div>
                 </div>
-
+                <div class="stat-card stat-note">
+                    <span class="stat-icon">📝</span>
+                    <div><span class="stat-label">Keterangan</span><strong id="totalKeteranganHariIni">–</strong><small>Disetujui hari ini</small></div>
+                </div>
+                <div class="stat-card stat-missing">
+                    <span class="stat-icon">!</span>
+                    <div><span class="stat-label">Belum Absen</span><strong id="totalBelumAbsenHariIni">–</strong><small>Belum hadir/keterangan</small></div>
+                </div>
             </section>
 
 

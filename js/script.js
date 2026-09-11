@@ -2909,11 +2909,13 @@ if (
     const toggleFilterBtn = document.getElementById("toggleFilterBtn");
     const resetFilterBtn = document.getElementById("resetFilterBtn");
 
-    const totalAbsensi = document.getElementById("totalAbsensi");
-    const totalMasuk = document.getElementById("totalMasuk");
-    const totalKeluar = document.getElementById("totalKeluar");
     const jumlahDataText = document.getElementById("jumlahDataText");
-
+    const refreshRealtimeBtn = document.getElementById("refreshRealtimeBtn");
+    const realtimeUpdatedAt = document.getElementById("realtimeUpdatedAt");
+    const realtimeStatIds = {
+        aktif: "totalAktifHariIni", hadir: "totalHadirHariIni", terlambat: "totalTerlambatHariIni",
+        keterangan: "totalKeteranganHariIni", belum: "totalBelumAbsenHariIni"
+    };
     const absensiManualBtn = document.getElementById("absensiManualBtn");
 
 
@@ -3042,7 +3044,7 @@ async function mulaiAdmin() {
     tampilkanHalamanAdmin("absensi");
 
     try {
-        await ambilAbsensiAdmin();
+        await muatDashboardRealtime();
     } catch (error) {
         console.error(error);
     }
@@ -3122,6 +3124,108 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
 
     /* =====================================================
+       DASHBOARD REAL-TIME
+    ===================================================== */
+    function setRealtimeStat(nama, nilai) {
+        const el = document.getElementById(realtimeStatIds[nama]);
+        if (el) el.textContent = nilai;
+    }
+
+    function nipKey(item) {
+        return String(item?.nip || "").trim();
+    }
+
+    function tanggalItem(item) {
+        const nilai = item?.tanggal || item?.waktu || item?.createdAt || "";
+        if (!nilai) return "";
+        const teks = String(nilai);
+        const cocok = teks.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (cocok) return `${cocok[1]}-${cocok[2]}-${cocok[3]}`;
+        const d = new Date(nilai);
+        if (Number.isNaN(d.getTime())) return "";
+        return new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Makassar", year: "numeric", month: "2-digit", day: "2-digit"
+        }).format(d);
+    }
+
+    function hitungDashboardRealtime(absensi, pegawai, keterangan) {
+        const hariIni = tanggalWITAHariIni();
+        const aktif = pegawai.filter(p => String(p.status || "Aktif") === "Aktif");
+        const aktifNip = new Set(aktif.map(nipKey).filter(Boolean));
+        const masuk = absensi.filter(a =>
+            String(a.jenisAbsen || a.jenis || "") === "Masuk" && aktifNip.has(nipKey(a))
+        );
+        const hadir = new Set(masuk.map(nipKey).filter(Boolean));
+        const terlambat = new Set(masuk.filter(a =>
+            /lambat|terlambat/i.test(String(a.status || ""))
+        ).map(nipKey).filter(Boolean));
+        const izin = new Set(keterangan.filter(k =>
+            String(k.status || "") === "Disetujui" &&
+            tanggalItem(k) === hariIni && aktifNip.has(nipKey(k))
+        ).map(nipKey).filter(Boolean));
+        const tercatat = new Set([...hadir, ...izin]);
+
+        return {
+            aktif: aktif.length,
+            hadir: hadir.size,
+            terlambat: terlambat.size,
+            keterangan: izin.size,
+            belum: Math.max(aktif.length - tercatat.size, 0)
+        };
+    }
+
+    async function muatDashboardRealtime(paksa = false) {
+        const btn = refreshRealtimeBtn;
+        if (btn) setButtonLoading(btn, true, "Memperbarui...");
+        Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "…"));
+
+        try {
+            const hariIni = tanggalWITAHariIni();
+            const [absensiRes, pegawaiRes, keteranganRes] = await Promise.all([
+                postAdmin({ action: "ambilAbsensi", tanggal: hariIni }),
+                postAdmin({ action: "ambilPegawai" }),
+                postAdmin({ action: "ambilKeteranganAdmin" })
+            ]);
+            [absensiRes, pegawaiRes, keteranganRes].forEach(r => {
+                if (!r?.berhasil) throw new Error(r?.pesan || "Ringkasan hari ini gagal dimuat.");
+            });
+
+            const absensiHariIni = Array.isArray(absensiRes.data) ? absensiRes.data : [];
+            daftarPegawaiAdmin = Array.isArray(pegawaiRes.data) ? pegawaiRes.data : [];
+            daftarKeteranganAdmin = Array.isArray(keteranganRes.data) ? keteranganRes.data : [];
+            setCacheAdmin("pegawai");
+            setCacheAdmin("keterangan");
+
+            if ((filterTanggal?.value || hariIni) === hariIni) {
+                dataTanggalAktif = absensiHariIni;
+                setCacheAdmin("absensi", hariIni);
+                tampilkanAbsensiAdmin();
+            }
+
+            const data = hitungDashboardRealtime(absensiHariIni, daftarPegawaiAdmin, daftarKeteranganAdmin);
+            Object.entries(data).forEach(([k, v]) => setRealtimeStat(k, v));
+            if (realtimeUpdatedAt) {
+                realtimeUpdatedAt.textContent = "Diperbarui " + new Intl.DateTimeFormat("id-ID", {
+                    timeZone: "Asia/Makassar", hour: "2-digit", minute: "2-digit", hour12: false
+                }).format(new Date()) + " WITA";
+            }
+            if (paksa) appToast("Ringkasan hari ini sudah diperbarui.", "success");
+        } catch (error) {
+            console.error(error);
+            Object.keys(realtimeStatIds).forEach(k => setRealtimeStat(k, "–"));
+            if (realtimeUpdatedAt) realtimeUpdatedAt.textContent = "Gagal memuat ringkasan";
+            if (paksa) appToast(error.message || "Ringkasan gagal diperbarui.", "error");
+        } finally {
+            if (btn) setButtonLoading(btn, false);
+        }
+    }
+
+    refreshRealtimeBtn?.addEventListener("click", () => muatDashboardRealtime(true));
+    setInterval(() => {
+        if (!document.hidden && adminAbsensiSection?.classList.contains("active")) muatDashboardRealtime();
+    }, 60000);
+
+    /* =====================================================
        AMBIL ABSENSI ADMIN
     ===================================================== */
 
@@ -3184,8 +3288,6 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
                 return cocokCari && cocokJenis;
             });
-
-        updateStatAbsensi(hasilFilter);
 
         if (jumlahDataText) {
             jumlahDataText.textContent =
@@ -3292,43 +3394,6 @@ navAkunAdminBtn?.addEventListener("click", function() {
                     </tr>
                 `;
             }).join("");
-    }
-
-
-    function updateStatAbsensi(data) {
-        const masuk =
-            data.filter(function(item) {
-                return (
-                    String(
-                        item.jenisAbsen ||
-                        item.jenis ||
-                        ""
-                    ) === "Masuk"
-                );
-            }).length;
-
-        const keluar =
-            data.filter(function(item) {
-                return (
-                    String(
-                        item.jenisAbsen ||
-                        item.jenis ||
-                        ""
-                    ) === "Keluar"
-                );
-            }).length;
-
-        if (totalAbsensi) {
-            totalAbsensi.textContent = data.length;
-        }
-
-        if (totalMasuk) {
-            totalMasuk.textContent = masuk;
-        }
-
-        if (totalKeluar) {
-            totalKeluar.textContent = keluar;
-        }
     }
 
 
