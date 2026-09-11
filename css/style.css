@@ -7348,3 +7348,538 @@ body.login-page {
         scroll-behavior: auto !important;
     }
 }
+
+/* =====================================================
+   MOTION SYSTEM V1 - REKAP SAYA
+   Smooth, clean, ringan
+===================================================== */
+
+
+/* =====================================================
+   1. REKAP PAGE ENTER
+===================================================== */
+
+.absensi-page #rekapPegawaiSection:not([hidden]) {
+    animation: rekapPageEnter .45s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes rekapPageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   2. BADGE / HEADER
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-badge {
+    animation: rekapBadgeEnter .42s .03s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes rekapBadgeEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =====================================================
+   3. FILTER CARD
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-card {
+    animation: rekapCardEnter .46s .06s cubic-bezier(.16,1,.3,1) both;
+
+    transition:
+        transform .24s cubic-bezier(.16,1,.3,1),
+        box-shadow .24s ease,
+        border-color .24s ease;
+}
+
+@keyframes rekapCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-filter-card:hover {
+        transform: translateY(-2px);
+        border-color: #c5d9f3;
+        box-shadow: 0 16px 34px rgba(15,23,42,.07);
+    }
+}
+
+
+/* =====================================================
+   4. INPUT / SELECT FILTER
+===================================================== */
+
+.absensi-page #rekapPegawaiSection input,
+.absensi-page #rekapPegawaiSection select {
+    transition:
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .22s ease,
+        transform .2s cubic-bezier(.16,1,.3,1);
+}
+
+.absensi-page #rekapPegawaiSection input:focus,
+.absensi-page #rekapPegawaiSection select:focus {
+    outline: none;
+    transform: translateY(-1px);
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59,130,246,.09);
+}
+
+
+/* =====================================================
+   5. INFO CARD
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card {
+    animation: rekapCardEnter .46s .1s cubic-bezier(.16,1,.3,1) both;
+
+    transition:
+        transform .24s cubic-bezier(.16,1,.3,1),
+        border-color .24s ease,
+        box-shadow .24s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-info-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 13px 29px rgba(15,23,42,.065);
+    }
+}
+
+
+/* INFO ICON */
+.absensi-page #rekapPegawaiSection .rekap-info-icon {
+    transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-info-card:hover
+    .rekap-info-icon {
+        transform: scale(1.1) rotate(-5deg);
+    }
+}
+
+
+/* =====================================================
+   6. REKAP MAIN CARD
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-card {
+    animation: rekapCardEnter .48s .14s cubic-bezier(.16,1,.3,1) both;
+
+    transition:
+        transform .25s cubic-bezier(.16,1,.3,1),
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-card:hover {
+        border-color: #c9dcf3;
+        box-shadow: 0 17px 36px rgba(15,23,42,.07);
+    }
+}
+
+
+/* =====================================================
+   7. SECTION TITLE
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-section-title {
+    animation: rekapTitleEnter .42s .17s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes rekapTitleEnter {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =====================================================
+   8. STAT CARDS
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .22s cubic-bezier(.16,1,.3,1),
+        border-color .22s ease,
+        box-shadow .22s ease,
+        background-color .22s ease;
+
+    animation: rekapStatEnter .45s cubic-bezier(.16,1,.3,1) both;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(1) {
+    animation-delay: .18s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(2) {
+    animation-delay: .22s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(3) {
+    animation-delay: .26s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(4) {
+    animation-delay: .30s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(5) {
+    animation-delay: .34s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(6) {
+    animation-delay: .38s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(7) {
+    animation-delay: .42s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(8) {
+    animation-delay: .46s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(9) {
+    animation-delay: .50s;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-stat-item:nth-child(10) {
+    animation-delay: .54s;
+}
+
+@keyframes rekapStatEnter {
+    from {
+        opacity: 0;
+        transform: translateY(13px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-stat-item:hover {
+        transform: translateY(-3px);
+        border-color: #bfd6f2;
+        box-shadow: 0 10px 22px rgba(15,23,42,.065);
+    }
+}
+
+
+/* KODE STAT */
+.absensi-page #rekapPegawaiSection .rekap-stat-item > span {
+    transition:
+        transform .27s cubic-bezier(.34,1.56,.64,1),
+        box-shadow .2s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-stat-item:hover > span {
+        transform: scale(1.1) rotate(-4deg);
+    }
+}
+
+
+/* NILAI STAT */
+.absensi-page #rekapPegawaiSection .rekap-stat-item > strong {
+    transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-stat-item:hover > strong {
+        transform: scale(1.06);
+    }
+}
+
+
+/* =====================================================
+   9. TERLAMBAT CARDS
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-terlambat-item {
+    animation: rekapLateEnter .45s .33s cubic-bezier(.16,1,.3,1) both;
+
+    transition:
+        transform .22s cubic-bezier(.16,1,.3,1),
+        border-color .22s ease,
+        box-shadow .22s ease;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-terlambat-item:nth-child(2) {
+    animation-delay: .38s;
+}
+
+@keyframes rekapLateEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .rekap-terlambat-item:hover {
+        transform: translateY(-3px);
+        border-color: rgba(245,158,11,.32);
+        box-shadow: 0 11px 23px rgba(245,158,11,.07);
+    }
+}
+
+
+/* =====================================================
+   10. LOADING
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-loading {
+    animation: rekapLoadingPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes rekapLoadingPulse {
+    0%,100% {
+        opacity: .55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   11. EMPTY / ERROR
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-empty,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error {
+    animation: rekapMessageEnter .4s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes rekapMessageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =====================================================
+   12. RIWAYAT HARIAN
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-pegawai {
+    perspective: 900px;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .22s cubic-bezier(.16,1,.3,1),
+        border-color .22s ease,
+        background-color .22s ease,
+        box-shadow .22s ease;
+
+    animation: rekapHistoryEnter .45s cubic-bezier(.16,1,.3,1) both;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(1) {
+    animation-delay: .08s;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(2) {
+    animation-delay: .12s;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(3) {
+    animation-delay: .16s;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(4) {
+    animation-delay: .20s;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(5) {
+    animation-delay: .24s;
+}
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-item:nth-child(n+6) {
+    animation-delay: .28s;
+}
+
+@keyframes rekapHistoryEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .riwayat-rekap-item:hover {
+        transform: translateY(-3px);
+        border-color: #c7d9ef;
+        box-shadow: 0 11px 24px rgba(15,23,42,.065);
+    }
+}
+
+
+/* =====================================================
+   13. RIWAYAT TOP
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-top {
+    transition: transform .2s ease;
+}
+
+
+/* =====================================================
+   14. STATUS BADGE
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .riwayat-status {
+    transition:
+        transform .22s cubic-bezier(.34,1.56,.64,1),
+        box-shadow .2s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .riwayat-rekap-item:hover
+    .riwayat-status {
+        transform: scale(1.05);
+    }
+}
+
+
+/* =====================================================
+   15. DETAIL RIWAYAT
+===================================================== */
+
+.absensi-page #rekapPegawaiSection .riwayat-rekap-detail > * {
+    transition:
+        transform .2s ease,
+        background-color .2s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #rekapPegawaiSection .riwayat-rekap-detail > *:hover {
+        transform: translateY(-1px);
+    }
+}
+
+
+/* =====================================================
+   16. BUTTON DALAM REKAP
+===================================================== */
+
+.absensi-page #rekapPegawaiSection button:not(:disabled) {
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        transform .17s cubic-bezier(.16,1,.3,1),
+        box-shadow .2s ease,
+        filter .2s ease,
+        background-color .2s ease;
+}
+
+.absensi-page #rekapPegawaiSection button:not(:disabled):hover {
+    transform: translateY(-2px);
+}
+
+.absensi-page #rekapPegawaiSection button:not(:disabled):active {
+    transform: scale(.97);
+}
+
+
+/* =====================================================
+   17. MOBILE
+===================================================== */
+
+@media (max-width:520px) {
+
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-filter-card:hover,
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-info-card:hover,
+    .absensi-page #rekapPegawaiSection .rekap-pegawai-card:hover,
+    .absensi-page #rekapPegawaiSection .rekap-stat-item:hover,
+    .absensi-page #rekapPegawaiSection .rekap-terlambat-item:hover,
+    .absensi-page #rekapPegawaiSection .riwayat-rekap-item:hover {
+        transform: none;
+    }
+
+    .absensi-page #rekapPegawaiSection button:not(:disabled):active,
+    .absensi-page #rekapPegawaiSection .rekap-stat-item:active,
+    .absensi-page #rekapPegawaiSection .riwayat-rekap-item:active {
+        transform: scale(.98);
+    }
+}
+
+
+/* =====================================================
+   18. REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion:reduce) {
+
+    .absensi-page #rekapPegawaiSection *,
+    .absensi-page #rekapPegawaiSection *::before,
+    .absensi-page #rekapPegawaiSection *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
