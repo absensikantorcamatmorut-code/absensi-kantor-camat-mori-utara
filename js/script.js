@@ -14,6 +14,22 @@ const JAM_ABSENSI = {
     keluarSelesai: "16:30:00"
 };
 
+function terapkanPengaturanAbsensi(p = {}) {
+    const jam = v => v ? String(v).slice(0, 5) + ":00" : null;
+    if (Number.isFinite(Number(p.latitude))) KANTOR.latitude = Number(p.latitude);
+    if (Number.isFinite(Number(p.longitude))) KANTOR.longitude = Number(p.longitude);
+    if (Number.isFinite(Number(p.radius))) KANTOR.radius = Number(p.radius);
+    if (jam(p.masukMulai)) JAM_ABSENSI.masukMulai = jam(p.masukMulai);
+    if (jam(p.jamLambat)) JAM_ABSENSI.tepatWaktuSampai = jam(p.jamLambat);
+    if (jam(p.masukSelesai)) JAM_ABSENSI.masukSelesai = jam(p.masukSelesai);
+    if (jam(p.keluarMulai)) JAM_ABSENSI.keluarMulai = jam(p.keluarMulai);
+    if (jam(p.keluarSelesai)) JAM_ABSENSI.keluarSelesai = jam(p.keluarSelesai);
+}
+
+function jamTampil(value) {
+    return String(value || "").slice(0, 5).replace(":", ".");
+}
+
 
 /* =====================================================
    CUSTOM DIALOG - FINAL BUBBLE
@@ -1397,6 +1413,7 @@ if (absensiForm) {
 
     const submitAbsensi = document.getElementById("submitAbsensi");
     const submitText = document.getElementById("submitText");
+    const attendanceNote = document.getElementById("attendanceNote");
     /* =====================================================
    ALUR ABSENSI BERTAHAP
 ===================================================== */
@@ -1605,7 +1622,7 @@ const bagianKirim =
         if (sudahMasuk && !sudahKeluar) {
             if (waktu.sekarang < JAM_ABSENSI.keluarMulai) {
                 statusHariText.textContent =
-                    "Masuk tercatat · Keluar mulai 15.45 WITA";
+                    "Masuk tercatat · Keluar mulai " + jamTampil(JAM_ABSENSI.keluarMulai) + " WITA";
 
             } else if (waktu.keluarDibuka) {
                 statusHariText.textContent =
@@ -1621,7 +1638,7 @@ const bagianKirim =
 
         if (waktu.sekarang < JAM_ABSENSI.masukMulai) {
             statusHariText.textContent =
-                "Absensi Masuk dibuka pukul 06.30 WITA";
+                "Absensi Masuk dibuka pukul " + jamTampil(JAM_ABSENSI.masukMulai) + " WITA";
 
         } else if (waktu.masukTepatWaktu) {
             statusHariText.textContent =
@@ -1633,13 +1650,26 @@ const bagianKirim =
 
         } else {
             statusHariText.textContent =
-                "Absensi Masuk sudah ditutup pukul 09.00 WITA";
+                "Absensi Masuk sudah ditutup pukul " + jamTampil(JAM_ABSENSI.masukSelesai) + " WITA";
         }
     }
 
 
-    updateJam();
-    setInterval(updateJam, 1000);
+    async function sinkronkanPengaturanAbsensi() {
+        try {
+            const hasil = await postData({ action: "ambilPengaturanAbsensi" });
+            if (hasil?.berhasil) {
+                terapkanPengaturanAbsensi(hasil.pengaturan);
+                if (attendanceNote) attendanceNote.textContent = "Masuk setelah pukul " + jamTampil(JAM_ABSENSI.tepatWaktuSampai) + " WITA akan tercatat terlambat.";
+            }
+        } catch (error) { console.warn("Pengaturan absensi memakai nilai bawaan.", error); }
+    }
+
+    sinkronkanPengaturanAbsensi().finally(() => {
+        updateJam();
+        setInterval(updateJam, 1000);
+        cekStatusHariIni();
+    });
 
 
     /* =====================================================
@@ -1962,8 +1992,6 @@ const bagianKirim =
         updateStatusForm();
     });
 });
-
-    cekStatusHariIni();
 
 
     /* =====================================================
@@ -2876,13 +2904,15 @@ const adminPegawaiSection = document.getElementById("adminPegawaiSection");
 const adminKeteranganSection = document.getElementById("adminKeteranganSection");
 const adminAkunSection = document.getElementById("adminAkunSection");
 const adminLogSection = document.getElementById("adminLogSection");
+const adminPengaturanSection = document.getElementById("adminPengaturanSection");
 
 if (
     adminAbsensiSection ||
     adminPegawaiSection ||
     adminKeteranganSection ||
     adminAkunSection ||
-    adminLogSection
+    adminLogSection ||
+    adminPengaturanSection
 ) {
     const role = localStorage.getItem("role");
     const adminToken = localStorage.getItem("adminToken");
@@ -2898,6 +2928,7 @@ if (
     const navKeteranganBtn = document.getElementById("navKeteranganBtn");
     const navAkunAdminBtn = document.getElementById("navAkunAdminBtn");
     const navLogAdminBtn = document.getElementById("navLogAdminBtn");
+    const navPengaturanAdminBtn = document.getElementById("navPengaturanAdminBtn");
 
 
     /* =====================================================
@@ -2994,6 +3025,18 @@ if (
     const simpanPasswordAdminBtn =
         document.getElementById("simpanPasswordAdminBtn");
 
+
+    const pengaturanAbsensiForm = document.getElementById("pengaturanAbsensiForm");
+    const simpanPengaturanBtn = document.getElementById("simpanPengaturanBtn");
+    const gunakanLokasiKantorBtn = document.getElementById("gunakanLokasiKantorBtn");
+    const settingIds = ["Radius","Latitude","Longitude","MasukMulai","JamLambat","MasukSelesai","KeluarMulai","KeluarSelesai"];
+    const settingEl = Object.fromEntries(settingIds.map(k => [k, document.getElementById("setting" + k)]));
+
+    const fotoAbsensiModal = document.getElementById("fotoAbsensiModal");
+    const fotoAbsensiPreview = document.getElementById("fotoAbsensiPreview");
+    const fotoAbsensiLoading = document.getElementById("fotoAbsensiLoading");
+    const fotoAbsensiJudul = document.getElementById("fotoAbsensiJudul");
+    const tutupFotoAbsensiBtn = document.getElementById("tutupFotoAbsensiBtn");
 
     let dataTanggalAktif = [];
     let daftarPegawaiAdmin = [];
@@ -3120,6 +3163,11 @@ navLogAdminBtn?.addEventListener("click", async function() {
     await muatLogAdmin();
 });
 
+navPengaturanAdminBtn?.addEventListener("click", async function() {
+    tampilkanHalamanAdmin("pengaturan");
+    await muatPengaturanAdmin();
+});
+
 navAkunAdminBtn?.addEventListener("click", function() {
     tampilkanHalamanAdmin("akun");
 });
@@ -3130,6 +3178,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             adminPegawaiSection,
             adminKeteranganSection,
             adminLogSection,
+            adminPengaturanSection,
             adminAkunSection
         ].forEach(function(section) {
             section?.classList.remove("active");
@@ -3140,6 +3189,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
             navPegawaiBtn,
             navKeteranganBtn,
             navLogAdminBtn,
+            navPengaturanAdminBtn,
             navAkunAdminBtn
         ].forEach(function(button) {
             button?.classList.remove("active");
@@ -3163,6 +3213,11 @@ navAkunAdminBtn?.addEventListener("click", function() {
         if (halaman === "log") {
             adminLogSection?.classList.add("active");
             navLogAdminBtn?.classList.add("active");
+        }
+
+        if (halaman === "pengaturan") {
+            adminPengaturanSection?.classList.add("active");
+            navPengaturanAdminBtn?.classList.add("active");
         }
 
         if (halaman === "akun") {
@@ -3401,9 +3456,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
                     : "-";
 
                 const linkFoto = foto
-                    ? '<a href="' +
-                      foto +
-                      '" target="_blank" rel="noopener noreferrer">Foto</a>'
+                    ? '<button type="button" class="table-action-btn foto-preview-btn" data-foto="' + escapeHTML(foto) + '" data-nama="' + escapeHTML(item.nama || "Pegawai") + '">Lihat Foto</button>'
                     : "-";
 
                 return `
@@ -3441,6 +3494,9 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
         dataAbsensi.querySelectorAll(".koreksi-absensi-btn").forEach(btn =>
             btn.addEventListener("click", () => bukaKoreksiAbsensi(btn.dataset.id))
+        );
+        dataAbsensi.querySelectorAll(".foto-preview-btn").forEach(btn =>
+            btn.addEventListener("click", () => bukaPreviewFotoAdmin(btn.dataset.foto, btn.dataset.nama))
         );
     }
 
@@ -5558,6 +5614,76 @@ function safeURL(value) {
 
         requestAnimationFrame(frame);
     }
+/* =====================================================
+   PENGATURAN ADMIN + PREVIEW FOTO
+===================================================== */
+async function muatPengaturanAdmin() {
+    if (!pengaturanAbsensiForm) return;
+    setButtonLoading(simpanPengaturanBtn, true, "Memuat...");
+    try {
+        const r = await postData({ action: "ambilPengaturanAdmin", adminToken });
+        if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal dimuat.");
+        const p = r.pengaturan || {};
+        const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
+        Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
+    } catch (e) { appToast(e.message, "error"); }
+    finally { setButtonLoading(simpanPengaturanBtn, false); }
+}
+
+pengaturanAbsensiForm?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const yakin = await tampilkanDialogKonfirmasi("Simpan pengaturan absensi baru? Perubahan akan langsung dipakai oleh sistem.", { judul:"Konfirmasi Pengaturan", teksKonfirmasi:"Ya, Simpan", icon:"⚙️" });
+    if (!yakin) return;
+    const pengaturan = {
+        radius: settingEl.Radius?.value, latitude: settingEl.Latitude?.value, longitude: settingEl.Longitude?.value,
+        masukMulai: settingEl.MasukMulai?.value, jamLambat: settingEl.JamLambat?.value, masukSelesai: settingEl.MasukSelesai?.value,
+        keluarMulai: settingEl.KeluarMulai?.value, keluarSelesai: settingEl.KeluarSelesai?.value
+    };
+    setButtonLoading(simpanPengaturanBtn, true, "Menyimpan...");
+    try {
+        const r = await postData({ action:"simpanPengaturanAdmin", adminToken, pengaturan });
+        if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal disimpan.");
+        terapkanPengaturanAbsensi(r.pengaturan);
+        appToast(r.pesan || "Pengaturan berhasil disimpan.");
+    } catch (e) { appToast(e.message, "error"); }
+    finally { setButtonLoading(simpanPengaturanBtn, false); }
+});
+
+gunakanLokasiKantorBtn?.addEventListener("click", () => {
+    if (!navigator.geolocation) return appToast("GPS tidak tersedia di perangkat ini.", "error");
+    setButtonLoading(gunakanLokasiKantorBtn, true, "Mencari lokasi...");
+    navigator.geolocation.getCurrentPosition(pos => {
+        if (settingEl.Latitude) settingEl.Latitude.value = pos.coords.latitude.toFixed(7);
+        if (settingEl.Longitude) settingEl.Longitude.value = pos.coords.longitude.toFixed(7);
+        setButtonLoading(gunakanLokasiKantorBtn, false);
+        appToast("Lokasi perangkat berhasil dimasukkan. Periksa sebelum menyimpan.");
+    }, () => {
+        setButtonLoading(gunakanLokasiKantorBtn, false);
+        appToast("Lokasi tidak dapat diambil. Pastikan izin GPS aktif.", "error");
+    }, { enableHighAccuracy:true, timeout:15000, maximumAge:0 });
+});
+
+async function bukaPreviewFotoAdmin(url, nama) {
+    if (!fotoAbsensiModal || !url) return;
+    if (fotoAbsensiJudul) fotoAbsensiJudul.textContent = "Foto " + (nama || "Pegawai");
+    if (fotoAbsensiPreview) { fotoAbsensiPreview.hidden = true; fotoAbsensiPreview.removeAttribute("src"); }
+    if (fotoAbsensiLoading) { fotoAbsensiLoading.hidden = false; fotoAbsensiLoading.textContent = "Memuat foto..."; }
+    fotoAbsensiModal.hidden = false;
+    try {
+        const r = await postData({ action:"ambilFotoAbsensiAdmin", adminToken, fotoUrl:url });
+        if (!r.berhasil || !r.dataUrl) throw new Error(r.pesan || "Foto gagal dimuat.");
+        if (fotoAbsensiPreview) { fotoAbsensiPreview.src = r.dataUrl; fotoAbsensiPreview.hidden = false; }
+        if (fotoAbsensiLoading) fotoAbsensiLoading.hidden = true;
+    } catch (e) {
+        if (fotoAbsensiLoading) fotoAbsensiLoading.textContent = e.message || "Foto gagal dimuat.";
+    }
+}
+
+function tutupPreviewFotoAdmin() { if (fotoAbsensiModal) fotoAbsensiModal.hidden = true; }
+tutupFotoAbsensiBtn?.addEventListener("click", tutupPreviewFotoAdmin);
+fotoAbsensiModal?.querySelector(".admin-modal-backdrop")?.addEventListener("click", tutupPreviewFotoAdmin);
+
+
 })();
 
 

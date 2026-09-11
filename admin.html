@@ -66,6 +66,11 @@
                 <span>Log Admin</span>
             </button>
 
+            <button type="button" class="admin-nav-btn" id="navPengaturanAdminBtn" data-admin-page="pengaturan">
+                <span class="admin-nav-icon">⚙️</span>
+                <span>Pengaturan</span>
+            </button>
+
             <button type="button" class="admin-nav-btn" id="navAkunAdminBtn" data-admin-page="akun">
                 <span class="admin-nav-icon">🔐</span>
                 <span>Akun Admin</span>
@@ -675,6 +680,42 @@
         </section>
 
         <!-- ==================================================
+             PENGATURAN SISTEM
+        =================================================== -->
+        <section class="admin-page-section" id="adminPengaturanSection">
+            <section class="admin-section-hero">
+                <div class="admin-section-icon">⚙️</div>
+                <div><span class="section-label">KONTROL SISTEM</span><h2>Pengaturan Absensi</h2><p>Atur lokasi, radius, dan jam absensi tanpa mengubah kode.</p></div>
+            </section>
+
+            <form id="pengaturanAbsensiForm" class="settings-card">
+                <div class="settings-block">
+                    <div class="settings-title"><strong>Lokasi Kantor</strong><small>Dipakai untuk memeriksa jarak pegawai saat absensi.</small></div>
+                    <div class="settings-grid settings-grid-3">
+                        <div class="admin-form-group"><label for="settingRadius">Radius Maksimal (meter)</label><input type="number" id="settingRadius" min="20" max="2000" required></div>
+                        <div class="admin-form-group"><label for="settingLatitude">Latitude</label><input type="number" id="settingLatitude" step="any" required></div>
+                        <div class="admin-form-group"><label for="settingLongitude">Longitude</label><input type="number" id="settingLongitude" step="any" required></div>
+                    </div>
+                    <button type="button" id="gunakanLokasiKantorBtn" class="admin-secondary-btn">📍 Gunakan Lokasi Saya Sekarang</button>
+                    <p class="settings-help">Gunakan tombol ini hanya saat admin sedang berada di kantor.</p>
+                </div>
+
+                <div class="settings-block">
+                    <div class="settings-title"><strong>Jam Absensi</strong><small>Semua waktu menggunakan WITA.</small></div>
+                    <div class="settings-grid">
+                        <div class="admin-form-group"><label for="settingMasukMulai">Masuk Dibuka</label><input type="time" id="settingMasukMulai" required></div>
+                        <div class="admin-form-group"><label for="settingJamLambat">Batas Tepat Waktu</label><input type="time" id="settingJamLambat" required></div>
+                        <div class="admin-form-group"><label for="settingMasukSelesai">Masuk Ditutup</label><input type="time" id="settingMasukSelesai" required></div>
+                        <div class="admin-form-group"><label for="settingKeluarMulai">Pulang Dibuka</label><input type="time" id="settingKeluarMulai" required></div>
+                        <div class="admin-form-group"><label for="settingKeluarSelesai">Pulang Ditutup</label><input type="time" id="settingKeluarSelesai" required></div>
+                    </div>
+                </div>
+
+                <div class="settings-save-row"><p>Perubahan berlaku pada absensi berikutnya dan dicatat di Log Admin.</p><button type="submit" id="simpanPengaturanBtn" class="admin-primary-btn">Simpan Pengaturan</button></div>
+            </form>
+        </section>
+
+        <!-- ==================================================
              AKUN ADMIN
         =================================================== -->
         <section class="admin-page-section" id="adminAkunSection">
@@ -1173,6 +1214,15 @@
                     <div class="admin-form-group"><label for="koreksiAbsensiAlasan">Alasan Koreksi</label><textarea id="koreksiAbsensiAlasan" maxlength="300" rows="3" placeholder="Contoh: Pegawai lupa absen pulang." required></textarea></div>
                     <div class="admin-modal-actions"><button type="button" id="batalKoreksiAbsensiBtn" class="admin-secondary-btn">Batal</button><button type="submit" id="simpanKoreksiAbsensiBtn" class="admin-primary-btn">Simpan Koreksi</button></div>
                 </form>
+            </div>
+        </div>
+
+        <div class="admin-modal" id="fotoAbsensiModal" hidden>
+            <div class="admin-modal-backdrop"></div>
+            <div class="admin-modal-content photo-admin-modal">
+                <div class="admin-modal-header"><div><small>PREVIEW FOTO</small><h2 id="fotoAbsensiJudul">Foto Absensi</h2><p>Foto hanya dimuat saat admin membukanya.</p></div><button type="button" id="tutupFotoAbsensiBtn" class="modal-close-btn" aria-label="Tutup">×</button></div>
+                <div id="fotoAbsensiLoading" class="photo-admin-loading">Memuat foto...</div>
+                <img id="fotoAbsensiPreview" class="photo-admin-preview" alt="Preview foto absensi" hidden>
             </div>
         </div>
 
