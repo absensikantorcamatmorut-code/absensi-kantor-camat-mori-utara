@@ -6263,3 +6263,347 @@ body.login-page {
         grid-template-columns: 1fr;
     }
 }
+/* =====================================================
+   MOTION SYSTEM V1 - LOGIN
+   Smooth, ringan, tidak memakai animasi berat terus-menerus
+===================================================== */
+
+/* PANEL MASUK */
+.login-page .login-panel:not([hidden]) {
+    transform-origin: 50% 55%;
+    animation: motionLoginPanelIn .48s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionLoginPanelIn {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(.975);
+    }
+
+    55% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* HEADER MASUK HALUS */
+.login-page .login-panel:not([hidden]) .login-card-header {
+    animation: motionLoginHeaderIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionLoginHeaderIn {
+    from {
+        opacity: .7;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* LOGO POP SEKALI */
+.login-page .login-panel:not([hidden]) .login-logo {
+    animation: motionLoginLogoPop .52s .08s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes motionLoginLogoPop {
+    0% {
+        opacity: 0;
+        transform: scale(.72) rotate(-7deg);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.06) rotate(2deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+
+/* BRAND */
+.login-page .login-panel:not([hidden]) .login-brand {
+    animation: motionLoginTextIn .45s .12s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionLoginTextIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* WELCOME */
+.login-page .login-panel:not([hidden]) .login-welcome {
+    animation: motionLoginItemIn .42s .14s cubic-bezier(.16,1,.3,1) both;
+}
+
+.login-page .login-panel:not([hidden]) .welcome-icon {
+    animation: motionWelcomePop .48s .2s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes motionWelcomePop {
+    from {
+        opacity: 0;
+        transform: scale(.65) rotate(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+
+/* FORM MUNCUL BERTAHAP */
+.login-page .login-panel:not([hidden]) .input-group:nth-child(1) {
+    animation: motionLoginItemIn .42s .19s cubic-bezier(.16,1,.3,1) both;
+}
+
+.login-page .login-panel:not([hidden]) .input-group:nth-child(2) {
+    animation: motionLoginItemIn .42s .24s cubic-bezier(.16,1,.3,1) both;
+}
+
+.login-page .login-panel:not([hidden]) .login-btn {
+    animation: motionLoginItemIn .42s .29s cubic-bezier(.16,1,.3,1) both;
+}
+
+.login-page .login-panel:not([hidden]) .admin-login-link {
+    animation: motionLoginItemIn .42s .34s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionLoginItemIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   INPUT MICROINTERACTION
+===================================================== */
+
+.login-page .login-input-wrapper {
+    transition: transform .2s cubic-bezier(.16,1,.3,1);
+}
+
+.login-page .login-input-wrapper:focus-within {
+    transform: translateY(-2px);
+}
+
+.login-page .login-input-wrapper input {
+    transition:
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .22s ease !important;
+}
+
+.login-page .login-input-wrapper:focus-within input {
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow:
+        0 0 0 4px rgba(59,130,246,.09),
+        0 8px 18px rgba(37,99,235,.07);
+}
+
+.login-page .login-input-icon {
+    transform: translateY(-50%) scale(1);
+    transition:
+        transform .22s cubic-bezier(.34,1.56,.64,1),
+        filter .2s ease;
+}
+
+.login-page .login-input-wrapper:focus-within .login-input-icon {
+    transform: translateY(-50%) scale(1.12);
+    filter: saturate(1.25);
+}
+
+
+/* =====================================================
+   BUTTON MICROINTERACTION
+===================================================== */
+
+.login-page .login-btn {
+    isolation: isolate;
+    transition:
+        box-shadow .2s ease,
+        filter .2s ease,
+        transform .16s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.login-page .login-btn:hover {
+    transform: translateY(-2px) !important;
+    filter: brightness(1.025);
+    box-shadow:
+        0 13px 28px rgba(37,99,235,.23),
+        0 3px 8px rgba(15,23,42,.06);
+}
+
+.login-page .login-btn:active {
+    transform: translateY(0) scale(.975) !important;
+    transition-duration: .07s !important;
+}
+
+.login-page .login-btn-arrow {
+    display: inline-block;
+    transition: transform .22s cubic-bezier(.16,1,.3,1);
+}
+
+.login-page .login-btn:hover .login-btn-arrow {
+    transform: translateX(5px);
+}
+
+
+/* SHINE HANYA SAAT HOVER */
+.login-page .login-btn::before {
+    left: -70%;
+    width: 38%;
+    opacity: .75;
+    transform: skewX(-22deg);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.34),
+        transparent
+    );
+    transition: left .55s cubic-bezier(.16,1,.3,1);
+}
+
+.login-page .login-btn:hover::before {
+    left: 130%;
+}
+
+
+/* =====================================================
+   ADMIN LINK
+===================================================== */
+
+.login-page .admin-login-link {
+    transition:
+        background-color .18s ease,
+        color .18s ease,
+        transform .18s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.login-page .admin-login-link:hover {
+    color: #2563eb;
+    background: #f1f6ff;
+    transform: translateY(-1px);
+}
+
+.login-page .admin-login-link:active {
+    transform: scale(.97);
+}
+
+
+/* =====================================================
+   STATUS / ERROR FEEDBACK
+===================================================== */
+
+.login-page #loginStatus:not(:empty),
+.login-page #adminLoginStatus:not(:empty) {
+    animation: motionStatusIn .3s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes motionStatusIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   CARD DEPTH
+===================================================== */
+
+.login-page .login-panel {
+    transition:
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+@media (hover:hover) {
+    .login-page .login-panel:hover {
+        border-color: rgba(147,197,253,.85);
+        box-shadow:
+            0 28px 65px rgba(30,64,175,.12),
+            0 6px 20px rgba(15,23,42,.055);
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width:520px) {
+    .login-page .login-btn:hover {
+        transform: none !important;
+    }
+
+    .login-page .login-btn:active {
+        transform: scale(.975) !important;
+    }
+
+    .login-page .login-input-wrapper:focus-within {
+        transform: translateY(-1px);
+    }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion:reduce) {
+    .login-page .login-panel,
+    .login-page .login-card-header,
+    .login-page .login-logo,
+    .login-page .login-brand,
+    .login-page .login-welcome,
+    .login-page .welcome-icon,
+    .login-page .input-group,
+    .login-page .login-btn,
+    .login-page .admin-login-link,
+    .login-page #loginStatus,
+    .login-page #adminLoginStatus {
+        animation: none !important;
+    }
+
+    .login-page .login-btn,
+    .login-page .login-btn-arrow,
+    .login-page .login-input-wrapper,
+    .login-page .login-input-icon,
+    .login-page .admin-login-link {
+        transition: none !important;
+    }
+}
