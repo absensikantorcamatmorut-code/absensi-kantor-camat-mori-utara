@@ -567,6 +567,21 @@ if (absensiForm) {
 
     const submitAbsensi = document.getElementById("submitAbsensi");
     const submitText = document.getElementById("submitText");
+    /* =====================================================
+   ALUR ABSENSI BERTAHAP
+===================================================== */
+
+const bagianJenisAbsensi =
+    attendanceOptions[0]?.closest(".form-section");
+
+const bagianLokasi =
+    lokasiBtn?.closest(".form-section");
+
+const bagianKamera =
+    cameraLiveContainer?.closest(".form-section");
+
+const bagianKirim =
+    submitAbsensi?.closest(".submit-section");
 
     const keteranganForm = document.getElementById("keteranganForm");
     const jenisKeterangan = document.getElementById("jenisKeterangan");
@@ -1022,16 +1037,20 @@ if (absensiForm) {
         });
 
         if (mode === "hadir") {
-            modeHadirBtn?.classList.add("active");
+    modeHadirBtn?.classList.add("active");
 
-            if (hadirContainer) hadirContainer.hidden = false;
-            if (keteranganContainer) {
-                keteranganContainer.hidden = true;
-            }
+    if (hadirContainer) {
+        hadirContainer.hidden = false;
+    }
 
-            resetFormKeterangan();
-            updateKontrolWaktu();
-        }
+    if (keteranganContainer) {
+        keteranganContainer.hidden = true;
+    }
+
+    resetFormKeterangan();
+    updateStatusForm();
+    updateKontrolWaktu();
+}
 
         if (mode === "keterangan") {
             modeKeteranganBtn?.classList.add("active");
@@ -1062,24 +1081,57 @@ if (absensiForm) {
 
 
     attendanceOptions.forEach(function(button) {
-        button.addEventListener("click", function() {
-            if (button.disabled) return;
+    button.addEventListener("click", function() {
+        if (button.disabled) return;
 
-            attendanceOptions.forEach(item => {
-                item.classList.remove("active");
-            });
-
-            button.classList.add("active");
-
-            if (jenisAbsenInput) {
-                jenisAbsenInput.value =
-                    button.dataset.value || "";
-            }
-
-            updateStatusForm();
+        attendanceOptions.forEach(item => {
+            item.classList.remove("active");
         });
-    });
 
+        button.classList.add("active");
+
+        if (jenisAbsenInput) {
+            jenisAbsenInput.value =
+                button.dataset.value || "";
+        }
+
+        /* Data tahap berikutnya harus diambil ulang
+           jika jenis absensi diganti */
+        latitude = null;
+        longitude = null;
+        accuracy = null;
+        jarakKantor = null;
+        fotoBase64 = null;
+
+        if (statusLokasi) {
+            statusLokasi.textContent =
+                "Periksa Lokasi";
+        }
+
+        if (akurasiLokasi) {
+            akurasiLokasi.textContent =
+                "Lokasi belum diperiksa";
+        }
+
+        if (lokasiBtn) {
+            lokasiBtn.classList.remove(
+                "location-success",
+                "location-error"
+            );
+        }
+
+        if (previewFoto) {
+            previewFoto.src = "";
+        }
+
+        if (photoPreviewWrapper) {
+            photoPreviewWrapper.classList.remove("active");
+        }
+
+        hentikanKamera();
+        updateStatusForm();
+    });
+});
 
     cekStatusHariIni();
 
@@ -1459,62 +1511,94 @@ if (absensiForm) {
     /* =====================================================
        FORM ABSENSI
     ===================================================== */
+function updateAlurAbsensi() {
+    const jenisSiap = Boolean(jenisAbsenInput?.value);
 
+    const lokasiSiap =
+        latitude !== null &&
+        longitude !== null &&
+        jarakKantor !== null &&
+        jarakKantor <= KANTOR.radius;
+
+    const fotoSiap = Boolean(fotoBase64);
+
+    if (bagianJenisAbsensi) {
+        bagianJenisAbsensi.hidden = false;
+    }
+
+    if (bagianLokasi) {
+        bagianLokasi.hidden = !jenisSiap;
+    }
+
+    if (bagianKamera) {
+        bagianKamera.hidden =
+            !jenisSiap ||
+            !lokasiSiap;
+    }
+
+    if (bagianKirim) {
+        bagianKirim.hidden =
+            !jenisSiap ||
+            !lokasiSiap ||
+            !fotoSiap;
+    }
+}
     function updateStatusForm() {
-        const jenisSiap =
-            Boolean(jenisAbsenInput?.value);
+    const jenisSiap =
+        Boolean(jenisAbsenInput?.value);
 
-        const lokasiSiap =
-            latitude !== null &&
-            longitude !== null &&
-            jarakKantor !== null &&
-            jarakKantor <= KANTOR.radius;
+    const lokasiSiap =
+        latitude !== null &&
+        longitude !== null &&
+        jarakKantor !== null &&
+        jarakKantor <= KANTOR.radius;
 
-        const fotoSiap =
-            Boolean(fotoBase64);
+    const fotoSiap =
+        Boolean(fotoBase64);
 
-        const waktu = statusWaktuAbsensi();
-        const jenis = jenisAbsenInput?.value || "";
+    const waktu = statusWaktuAbsensi();
+    const jenis = jenisAbsenInput?.value || "";
 
-        const waktuSiap =
-            jenis === "Masuk"
-                ? waktu.masukDibuka
-                : jenis === "Keluar"
-                    ? waktu.keluarDibuka
-                    : false;
+    const waktuSiap =
+        jenis === "Masuk"
+            ? waktu.masukDibuka
+            : jenis === "Keluar"
+                ? waktu.keluarDibuka
+                : false;
 
-        updateRequirement(checkJenis, jenisSiap);
-        updateRequirement(checkLokasi, lokasiSiap);
-        updateRequirement(checkFoto, fotoSiap);
+    updateRequirement(checkJenis, jenisSiap);
+    updateRequirement(checkLokasi, lokasiSiap);
+    updateRequirement(checkFoto, fotoSiap);
 
-        const siap =
-            jenisSiap &&
-            lokasiSiap &&
-            fotoSiap &&
-            waktuSiap;
+    const siap =
+        jenisSiap &&
+        lokasiSiap &&
+        fotoSiap &&
+        waktuSiap;
 
-        if (submitAbsensi) {
-            submitAbsensi.disabled = !siap;
-        }
+    if (submitAbsensi) {
+        submitAbsensi.disabled = !siap;
+    }
 
-        if (submitText) {
-            if (!jenisSiap) {
-                submitText.textContent =
-                    "Lengkapi Absensi";
+    if (submitText) {
+        if (!jenisSiap) {
+            submitText.textContent =
+                "Lengkapi Absensi";
 
-            } else if (!waktuSiap) {
-                submitText.textContent =
-                    "Waktu Absensi Tidak Tersedia";
+        } else if (!waktuSiap) {
+            submitText.textContent =
+                "Waktu Absensi Tidak Tersedia";
 
-            } else {
-                submitText.textContent =
-                    siap
-                        ? "Kirim Absensi"
-                        : "Lengkapi Absensi";
-            }
+        } else {
+            submitText.textContent =
+                siap
+                    ? "Kirim Absensi"
+                    : "Lengkapi Absensi";
         }
     }
 
+    updateAlurAbsensi();
+}
 
     absensiForm.addEventListener(
         "submit",
