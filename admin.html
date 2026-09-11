@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#eef4fb">
+    <script>
+        try {
+            document.documentElement.dataset.uiTheme =
+                localStorage.getItem("moriUiTheme") === "legacy" ? "legacy" : "nova";
+        } catch (_) {
+            document.documentElement.dataset.uiTheme = "nova";
+        }
+    </script>
     <title>Dashboard Admin | Kantor Camat Mori Utara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-nav3rows">
+    <link rel="stylesheet" href="css/style.css?v=20260912-nova1">
 </head>
 
 <body class="admin-page">
@@ -1298,8 +1306,9 @@
         <span class="app-toast-icon" aria-hidden="true">✓</span>
         <div><strong></strong><p></p></div>
     </div>
+    <script src="js/theme.js?v=20260912-nova1"></script>
 
-    <script src="js/script.js?v=20260912-manual-delete"></script>
+    <script src="js/script.js?v=20260912-nova1"></script>
     <script src="js/rekap.js?v=20260912-fix3"></script>
 
 </body>

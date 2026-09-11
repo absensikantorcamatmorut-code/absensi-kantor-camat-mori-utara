@@ -10063,3 +10063,1133 @@ textarea {
         font-size: 16px;
     }
 }
+
+
+/* ============================================================
+   MORI UTARA — DUAL THEME SYSTEM
+   Theme "legacy" = desain lama, tidak dihapus.
+   Theme "nova"   = desain baru total: Aurora Workspace.
+============================================================ */
+
+/* ---------- Tombol ganti tema — tersedia di kedua tema ---------- */
+.theme-switch-btn {
+    position: fixed;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    z-index: 10050;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 16px;
+    border: 1px solid rgba(148, 163, 184, .28);
+    border-radius: 999px;
+    color: #0f172a;
+    background: rgba(255, 255, 255, .90);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, .18);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    font: 700 13px/1 Inter, sans-serif;
+    cursor: pointer;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.theme-switch-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 42px rgba(15, 23, 42, .24);
+}
+.theme-switch-btn:active { transform: translateY(0) scale(.97); }
+.theme-switch-icon {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #0f172a;
+    color: #fff;
+    font-size: 14px;
+}
+.theme-is-switching body { animation: themeFlash .55s ease both; }
+@keyframes themeFlash {
+    0% { opacity: 1; filter: saturate(1); }
+    48% { opacity: .72; filter: saturate(.75) blur(1px); }
+    100% { opacity: 1; filter: saturate(1); }
+}
+
+/* ============================================================
+   NOVA DESIGN TOKENS
+============================================================ */
+body[data-ui-theme="nova"] {
+    --nova-bg: #07111f;
+    --nova-bg-2: #0a1628;
+    --nova-surface: rgba(12, 27, 48, .76);
+    --nova-surface-strong: rgba(12, 29, 53, .94);
+    --nova-surface-soft: rgba(255, 255, 255, .055);
+    --nova-line: rgba(154, 183, 220, .15);
+    --nova-line-strong: rgba(142, 236, 255, .26);
+    --nova-text: #f7fbff;
+    --nova-muted: #91a5be;
+    --nova-cyan: #5ce1e6;
+    --nova-blue: #59a7ff;
+    --nova-violet: #9d7cff;
+    --nova-mint: #64f4b8;
+    --nova-yellow: #ffd166;
+    --nova-danger: #ff7a90;
+    --nova-shadow: 0 28px 80px rgba(0, 0, 0, .34);
+    --nova-glow: 0 0 0 1px rgba(103, 232, 249, .05), 0 24px 70px rgba(53, 157, 255, .10);
+    color: var(--nova-text);
+    background:
+        radial-gradient(circle at 9% 6%, rgba(86, 112, 255, .18), transparent 29%),
+        radial-gradient(circle at 88% 14%, rgba(92, 225, 230, .14), transparent 27%),
+        radial-gradient(circle at 68% 88%, rgba(157, 124, 255, .13), transparent 28%),
+        linear-gradient(145deg, var(--nova-bg), #050b14 66%, #081422);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+body[data-ui-theme="nova"] *,
+body[data-ui-theme="nova"] *::before,
+body[data-ui-theme="nova"] *::after {
+    box-sizing: border-box;
+}
+
+body[data-ui-theme="nova"]::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    opacity: .22;
+    background-image:
+        linear-gradient(rgba(120, 160, 205, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 160, 205, .10) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 90%);
+    animation: novaGrid 24s linear infinite;
+}
+body[data-ui-theme="nova"]::after {
+    content: "";
+    position: fixed;
+    width: 58vw;
+    height: 58vw;
+    right: -20vw;
+    top: -22vw;
+    z-index: -2;
+    pointer-events: none;
+    border-radius: 50%;
+    background: conic-gradient(from 190deg,
+        rgba(92, 225, 230, .18),
+        rgba(89, 167, 255, .03),
+        rgba(157, 124, 255, .15),
+        rgba(92, 225, 230, .18));
+    filter: blur(78px);
+    animation: novaAurora 16s ease-in-out infinite alternate;
+}
+@keyframes novaGrid { to { background-position: 42px 42px; } }
+@keyframes novaAurora {
+    0% { transform: translate3d(0,0,0) rotate(0) scale(.9); opacity: .65; }
+    100% { transform: translate3d(-8vw,8vh,0) rotate(34deg) scale(1.16); opacity: 1; }
+}
+@keyframes novaFloat {
+    0%,100% { transform: translate3d(0,0,0); }
+    50% { transform: translate3d(0,-10px,0); }
+}
+@keyframes novaGlowPulse {
+    0%,100% { box-shadow: 0 0 0 rgba(92,225,230,0); }
+    50% { box-shadow: 0 0 34px rgba(92,225,230,.18); }
+}
+@keyframes novaReveal {
+    from { opacity: 0; transform: translateY(18px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes novaShimmer {
+    0% { transform: translateX(-140%) skewX(-18deg); }
+    100% { transform: translateX(180%) skewX(-18deg); }
+}
+
+body[data-ui-theme="nova"] .login-bg-grid,
+body[data-ui-theme="nova"] .admin-bg-grid,
+body[data-ui-theme="nova"] .pegawai-bg-grid,
+body[data-ui-theme="nova"] .login-blob,
+body[data-ui-theme="nova"] .admin-bg-blob,
+body[data-ui-theme="nova"] .pegawai-bg-blob,
+body[data-ui-theme="nova"] .login-dot,
+body[data-ui-theme="nova"] .login-ring {
+    display: none !important;
+}
+
+body[data-ui-theme="nova"] a { color: #88e9ff; }
+body[data-ui-theme="nova"] input,
+body[data-ui-theme="nova"] select,
+body[data-ui-theme="nova"] textarea {
+    color: var(--nova-text);
+    background: rgba(3, 12, 24, .68) !important;
+    border-color: var(--nova-line) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+body[data-ui-theme="nova"] input::placeholder,
+body[data-ui-theme="nova"] textarea::placeholder { color: #60758d; }
+body[data-ui-theme="nova"] input:focus,
+body[data-ui-theme="nova"] select:focus,
+body[data-ui-theme="nova"] textarea:focus {
+    border-color: rgba(92,225,230,.58) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+    outline: none;
+}
+body[data-ui-theme="nova"] select option {
+    color: #eaf6ff;
+    background: #0b192b;
+}
+
+/* tombol global */
+body[data-ui-theme="nova"] button { font-family: Inter, sans-serif; }
+body[data-ui-theme="nova"] .admin-primary-btn,
+body[data-ui-theme="nova"] .login-btn,
+body[data-ui-theme="nova"] .submit-btn,
+body[data-ui-theme="nova"] .ambil-lokasi-btn,
+body[data-ui-theme="nova"] .kamera-btn,
+body[data-ui-theme="nova"] .kirim-keterangan-btn {
+    position: relative;
+    overflow: hidden;
+    color: #05121c !important;
+    border: 0 !important;
+    background: linear-gradient(135deg, var(--nova-cyan), #7ef3cf 58%, #a8f7ff) !important;
+    box-shadow: 0 14px 34px rgba(92,225,230,.16) !important;
+}
+body[data-ui-theme="nova"] .admin-primary-btn::after,
+body[data-ui-theme="nova"] .login-btn::after {
+    content: "";
+    position: absolute;
+    inset: -40% auto -40% -45%;
+    width: 32%;
+    background: rgba(255,255,255,.42);
+    transform: skewX(-18deg);
+}
+body[data-ui-theme="nova"] .admin-primary-btn:hover::after,
+body[data-ui-theme="nova"] .login-btn:hover::after {
+    animation: novaShimmer .8s ease;
+}
+body[data-ui-theme="nova"] .admin-secondary-btn,
+body[data-ui-theme="nova"] .toggle-filter-btn,
+body[data-ui-theme="nova"] .reset-filter-btn,
+body[data-ui-theme="nova"] .admin-logout-btn,
+body[data-ui-theme="nova"] .logout-icon {
+    color: #dff7ff !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid var(--nova-line) !important;
+    box-shadow: none !important;
+}
+body[data-ui-theme="nova"] .admin-secondary-btn:hover,
+body[data-ui-theme="nova"] .toggle-filter-btn:hover,
+body[data-ui-theme="nova"] .reset-filter-btn:hover,
+body[data-ui-theme="nova"] .admin-logout-btn:hover,
+body[data-ui-theme="nova"] .logout-icon:hover {
+    transform: translateY(-2px);
+    border-color: var(--nova-line-strong) !important;
+    background: rgba(92,225,230,.08) !important;
+}
+
+/* theme switch di Nova */
+body[data-ui-theme="nova"] .theme-switch-btn {
+    color: #eaf8ff;
+    border-color: rgba(92,225,230,.24);
+    background: rgba(7, 18, 33, .78);
+    box-shadow: 0 18px 52px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.06);
+}
+body[data-ui-theme="nova"] .theme-switch-icon {
+    color: #06131d;
+    background: linear-gradient(135deg, var(--nova-cyan), var(--nova-mint));
+    box-shadow: 0 0 22px rgba(92,225,230,.30);
+}
+
+/* ============================================================
+   NOVA — LOGIN: split authentication shell
+============================================================ */
+body.login-page[data-ui-theme="nova"] {
+    display: grid !important;
+    place-items: center;
+    padding: clamp(18px, 4vw, 52px);
+    overflow-x: hidden;
+}
+body.login-page[data-ui-theme="nova"] .login-container {
+    position: relative;
+    width: min(1080px, 100%);
+    min-height: 650px;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(320px, .95fr) minmax(390px, 1.05fr);
+    overflow: hidden;
+    border: 1px solid rgba(126, 185, 229, .16);
+    border-radius: 34px;
+    background:
+        linear-gradient(120deg, rgba(14, 31, 55, .92), rgba(5, 14, 26, .94));
+    box-shadow: var(--nova-shadow), inset 0 1px 0 rgba(255,255,255,.055);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    animation: novaReveal .7s cubic-bezier(.2,.85,.22,1) both;
+}
+body.login-page[data-ui-theme="nova"] .login-container::before {
+    content: "MORI UTARA\A DIGITAL ATTENDANCE";
+    white-space: pre;
+    position: relative;
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 58px 48px;
+    color: rgba(238, 252, 255, .92);
+    font-weight: 800;
+    font-size: clamp(30px, 4vw, 54px);
+    line-height: .98;
+    letter-spacing: -.055em;
+    background:
+        linear-gradient(to top, rgba(3,11,20,.78), rgba(3,11,20,.04) 65%),
+        radial-gradient(circle at 26% 25%, rgba(92,225,230,.36), transparent 29%),
+        radial-gradient(circle at 75% 70%, rgba(157,124,255,.30), transparent 31%),
+        linear-gradient(145deg, #102b46, #10203b 46%, #141b38);
+    overflow: hidden;
+}
+body.login-page[data-ui-theme="nova"] .login-container::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    top: 12%;
+    width: 210px;
+    height: 210px;
+    border-radius: 44px;
+    border: 1px solid rgba(159, 244, 255, .22);
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.015));
+    box-shadow:
+        90px 125px 0 -44px rgba(92,225,230,.12),
+        165px 50px 0 -74px rgba(157,124,255,.20);
+    transform: rotate(18deg);
+    animation: novaFloat 6s ease-in-out infinite;
+    pointer-events: none;
+}
+body.login-page[data-ui-theme="nova"] .login-panel {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    padding: clamp(34px, 6vw, 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+body.login-page[data-ui-theme="nova"] .login-card-header {
+    margin-bottom: 36px;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+body.login-page[data-ui-theme="nova"] .login-logo {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    font-size: 26px;
+    color: #04131b;
+    background: linear-gradient(135deg, var(--nova-cyan), var(--nova-mint));
+    box-shadow: 0 18px 38px rgba(92,225,230,.18);
+}
+body.login-page[data-ui-theme="nova"] .login-brand span,
+body.login-page[data-ui-theme="nova"] .login-welcome p,
+body.login-page[data-ui-theme="nova"] .input-group label {
+    color: var(--nova-muted) !important;
+}
+body.login-page[data-ui-theme="nova"] .login-brand h1,
+body.login-page[data-ui-theme="nova"] .login-welcome h2 {
+    color: var(--nova-text) !important;
+}
+body.login-page[data-ui-theme="nova"] .login-card-body {
+    padding: 0 !important;
+    background: transparent !important;
+}
+body.login-page[data-ui-theme="nova"] .login-welcome {
+    margin-bottom: 26px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+body.login-page[data-ui-theme="nova"] .welcome-icon {
+    background: rgba(92,225,230,.10);
+    border: 1px solid rgba(92,225,230,.18);
+}
+body.login-page[data-ui-theme="nova"] .login-input-wrapper {
+    min-height: 58px;
+    border-radius: 17px;
+    background: rgba(3,12,24,.64);
+    border: 1px solid var(--nova-line);
+}
+body.login-page[data-ui-theme="nova"] .login-input-wrapper input {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+body.login-page[data-ui-theme="nova"] .login-btn {
+    min-height: 58px;
+    border-radius: 17px;
+    font-size: 15px;
+    transition: transform .22s ease, box-shadow .22s ease;
+}
+body.login-page[data-ui-theme="nova"] .login-btn:hover { transform: translateY(-3px); }
+body.login-page[data-ui-theme="nova"] .admin-login-link {
+    color: #a7bdd4;
+    border-color: var(--nova-line);
+    background: rgba(255,255,255,.035);
+}
+
+/* ============================================================
+   NOVA — ADMIN: top command deck + bento workspace
+============================================================ */
+body.admin-page[data-ui-theme="nova"] {
+    display: block !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+body.admin-page[data-ui-theme="nova"] .admin-container {
+    width: min(1480px, calc(100% - 48px)) !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 32px 0 96px !important;
+    display: block !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header {
+    position: relative !important;
+    inset: auto !important;
+    min-height: 190px;
+    margin: 0 0 18px !important;
+    padding: clamp(30px, 5vw, 54px) !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 28px;
+    overflow: hidden;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 32px !important;
+    background:
+        radial-gradient(circle at 16% 14%, rgba(92,225,230,.20), transparent 25%),
+        radial-gradient(circle at 82% 25%, rgba(157,124,255,.18), transparent 23%),
+        linear-gradient(135deg, rgba(13,32,57,.96), rgba(8,19,35,.88)) !important;
+    box-shadow: var(--nova-shadow), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    animation: novaReveal .65s cubic-bezier(.2,.85,.22,1) both;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header::before {
+    content: "";
+    position: absolute;
+    width: 430px;
+    height: 430px;
+    right: -120px;
+    top: -235px;
+    border: 1px solid rgba(92,225,230,.16);
+    border-radius: 44%;
+    transform: rotate(28deg);
+    background: linear-gradient(135deg, rgba(92,225,230,.12), rgba(157,124,255,.03));
+    animation: novaFloat 7s ease-in-out infinite;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header-info {
+    position: relative;
+    z-index: 1;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header .app-badge {
+    color: #77f5d1 !important;
+    background: rgba(100,244,184,.08) !important;
+    border: 1px solid rgba(100,244,184,.18) !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header h1 {
+    margin-top: 14px;
+    color: var(--nova-text) !important;
+    font-size: clamp(34px, 5vw, 64px) !important;
+    line-height: .98 !important;
+    letter-spacing: -.055em !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-header p {
+    margin-top: 12px;
+    color: var(--nova-muted) !important;
+    font-size: 15px;
+}
+body.admin-page[data-ui-theme="nova"] .admin-logout-btn {
+    position: relative;
+    z-index: 2;
+    min-width: 110px;
+    min-height: 48px;
+    border-radius: 14px !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-nav {
+    position: sticky !important;
+    top: 14px !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    z-index: 1000;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 28px !important;
+    padding: 9px !important;
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0,1fr)) !important;
+    gap: 7px !important;
+    overflow: visible !important;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 20px !important;
+    background: rgba(7, 18, 33, .80) !important;
+    box-shadow: 0 16px 46px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.04) !important;
+    backdrop-filter: blur(22px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+    animation: novaReveal .65s .08s cubic-bezier(.2,.85,.22,1) both;
+}
+body.admin-page[data-ui-theme="nova"] .admin-nav-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+    padding: 9px 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    white-space: normal !important;
+    color: #8fa5bc !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    transition: transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-nav-btn:hover {
+    transform: translateY(-2px);
+    color: #e9fbff !important;
+    border-color: rgba(92,225,230,.12) !important;
+    background: rgba(92,225,230,.055) !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-nav-btn.active {
+    color: #07131d !important;
+    background: linear-gradient(135deg, var(--nova-cyan), #7bf3ca) !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 26px rgba(92,225,230,.18) !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-nav-icon {
+    font-size: 16px !important;
+    filter: saturate(.75);
+}
+body.admin-page[data-ui-theme="nova"] .admin-page-section {
+    margin-left: 0 !important;
+    animation: novaReveal .48s ease both;
+}
+body.admin-page[data-ui-theme="nova"] .admin-section-intro,
+body.admin-page[data-ui-theme="nova"] .admin-section-hero,
+body.admin-page[data-ui-theme="nova"] .data-section,
+body.admin-page[data-ui-theme="nova"] .action-needed-card,
+body.admin-page[data-ui-theme="nova"] .admin-tools,
+body.admin-page[data-ui-theme="nova"] .filter-container,
+body.admin-page[data-ui-theme="nova"] .pegawai-stat-card,
+body.admin-page[data-ui-theme="nova"] .rekap-card,
+body.admin-page[data-ui-theme="nova"] .akun-admin-card,
+body.admin-page[data-ui-theme="nova"] .pengaturan-card,
+body.admin-page[data-ui-theme="nova"] .admin-card,
+body.admin-page[data-ui-theme="nova"] .calendar-card {
+    color: var(--nova-text) !important;
+    border: 1px solid var(--nova-line) !important;
+    background: linear-gradient(145deg, rgba(13,29,51,.80), rgba(7,17,31,.77)) !important;
+    box-shadow: var(--nova-glow) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+body.admin-page[data-ui-theme="nova"] .admin-section-intro,
+body.admin-page[data-ui-theme="nova"] .admin-section-hero {
+    padding: 26px 28px !important;
+    border-radius: 24px !important;
+}
+body.admin-page[data-ui-theme="nova"] .section-label {
+    color: var(--nova-cyan) !important;
+    letter-spacing: .14em !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-section-intro h2,
+body.admin-page[data-ui-theme="nova"] .admin-section-hero h2,
+body.admin-page[data-ui-theme="nova"] .data-section h2 {
+    color: var(--nova-text) !important;
+    letter-spacing: -.03em;
+}
+body.admin-page[data-ui-theme="nova"] .admin-section-intro p,
+body.admin-page[data-ui-theme="nova"] .admin-section-hero p,
+body.admin-page[data-ui-theme="nova"] .data-section p,
+body.admin-page[data-ui-theme="nova"] small,
+body.admin-page[data-ui-theme="nova"] label {
+    color: var(--nova-muted) !important;
+}
+
+/* Bento stat */
+body.admin-page[data-ui-theme="nova"] .stat-container.realtime-stats {
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0,1fr)) !important;
+    gap: 14px !important;
+}
+body.admin-page[data-ui-theme="nova"] .stat-card {
+    position: relative;
+    min-height: 150px;
+    padding: 22px !important;
+    overflow: hidden;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 24px !important;
+    color: var(--nova-text) !important;
+    background: linear-gradient(145deg, rgba(15,34,59,.86), rgba(7,18,33,.76)) !important;
+    box-shadow: 0 20px 48px rgba(0,0,0,.17) !important;
+    transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(1),
+body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(2),
+body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(3) { grid-column: span 2; }
+body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(4),
+body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(5) { grid-column: span 3; }
+body.admin-page[data-ui-theme="nova"] .stat-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(92,225,230,.27) !important;
+    box-shadow: 0 28px 58px rgba(0,0,0,.25), 0 0 34px rgba(92,225,230,.055) !important;
+}
+body.admin-page[data-ui-theme="nova"] .stat-card::after {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -24px;
+    bottom: -34px;
+    border-radius: 50%;
+    background: var(--nova-cyan);
+    opacity: .055;
+    filter: blur(1px);
+}
+body.admin-page[data-ui-theme="nova"] .stat-icon {
+    border-radius: 14px !important;
+    background: rgba(92,225,230,.08) !important;
+    border: 1px solid rgba(92,225,230,.12);
+}
+body.admin-page[data-ui-theme="nova"] .stat-card strong {
+    color: var(--nova-text) !important;
+    font-size: clamp(28px, 3vw, 42px) !important;
+}
+body.admin-page[data-ui-theme="nova"] .stat-label { color: #a7bdd4 !important; }
+
+/* action center */
+body.admin-page[data-ui-theme="nova"] .action-needed-card {
+    border-radius: 24px !important;
+    overflow: hidden;
+}
+body.admin-page[data-ui-theme="nova"] .action-needed-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3,1fr) !important;
+    gap: 10px !important;
+}
+body.admin-page[data-ui-theme="nova"] .action-needed-item {
+    min-height: 92px;
+    color: var(--nova-text) !important;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.035) !important;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+body.admin-page[data-ui-theme="nova"] .action-needed-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(92,225,230,.24) !important;
+    background: rgba(92,225,230,.06) !important;
+}
+
+/* search/filter jadi command surface */
+body.admin-page[data-ui-theme="nova"] .admin-tools {
+    padding: 14px !important;
+    border-radius: 20px !important;
+}
+body.admin-page[data-ui-theme="nova"] .search-box {
+    min-width: 0;
+    flex: 1 1 420px;
+}
+body.admin-page[data-ui-theme="nova"] .filter-container {
+    border-radius: 20px !important;
+    padding: 18px !important;
+}
+body.admin-page[data-ui-theme="nova"] .data-section {
+    border-radius: 26px !important;
+    padding: 22px !important;
+}
+body.admin-page[data-ui-theme="nova"] .table-wrapper {
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 18px !important;
+    background: rgba(3,11,21,.46) !important;
+    box-shadow: none !important;
+}
+body.admin-page[data-ui-theme="nova"] table {
+    color: #eaf6ff !important;
+    background: transparent !important;
+}
+body.admin-page[data-ui-theme="nova"] thead th {
+    color: #88a0b8 !important;
+    background: rgba(8,19,34,.96) !important;
+    border-color: var(--nova-line) !important;
+}
+body.admin-page[data-ui-theme="nova"] tbody td {
+    color: #dbe9f6 !important;
+    background: transparent !important;
+    border-color: rgba(148,163,184,.09) !important;
+}
+body.admin-page[data-ui-theme="nova"] tbody tr {
+    transition: background .18s ease, transform .18s ease;
+}
+body.admin-page[data-ui-theme="nova"] tbody tr:hover {
+    background: rgba(92,225,230,.035) !important;
+}
+body.admin-page[data-ui-theme="nova"] .table-action-btn {
+    color: #aeeeff !important;
+    border-color: rgba(92,225,230,.19) !important;
+    background: rgba(92,225,230,.065) !important;
+}
+body.admin-page[data-ui-theme="nova"] .table-action-danger {
+    color: #ff9aaa !important;
+    border-color: rgba(255,122,144,.23) !important;
+    background: rgba(255,122,144,.065) !important;
+}
+
+/* cards/forms not covered by historic names */
+body.admin-page[data-ui-theme="nova"] [class*="-card"]:not(.stat-card):not(.action-needed-item) {
+    --card-local-border: var(--nova-line);
+}
+body.admin-page[data-ui-theme="nova"] .pegawai-stat-container {
+    gap: 14px !important;
+}
+body.admin-page[data-ui-theme="nova"] .pegawai-stat-card {
+    border-radius: 22px !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-form-card,
+body.admin-page[data-ui-theme="nova"] .settings-panel,
+body.admin-page[data-ui-theme="nova"] .rekap-preview-card,
+body.admin-page[data-ui-theme="nova"] .calendar-section,
+body.admin-page[data-ui-theme="nova"] .pengumuman-card,
+body.admin-page[data-ui-theme="nova"] .log-card {
+    color: var(--nova-text) !important;
+    border-color: var(--nova-line) !important;
+    background: rgba(10,25,44,.76) !important;
+    box-shadow: var(--nova-glow) !important;
+}
+body.admin-page[data-ui-theme="nova"] .admin-modal,
+body.admin-page[data-ui-theme="nova"] .modal-content {
+    color: var(--nova-text) !important;
+    border-color: var(--nova-line) !important;
+    background: #0c1b2f !important;
+}
+
+/* badges */
+body.admin-page[data-ui-theme="nova"] .badge-absen,
+body.admin-page[data-ui-theme="nova"] .badge-status,
+body.admin-page[data-ui-theme="nova"] [class*="badge-"] {
+    border-color: rgba(255,255,255,.08) !important;
+}
+
+/* ============================================================
+   NOVA — EMPLOYEE: profile rail + action workspace
+============================================================ */
+body.absensi-page[data-ui-theme="nova"] {
+    display: block !important;
+    padding: 0 !important;
+}
+body.absensi-page[data-ui-theme="nova"] .absensi-container {
+    width: min(1320px, calc(100% - 48px)) !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 30px 0 96px !important;
+    display: grid !important;
+    grid-template-columns: 340px minmax(0,1fr) !important;
+    grid-template-areas:
+        "header header"
+        "profile content"
+        "nav content" !important;
+    gap: 16px 22px !important;
+    align-items: start !important;
+}
+body.absensi-page[data-ui-theme="nova"] .absensi-header {
+    grid-area: header;
+    min-height: 170px;
+    margin: 0 0 8px !important;
+    padding: clamp(28px, 5vw, 48px) !important;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 30px !important;
+    color: var(--nova-text) !important;
+    background:
+        radial-gradient(circle at 82% 20%, rgba(92,225,230,.17), transparent 27%),
+        radial-gradient(circle at 64% 90%, rgba(157,124,255,.16), transparent 28%),
+        linear-gradient(135deg, rgba(14,33,58,.95), rgba(8,18,33,.90)) !important;
+    box-shadow: var(--nova-shadow) !important;
+    animation: novaReveal .65s ease both;
+}
+body.absensi-page[data-ui-theme="nova"] .absensi-header::after {
+    content: "";
+    position: absolute;
+    right: 9%;
+    top: 18%;
+    width: 110px;
+    height: 110px;
+    border-radius: 30px;
+    border: 1px solid rgba(92,225,230,.18);
+    transform: rotate(22deg);
+    background: rgba(92,225,230,.05);
+    animation: novaFloat 6s ease-in-out infinite;
+}
+body.absensi-page[data-ui-theme="nova"] .header-info {
+    position: relative;
+    z-index: 1;
+}
+body.absensi-page[data-ui-theme="nova"] .header-info h1 {
+    color: var(--nova-text) !important;
+    font-size: clamp(30px, 4vw, 52px) !important;
+    letter-spacing: -.045em;
+}
+body.absensi-page[data-ui-theme="nova"] .header-info p { color: var(--nova-muted) !important; }
+body.absensi-page[data-ui-theme="nova"] .app-badge {
+    color: #6df1cc !important;
+    background: rgba(100,244,184,.08) !important;
+    border-color: rgba(100,244,184,.17) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .pegawai-card {
+    grid-area: profile;
+    position: sticky;
+    top: 22px;
+    min-height: 220px;
+    padding: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-end !important;
+    overflow: hidden;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 26px !important;
+    color: var(--nova-text) !important;
+    background:
+        radial-gradient(circle at 86% 8%, rgba(92,225,230,.18), transparent 24%),
+        linear-gradient(145deg, rgba(13,30,53,.90), rgba(7,17,31,.82)) !important;
+    box-shadow: var(--nova-glow) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .avatar {
+    width: 68px !important;
+    height: 68px !important;
+    margin-bottom: 24px;
+    border-radius: 22px !important;
+    color: #06131d !important;
+    background: linear-gradient(135deg, var(--nova-cyan), var(--nova-mint)) !important;
+    box-shadow: 0 18px 38px rgba(92,225,230,.16) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .pegawai-info h2 { color: var(--nova-text) !important; }
+body.absensi-page[data-ui-theme="nova"] .welcome-text,
+body.absensi-page[data-ui-theme="nova"] .nip-text { color: var(--nova-muted) !important; }
+body.absensi-page[data-ui-theme="nova"] .pegawai-nav {
+    grid-area: nav;
+    position: sticky !important;
+    top: 258px !important;
+    padding: 8px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 20px !important;
+    background: rgba(7,18,33,.74) !important;
+    box-shadow: 0 18px 50px rgba(0,0,0,.19) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+body.absensi-page[data-ui-theme="nova"] .pegawai-nav-btn {
+    min-height: 52px !important;
+    width: 100% !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    color: #91a6bd !important;
+    border-radius: 13px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+}
+body.absensi-page[data-ui-theme="nova"] .pegawai-nav-btn.active {
+    color: #06131d !important;
+    background: linear-gradient(135deg, var(--nova-cyan), var(--nova-mint)) !important;
+    box-shadow: 0 10px 28px rgba(92,225,230,.14);
+}
+body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection,
+body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection,
+body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection {
+    grid-area: content;
+    min-width: 0;
+    animation: novaReveal .5s ease both;
+}
+body.absensi-page[data-ui-theme="nova"] .today-card,
+body.absensi-page[data-ui-theme="nova"] .mode-section,
+body.absensi-page[data-ui-theme="nova"] .form-section,
+body.absensi-page[data-ui-theme="nova"] .keterangan-aktif-card,
+body.absensi-page[data-ui-theme="nova"] .pegawai-notification-card,
+body.absensi-page[data-ui-theme="nova"] .rekap-pegawai-card,
+body.absensi-page[data-ui-theme="nova"] .info-card,
+body.absensi-page[data-ui-theme="nova"] .camera-card,
+body.absensi-page[data-ui-theme="nova"] .location-card {
+    color: var(--nova-text) !important;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 24px !important;
+    background: linear-gradient(145deg, rgba(13,30,53,.82), rgba(7,17,31,.77)) !important;
+    box-shadow: var(--nova-glow) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+body.absensi-page[data-ui-theme="nova"] .today-card {
+    min-height: 170px;
+    padding: 28px !important;
+}
+body.absensi-page[data-ui-theme="nova"] .today-time h2 {
+    color: var(--nova-text) !important;
+    font-size: clamp(42px, 6vw, 72px) !important;
+    letter-spacing: -.055em;
+}
+body.absensi-page[data-ui-theme="nova"] .today-time p,
+body.absensi-page[data-ui-theme="nova"] .today-status small,
+body.absensi-page[data-ui-theme="nova"] .simple-section-heading p,
+body.absensi-page[data-ui-theme="nova"] .mode-content small {
+    color: var(--nova-muted) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .today-status strong,
+body.absensi-page[data-ui-theme="nova"] .simple-section-heading h2,
+body.absensi-page[data-ui-theme="nova"] .mode-content strong {
+    color: var(--nova-text) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .today-divider { background: var(--nova-line) !important; }
+body.absensi-page[data-ui-theme="nova"] .section-eyebrow { color: var(--nova-cyan) !important; }
+body.absensi-page[data-ui-theme="nova"] .mode-options,
+body.absensi-page[data-ui-theme="nova"] .attendance-options {
+    gap: 12px !important;
+}
+body.absensi-page[data-ui-theme="nova"] .mode-option,
+body.absensi-page[data-ui-theme="nova"] .attendance-option {
+    min-height: 100px;
+    color: var(--nova-text) !important;
+    border: 1px solid var(--nova-line) !important;
+    border-radius: 20px !important;
+    background: rgba(255,255,255,.032) !important;
+    transition: transform .22s ease, border-color .22s ease, background .22s ease;
+}
+body.absensi-page[data-ui-theme="nova"] .mode-option:hover,
+body.absensi-page[data-ui-theme="nova"] .attendance-option:hover {
+    transform: translateY(-4px);
+    border-color: rgba(92,225,230,.27) !important;
+    background: rgba(92,225,230,.055) !important;
+}
+body.absensi-page[data-ui-theme="nova"] .mode-icon,
+body.absensi-page[data-ui-theme="nova"] .option-icon {
+    border-radius: 15px !important;
+    background: rgba(92,225,230,.08) !important;
+    border: 1px solid rgba(92,225,230,.12);
+}
+body.absensi-page[data-ui-theme="nova"] .mode-arrow { color: var(--nova-cyan) !important; }
+
+/* capture area */
+body.absensi-page[data-ui-theme="nova"] video,
+body.absensi-page[data-ui-theme="nova"] canvas,
+body.absensi-page[data-ui-theme="nova"] .camera-preview,
+body.absensi-page[data-ui-theme="nova"] .photo-preview {
+    border-radius: 20px !important;
+    border-color: var(--nova-line) !important;
+}
+
+/* ============================================================
+   NOVA — Responsive
+============================================================ */
+@media (max-width: 1100px) {
+    body.admin-page[data-ui-theme="nova"] .admin-nav {
+        grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-container.realtime-stats {
+        grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-card:nth-child(n) {
+        grid-column: span 1 !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-card:last-child {
+        grid-column: 1 / -1 !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .absensi-container {
+        grid-template-columns: 290px minmax(0,1fr) !important;
+    }
+}
+
+@media (max-width: 820px) {
+    body.login-page[data-ui-theme="nova"] .login-container {
+        min-height: 0;
+        grid-template-columns: 1fr;
+        border-radius: 26px;
+    }
+    body.login-page[data-ui-theme="nova"] .login-container::before,
+    body.login-page[data-ui-theme="nova"] .login-container::after { display: none; }
+    body.login-page[data-ui-theme="nova"] .login-panel {
+        grid-column: 1;
+        padding: 38px 26px;
+    }
+
+    body.admin-page[data-ui-theme="nova"] .admin-container,
+    body.absensi-page[data-ui-theme="nova"] .absensi-container {
+        width: min(100% - 24px, 720px) !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header {
+        min-height: 150px;
+        padding: 26px !important;
+        border-radius: 24px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header h1 {
+        font-size: clamp(32px, 10vw, 48px) !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-nav {
+        position: relative !important;
+        top: auto !important;
+        grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+        border-radius: 18px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-nav-btn {
+        min-height: 58px !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .action-needed-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.absensi-page[data-ui-theme="nova"] .absensi-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .absensi-header,
+    body.absensi-page[data-ui-theme="nova"] .pegawai-card,
+    body.absensi-page[data-ui-theme="nova"] .pegawai-nav,
+    body.absensi-page[data-ui-theme="nova"] #absensiPegawaiSection,
+    body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection,
+    body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection {
+        width: 100%;
+        position: relative !important;
+        top: auto !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .pegawai-card {
+        min-height: 0;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding: 20px !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .avatar {
+        width: 58px !important;
+        height: 58px !important;
+        margin: 0 16px 0 0;
+        border-radius: 18px !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .pegawai-nav {
+        grid-template-columns: repeat(3,1fr) !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .pegawai-nav-btn {
+        justify-content: center !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+        padding: 8px 4px !important;
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .theme-switch-btn {
+        right: 12px;
+        bottom: 12px;
+        min-height: 44px;
+        padding: 0 12px;
+    }
+    .theme-switch-text { display: none; }
+
+    body.login-page[data-ui-theme="nova"] {
+        padding: 12px !important;
+    }
+    body.login-page[data-ui-theme="nova"] .login-panel {
+        padding: 32px 20px;
+    }
+
+    body.admin-page[data-ui-theme="nova"] .admin-container,
+    body.absensi-page[data-ui-theme="nova"] .absensi-container {
+        width: calc(100% - 18px) !important;
+        padding-top: 12px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header,
+    body.absensi-page[data-ui-theme="nova"] .absensi-header {
+        min-height: 134px;
+        padding: 22px !important;
+        border-radius: 22px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header {
+        align-items: center !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header h1 {
+        font-size: 32px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-header p {
+        font-size: 12px;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-logout-btn {
+        min-width: 76px;
+        min-height: 42px;
+        padding: 0 12px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-nav {
+        padding: 6px !important;
+        gap: 5px !important;
+        grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .admin-nav-btn {
+        min-height: 54px !important;
+        padding: 5px 2px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-container.realtime-stats {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-card {
+        min-height: 132px;
+        padding: 16px !important;
+        border-radius: 20px !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .stat-card:last-child {
+        grid-column: 1 / -1 !important;
+    }
+    body.admin-page[data-ui-theme="nova"] .data-section,
+    body.admin-page[data-ui-theme="nova"] .admin-section-intro,
+    body.admin-page[data-ui-theme="nova"] .admin-section-hero {
+        padding: 18px !important;
+        border-radius: 20px !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .header-info h1 {
+        font-size: 28px !important;
+        max-width: 70%;
+    }
+    body.absensi-page[data-ui-theme="nova"] .today-card {
+        padding: 20px !important;
+        border-radius: 21px !important;
+    }
+    body.absensi-page[data-ui-theme="nova"] .today-time h2 {
+        font-size: 46px !important;
+    }
+}
+
+/* respect motion settings */
+@media (prefers-reduced-motion: reduce) {
+    body[data-ui-theme="nova"] *,
+    body[data-ui-theme="nova"] *::before,
+    body[data-ui-theme="nova"] *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
