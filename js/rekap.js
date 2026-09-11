@@ -28,6 +28,12 @@ if (rekapPage) {
 
     const tambahHariLiburBtn = document.getElementById("tambahHariLiburBtn");
     const dataHariLibur = document.getElementById("dataHariLibur");
+    const kalenderLiburGrid = document.getElementById("kalenderLiburGrid");
+    const kalenderLiburJudul = document.getElementById("kalenderLiburJudul");
+    const kalenderLiburPrev = document.getElementById("kalenderLiburPrev");
+    const kalenderLiburNext = document.getElementById("kalenderLiburNext");
+    const liburBulanIni = document.getElementById("liburBulanIni");
+    const liburBerikutnya = document.getElementById("liburBerikutnya");
 
     const hariLiburModal = document.getElementById("hariLiburModal");
     const hariLiburForm = document.getElementById("hariLiburForm");
@@ -40,6 +46,9 @@ if (rekapPage) {
 
     let rekapSudahDimuat = false;
     let editHariLiburId = "";
+    let daftarHariLibur = [];
+    let kalenderTahun = 0;
+    let kalenderBulan = 0;
 
     /* =====================================================
        NAVIGASI REKAP
@@ -104,6 +113,9 @@ if (rekapPage) {
 
         if (rekapBulan && bulan) rekapBulan.value = String(Number(bulan));
         if (rekapTahun && tahun) rekapTahun.value = tahun;
+
+        kalenderTahun = Number(tahun);
+        kalenderBulan = Number(bulan);
     }
 
     tampilkanRekapBtn?.addEventListener("click", ambilRekapBulanan);
@@ -415,9 +427,10 @@ if (rekapPage) {
                 );
             }
 
-            tampilkanHariLibur(
-                Array.isArray(hasil.data) ? hasil.data : []
-            );
+            daftarHariLibur = Array.isArray(hasil.data) ? hasil.data : [];
+            tampilkanHariLibur(daftarHariLibur);
+            tampilkanKalenderHariLibur();
+            tampilkanRingkasanHariLibur();
 
         } catch (error) {
             console.error(error);
@@ -427,6 +440,76 @@ if (rekapPage) {
                     `<tr><td colspan="3" class="empty-cell">${escapeHTMLRekap(error.message)}</td></tr>`;
             }
         }
+    }
+
+    /* =====================================================
+       KALENDER HARI LIBUR
+    ===================================================== */
+
+    kalenderLiburPrev?.addEventListener("click", () => geserKalender(-1));
+    kalenderLiburNext?.addEventListener("click", () => geserKalender(1));
+
+    function geserKalender(arah) {
+        kalenderBulan += arah;
+        if (kalenderBulan < 1) { kalenderBulan = 12; kalenderTahun--; }
+        if (kalenderBulan > 12) { kalenderBulan = 1; kalenderTahun++; }
+        tampilkanKalenderHariLibur();
+    }
+
+    function tampilkanKalenderHariLibur() {
+        if (!kalenderLiburGrid || !kalenderTahun || !kalenderBulan) return;
+
+        const namaBulan = new Intl.DateTimeFormat("id-ID", { month: "long" })
+            .format(new Date(kalenderTahun, kalenderBulan - 1, 1));
+        kalenderLiburJudul.textContent = `${namaBulan} ${kalenderTahun}`;
+
+        const awal = new Date(kalenderTahun, kalenderBulan - 1, 1);
+        const jumlahHari = new Date(kalenderTahun, kalenderBulan, 0).getDate();
+        const offset = (awal.getDay() + 6) % 7;
+        const liburMap = new Map(
+            daftarHariLibur.map(item => [String(item.tanggal || "").slice(0, 10), item])
+        );
+
+        const kosong = Array.from({ length: offset }, () => '<span class="calendar-day empty"></span>');
+        const hari = Array.from({ length: jumlahHari }, (_, i) => {
+            const day = i + 1;
+            const tanggal = `${kalenderTahun}-${String(kalenderBulan).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+            const date = new Date(kalenderTahun, kalenderBulan - 1, day);
+            const weekend = date.getDay() === 0 || date.getDay() === 6;
+            const libur = liburMap.get(tanggal);
+            const cls = ["calendar-day", weekend && "weekend", libur && "holiday"].filter(Boolean).join(" ");
+            return `<button type="button" class="${cls}" ${libur ? `title="${escapeHTMLRekap(libur.nama || "Hari libur")}"` : ""} disabled>
+                <span>${day}</span>${libur ? `<small>${escapeHTMLRekap(libur.nama || "Libur")}</small>` : ""}
+            </button>`;
+        });
+
+        kalenderLiburGrid.innerHTML = [...kosong, ...hari].join("");
+    }
+
+    function tampilkanRingkasanHariLibur() {
+        if (!liburBulanIni || !liburBerikutnya) return;
+
+        const sekarang = tanggalWita();
+        const bulanIni = sekarang.slice(0, 7);
+        liburBulanIni.textContent = daftarHariLibur.filter(item =>
+            String(item.tanggal || "").slice(0, 7) === bulanIni
+        ).length;
+
+        const berikutnya = [...daftarHariLibur]
+            .filter(item => String(item.tanggal || "").slice(0, 10) >= sekarang)
+            .sort((a, b) => String(a.tanggal).localeCompare(String(b.tanggal)))[0];
+
+        liburBerikutnya.textContent = berikutnya
+            ? `${formatTanggalRekap(berikutnya.tanggal)} — ${berikutnya.nama || "Hari libur"}`
+            : "Belum ada";
+    }
+
+    function tanggalWita() {
+        const bagian = new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Makassar", year: "numeric", month: "2-digit", day: "2-digit"
+        }).formatToParts(new Date());
+        const ambil = tipe => bagian.find(item => item.type === tipe)?.value || "";
+        return `${ambil("year")}-${ambil("month")}-${ambil("day")}`;
     }
 
     /* =====================================================

@@ -586,6 +586,43 @@
                     </button>
                 </div>
 
+                <div class="holiday-overview">
+                    <div class="holiday-summary">
+                        <article class="holiday-summary-card">
+                            <span>Libur bulan ini</span>
+                            <strong id="liburBulanIni">0</strong>
+                        </article>
+
+                        <article class="holiday-summary-card">
+                            <span>Libur terdekat</span>
+                            <strong id="liburBerikutnya">Belum ada</strong>
+                        </article>
+                    </div>
+
+                    <div class="holiday-calendar-card">
+                        <div class="holiday-calendar-head">
+                            <button type="button" id="kalenderLiburPrev" class="calendar-nav-btn" aria-label="Bulan sebelumnya">‹</button>
+                            <h3 id="kalenderLiburJudul">Kalender Hari Libur</h3>
+                            <button type="button" id="kalenderLiburNext" class="calendar-nav-btn" aria-label="Bulan berikutnya">›</button>
+                        </div>
+
+                        <div class="holiday-calendar-weekdays" aria-hidden="true">
+                            <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+                        </div>
+
+                        <div id="kalenderLiburGrid" class="holiday-calendar-grid">
+                            <div class="calendar-loading">Memuat kalender...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="holiday-list-title">
+                    <div>
+                        <h3>Daftar Hari Libur</h3>
+                        <p>Edit atau hapus hari libur yang sudah ditambahkan.</p>
+                    </div>
+                </div>
+
                 <div class="table-wrapper">
 
                     <table id="tabelHariLibur">
