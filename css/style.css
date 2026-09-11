@@ -8005,3 +8005,399 @@ body.login-page {
         display: none;
     }
 }
+
+
+/* =====================================================
+   DYNAMIC RUNNING ANNOUNCEMENT
+===================================================== */
+
+.absensi-page .running-announcement[hidden] {
+    display: none !important;
+}
+
+.absensi-page .running-announcement {
+    position: relative;
+    width: 100%;
+    min-height: 46px;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border: 1px solid #d9e6f5;
+    border-radius: 14px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 8px 22px rgba(15,23,42,.045);
+    animation: announcementEnter .42s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes announcementEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.absensi-page .running-announcement-label {
+    position: relative;
+    z-index: 4;
+    min-width: 72px;
+    padding: 0 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    background: linear-gradient(135deg,#2563eb,#0ea5e9);
+    box-shadow: 8px 0 18px rgba(37,99,235,.09);
+}
+
+.absensi-page .announcement-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255,255,255,.17);
+    animation: announcementDot 1.8s ease-in-out infinite;
+}
+
+@keyframes announcementDot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .45; transform: scale(.78); }
+}
+
+.absensi-page .running-announcement-window {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.absensi-page .running-announcement-window::before,
+.absensi-page .running-announcement-window::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 35px;
+    pointer-events: none;
+}
+
+.absensi-page .running-announcement-window::before {
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        #fff,
+        rgba(255,255,255,0)
+    );
+}
+
+.absensi-page .running-announcement-window::after {
+    right: 0;
+    background: linear-gradient(
+        -90deg,
+        #fff,
+        rgba(255,255,255,0)
+    );
+}
+
+.absensi-page .running-announcement-track {
+    width: max-content;
+    min-width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    padding-left: 35px;
+    will-change: transform;
+    animation: announcementMove 22s linear infinite;
+}
+
+.absensi-page .running-announcement-text {
+    flex-shrink: 0;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.absensi-page .running-announcement-separator {
+    flex-shrink: 0;
+    color: #3b82f6;
+    font-size: 17px;
+}
+
+@keyframes announcementMove {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 22px));
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page .running-announcement:hover
+    .running-announcement-track {
+        animation-play-state: paused;
+    }
+}
+
+@media (max-width:520px) {
+    .absensi-page .running-announcement {
+        min-height: 44px;
+        border-radius: 13px;
+    }
+
+    .absensi-page .running-announcement-label {
+        min-width: 61px;
+        padding: 0 9px;
+        font-size: 9px;
+    }
+
+    .absensi-page .running-announcement-track {
+        min-height: 44px;
+        animation-duration: 25s;
+    }
+
+    .absensi-page .running-announcement-text {
+        font-size: 11px;
+    }
+}
+
+
+/* =====================================================
+   ADMIN - PENGUMUMAN
+===================================================== */
+
+.admin-page .admin-announcement-card {
+    margin-top: 18px;
+    padding: 22px;
+    border: 1px solid #dbe5ef;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(15,23,42,.055);
+    animation: adminAnnouncementEnter .45s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes adminAnnouncementEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-page .admin-announcement-header {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.admin-page .admin-announcement-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    border-radius: 15px;
+    background: #eaf3ff;
+}
+
+.admin-page .admin-announcement-header h2 {
+    margin: 2px 0 3px;
+    color: #172033;
+}
+
+.admin-page .admin-announcement-header p {
+    margin: 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.admin-page #pengumumanAdminText {
+    width: 100%;
+    min-height: 110px;
+    padding: 14px;
+    resize: vertical;
+    color: #1e293b;
+    font: inherit;
+    line-height: 1.55;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background-color .2s ease;
+}
+
+.admin-page #pengumumanAdminText:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59,130,246,.09);
+}
+
+.admin-page .announcement-counter {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 10px;
+    text-align: right;
+}
+
+.admin-page .announcement-switch-row {
+    margin: 18px 0;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.admin-page .announcement-switch-row strong,
+.admin-page .announcement-switch-row small {
+    display: block;
+}
+
+.admin-page .announcement-switch-row strong {
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.admin-page .announcement-switch-row small {
+    margin-top: 3px;
+    color: #7c8798;
+    font-size: 10px;
+}
+
+.admin-page .announcement-switch {
+    position: relative;
+    width: 48px;
+    height: 27px;
+    flex-shrink: 0;
+}
+
+.admin-page .announcement-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.admin-page .announcement-slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    background: #cbd5e1;
+    transition: .22s ease;
+}
+
+.admin-page .announcement-slider::before {
+    content: "";
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    top: 3px;
+    left: 3px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(15,23,42,.18);
+    transition: transform .24s cubic-bezier(.34,1.56,.64,1);
+}
+
+.admin-page .announcement-switch input:checked
++ .announcement-slider {
+    background: #2563eb;
+}
+
+.admin-page .announcement-switch input:checked
++ .announcement-slider::before {
+    transform: translateX(21px);
+}
+
+.admin-page .announcement-preview {
+    margin-bottom: 15px;
+    padding: 13px 15px;
+    overflow: hidden;
+    border: 1px solid #dbeafe;
+    border-radius: 13px;
+    background: #f0f7ff;
+}
+
+.admin-page .announcement-preview > span {
+    display: block;
+    margin-bottom: 5px;
+    color: #2563eb;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .1em;
+}
+
+.admin-page .announcement-preview p {
+    margin: 0;
+    overflow: hidden;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-page .announcement-status {
+    min-height: 20px;
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-page .announcement-status.success {
+    color: #059669;
+}
+
+.admin-page .announcement-status.error {
+    color: #dc2626;
+}
+
+.admin-page .announcement-status.loading {
+    color: #64748b;
+}
+
+@media (max-width:520px) {
+    .admin-page .admin-announcement-card {
+        padding: 17px;
+        border-radius: 18px;
+    }
+
+    .admin-page .announcement-switch-row {
+        gap: 12px;
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .absensi-page .running-announcement-track,
+    .absensi-page .announcement-dot {
+        animation: none !important;
+    }
+}
