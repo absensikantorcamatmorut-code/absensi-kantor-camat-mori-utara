@@ -5674,1470 +5674,395 @@ body.login-page {
         animation: none !important;
         transition: none !important;
     }
-}
-
-
 /* =====================================================
-   REKAP SAYA - PEGAWAI
-   Styling khusus halaman rekap pribadi
+   REKAP SAYA - PEGAWAI - FINAL
 ===================================================== */
 
 .absensi-page #rekapPegawaiSection {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    animation: rekapPegawaiMasuk .28s ease both;
+    display: grid;
+    gap: 15px;
+    padding-bottom: 25px;
+    color: #1e293b;
 }
 
 .absensi-page #rekapPegawaiSection[hidden] {
-    display: none !important;
-}
-
-@keyframes rekapPegawaiMasuk {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    display: none;
 }
 
 /* HERO */
-.absensi-page .rekap-pegawai-hero {
-    padding: 20px 21px;
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
     border: 1px solid #dbe5ef;
-    border-radius: 20px;
+    border-radius: 21px;
     background:
-        radial-gradient(circle at 94% 10%, rgba(14,165,233,.12), transparent 29%),
-        linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,250,255,.96));
-    box-shadow: 0 11px 28px rgba(15,23,42,.055);
-}
-
-.absensi-page .rekap-pegawai-badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 26px;
-    margin-bottom: 7px;
-    padding: 0 10px;
-    color: #2563eb;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: .85px;
-    border: 1px solid #bfdbfe;
-    border-radius: 999px;
-    background: #eff6ff;
-}
-
-.absensi-page .rekap-pegawai-hero h2 {
-    color: #172033;
-    font-size: 27px;
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -.35px;
-}
-
-.absensi-page .rekap-pegawai-hero p {
-    margin-top: 6px;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.55;
-}
-
-/* FILTER */
-.absensi-page .rekap-pegawai-filter-card,
-.absensi-page .rekap-pegawai-card,
-.absensi-page .rekap-pegawai-info-card {
-    border: 1px solid #dbe5ef;
-    border-radius: 20px;
-    background: rgba(255,255,255,.96);
-    box-shadow: 0 10px 27px rgba(15,23,42,.05);
-}
-
-.absensi-page .rekap-pegawai-filter-card {
-    padding: 18px;
-}
-
-.absensi-page .rekap-pegawai-filter-heading {
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-}
-
-.absensi-page .rekap-pegawai-filter-heading small {
-    display: block;
-    margin-bottom: 4px;
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.absensi-page .rekap-pegawai-filter-heading strong {
-    display: block;
-    color: #172033;
-    font-size: 18px;
-    font-weight: 800;
-}
-
-.absensi-page .rekap-pegawai-filter-heading > span {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    color: #2563eb;
-    font-size: 20px;
-    font-weight: 800;
-    border-radius: 13px;
-    background: #eff6ff;
-}
-
-.absensi-page .rekap-pegawai-filter-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.absensi-page .rekap-pegawai-filter-grid label {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.absensi-page .rekap-pegawai-filter-grid label > span {
-    color: #475569;
-    font-size: 12px;
-    font-weight: 800;
-}
-
-.absensi-page .rekap-pegawai-filter-grid select {
-    width: 100%;
-    min-height: 48px;
-    padding: 0 40px 0 13px;
-    color: #172033;
-    font-size: 14px;
-    font-weight: 700;
-    outline: none;
-    border: 1px solid #d7e2ee;
-    border-radius: 12px;
-    background: #f8fbff;
-    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
-}
-
-.absensi-page .rekap-pegawai-filter-grid select:focus {
-    border-color: #60a5fa;
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(37,99,235,.09);
-}
-
-/* HARI KERJA */
-.absensi-page .rekap-pegawai-info-card {
-    min-height: 72px;
-    padding: 15px 17px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    border-color: #bfdbfe;
-    background: linear-gradient(135deg,#eff6ff,#f0f9ff);
-}
-
-.absensi-page .rekap-pegawai-info-card small {
-    display: block;
-    margin-bottom: 4px;
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.absensi-page .rekap-pegawai-info-card strong {
-    color: #1e3a8a;
-    font-size: 17px;
-    font-weight: 900;
-}
-
-.absensi-page .rekap-info-icon {
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    color: #2563eb;
-    font-size: 21px;
-    border-radius: 13px;
-    background: rgba(255,255,255,.82);
-    box-shadow: inset 0 0 0 1px rgba(147,197,253,.45);
-}
-
-/* CARD SECTION */
-.absensi-page .rekap-pegawai-card {
-    padding: 18px;
-}
-
-.absensi-page .rekap-pegawai-section-title {
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.absensi-page .rekap-pegawai-section-title .step-number {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    color: #2563eb;
-    font-size: 12px;
-    font-weight: 900;
-    border-radius: 12px;
-    background: #eff6ff;
-}
-
-.absensi-page .rekap-pegawai-section-title h3 {
-    color: #172033;
-    font-size: 17px;
-    font-weight: 800;
-    line-height: 1.25;
-}
-
-.absensi-page .rekap-pegawai-section-title p {
-    margin-top: 3px;
-    color: #64748b;
-    font-size: 12px;
-    line-height: 1.45;
-}
-
-/* RINGKASAN STATUS */
-.absensi-page .rekap-pegawai-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-}
-
-.absensi-page .rekap-stat-item {
-    min-width: 0;
-    min-height: 92px;
-    padding: 13px;
-    display: grid;
-    grid-template-columns: 42px 1fr;
-    grid-template-rows: auto auto;
-    align-items: center;
-    column-gap: 11px;
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-    background: #f8fafc;
-    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-}
-
-.absensi-page .rekap-stat-item:hover {
-    transform: translateY(-2px);
-    border-color: #bfdbfe;
-    box-shadow: 0 7px 18px rgba(37,99,235,.07);
-}
-
-.absensi-page .rekap-stat-item > span {
-    grid-row: 1 / span 2;
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    color: #2563eb;
-    font-size: 10px;
-    font-weight: 900;
-    border-radius: 12px;
-    background: #eaf2ff;
-}
-
-.absensi-page .rekap-stat-item > strong {
-    align-self: end;
-    color: #172033;
-    font-size: 24px;
-    font-weight: 900;
-    line-height: 1;
-}
-
-.absensi-page .rekap-stat-item > small {
-    align-self: start;
-    margin-top: 4px;
-    color: #64748b;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-}
-
-.absensi-page .rekap-stat-item.utama {
-    border-color: #bbf7d0;
-    background: #f0fdf4;
-}
-
-.absensi-page .rekap-stat-item.utama > span {
-    color: #15803d;
-    background: #dcfce7;
-}
-
-.absensi-page .rekap-stat-item.utama > strong {
-    color: #166534;
-}
-
-/* Warna pembeda status */
-.absensi-page .rekap-stat-item:nth-child(2) > span {
-    color: #c2410c;
-    background: #ffedd5;
-}
-
-.absensi-page .rekap-stat-item:nth-child(3) > span {
-    color: #dc2626;
-    background: #fee2e2;
-}
-
-.absensi-page .rekap-stat-item:nth-child(4) > span,
-.absensi-page .rekap-stat-item:nth-child(7) > span {
-    color: #0369a1;
-    background: #e0f2fe;
-}
-
-.absensi-page .rekap-stat-item:nth-child(5) > span {
-    color: #a16207;
-    background: #fef3c7;
-}
-
-.absensi-page .rekap-stat-item:nth-child(6) > span,
-.absensi-page .rekap-stat-item:nth-child(10) > span {
-    color: #6d28d9;
-    background: #ede9fe;
-}
-
-.absensi-page .rekap-stat-item:nth-child(8) > span {
-    color: #475569;
-    background: #e2e8f0;
-}
-
-.absensi-page .rekap-stat-item:nth-child(9) > span {
-    color: #0f766e;
-    background: #ccfbf1;
-}
-
-/* KETERLAMBATAN */
-.absensi-page .rekap-terlambat-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-}
-
-.absensi-page .rekap-terlambat-item {
-    min-height: 88px;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid #fed7aa;
-    border-radius: 15px;
-    background: linear-gradient(135deg,#fff7ed,#fffaf5);
-}
-
-.absensi-page .rekap-terlambat-item small {
-    color: #9a3412;
-    font-size: 11px;
-    font-weight: 800;
-    line-height: 1.35;
-}
-
-.absensi-page .rekap-terlambat-item strong {
-    margin-top: 8px;
-    color: #c2410c;
-    font-size: 18px;
-    font-weight: 900;
-    line-height: 1.25;
-}
-
-/* RIWAYAT */
-.absensi-page .riwayat-rekap-pegawai {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.absensi-page .riwayat-rekap-item {
-    padding: 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-    background: #fbfdff;
-}
-
-.absensi-page .riwayat-rekap-top {
-    padding-bottom: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    border-bottom: 1px solid #edf2f7;
-}
-
-.absensi-page .riwayat-rekap-top small,
-.absensi-page .riwayat-rekap-detail small {
-    display: block;
-    color: #94a3b8;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .45px;
-}
-
-.absensi-page .riwayat-rekap-top strong {
-    display: block;
-    margin-top: 4px;
-    color: #1e293b;
-    font-size: 14px;
-    font-weight: 800;
-}
-
-.absensi-page .riwayat-status {
-    min-width: 44px;
-    min-height: 30px;
-    padding: 0 10px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #334155;
-    font-size: 11px;
-    font-weight: 900;
-    border-radius: 999px;
-    background: #e2e8f0;
-}
-
-.absensi-page .riwayat-status.status-h {
-    color: #166534;
-    background: #dcfce7;
-}
-
-.absensi-page .riwayat-status.status-tap {
-    color: #9a3412;
-    background: #ffedd5;
-}
-
-.absensi-page .riwayat-status.status-s {
-    color: #b91c1c;
-    background: #fee2e2;
-}
-
-.absensi-page .riwayat-status.status-ct,
-.absensi-page .riwayat-status.status-dl {
-    color: #075985;
-    background: #e0f2fe;
-}
-
-.absensi-page .riwayat-status.status-tk {
-    color: #92400e;
-    background: #fef3c7;
-}
-
-.absensi-page .riwayat-status.status-dd,
-.absensi-page .riwayat-status.status-mpp {
-    color: #5b21b6;
-    background: #ede9fe;
-}
-
-.absensi-page .riwayat-status.status-im {
-    color: #475569;
-    background: #e2e8f0;
-}
-
-.absensi-page .riwayat-status.status-wfh {
-    color: #115e59;
-    background: #ccfbf1;
-}
-
-.absensi-page .riwayat-rekap-detail {
-    padding-top: 12px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.absensi-page .riwayat-rekap-detail > div {
-    min-width: 0;
-    padding: 9px 10px;
-    border-radius: 11px;
-    background: #f1f5f9;
-}
-
-.absensi-page .riwayat-rekap-detail strong {
-    display: block;
-    margin-top: 4px;
-    color: #334155;
-    font-size: 12px;
-    font-weight: 800;
-    overflow-wrap: anywhere;
-}
-
-.absensi-page .riwayat-rekap-detail strong.terlambat {
-    color: #dc2626;
-}
-
-/* LOADING / EMPTY / ERROR */
-.absensi-page .rekap-pegawai-loading,
-.absensi-page .rekap-pegawai-empty,
-.absensi-page .rekap-pegawai-error {
-    min-height: 130px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px dashed #cbd5e1;
-    border-radius: 15px;
-    background: #f8fafc;
-}
-
-.absensi-page .rekap-pegawai-loading {
-    color: #64748b;
-    font-size: 13px;
-    font-weight: 800;
-}
-
-.absensi-page .rekap-pegawai-empty > span,
-.absensi-page .rekap-pegawai-error > span {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 10px;
-    display: grid;
-    place-items: center;
+        radial-gradient(circle at top right, rgba(37, 99, 235, .12), transparent 40%),
+        linear-gradient(135deg, #ffffff, #f3f8ff);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, .055);
+}
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-hero::after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    right: -70px;
     border-radius: 50%;
-    background: #eaf2ff;
-    color: #2563eb;
-    font-weight: 900;
+    background: rgba(14, 165, 233, .08);
 }
 
-.absensi-page .rekap-pegawai-empty strong,
-.absensi-page .rekap-pegawai-error strong {
-    color: #334155;
-    font-size: 14px;
-}
-
-.absensi-page .rekap-pegawai-empty p,
-.absensi-page .rekap-pegawai-error p {
-    max-width: 330px;
-    margin-top: 5px;
-    color: #64748b;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.absensi-page .rekap-pegawai-error > span {
-    color: #dc2626;
-    background: #fee2e2;
-}
-
-/* RESPONSIVE */
-@media (max-width: 520px) {
-    .absensi-page .rekap-pegawai-hero,
-    .absensi-page .rekap-pegawai-filter-card,
-    .absensi-page .rekap-pegawai-card {
-        padding: 16px;
-        border-radius: 17px;
-    }
-
-    .absensi-page .rekap-pegawai-hero h2 {
-        font-size: 24px;
-    }
-
-    .absensi-page .rekap-pegawai-stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-
-    .absensi-page .rekap-stat-item {
-        min-height: 86px;
-        padding: 11px;
-        grid-template-columns: 37px 1fr;
-        column-gap: 9px;
-        border-radius: 13px;
-    }
-
-    .absensi-page .rekap-stat-item > span {
-        width: 37px;
-        height: 37px;
-        border-radius: 10px;
-        font-size: 9px;
-    }
-
-    .absensi-page .rekap-stat-item > strong {
-        font-size: 21px;
-    }
-
-    .absensi-page .rekap-stat-item > small {
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 390px) {
-    .absensi-page .rekap-pegawai-filter-grid,
-    .absensi-page .rekap-terlambat-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .absensi-page .rekap-pegawai-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .absensi-page .riwayat-rekap-detail {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =====================================================
-   REKAP PEGAWAI
-===================================================== */
-
-.absensi-page #rekapPegawaiSection {
-    width: 100%;
-}
-
-
-/* =====================================================
-   HERO REKAP
-===================================================== */
-
-.absensi-page .rekap-pegawai-hero {
-    margin-bottom: 14px;
-}
-
-.absensi-page .rekap-pegawai-badge {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-badge {
+    position: relative;
+    z-index: 1;
     display: inline-block;
-    margin-bottom: 6px;
-
+    margin-bottom: 8px;
     color: #2563eb;
-
     font-size: 13px;
     font-weight: 800;
     letter-spacing: .8px;
 }
 
-.absensi-page .rekap-pegawai-hero h2 {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-hero h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
     color: #172033;
-
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
     line-height: 1.2;
 }
 
-.absensi-page .rekap-pegawai-hero p {
-    margin-top: 5px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-hero p {
+    position: relative;
+    z-index: 1;
+    max-width: 460px;
+    margin: 8px 0 0;
     color: #64748b;
-
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
+/* CARD UMUM */
 
-/* =====================================================
-   FILTER PERIODE
-===================================================== */
-
-.absensi-page .rekap-pegawai-filter-card {
-    margin-bottom: 14px;
-    padding: 18px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-card,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-card {
     border: 1px solid #dbe5ef;
     border-radius: 20px;
-
-    background: rgba(255,255,255,.95);
-
-    box-shadow:
-        0 10px 26px rgba(15,23,42,.05);
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 9px 25px rgba(15, 23, 42, .05);
 }
 
+/* FILTER */
 
-.absensi-page .rekap-pegawai-filter-heading {
-    margin-bottom: 16px;
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-card {
+    padding: 20px;
+}
 
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-heading {
+    margin-bottom: 17px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 14px;
 }
 
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-heading div {
+    display: grid;
+    gap: 4px;
+}
 
-.absensi-page .rekap-pegawai-filter-heading small {
-    display: block;
-
-    margin-bottom: 4px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-heading small {
     color: #64748b;
-
-    font-size: 14px;
+    font-size: 15px;
 }
 
-
-.absensi-page .rekap-pegawai-filter-heading strong {
-    display: block;
-
-    color: #1e293b;
-
-    font-size: 17px;
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-heading strong {
+    color: #172033;
+    font-size: 19px;
     font-weight: 700;
 }
 
-
-.absensi-page .rekap-pegawai-filter-heading > span {
-    width: 42px;
-    height: 42px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-heading > span {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
     flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     color: #2563eb;
-
     font-size: 20px;
-
-    border-radius: 12px;
-
-    background: #eff6ff;
+    border-radius: 13px;
+    background: #eaf2ff;
 }
 
-
-/* FILTER GRID */
-
-.absensi-page .rekap-pegawai-filter-grid {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid {
     display: grid;
-    grid-template-columns: repeat(2,minmax(0,1fr));
-
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-
-.absensi-page .rekap-pegawai-filter-grid label {
-    display: flex;
-    flex-direction: column;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid label {
+    display: grid;
     gap: 7px;
 }
 
-
-.absensi-page .rekap-pegawai-filter-grid label > span {
-    color: #475569;
-
-    font-size: 14px;
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid label > span {
+    color: #526176;
+    font-size: 15px;
     font-weight: 700;
 }
 
-
-.absensi-page .rekap-pegawai-filter-grid select {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid select {
     width: 100%;
-    min-height: 48px;
-
+    min-height: 52px;
     padding: 0 13px;
-
     color: #1e293b;
-
-    font-family: inherit;
-    font-size: 15px;
-
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
     border: 2px solid #e2e8f0;
-    border-radius: 12px;
-
+    border-radius: 13px;
     outline: none;
-
     background: #f8fafc;
-
     cursor: pointer;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
 }
 
-
-.absensi-page .rekap-pegawai-filter-grid select:focus {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid select:focus {
     border-color: #3b82f6;
-
     background: #fff;
-
-    box-shadow:
-        0 0 0 4px rgba(59,130,246,.08);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, .08);
 }
 
+.absensi-page #rekapPegawaiSection .rekap-pegawai-filter-grid select option {
+    color: #1e293b;
+    background: #fff;
+}
 
-/* =====================================================
-   HARI KERJA
-===================================================== */
+/* HARI KERJA */
 
-.absensi-page .rekap-pegawai-info-card {
-    margin-bottom: 14px;
-    padding: 16px 18px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card {
+    padding: 18px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    gap: 12px;
-
-    border: 1px solid #bfdbfe;
-    border-radius: 17px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #eff6ff,
-            #f8fbff
-        );
+    gap: 15px;
 }
 
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card div {
+    display: grid;
+    gap: 4px;
+}
 
-.absensi-page .rekap-pegawai-info-card small {
-    display: block;
-
-    margin-bottom: 4px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card small {
     color: #64748b;
-
-    font-size: 14px;
+    font-size: 15px;
 }
 
-
-.absensi-page .rekap-pegawai-info-card strong {
-    display: block;
-
-    color: #1e293b;
-
-    font-size: 17px;
+.absensi-page #rekapPegawaiSection .rekap-pegawai-info-card strong {
+    color: #172033;
+    font-size: 20px;
     font-weight: 700;
 }
 
-
-.absensi-page .rekap-info-icon {
-    width: 40px;
-    height: 40px;
-
+.absensi-page #rekapPegawaiSection .rekap-info-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
     flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     color: #2563eb;
-
-    font-size: 20px;
-
-    border-radius: 12px;
-
-    background: #dbeafe;
+    font-size: 21px;
+    border-radius: 13px;
+    background: #eaf2ff;
 }
 
+/* SECTION */
 
-/* =====================================================
-   CARD REKAP
-===================================================== */
-
-.absensi-page .rekap-pegawai-card {
-    margin-bottom: 14px;
+.absensi-page #rekapPegawaiSection .rekap-pegawai-card {
     padding: 20px;
-
-    color: #1e293b;
-
-    border: 1px solid #dbe5ef;
-    border-radius: 20px;
-
-    background: rgba(255,255,255,.95);
-
-    box-shadow:
-        0 10px 26px rgba(15,23,42,.05);
 }
 
-
-/* =====================================================
-   JUDUL BAGIAN
-===================================================== */
-
-.absensi-page .rekap-pegawai-section-title {
-    margin-bottom: 17px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-section-title {
+    margin-bottom: 18px;
     display: flex;
     align-items: flex-start;
-
-    gap: 12px;
+    gap: 13px;
 }
 
-
-.absensi-page .rekap-pegawai-section-title .step-number {
-    width: 38px;
-    height: 38px;
-
+.absensi-page #rekapPegawaiSection .step-number {
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    display: grid;
+    place-items: center;
     color: #2563eb;
-
     font-size: 13px;
     font-weight: 800;
-
-    border-radius: 11px;
-
-    background: #eff6ff;
+    border-radius: 12px;
+    background: #eaf2ff;
 }
 
-
-.absensi-page .rekap-pegawai-section-title h3 {
+.absensi-page #rekapPegawaiSection .rekap-pegawai-section-title h3 {
+    margin: 0;
     color: #172033;
-
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 700;
     line-height: 1.3;
 }
 
-
-.absensi-page .rekap-pegawai-section-title p {
-    margin-top: 4px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-section-title p {
+    margin: 4px 0 0;
     color: #64748b;
-
     font-size: 15px;
-    line-height: 1.45;
-}
-
-
-/* =====================================================
-   RINGKASAN KEHADIRAN
-===================================================== */
-
-.absensi-page .rekap-pegawai-stats {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap: 10px;
-}
-
-
-.absensi-page .rekap-stat-item {
-    min-height: 95px;
-
-    padding: 14px;
-
-    display: grid;
-
-    grid-template-columns:
-        auto 1fr;
-
-    grid-template-rows:
-        auto auto;
-
-    column-gap: 10px;
-
-    align-items: center;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-
-    background: #f8fafc;
-}
-
-
-/* KODE STATUS */
-
-.absensi-page .rekap-stat-item > span {
-    grid-row: 1 / 3;
-
-    min-width: 45px;
-    height: 45px;
-
-    padding: 0 7px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #2563eb;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    border-radius: 12px;
-
-    background: #eaf2ff;
-}
-
-
-/* JUMLAH */
-
-.absensi-page .rekap-stat-item > strong {
-    align-self: end;
-
-    color: #172033;
-
-    font-size: 24px;
-    font-weight: 700;
-
-    line-height: 1;
-}
-
-
-/* NAMA STATUS */
-
-.absensi-page .rekap-stat-item > small {
-    align-self: start;
-
-    margin-top: 3px;
-
-    color: #64748b;
-
-    font-size: 13px;
-    line-height: 1.35;
-}
-
-
-/* HADIR */
-
-.absensi-page .rekap-stat-item.utama {
-    border-color: #bbf7d0;
-
-    background: #f0fdf4;
-}
-
-
-.absensi-page .rekap-stat-item.utama > span {
-    color: #047857;
-
-    background: #dcfce7;
-}
-
-
-/* =====================================================
-   KETERLAMBATAN
-===================================================== */
-
-.absensi-page .rekap-terlambat-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap: 10px;
-}
-
-
-.absensi-page .rekap-terlambat-item {
-    padding: 16px;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 15px;
-
-    background: #f8fafc;
-}
-
-
-.absensi-page .rekap-terlambat-item small {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: #64748b;
-
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-
-.absensi-page .rekap-terlambat-item strong {
-    display: block;
-
-    color: #172033;
-
-    font-size: 21px;
-    font-weight: 700;
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.absensi-page .rekap-pegawai-loading {
-    padding: 20px;
-
-    color: #64748b;
-
-    font-size: 15px;
-    text-align: center;
-
-    border-radius: 14px;
-
-    background: #f8fafc;
-}
-
-
-/* =====================================================
-   DATA KOSONG
-===================================================== */
-
-.absensi-page .rekap-pegawai-empty {
-    padding: 30px 18px;
-
-    text-align: center;
-
-    border: 1px dashed #cbd5e1;
-    border-radius: 16px;
-
-    background: #f8fafc;
-}
-
-
-.absensi-page .rekap-pegawai-empty > span {
-    width: 46px;
-    height: 46px;
-
-    margin: 0 auto 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #2563eb;
-
-    font-size: 22px;
-
-    border-radius: 13px;
-
-    background: #eff6ff;
-}
-
-
-.absensi-page .rekap-pegawai-empty strong {
-    display: block;
-
-    color: #1e293b;
-
-    font-size: 17px;
-}
-
-
-.absensi-page .rekap-pegawai-empty p {
-    margin-top: 5px;
-
-    color: #64748b;
-
-    font-size: 14px;
     line-height: 1.5;
 }
 
+/* STATISTIK */
 
-/* =====================================================
-   RIWAYAT HARIAN
-===================================================== */
-
-.absensi-page .riwayat-rekap-pegawai {
-    display: flex;
-    flex-direction: column;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
 }
 
-
-.absensi-page .riwayat-rekap-item {
+.absensi-page #rekapPegawaiSection .rekap-stat-item {
+    min-width: 0;
     padding: 15px;
-
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "kode nilai"
+        "label label";
+    align-items: center;
+    gap: 7px 10px;
     border: 1px solid #e2e8f0;
-    border-radius: 15px;
-
+    border-radius: 16px;
     background: #f8fafc;
 }
 
-
-.absensi-page .riwayat-rekap-top {
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 10px;
-
-    border-bottom: 1px solid #e2e8f0;
-}
-
-
-.absensi-page .riwayat-rekap-top small,
-.absensi-page .riwayat-rekap-detail small {
-    display: block;
-
-    margin-bottom: 4px;
-
-    color: #64748b;
-
-    font-size: 13px;
-}
-
-
-.absensi-page .riwayat-rekap-top strong {
-    color: #1e293b;
-
-    font-size: 16px;
-    font-weight: 700;
-}
-
-
-/* STATUS RIWAYAT */
-
-.absensi-page .riwayat-status {
-    min-width: 44px;
-
-    padding: 7px 10px;
-
-    text-align: center;
-
-    color: #475569;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    border-radius: 999px;
-
-    background: #e2e8f0;
-}
-
-
-/* DETAIL */
-
-.absensi-page .riwayat-rekap-detail {
+.absensi-page #rekapPegawaiSection .rekap-stat-item > span {
+    grid-area: kode;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 8px;
     display: grid;
-
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
-
-    gap: 10px;
+    place-items: center;
+    color: #0369a1;
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 10px;
+    background: #e0f2fe;
 }
 
-
-.absensi-page .riwayat-rekap-detail > div {
-    min-width: 0;
-}
-
-
-.absensi-page .riwayat-rekap-detail strong {
-    display: block;
-
-    color: #1e293b;
-
-    font-size: 15px;
+.absensi-page #rekapPegawaiSection .rekap-stat-item > strong {
+    grid-area: nilai;
+    justify-self: end;
+    color: #172033;
+    font-size: 25px;
     font-weight: 700;
+}
 
+.absensi-page #rekapPegawaiSection .rekap-stat-item > small {
+    grid-area: label;
+    min-width: 0;
+    color: #526176;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
     overflow-wrap: anywhere;
 }
 
-
-.absensi-page .riwayat-rekap-detail strong.terlambat {
-    color: #dc2626;
+.absensi-page #rekapPegawaiSection .rekap-stat-item.utama {
+    border-color: #93c5fd;
+    background: #eff6ff;
 }
 
+/* TERLAMBAT */
 
-/* =====================================================
-   WARNA STATUS
-===================================================== */
-
-.absensi-page .status-h {
-    color: #047857;
-
-    background: #dcfce7;
+.absensi-page #rekapPegawaiSection .rekap-terlambat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-
-.absensi-page .status-tap {
-    color: #b45309;
-
-    background: #fef3c7;
+.absensi-page #rekapPegawaiSection .rekap-terlambat-item {
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid #fde68a;
+    border-radius: 16px;
+    background: #fffbeb;
 }
 
-
-.absensi-page .status-s {
-    color: #b91c1c;
-
-    background: #fee2e2;
-}
-
-
-.absensi-page .status-ct {
-    color: #1d4ed8;
-
-    background: #dbeafe;
-}
-
-
-.absensi-page .status-tk {
-    color: #b45309;
-
-    background: #ffedd5;
-}
-
-
-.absensi-page .status-dd {
-    color: #6d28d9;
-
-    background: #ede9fe;
-}
-
-
-.absensi-page .status-dl {
-    color: #0369a1;
-
-    background: #e0f2fe;
-}
-
-
-.absensi-page .status-im {
-    color: #475569;
-
-    background: #e2e8f0;
-}
-
-
-.absensi-page .status-wfh {
-    color: #7e22ce;
-
-    background: #f3e8ff;
-}
-
-
-.absensi-page .status-mpp {
-    color: #0369a1;
-
-    background: #e0f2fe;
-}
-
-
-/* =====================================================
-   ERROR REKAP
-===================================================== */
-
-.absensi-page .rekap-pegawai-error {
-    padding: 15px;
-
-    color: #b91c1c;
-
+.absensi-page #rekapPegawaiSection .rekap-terlambat-item small {
+    display: block;
+    margin-bottom: 8px;
+    color: #78620a;
     font-size: 14px;
+    font-weight: 600;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-terlambat-item strong {
+    display: block;
+    color: #b45309;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* LOADING / EMPTY */
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-loading {
+    padding: 30px 15px;
+    color: #64748b;
+    font-size: 16px;
+    text-align: center;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-empty,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error {
+    padding: 30px 18px;
+    text-align: center;
+    border: 2px dashed #dbe5ef;
+    border-radius: 17px;
+    background: #f8fafc;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-empty > span,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error > span {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 11px;
+    color: #2563eb;
+    font-size: 21px;
+    border-radius: 13px;
+    background: #eaf2ff;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-empty strong,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error strong {
+    display: block;
+    color: #172033;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.absensi-page #rekapPegawaiSection .rekap-pegawai-empty p,
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 15px;
     line-height: 1.5;
+}
 
-    border: 1px solid #fecaca;
-    border-radius: 14px;
-
+.absensi-page #rekapPegawaiSection .rekap-pegawai-error > span {
+    color: #dc2626;
     background: #fef2f2;
 }
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 520px) {
-
-    .absensi-page .rekap-pegawai-hero h2 {
-        font-size: 25px;
-    }
-
-
-    .absensi-page .rekap-pegawai-hero p {
-        font-size: 15px;
-    }
-
-
-    .absensi-page .rekap-pegawai-filter-card,
-    .absensi-page .rekap-pegawai-card {
-        padding: 17px;
-    }
-
-
-    .absensi-page .rekap-pegawai-filter-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-
-    .absensi-page .rekap-pegawai-stats {
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
-
-
-    .absensi-page .rekap-stat-item {
-        min-height: 90px;
-
-        padding: 12px;
-
-        column-gap: 8px;
-    }
-
-
-    .absensi-page .rekap-stat-item > span {
-        min-width: 40px;
-        height: 40px;
-
-        font-size: 11px;
-    }
-
-
-    .absensi-page .rekap-stat-item > strong {
-        font-size: 21px;
-    }
-
-
-    .absensi-page .rekap-stat-item > small {
-        font-size: 12px;
-    }
-
-
-    .absensi-page .rekap-terlambat-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .absensi-page .riwayat-rekap-detail {
-        grid-template-columns:
-            repeat(3,minmax(0,1fr));
-
-        gap: 7px;
-    }
-
-
-    .absensi-page .riwayat-rekap-detail strong {
-        font-size: 14px;
-    }
-
-}
-
-
-/* =====================================================
-   HP KECIL
-===================================================== */
-
-@media (max-width: 380px) {
-
-    .absensi-page .rekap-pegawai-filter-grid {
-        grid-template-columns: 1fr;
-    }
-
-
-    .absensi-page .rekap-pegawai-stats {
-        grid-template-columns: 1fr;
-    }
-
-
-    .absensi-page .riwayat-rekap-detail {
-        grid-template-columns: 1fr;
-    }
-
+   
 }
