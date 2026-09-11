@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#050811">
+    <meta name="theme-color" content="#eef4fb">
 
     <title>Absensi Pegawai</title>
 
@@ -13,32 +13,43 @@
 
 <body class="absensi-page">
 
+    <!-- DEKORASI BACKGROUND -->
+    <div class="pegawai-bg-grid"></div>
+    <div class="pegawai-bg-blob pegawai-blob-one"></div>
+    <div class="pegawai-bg-blob pegawai-blob-two"></div>
+
     <main class="absensi-container">
 
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
         <header class="absensi-header">
-            <div>
+            <div class="header-info">
                 <span class="app-badge">ABSENSI PEGAWAI</span>
 
-                <h1>
-                    Kantor Camat<br>
-                    Mori Utara
-                </h1>
+                <h1>Kantor Camat Mori Utara</h1>
 
-                <p id="tanggalSekarang"></p>
+                <p id="tanggalSekarang">-</p>
             </div>
 
-            <button type="button" id="logoutBtn" class="logout-icon">
+            <button type="button" id="logoutBtn" class="logout-icon" aria-label="Keluar">
                 ↗
             </button>
         </header>
 
 
+        <!-- ==================================================
+             PROFIL PEGAWAI
+        =================================================== -->
+
         <section class="pegawai-card">
+
             <div class="avatar">
                 <span id="avatarHuruf">P</span>
             </div>
 
-            <div>
+            <div class="pegawai-info">
                 <p class="welcome-text">Selamat datang 👋</p>
 
                 <h2 id="namaPegawai">Pegawai</h2>
@@ -47,23 +58,34 @@
                     NIP <span id="nipPegawai">-</span>
                 </p>
             </div>
+
         </section>
 
 
         <!-- ==================================================
-             NAVIGASI PEGAWAI
+             NAVIGASI
         =================================================== -->
 
         <nav class="pegawai-nav">
-            <button type="button" class="pegawai-nav-btn active" id="navAbsensiPegawaiBtn">
-                <span>⌂</span>
-                Absensi
+
+            <button
+                type="button"
+                class="pegawai-nav-btn active"
+                id="navAbsensiPegawaiBtn"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Absensi</span>
             </button>
 
-            <button type="button" class="pegawai-nav-btn" id="navRekapPegawaiBtn">
-                <span>▦</span>
-                Rekap Saya
+            <button
+                type="button"
+                class="pegawai-nav-btn"
+                id="navRekapPegawaiBtn"
+            >
+                <span class="nav-icon">▦</span>
+                <span>Rekap Saya</span>
             </button>
+
         </nav>
 
 
@@ -73,32 +95,49 @@
 
         <div id="absensiPegawaiSection">
 
-            <section class="clock-card">
-                <p>Waktu sekarang · WITA</p>
+            <!-- WAKTU + STATUS -->
 
-                <h2 id="jamSekarang">00:00</h2>
+            <section class="today-card">
 
-                <span id="detikSekarang">00</span>
-            </section>
+                <div class="today-time">
+                    <p>Waktu sekarang</p>
 
+                    <div class="time-row">
+                        <h2 id="jamSekarang">00:00</h2>
 
-            <section class="status-hari-card" id="statusHariCard">
-                <div>
+                        <span id="detikSekarang">00</span>
+
+                        <small>WITA</small>
+                    </div>
+                </div>
+
+                <div class="today-divider"></div>
+
+                <div class="today-status">
                     <small>Status hari ini</small>
 
                     <strong id="statusHariText">
-                        Memeriksa...
+                        Memeriksa status...
                     </strong>
                 </div>
+
             </section>
 
 
-            <!-- KETERANGAN AKTIF -->
+            <!-- ==================================================
+                 KETERANGAN AKTIF
+            =================================================== -->
 
-            <section class="keterangan-aktif-card" id="keteranganAktifCard" hidden>
+            <section
+                class="keterangan-aktif-card"
+                id="keteranganAktifCard"
+                hidden
+            >
+
                 <div class="keterangan-aktif-header">
+
                     <div>
-                        <small>Keterangan hari ini</small>
+                        <small>Keterangan Hari Ini</small>
 
                         <h3 id="keteranganAktifJenis">-</h3>
 
@@ -107,50 +146,80 @@
                         </p>
                     </div>
 
-                    <span class="status-keterangan-badge" id="statusKeteranganBadge">
+                    <span
+                        class="status-keterangan-badge"
+                        id="statusKeteranganBadge"
+                    >
                         Menunggu
                     </span>
+
                 </div>
 
-                <button type="button" id="batalkanKeteranganBtn" class="batalkan-keterangan-btn">
+                <button
+                    type="button"
+                    id="batalkanKeteranganBtn"
+                    class="batalkan-keterangan-btn"
+                >
                     Batalkan Keterangan
                 </button>
+
             </section>
 
 
-            <!-- PILIH AKTIVITAS -->
+            <!-- ==================================================
+                 PILIH AKTIVITAS
+            =================================================== -->
 
             <section class="mode-section">
-                <div class="section-heading">
-                    <span class="step-number">01</span>
 
+                <div class="simple-section-heading">
                     <div>
-                        <h3>Aktivitas Hari Ini</h3>
-                        <p>Pilih hadir di kantor atau mengirim keterangan</p>
+                        <span class="section-eyebrow">AKTIVITAS HARI INI</span>
+
+                        <h2>Apa aktivitas Anda?</h2>
+
+                        <p>Pilih salah satu pilihan di bawah ini.</p>
                     </div>
                 </div>
 
+
                 <div class="mode-options">
 
-                    <button type="button" class="mode-option" id="modeHadirBtn" data-mode="hadir">
+                    <button
+                        type="button"
+                        class="mode-option"
+                        id="modeHadirBtn"
+                        data-mode="hadir"
+                    >
                         <span class="mode-icon">🏢</span>
 
-                        <span>
+                        <span class="mode-content">
                             <strong>Hadir di Kantor</strong>
-                            <small>Absensi Masuk dan Keluar</small>
+                            <small>Untuk melakukan absensi masuk atau keluar</small>
                         </span>
+
+                        <span class="mode-arrow">›</span>
                     </button>
 
-                    <button type="button" class="mode-option" id="modeKeteranganBtn" data-mode="keterangan">
+
+                    <button
+                        type="button"
+                        class="mode-option"
+                        id="modeKeteranganBtn"
+                        data-mode="keterangan"
+                    >
                         <span class="mode-icon">📋</span>
 
-                        <span>
-                            <strong>Keterangan</strong>
-                            <small>Sakit, Cuti, Dinas, WFH, dan lainnya</small>
+                        <span class="mode-content">
+                            <strong>Kirim Keterangan</strong>
+                            <small>Sakit, cuti, dinas, WFH, dan lainnya</small>
                         </span>
+
+                        <span class="mode-arrow">›</span>
                     </button>
 
                 </div>
+
             </section>
 
 
@@ -161,62 +230,96 @@
             <div id="hadirContainer" hidden>
 
                 <form id="absensiForm">
+
                     <input type="hidden" id="jenisAbsen">
 
 
+                    <!-- JENIS ABSENSI -->
+
                     <section class="form-section">
-                        <div class="section-heading">
-                            <span class="step-number">02</span>
+
+                        <div class="simple-section-heading">
 
                             <div>
-                                <h3>Jenis Absensi</h3>
-                                <p>Masuk 06.30–09.00 · Keluar 15.45–16.30 WITA</p>
+                                <span class="section-eyebrow">ABSENSI</span>
+
+                                <h2>Pilih Masuk atau Keluar</h2>
+
+                                <p>
+                                    Masuk 06.30–09.00 · Keluar 15.45–16.30 WITA
+                                </p>
                             </div>
+
                         </div>
 
 
                         <div class="attendance-options">
 
-                            <button type="button" class="attendance-option masuk-option" data-value="Masuk">
+                            <button
+                                type="button"
+                                class="attendance-option masuk-option"
+                                data-value="Masuk"
+                            >
                                 <span class="option-icon">↓</span>
 
                                 <span>
                                     <strong>Masuk</strong>
-                                    <small>06.30–08.00 tepat waktu · setelah 08.00 lambat</small>
+                                    <small>Absensi kedatangan</small>
                                 </span>
                             </button>
 
 
-                            <button type="button" class="attendance-option keluar-option" data-value="Keluar">
+                            <button
+                                type="button"
+                                class="attendance-option keluar-option"
+                                data-value="Keluar"
+                            >
                                 <span class="option-icon">↑</span>
 
                                 <span>
                                     <strong>Keluar</strong>
-                                    <small>15.45–16.30 WITA</small>
+                                    <small>Absensi pulang</small>
                                 </span>
                             </button>
 
                         </div>
+
+                        <p class="attendance-note">
+                            Masuk setelah pukul 08.00 WITA akan tercatat terlambat.
+                        </p>
+
                     </section>
 
 
+                    <!-- LOKASI -->
+
                     <section class="form-section">
-                        <div class="section-heading">
-                            <span class="step-number">03</span>
+
+                        <div class="simple-section-heading">
 
                             <div>
-                                <h3>Lokasi</h3>
-                                <p>Maksimal 150 meter dari kantor</p>
+                                <span class="section-eyebrow">LOKASI</span>
+
+                                <h2>Periksa lokasi Anda</h2>
+
+                                <p>
+                                    Anda harus berada maksimal 150 meter dari kantor.
+                                </p>
                             </div>
+
                         </div>
 
 
-                        <button type="button" id="lokasiBtn" class="action-card">
+                        <button
+                            type="button"
+                            id="lokasiBtn"
+                            class="action-card"
+                        >
                             <span class="action-icon">⌖</span>
 
                             <span class="action-text">
                                 <strong id="statusLokasi">
-                                    Ambil lokasi sekarang
+                                    Periksa Lokasi
                                 </strong>
 
                                 <small id="akurasiLokasi">
@@ -226,70 +329,131 @@
 
                             <span class="action-arrow">›</span>
                         </button>
+
                     </section>
 
 
+                    <!-- FOTO -->
+
                     <section class="form-section">
-                        <div class="section-heading">
-                            <span class="step-number">04</span>
+
+                        <div class="simple-section-heading">
 
                             <div>
-                                <h3>Foto Absensi</h3>
-                                <p>Foto harus diambil langsung menggunakan kamera</p>
+                                <span class="section-eyebrow">FOTO</span>
+
+                                <h2>Ambil foto absensi</h2>
+
+                                <p>
+                                    Foto diambil langsung menggunakan kamera.
+                                </p>
                             </div>
+
                         </div>
 
 
-                        <div class="camera-live-container" id="cameraLiveContainer">
-                            <video id="cameraVideo" autoplay playsinline muted></video>
+                        <div
+                            class="camera-live-container"
+                            id="cameraLiveContainer"
+                        >
 
-                            <div class="camera-placeholder" id="cameraPlaceholder">
+                            <video
+                                id="cameraVideo"
+                                autoplay
+                                playsinline
+                                muted
+                            ></video>
+
+
+                            <div
+                                class="camera-placeholder"
+                                id="cameraPlaceholder"
+                            >
                                 <span class="camera-icon">◉</span>
 
                                 <strong>Kamera belum aktif</strong>
 
                                 <small>
-                                    Aktifkan kamera untuk mengambil foto absensi
+                                    Tekan tombol di bawah untuk mengaktifkan kamera
                                 </small>
                             </div>
+
                         </div>
 
 
-                        <button type="button" id="aktifkanKameraBtn" class="camera-action-btn">
+                        <button
+                            type="button"
+                            id="aktifkanKameraBtn"
+                            class="camera-action-btn"
+                        >
                             Aktifkan Kamera
                         </button>
 
-                        <button type="button" id="ambilFotoBtn" class="camera-action-btn" hidden>
+
+                        <button
+                            type="button"
+                            id="ambilFotoBtn"
+                            class="camera-action-btn"
+                            hidden
+                        >
                             Ambil Foto
                         </button>
+
 
                         <canvas id="cameraCanvas" hidden></canvas>
 
 
-                        <div class="photo-preview-wrapper" id="photoPreviewWrapper">
-                            <img id="previewFoto" alt="Preview foto absensi">
+                        <div
+                            class="photo-preview-wrapper"
+                            id="photoPreviewWrapper"
+                        >
 
-                            <button type="button" id="ulangFotoBtn" class="ulang-foto-btn">
+                            <img
+                                id="previewFoto"
+                                alt="Preview foto absensi"
+                            >
+
+                            <button
+                                type="button"
+                                id="ulangFotoBtn"
+                                class="ulang-foto-btn"
+                            >
                                 Foto Ulang
                             </button>
+
                         </div>
+
                     </section>
 
 
+                    <!-- SUBMIT -->
+
                     <section class="submit-section">
+
                         <div class="progress-status">
 
-                            <div class="requirement" id="checkJenis">
+                            <div
+                                class="requirement"
+                                id="checkJenis"
+                            >
                                 <span>○</span>
                                 Jenis
                             </div>
 
-                            <div class="requirement" id="checkLokasi">
+
+                            <div
+                                class="requirement"
+                                id="checkLokasi"
+                            >
                                 <span>○</span>
                                 Lokasi
                             </div>
 
-                            <div class="requirement" id="checkFoto">
+
+                            <div
+                                class="requirement"
+                                id="checkFoto"
+                            >
                                 <span>○</span>
                                 Foto
                             </div>
@@ -297,14 +461,20 @@
                         </div>
 
 
-                        <button type="submit" id="submitAbsensi" disabled>
+                        <button
+                            type="submit"
+                            id="submitAbsensi"
+                            disabled
+                        >
                             <span id="submitText">
                                 Lengkapi Absensi
                             </span>
                         </button>
+
                     </section>
 
                 </form>
+
             </div>
 
 
@@ -315,23 +485,39 @@
             <div id="keteranganContainer" hidden>
 
                 <form id="keteranganForm">
-                    <input type="hidden" id="jenisKeterangan">
 
+                    <input
+                        type="hidden"
+                        id="jenisKeterangan"
+                    >
+
+
+                    <!-- PILIH KETERANGAN -->
 
                     <section class="form-section">
-                        <div class="section-heading">
-                            <span class="step-number">02</span>
+
+                        <div class="simple-section-heading">
 
                             <div>
-                                <h3>Jenis Keterangan</h3>
-                                <p>Pilih kondisi yang sesuai</p>
+                                <span class="section-eyebrow">KETERANGAN</span>
+
+                                <h2>Pilih jenis keterangan</h2>
+
+                                <p>
+                                    Pilih kondisi yang sesuai untuk hari ini.
+                                </p>
                             </div>
+
                         </div>
 
 
                         <div class="keterangan-options">
 
-                            <button type="button" class="keterangan-option" data-value="S">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="S"
+                            >
                                 <span class="keterangan-code">S</span>
 
                                 <span>
@@ -341,7 +527,11 @@
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="CT">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="CT"
+                            >
                                 <span class="keterangan-code">CT</span>
 
                                 <span>
@@ -351,27 +541,39 @@
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="DD">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="DD"
+                            >
                                 <span class="keterangan-code">DD</span>
 
                                 <span>
                                     <strong>Dinas Dalam</strong>
-                                    <small>Menjalankan tugas dinas</small>
+                                    <small>Tugas dinas dalam</small>
                                 </span>
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="DL">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="DL"
+                            >
                                 <span class="keterangan-code">DL</span>
 
                                 <span>
                                     <strong>Dinas Luar</strong>
-                                    <small>Menjalankan tugas di luar kantor</small>
+                                    <small>Tugas di luar kantor</small>
                                 </span>
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="IM">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="IM"
+                            >
                                 <span class="keterangan-code">IM</span>
 
                                 <span>
@@ -381,7 +583,11 @@
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="WFH">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="WFH"
+                            >
                                 <span class="keterangan-code">WFH</span>
 
                                 <span>
@@ -391,53 +597,79 @@
                             </button>
 
 
-                            <button type="button" class="keterangan-option" data-value="MPP">
+                            <button
+                                type="button"
+                                class="keterangan-option"
+                                data-value="MPP"
+                            >
                                 <span class="keterangan-code">MPP</span>
 
                                 <span>
                                     <strong>Masa Persiapan Pensiun</strong>
-                                    <small>Menjalani masa persiapan pensiun</small>
+                                    <small>Persiapan pensiun</small>
                                 </span>
                             </button>
 
                         </div>
+
                     </section>
 
 
+                    <!-- KETERANGAN SINGKAT -->
+
                     <section class="form-section">
-                        <div class="section-heading">
-                            <span class="step-number">03</span>
+
+                        <div class="simple-section-heading">
 
                             <div>
-                                <h3>Keterangan Singkat</h3>
-                                <p>Jelaskan alasan atau kegiatan secara singkat</p>
+                                <span class="section-eyebrow">CATATAN</span>
+
+                                <h2>Keterangan singkat</h2>
+
+                                <p>
+                                    Jelaskan alasan atau kegiatan secara singkat.
+                                </p>
                             </div>
+
                         </div>
 
 
                         <div class="keterangan-input-wrapper">
+
                             <textarea
                                 id="keteranganText"
                                 maxlength="500"
-                                placeholder="Contoh: Mengikuti kegiatan dinas di..."
+                                placeholder="Tulis keterangan di sini..."
                             ></textarea>
 
                             <div class="keterangan-counter">
                                 <span id="jumlahKarakter">0</span> / 500
                             </div>
+
                         </div>
+
                     </section>
 
 
+                    <!-- SUBMIT KETERANGAN -->
+
                     <section class="submit-section">
+
                         <div class="progress-status">
 
-                            <div class="requirement" id="checkJenisKeterangan">
+                            <div
+                                class="requirement"
+                                id="checkJenisKeterangan"
+                            >
                                 <span>○</span>
                                 Jenis
                             </div>
 
-                            <div class="requirement" id="checkIsiKeterangan">
+
+                            <div
+                                class="requirement"
+                                id="checkIsiKeterangan"
+                            >
                                 <span>○</span>
                                 Keterangan
                             </div>
@@ -445,14 +677,20 @@
                         </div>
 
 
-                        <button type="submit" id="submitKeterangan" disabled>
+                        <button
+                            type="submit"
+                            id="submitKeterangan"
+                            disabled
+                        >
                             <span id="submitKeteranganText">
                                 Lengkapi Keterangan
                             </span>
                         </button>
+
                     </section>
 
                 </form>
+
             </div>
 
         </div>
@@ -462,9 +700,14 @@
              REKAP SAYA
         =================================================== -->
 
-        <section id="rekapPegawaiSection" class="rekap-pegawai-section" hidden>
+        <section
+            id="rekapPegawaiSection"
+            class="rekap-pegawai-section"
+            hidden
+        >
 
             <div class="rekap-pegawai-hero">
+
                 <span class="rekap-pegawai-badge">
                     REKAP PRIBADI
                 </span>
@@ -474,6 +717,7 @@
                 <p>
                     Lihat ringkasan kehadiran dan aktivitas absensi bulanan Anda.
                 </p>
+
             </div>
 
 
@@ -482,14 +726,17 @@
             <section class="rekap-pegawai-filter-card">
 
                 <div class="rekap-pegawai-filter-heading">
+
                     <div>
                         <small>Periode Rekap</small>
+
                         <strong id="rekapPegawaiPeriode">
                             -
                         </strong>
                     </div>
 
                     <span>▦</span>
+
                 </div>
 
 
@@ -550,12 +797,14 @@
             <section class="rekap-pegawai-card">
 
                 <div class="rekap-pegawai-section-title">
+
                     <span class="step-number">01</span>
 
                     <div>
                         <h3>Ringkasan Kehadiran</h3>
                         <p>Jumlah status kehadiran pada periode terpilih</p>
                     </div>
+
                 </div>
 
 
@@ -631,12 +880,14 @@
             <section class="rekap-pegawai-card">
 
                 <div class="rekap-pegawai-section-title">
+
                     <span class="step-number">02</span>
 
                     <div>
                         <h3>Keterlambatan</h3>
                         <p>Rekap waktu masuk setelah pukul 08.00 WITA</p>
                     </div>
+
                 </div>
 
 
@@ -669,21 +920,31 @@
             <section class="rekap-pegawai-card">
 
                 <div class="rekap-pegawai-section-title">
+
                     <span class="step-number">03</span>
 
                     <div>
                         <h3>Riwayat Harian</h3>
                         <p>Status absensi berdasarkan hari kerja</p>
                     </div>
+
                 </div>
 
 
-                <div id="rekapPegawaiLoading" class="rekap-pegawai-loading" hidden>
+                <div
+                    id="rekapPegawaiLoading"
+                    class="rekap-pegawai-loading"
+                    hidden
+                >
                     Memuat rekap...
                 </div>
 
 
-                <div id="rekapPegawaiKosong" class="rekap-pegawai-empty" hidden>
+                <div
+                    id="rekapPegawaiKosong"
+                    class="rekap-pegawai-empty"
+                    hidden
+                >
                     <span>▦</span>
 
                     <strong>Belum ada data</strong>
@@ -694,7 +955,10 @@
                 </div>
 
 
-                <div id="riwayatRekapPegawai" class="riwayat-rekap-pegawai"></div>
+                <div
+                    id="riwayatRekapPegawai"
+                    class="riwayat-rekap-pegawai"
+                ></div>
 
             </section>
 
@@ -703,16 +967,19 @@
     </main>
 
 
-    <!-- TOAST -->
+    <!-- ==================================================
+        TOAST
+    =================================================== -->
 
     <div id="toast" class="toast">
+
         <span id="toastIcon">✓</span>
 
         <div>
             <strong id="toastTitle"></strong>
-
             <p id="toastMessage"></p>
         </div>
+
     </div>
 
 
