@@ -5070,3 +5070,188 @@ function safeURL(value) {
         }
     }
 })();
+
+
+/* =====================================================
+   PENGUMUMAN ADMIN
+===================================================== */
+
+(function mulaiPengumumanAdmin() {
+    const form =
+        document.getElementById("pengumumanAdminForm");
+
+    if (!form) return;
+
+    const input =
+        document.getElementById("pengumumanAdminText");
+
+    const aktif =
+        document.getElementById("pengumumanAdminAktif");
+
+    const counter =
+        document.getElementById("pengumumanCounter");
+
+    const preview =
+        document.getElementById("pengumumanPreviewText");
+
+    const status =
+        document.getElementById("pengumumanAdminStatus");
+
+    const tombol =
+        document.getElementById("simpanPengumumanAdminBtn");
+
+
+    input?.addEventListener("input", updatePreview);
+
+
+    muatPengumumanAdmin();
+
+
+    async function muatPengumumanAdmin() {
+        try {
+            const hasil = await postData(
+                {
+                    action: "ambilPengumuman"
+                },
+                10000
+            );
+
+            if (!hasil?.berhasil) return;
+
+            input.value =
+                String(hasil.teks || "");
+
+            aktif.checked =
+                Boolean(hasil.aktif);
+
+            updatePreview();
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    function updatePreview() {
+        const teks =
+            String(input?.value || "").trim();
+
+        if (counter) {
+            counter.textContent =
+                String(input?.value.length || 0);
+        }
+
+        if (preview) {
+            preview.textContent =
+                teks || "Belum ada pengumuman.";
+        }
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const teks =
+                String(input.value || "")
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+            if (aktif.checked && !teks) {
+                setStatusPengumuman(
+                    "Isi pengumuman terlebih dahulu.",
+                    false
+                );
+                return;
+            }
+
+            const token =
+                localStorage.getItem("adminToken");
+
+            if (!token) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            tombol.disabled = true;
+            tombol.textContent = "Menyimpan...";
+
+            setStatusPengumuman(
+                "Menyimpan perubahan...",
+                null
+            );
+
+            try {
+                const hasil = await postData(
+                    {
+                        action:
+                            "simpanPengumumanAdmin",
+
+                        adminToken:
+                            token,
+
+                        teks:
+                            teks,
+
+                        aktif:
+                            aktif.checked
+                    },
+                    15000
+                );
+
+                if (!hasil?.berhasil) {
+                    throw new Error(
+                        hasil?.pesan ||
+                        "Pengumuman gagal disimpan."
+                    );
+                }
+
+                setStatusPengumuman(
+                    hasil.pesan ||
+                    "Pengumuman berhasil disimpan.",
+                    true
+                );
+
+                updatePreview();
+
+            } catch (error) {
+                console.error(error);
+
+                setStatusPengumuman(
+                    error.message,
+                    false
+                );
+
+            } finally {
+                tombol.disabled = false;
+                tombol.textContent =
+                    "Simpan Pengumuman";
+            }
+        }
+    );
+
+
+    function setStatusPengumuman(
+        pesan,
+        berhasil
+    ) {
+        if (!status) return;
+
+        status.textContent = pesan || "";
+
+        status.classList.remove(
+            "success",
+            "error",
+            "loading"
+        );
+
+        if (berhasil === true) {
+            status.classList.add("success");
+        } else if (berhasil === false) {
+            status.classList.add("error");
+        } else {
+            status.classList.add("loading");
+        }
+    }
+})();
