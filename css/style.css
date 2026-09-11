@@ -6607,3 +6607,744 @@ body.login-page {
         transition: none !important;
     }
 }
+
+/* =====================================================
+   MOTION SYSTEM V1 - ABSENSI PEGAWAI
+   Smooth, ringan, interaktif
+===================================================== */
+
+
+/* =====================================================
+   1. PAGE ENTRANCE
+===================================================== */
+
+.absensi-page .absensi-header {
+    animation: motionHeaderIn .48s cubic-bezier(.16,1,.3,1) both;
+}
+
+.absensi-page .pegawai-card {
+    animation: motionCardIn .5s .06s cubic-bezier(.16,1,.3,1) both;
+}
+
+.absensi-page .pegawai-nav {
+    animation: motionCardIn .5s .11s cubic-bezier(.16,1,.3,1) both;
+}
+
+.absensi-page #absensiPegawaiSection:not([hidden]),
+.absensi-page #rekapPegawaiSection:not([hidden]) {
+    animation: motionPageSectionIn .42s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionHeaderIn {
+    from {
+        opacity: 0;
+        transform: translateY(-13px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes motionCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(17px) scale(.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes motionPageSectionIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   2. PROFILE CARD
+===================================================== */
+
+.absensi-page .pegawai-card {
+    transition:
+        transform .25s cubic-bezier(.16,1,.3,1),
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page .pegawai-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(147,197,253,.9);
+        box-shadow:
+            0 18px 38px rgba(15,23,42,.08),
+            0 5px 13px rgba(37,99,235,.05);
+    }
+}
+
+
+/* AVATAR */
+.absensi-page .avatar {
+    transition:
+        transform .28s cubic-bezier(.34,1.56,.64,1),
+        box-shadow .25s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page .pegawai-card:hover .avatar {
+        transform: scale(1.07) rotate(-3deg);
+        box-shadow: 0 8px 18px rgba(37,99,235,.18);
+    }
+}
+
+
+/* =====================================================
+   3. LOGOUT BUTTON
+===================================================== */
+
+.absensi-page .logout-icon {
+    transition:
+        transform .18s cubic-bezier(.16,1,.3,1),
+        background-color .18s ease,
+        box-shadow .18s ease !important;
+}
+
+.absensi-page .logout-icon:hover {
+    transform: translateY(-2px) rotate(4deg);
+}
+
+.absensi-page .logout-icon:active {
+    transform: scale(.91);
+    transition-duration: .07s !important;
+}
+
+
+/* =====================================================
+   4. NAV ABSENSI / REKAP
+===================================================== */
+
+.absensi-page .pegawai-nav-btn {
+    position: relative;
+    overflow: hidden;
+    transition:
+        color .22s ease,
+        background-color .22s ease,
+        box-shadow .22s ease,
+        transform .18s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.absensi-page .pegawai-nav-btn:hover {
+    transform: translateY(-1px);
+}
+
+.absensi-page .pegawai-nav-btn:active {
+    transform: scale(.97);
+}
+
+.absensi-page .pegawai-nav-btn.active {
+    animation: motionNavActive .3s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes motionNavActive {
+    0% {
+        transform: scale(.96);
+    }
+
+    65% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =====================================================
+   5. TODAY CARD
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .today-card {
+    transition:
+        transform .25s cubic-bezier(.16,1,.3,1),
+        box-shadow .25s ease,
+        border-color .25s ease;
+    animation: motionTodayIn .48s .05s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionTodayIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (hover:hover) {
+    .absensi-page #absensiPegawaiSection .today-card:hover {
+        transform: translateY(-2px);
+        border-color: #c6daf5;
+        box-shadow: 0 16px 34px rgba(15,23,42,.075);
+    }
+}
+
+
+/* JAM */
+.absensi-page #absensiPegawaiSection .time-row h2 {
+    transition: transform .2s ease;
+}
+
+
+/* =====================================================
+   6. CARD SECTION
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .mode-section,
+.absensi-page #absensiPegawaiSection .form-section,
+.absensi-page #absensiPegawaiSection .keterangan-aktif-card {
+    transition:
+        transform .25s cubic-bezier(.16,1,.3,1),
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #absensiPegawaiSection .mode-section:hover,
+    .absensi-page #absensiPegawaiSection .form-section:hover {
+        border-color: #cadcf4;
+        box-shadow: 0 14px 31px rgba(15,23,42,.065);
+    }
+}
+
+
+/* =====================================================
+   7. HADIR / KETERANGAN
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .mode-option {
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform .2s cubic-bezier(.16,1,.3,1),
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .2s ease !important;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:not(:disabled):hover {
+    transform: translateY(-3px);
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:not(:disabled):active {
+    transform: scale(.975);
+    transition-duration: .07s !important;
+}
+
+
+/* ACTIVE POP */
+.absensi-page #absensiPegawaiSection .mode-option.active {
+    animation: motionSelectOption .32s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionSelectOption {
+    0% {
+        transform: scale(.96);
+    }
+
+    65% {
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* ICON */
+.absensi-page #absensiPegawaiSection .mode-icon {
+    transition:
+        transform .28s cubic-bezier(.34,1.56,.64,1),
+        background-color .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:not(:disabled):hover .mode-icon {
+    transform: scale(1.1) rotate(-4deg);
+}
+
+.absensi-page #absensiPegawaiSection .mode-option.active .mode-icon {
+    transform: scale(1.06);
+}
+
+
+/* ARROW */
+.absensi-page #absensiPegawaiSection .mode-arrow {
+    transition:
+        transform .22s cubic-bezier(.16,1,.3,1),
+        color .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:not(:disabled):hover .mode-arrow {
+    color: #2563eb;
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   8. MASUK / KELUAR
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .attendance-option {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .2s cubic-bezier(.16,1,.3,1),
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .2s ease !important;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(15,23,42,.07);
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option:not(:disabled):active {
+    transform: scale(.97);
+    transition-duration: .07s !important;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option.active {
+    animation: motionAttendanceSelected .32s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionAttendanceSelected {
+    0% {
+        transform: scale(.95);
+    }
+
+    70% {
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* ICON MASUK/KELUAR */
+.absensi-page #absensiPegawaiSection .option-icon {
+    transition:
+        transform .28s cubic-bezier(.34,1.56,.64,1),
+        box-shadow .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option:not(:disabled):hover .option-icon {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+
+/* =====================================================
+   9. PROGRESSIVE FLOW
+   Section muncul secara smooth setelah langkah sebelumnya
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .form-section:not([hidden]) {
+    transform-origin: top center;
+    animation: motionStepReveal .46s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionStepReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(.98);
+    }
+
+    65% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* heading ikut muncul */
+.absensi-page #absensiPegawaiSection .form-section:not([hidden])
+.simple-section-heading {
+    animation: motionStepHeading .42s .06s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionStepHeading {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =====================================================
+   10. BUTTON UMUM DI FORM ABSENSI
+===================================================== */
+
+.absensi-page #absensiPegawaiSection button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.absensi-page #absensiPegawaiSection button:not(:disabled) {
+    transition:
+        transform .17s cubic-bezier(.16,1,.3,1),
+        box-shadow .2s ease,
+        filter .2s ease,
+        background-color .2s ease,
+        border-color .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection button:not(:disabled):active {
+    transform: scale(.975);
+}
+
+
+/* =====================================================
+   11. LOKASI
+===================================================== */
+
+.absensi-page #absensiPegawaiSection #ambilLokasiBtn:not(:disabled):hover,
+.absensi-page #absensiPegawaiSection .location-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    filter: brightness(1.025);
+}
+
+
+/* STATUS LOKASI BERHASIL */
+.absensi-page #absensiPegawaiSection .lokasiBerhasil,
+.absensi-page #absensiPegawaiSection .lokasi-berhasil {
+    animation: motionLocationSuccess .48s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionLocationSuccess {
+    0% {
+        opacity: 0;
+        transform: scale(.94);
+    }
+
+    65% {
+        opacity: 1;
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =====================================================
+   12. CAMERA
+===================================================== */
+
+.absensi-page #absensiPegawaiSection video {
+    animation: motionCameraIn .42s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes motionCameraIn {
+    from {
+        opacity: 0;
+        transform: scale(.975);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* PREVIEW FOTO */
+.absensi-page #absensiPegawaiSection .photo-preview-wrapper.active {
+    animation: motionPhotoCaptured .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionPhotoCaptured {
+    0% {
+        opacity: 0;
+        transform: scale(.92) translateY(10px);
+    }
+
+    65% {
+        opacity: 1;
+        transform: scale(1.015) translateY(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.absensi-page #absensiPegawaiSection #previewFoto {
+    transition:
+        transform .25s cubic-bezier(.16,1,.3,1),
+        box-shadow .25s ease;
+}
+
+@media (hover:hover) {
+    .absensi-page #absensiPegawaiSection #previewFoto:hover {
+        transform: scale(1.01);
+        box-shadow: 0 16px 32px rgba(15,23,42,.11);
+    }
+}
+
+
+/* =====================================================
+   13. KETERANGAN OPTION
+===================================================== */
+
+.absensi-page #absensiPegawaiSection .keterangan-option {
+    transition:
+        transform .2s cubic-bezier(.16,1,.3,1),
+        border-color .2s ease,
+        background-color .2s ease,
+        box-shadow .2s ease !important;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15,23,42,.06);
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option:not(:disabled):active {
+    transform: scale(.975);
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option.active {
+    animation: motionSelectOption .32s cubic-bezier(.34,1.56,.64,1);
+}
+
+
+/* =====================================================
+   14. TEXTAREA KETERANGAN
+===================================================== */
+
+.absensi-page #absensiPegawaiSection #keteranganText {
+    transition:
+        border-color .2s ease,
+        box-shadow .22s ease,
+        background-color .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection #keteranganText:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59,130,246,.09);
+}
+
+
+/* =====================================================
+   15. SUBMIT BUTTON
+===================================================== */
+
+.absensi-page #absensiPegawaiSection #submitAbsensi:not(:disabled),
+.absensi-page #absensiPegawaiSection #submitKeterangan:not(:disabled) {
+    position: relative;
+    overflow: hidden;
+
+    animation: motionSubmitReady .42s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionSubmitReady {
+    0% {
+        opacity: .6;
+        transform: scale(.96);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.018);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.absensi-page #absensiPegawaiSection #submitAbsensi:not(:disabled):hover,
+.absensi-page #absensiPegawaiSection #submitKeterangan:not(:disabled):hover {
+    transform: translateY(-2px);
+    filter: brightness(1.035);
+    box-shadow: 0 14px 28px rgba(37,99,235,.22);
+}
+
+.absensi-page #absensiPegawaiSection #submitAbsensi:not(:disabled):active,
+.absensi-page #absensiPegawaiSection #submitKeterangan:not(:disabled):active {
+    transform: translateY(0) scale(.975);
+}
+
+
+/* SHINE */
+.absensi-page #absensiPegawaiSection #submitAbsensi:not(:disabled)::after,
+.absensi-page #absensiPegawaiSection #submitKeterangan:not(:disabled)::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: -65%;
+    width: 35%;
+    height: 160%;
+    pointer-events: none;
+    transform: skewX(-23deg);
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.3),
+        transparent
+    );
+
+    transition: left .55s cubic-bezier(.16,1,.3,1);
+}
+
+.absensi-page #absensiPegawaiSection #submitAbsensi:not(:disabled):hover::after,
+.absensi-page #absensiPegawaiSection #submitKeterangan:not(:disabled):hover::after {
+    left: 130%;
+}
+
+
+/* =====================================================
+   16. TOAST
+===================================================== */
+
+.absensi-page .toast {
+    transition:
+        opacity .3s ease,
+        transform .42s cubic-bezier(.16,1,.3,1),
+        box-shadow .3s ease !important;
+}
+
+.absensi-page .toast.show {
+    animation: motionToastPop .42s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes motionToastPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%,30px) scale(.94);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translate(-50%,-3px) scale(1.015);
+    }
+
+    100% {
+        transform: translate(-50%,0) scale(1);
+    }
+}
+
+.absensi-page #toastIcon {
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+
+.absensi-page .toast.show #toastIcon {
+    animation: motionToastIcon .45s .08s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes motionToastIcon {
+    from {
+        transform: scale(.65) rotate(-8deg);
+    }
+
+    to {
+        transform: scale(1) rotate(0);
+    }
+}
+
+
+/* =====================================================
+   17. DISABLED STATE
+===================================================== */
+
+.absensi-page button:disabled {
+    cursor: not-allowed;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:disabled,
+.absensi-page #absensiPegawaiSection .attendance-option:disabled,
+.absensi-page #absensiPegawaiSection .keterangan-option:disabled {
+    transform: none !important;
+}
+
+
+/* =====================================================
+   18. PERFORMANCE
+   Matikan animasi blob lama yang berjalan terus
+===================================================== */
+
+.absensi-page .pegawai-bg-blob {
+    animation: none !important;
+}
+
+
+/* =====================================================
+   19. MOBILE TOUCH
+===================================================== */
+
+@media (max-width:520px) {
+
+    .absensi-page .pegawai-card:hover,
+    .absensi-page #absensiPegawaiSection .today-card:hover {
+        transform: none;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-option:not(:disabled):hover,
+    .absensi-page #absensiPegawaiSection .attendance-option:not(:disabled):hover,
+    .absensi-page #absensiPegawaiSection .keterangan-option:not(:disabled):hover {
+        transform: none;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-option:not(:disabled):active,
+    .absensi-page #absensiPegawaiSection .attendance-option:not(:disabled):active,
+    .absensi-page #absensiPegawaiSection .keterangan-option:not(:disabled):active {
+        transform: scale(.97);
+    }
+}
+
+
+/* =====================================================
+   20. ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion:reduce) {
+
+    .absensi-page *,
+    .absensi-page *::before,
+    .absensi-page *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
