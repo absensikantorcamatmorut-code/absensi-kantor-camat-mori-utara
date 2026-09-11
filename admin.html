@@ -2,747 +2,1005 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050811">
-    <title>Dashboard Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#eef4fb">
+    <title>Dashboard Admin | Kantor Camat Mori Utara</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="admin-page">
-<main class="admin-container">
 
-    <header class="admin-header">
-        <div class="admin-header-info">
-            <span class="app-badge">ADMIN PANEL</span>
-            <h1>Dashboard Admin</h1>
-            <p>Kantor Camat Mori Utara</p>
-        </div>
-        <button type="button" id="logoutAdminBtn" class="admin-logout-btn">Logout</button>
-    </header>
+    <!-- BACKGROUND -->
+    <div class="admin-bg-grid"></div>
+    <div class="admin-bg-blob admin-blob-one"></div>
+    <div class="admin-bg-blob admin-blob-two"></div>
 
-    <nav class="admin-nav">
-        <button type="button" class="admin-nav-btn active" id="navAbsensiBtn" data-admin-page="absensi">
-            <span class="admin-nav-icon">🕐</span><span>Absensi</span>
-        </button>
+    <main class="admin-container">
 
-        <button type="button" class="admin-nav-btn" id="navPegawaiBtn" data-admin-page="pegawai">
-            <span class="admin-nav-icon">👥</span><span>Pegawai</span>
-        </button>
-
-        <button type="button" class="admin-nav-btn" id="navKeteranganBtn" data-admin-page="keterangan">
-            <span class="admin-nav-icon">📋</span><span>Keterangan</span>
-        </button>
-
-        <button type="button" class="admin-nav-btn" id="navRekapBtn" data-admin-page="rekap">
-            <span class="admin-nav-icon">📊</span><span>Rekap</span>
-        </button>
-
-        <button type="button" class="admin-nav-btn" id="navAkunAdminBtn" data-admin-page="akun">
-            <span class="admin-nav-icon">🔐</span><span>Akun Admin</span>
-        </button>
-    </nav>
-
-
-    <!-- =================================================
-         ABSENSI
-    ================================================== -->
-
-    <section class="admin-page-section active" id="adminAbsensiSection">
-
-        <section class="stat-container">
-            <div class="stat-card">
-                <span class="stat-label">Total</span>
-                <strong id="totalAbsensi">0</strong>
-                <small>Absensi hari ini</small>
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+        <header class="admin-header">
+            <div class="admin-header-info">
+                <span class="app-badge">ADMINISTRATOR</span>
+                <h1>Dashboard Admin</h1>
+                <p>Kantor Camat Mori Utara</p>
             </div>
 
-            <div class="stat-card stat-masuk">
-                <span class="stat-label">Masuk</span>
-                <strong id="totalMasuk">0</strong>
-                <small>Hari ini</small>
-            </div>
-
-            <div class="stat-card stat-keluar">
-                <span class="stat-label">Keluar</span>
-                <strong id="totalKeluar">0</strong>
-                <small>Hari ini</small>
-            </div>
-        </section>
-
-        <section class="admin-tools">
-            <div class="search-box">
-                <label for="filterCari">Cari Pegawai</label>
-                <input type="text" id="filterCari" placeholder="Cari nama atau NIP...">
-            </div>
-
-            <button type="button" id="toggleFilterBtn" class="toggle-filter-btn">
-                Filter <span>⌄</span>
+            <button type="button" id="logoutAdminBtn" class="admin-logout-btn">
+                Keluar
             </button>
-        </section>
+        </header>
 
-        <section class="filter-container" id="filterContainer">
-            <div>
-                <label for="filterTanggal">Tanggal</label>
-                <input type="date" id="filterTanggal">
-            </div>
 
-            <div>
-                <label for="filterJenis">Jenis Absen</label>
-                <select id="filterJenis">
-                    <option value="">Semua</option>
-                    <option value="Masuk">Masuk</option>
-                    <option value="Keluar">Keluar</option>
-                </select>
-            </div>
+        <!-- ==================================================
+             NAVIGASI
+        =================================================== -->
+        <nav class="admin-nav">
 
-            <button type="button" id="resetFilterBtn" class="reset-filter-btn">Hari Ini</button>
-        </section>
+            <button type="button" class="admin-nav-btn active" id="navAbsensiBtn" data-admin-page="absensi">
+                <span class="admin-nav-icon">🕐</span>
+                <span>Absensi</span>
+            </button>
 
-        <section class="data-section">
-            <div class="data-section-header">
+            <button type="button" class="admin-nav-btn" id="navPegawaiBtn" data-admin-page="pegawai">
+                <span class="admin-nav-icon">👥</span>
+                <span>Pegawai</span>
+            </button>
+
+            <button type="button" class="admin-nav-btn" id="navKeteranganBtn" data-admin-page="keterangan">
+                <span class="admin-nav-icon">📋</span>
+                <span>Keterangan</span>
+            </button>
+
+            <button type="button" class="admin-nav-btn" id="navRekapBtn" data-admin-page="rekap">
+                <span class="admin-nav-icon">📊</span>
+                <span>Rekap</span>
+            </button>
+
+            <button type="button" class="admin-nav-btn" id="navAkunAdminBtn" data-admin-page="akun">
+                <span class="admin-nav-icon">🔐</span>
+                <span>Akun Admin</span>
+            </button>
+
+        </nav>
+
+
+        <!-- ==================================================
+             ABSENSI
+        =================================================== -->
+        <section class="admin-page-section active" id="adminAbsensiSection">
+
+            <section class="admin-section-intro">
                 <div>
-                    <span class="section-label">RIWAYAT</span>
-                    <h2>Riwayat Absensi</h2>
-                    <p id="jumlahDataText">Memuat data...</p>
+                    <span class="section-label">ABSENSI HARI INI</span>
+                    <h2>Aktivitas Absensi</h2>
+                    <p>Pantau absensi masuk dan keluar pegawai.</p>
+                </div>
+            </section>
+
+            <section class="stat-container">
+
+                <div class="stat-card">
+                    <span class="stat-icon">📋</span>
+                    <div>
+                        <span class="stat-label">Total Absensi</span>
+                        <strong id="totalAbsensi">0</strong>
+                        <small>Hari ini</small>
+                    </div>
                 </div>
 
-                <button type="button" id="absensiManualBtn" class="admin-primary-btn">
-                    + Absensi Manual
+                <div class="stat-card stat-masuk">
+                    <span class="stat-icon">↓</span>
+                    <div>
+                        <span class="stat-label">Masuk</span>
+                        <strong id="totalMasuk">0</strong>
+                        <small>Hari ini</small>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-keluar">
+                    <span class="stat-icon">↑</span>
+                    <div>
+                        <span class="stat-label">Keluar</span>
+                        <strong id="totalKeluar">0</strong>
+                        <small>Hari ini</small>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- PENCARIAN -->
+            <section class="admin-tools">
+                <div class="search-box">
+                    <label for="filterCari">Cari Pegawai</label>
+                    <input type="text" id="filterCari" placeholder="Cari nama atau NIP...">
+                </div>
+
+                <button type="button" id="toggleFilterBtn" class="toggle-filter-btn">
+                    Filter <span>⌄</span>
                 </button>
-            </div>
-
-            <div class="table-wrapper">
-                <table id="tabelAbsensi">
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Jenis</th>
-                            <th>Status</th>
-                            <th>Jarak</th>
-                            <th>Sumber</th>
-                            <th>Admin</th>
-                            <th>Alasan</th>
-                            <th>Lokasi</th>
-                            <th>Foto</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataAbsensi">
-                        <tr><td colspan="11" class="loading-cell">Memuat data...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </section>
+            </section>
 
 
-    <!-- =================================================
-         PEGAWAI
-    ================================================== -->
+            <!-- FILTER -->
+            <section class="filter-container" id="filterContainer">
 
-    <section class="admin-page-section" id="adminPegawaiSection">
-
-        <section class="admin-section-hero">
-            <div>
-                <span class="section-label">MANAJEMEN PEGAWAI</span>
-                <h2>Daftar Pegawai</h2>
-                <p>Kelola data pegawai Kantor Camat Mori Utara.</p>
-            </div>
-
-            <button type="button" id="tambahPegawaiBtn" class="admin-primary-btn">
-                + Tambah Pegawai
-            </button>
-        </section>
-
-        <section class="pegawai-stat-container">
-            <div class="pegawai-stat-card">
-                <small>Total Pegawai</small>
-                <strong id="totalPegawai">0</strong>
-            </div>
-
-            <div class="pegawai-stat-card">
-                <small>Aktif</small>
-                <strong id="totalPegawaiAktif">0</strong>
-            </div>
-
-            <div class="pegawai-stat-card">
-                <small>Tidak Aktif</small>
-                <strong id="totalPegawaiTidakAktif">0</strong>
-            </div>
-        </section>
-
-        <section class="pegawai-tools">
-            <div class="search-box">
-                <label for="cariPegawaiAdmin">Cari Pegawai</label>
-                <input type="text" id="cariPegawaiAdmin" placeholder="Cari nama atau NIP...">
-            </div>
-
-            <div class="pegawai-filter-status">
-                <label for="filterStatusPegawai">Status</label>
-                <select id="filterStatusPegawai">
-                    <option value="">Semua</option>
-                    <option value="Aktif">Aktif</option>
-                    <option value="Tidak Aktif">Tidak Aktif</option>
-                </select>
-            </div>
-        </section>
-
-        <section class="data-section">
-            <div class="data-section-header">
                 <div>
-                    <span class="section-label">DATA PEGAWAI</span>
-                    <h2>Data Pegawai</h2>
-                    <p id="jumlahPegawaiText">Memuat data...</p>
+                    <label for="filterTanggal">Tanggal</label>
+                    <input type="date" id="filterTanggal">
                 </div>
-            </div>
 
-            <div class="table-wrapper">
-                <table id="tabelPegawai">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataPegawai">
-                        <tr>
-                            <td colspan="5" class="loading-cell">
-                                Data pegawai akan dimuat di sini.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </section>
-
-
-    <!-- =================================================
-         KETERANGAN
-    ================================================== -->
-
-    <section class="admin-page-section" id="adminKeteranganSection">
-
-        <section class="admin-section-hero">
-            <div class="admin-section-icon">📋</div>
-
-            <div>
-                <span class="section-label">VERIFIKASI KETERANGAN</span>
-                <h2>Pengajuan Keterangan</h2>
-                <p>Tinjau pengajuan sakit, cuti, dinas, WFH, dan keterangan lainnya.</p>
-            </div>
-        </section>
-
-        <section class="keterangan-stat-container">
-            <div class="keterangan-stat-card stat-total">
-                <span>Total Pengajuan</span>
-                <strong id="totalKeteranganAdmin">0</strong>
-            </div>
-
-            <div class="keterangan-stat-card stat-waiting">
-                <span>Menunggu</span>
-                <strong id="totalKeteranganMenunggu">0</strong>
-            </div>
-
-            <div class="keterangan-stat-card stat-approved">
-                <span>Disetujui</span>
-                <strong id="totalKeteranganDisetujui">0</strong>
-            </div>
-
-            <div class="keterangan-stat-card stat-rejected">
-                <span>Ditolak</span>
-                <strong id="totalKeteranganDitolak">0</strong>
-            </div>
-        </section>
-
-        <section class="keterangan-filter-card">
-            <div class="search-box">
-                <label for="cariKeteranganAdmin">Cari Pegawai</label>
-                <input type="text" id="cariKeteranganAdmin" placeholder="Cari nama atau NIP...">
-            </div>
-
-            <div class="pegawai-filter-status">
-                <label for="filterStatusKeterangan">Status</label>
-                <select id="filterStatusKeterangan">
-                    <option value="">Semua</option>
-                    <option value="Menunggu">Menunggu</option>
-                    <option value="Disetujui">Disetujui</option>
-                    <option value="Ditolak">Ditolak</option>
-                    <option value="Dibatalkan">Dibatalkan</option>
-                </select>
-            </div>
-        </section>
-
-        <section class="data-section keterangan-data-section">
-            <div class="data-section-header">
                 <div>
-                    <span class="section-label">PENGAJUAN PEGAWAI</span>
-                    <h2>Daftar Pengajuan</h2>
-                    <p id="jumlahKeteranganText">Memuat data...</p>
-                </div>
-            </div>
-
-            <div class="table-wrapper">
-                <table id="tabelKeterangan">
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Jenis</th>
-                            <th>Keterangan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataKeteranganAdmin">
-                        <tr>
-                            <td colspan="7" class="loading-cell">
-                                Memuat pengajuan keterangan...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </section>
-
-
-    <!-- =================================================
-         REKAP BULANAN
-    ================================================== -->
-
-    <section class="admin-page-section" id="adminRekapSection">
-
-        <section class="admin-section-hero">
-            <div class="admin-section-icon">📊</div>
-
-            <div>
-                <span class="section-label">REKAPITULASI ABSEN</span>
-                <h2>Rekap Bulanan</h2>
-                <p>
-                    Ringkasan kehadiran seluruh pegawai berdasarkan
-                    absensi dan keterangan yang telah disetujui.
-                </p>
-            </div>
-        </section>
-
-        <section class="rekap-control-card">
-            <div class="rekap-filter-grid">
-                <div class="admin-form-group">
-                    <label for="rekapBulan">Bulan</label>
-                    <select id="rekapBulan">
-                        <option value="1">Januari</option>
-                        <option value="2">Februari</option>
-                        <option value="3">Maret</option>
-                        <option value="4">April</option>
-                        <option value="5">Mei</option>
-                        <option value="6">Juni</option>
-                        <option value="7">Juli</option>
-                        <option value="8">Agustus</option>
-                        <option value="9">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
+                    <label for="filterJenis">Jenis Absensi</label>
+                    <select id="filterJenis">
+                        <option value="">Semua</option>
+                        <option value="Masuk">Masuk</option>
+                        <option value="Keluar">Keluar</option>
                     </select>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="rekapTahun">Tahun</label>
-                    <input type="number" id="rekapTahun" min="2020" max="2100">
-                </div>
-
-                <button type="button" id="tampilkanRekapBtn" class="admin-primary-btn">
-                    Tampilkan Rekap
+                <button type="button" id="resetFilterBtn" class="reset-filter-btn">
+                    Hari Ini
                 </button>
-            </div>
-        </section>
 
-        <div class="rekap-periode">
-            <span>PERIODE REKAP</span>
-            <strong id="rekapPeriodeText">-</strong>
-        </div>
-
-        <section class="rekap-stats">
-
-            <div class="rekap-stat-card">
-                <div class="rekap-stat-icon">📅</div>
-                <div class="rekap-stat-info">
-                    <span>Hari Kerja</span>
-                    <strong id="rekapHariKerja">0</strong>
-                </div>
-            </div>
-
-            <div class="rekap-stat-card">
-                <div class="rekap-stat-icon">👥</div>
-                <div class="rekap-stat-info">
-                    <span>Total Pegawai</span>
-                    <strong id="rekapTotalPegawai">0</strong>
-                </div>
-            </div>
-
-            <div class="rekap-stat-card">
-                <div class="rekap-stat-icon">✓</div>
-                <div class="rekap-stat-info">
-                    <span>Total Hadir</span>
-                    <strong id="rekapTotalHadir">0</strong>
-                </div>
-            </div>
-
-            <div class="rekap-stat-card">
-                <div class="rekap-stat-icon">⏱</div>
-                <div class="rekap-stat-info">
-                    <span>Total Terlambat</span>
-                    <div class="rekap-stat-value">
-                        <strong id="rekapTotalTerlambat">0</strong>
-                        <small>kejadian</small>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="data-section rekap-data-section">
-            <div class="data-section-header">
-                <div>
-                    <span class="section-label">REKAP PEGAWAI</span>
-                    <h2 id="judulRekapBulanan">Rekap Kehadiran</h2>
-                    <p id="jumlahRekapText">Belum ada data.</p>
-                </div>
-
-                <button type="button" id="buatSheetRekapBtn" class="admin-primary-btn">
-                    📊 Buat Rekap Google Sheets
-                </button>
-            </div>
-
-            <div class="table-wrapper rekap-table-wrapper">
-                <table id="tabelRekapBulanan">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>NIP</th>
-                            <th>Nama</th>
-                            <th>H</th>
-                            <th>TAP</th>
-                            <th>S</th>
-                            <th>CT</th>
-                            <th>TK</th>
-                            <th>DD</th>
-                            <th>DL</th>
-                            <th>IM</th>
-                            <th>WFH</th>
-                            <th>MPP</th>
-                            <th>Hari Terlambat</th>
-                            <th>Total Terlambat</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="dataRekapBulanan">
-                        <tr>
-                            <td colspan="15" class="loading-cell">
-                                Pilih periode untuk menampilkan rekap.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+            </section>
 
 
-        <!-- HARI LIBUR -->
+            <!-- RIWAYAT -->
+            <section class="data-section">
 
-        <section class="data-section hari-libur-section">
-            <div class="data-section-header">
-                <div>
-                    <span class="section-label">KALENDER KERJA</span>
-                    <h2>Hari Libur</h2>
-                    <p>
-                        Tanggal libur tidak akan dihitung sebagai
-                        Tanpa Keterangan (TK).
-                    </p>
-                </div>
-
-                <button type="button" id="tambahHariLiburBtn" class="admin-primary-btn">
-                    + Tambah Hari Libur
-                </button>
-            </div>
-
-            <div class="table-wrapper">
-                <table id="tabelHariLibur">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Nama Hari Libur</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="dataHariLibur">
-                        <tr>
-                            <td colspan="3" class="loading-cell">
-                                Data hari libur akan dimuat di sini.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-    </section>
-
-
-    <!-- =================================================
-         AKUN ADMIN
-    ================================================== -->
-
-    <section class="admin-page-section" id="adminAkunSection">
-
-        <section class="admin-section-hero admin-account-hero">
-            <div class="admin-section-icon">🔐</div>
-
-            <div>
-                <span class="section-label">KEAMANAN ADMIN</span>
-                <h2>Akun Admin</h2>
-                <p>Kelola identitas dan keamanan akun administrator.</p>
-            </div>
-        </section>
-
-        <section class="admin-account-grid">
-
-            <article class="admin-profile-card">
-                <div class="admin-profile-avatar">👤</div>
-
-                <div class="admin-profile-content">
-                    <span class="admin-profile-label">ADMINISTRATOR</span>
-                    <h3 id="akunAdminNama">Admin</h3>
-
-                    <div class="admin-profile-meta">
-                        <span>ID Admin</span>
-                        <strong id="akunAdminNip">-</strong>
-                    </div>
-                </div>
-            </article>
-
-            <article class="admin-password-card">
-                <div class="admin-password-header">
-                    <span class="section-label">GANTI PASSWORD</span>
-                    <h2>Password Admin</h2>
-                    <p class="admin-password-description">
-                        Gunakan minimal 8 karakter.
-                        Jangan berikan password kepada pegawai lain.
-                    </p>
-                </div>
-
-                <form id="gantiPasswordAdminForm">
-                    <div class="admin-form-group">
-                        <label for="passwordAdminLama">Password Lama</label>
-                        <input type="password" id="passwordAdminLama" autocomplete="current-password" required>
+                <div class="data-section-header">
+                    <div>
+                        <span class="section-label">RIWAYAT</span>
+                        <h2>Riwayat Absensi</h2>
+                        <p id="jumlahDataText">Memuat data...</p>
                     </div>
 
-                    <div class="admin-form-group">
-                        <label for="passwordAdminBaru">Password Baru</label>
-                        <input type="password" id="passwordAdminBaru" minlength="8" autocomplete="new-password" required>
-                    </div>
-
-                    <div class="admin-form-group">
-                        <label for="konfirmasiPasswordAdmin">Konfirmasi Password Baru</label>
-                        <input type="password" id="konfirmasiPasswordAdmin" minlength="8" autocomplete="new-password" required>
-                    </div>
-
-                    <p id="passwordAdminStatus" class="admin-form-message"></p>
-
-                    <button type="submit" id="simpanPasswordAdminBtn" class="admin-primary-btn">
-                        Ganti Password
+                    <button type="button" id="absensiManualBtn" class="admin-primary-btn">
+                        + Absensi Manual
                     </button>
-                </form>
-            </article>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="tabelAbsensi">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Nama</th>
+                                <th>NIP</th>
+                                <th>Jenis</th>
+                                <th>Status</th>
+                                <th>Jarak</th>
+                                <th>Sumber</th>
+                                <th>Admin</th>
+                                <th>Alasan</th>
+                                <th>Lokasi</th>
+                                <th>Foto</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataAbsensi">
+                            <tr>
+                                <td colspan="11" class="loading-cell">
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
 
         </section>
-    </section>
 
 
-    <!-- =================================================
-         MODAL PEGAWAI
-    ================================================== -->
+        <!-- ==================================================
+             PEGAWAI
+        =================================================== -->
+        <section class="admin-page-section" id="adminPegawaiSection">
 
-    <div class="admin-modal" id="pegawaiModal" hidden>
-        <div class="admin-modal-backdrop"></div>
-
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
+            <section class="admin-section-hero">
                 <div>
-                    <small>DATA PEGAWAI</small>
-                    <h2 id="pegawaiModalTitle">Tambah Pegawai</h2>
+                    <span class="section-label">MANAJEMEN PEGAWAI</span>
+                    <h2>Daftar Pegawai</h2>
+                    <p>Kelola data dan status pegawai Kantor Camat Mori Utara.</p>
                 </div>
 
-                <button type="button" id="tutupPegawaiModalBtn" class="modal-close-btn">×</button>
-            </div>
+                <button type="button" id="tambahPegawaiBtn" class="admin-primary-btn">
+                    + Tambah Pegawai
+                </button>
+            </section>
 
-            <form id="pegawaiForm">
-                <input type="hidden" id="pegawaiId">
 
-                <div class="admin-form-group">
-                    <label for="pegawaiNama">Nama Lengkap</label>
-                    <input type="text" id="pegawaiNama" autocomplete="off" required>
+            <!-- STATISTIK -->
+            <section class="pegawai-stat-container">
+
+                <div class="pegawai-stat-card">
+                    <span class="pegawai-stat-icon">👥</span>
+                    <div>
+                        <small>Total Pegawai</small>
+                        <strong id="totalPegawai">0</strong>
+                    </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="pegawaiNip">NIP</label>
-                    <input type="text" id="pegawaiNip" inputmode="numeric" maxlength="18" autocomplete="off" required>
+                <div class="pegawai-stat-card">
+                    <span class="pegawai-stat-icon">✓</span>
+                    <div>
+                        <small>Aktif</small>
+                        <strong id="totalPegawaiAktif">0</strong>
+                    </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="pegawaiEmail">Email</label>
-                    <input type="email" id="pegawaiEmail" autocomplete="off" placeholder="Opsional">
+                <div class="pegawai-stat-card">
+                    <span class="pegawai-stat-icon">−</span>
+                    <div>
+                        <small>Tidak Aktif</small>
+                        <strong id="totalPegawaiTidakAktif">0</strong>
+                    </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="pegawaiStatus">Status</label>
-                    <select id="pegawaiStatus" required>
+            </section>
+
+
+            <!-- FILTER PEGAWAI -->
+            <section class="pegawai-tools">
+
+                <div class="search-box">
+                    <label for="cariPegawaiAdmin">Cari Pegawai</label>
+                    <input type="text" id="cariPegawaiAdmin" placeholder="Cari nama atau NIP...">
+                </div>
+
+                <div class="pegawai-filter-status">
+                    <label for="filterStatusPegawai">Status</label>
+
+                    <select id="filterStatusPegawai">
+                        <option value="">Semua</option>
                         <option value="Aktif">Aktif</option>
                         <option value="Tidak Aktif">Tidak Aktif</option>
                     </select>
                 </div>
 
-                <div class="admin-modal-actions">
-                    <button type="button" id="batalPegawaiBtn" class="admin-secondary-btn">Batal</button>
-                    <button type="submit" id="simpanPegawaiBtn" class="admin-primary-btn">Simpan Pegawai</button>
+            </section>
+
+
+            <!-- DATA PEGAWAI -->
+            <section class="data-section">
+
+                <div class="data-section-header">
+                    <div>
+                        <span class="section-label">DATA PEGAWAI</span>
+                        <h2>Data Pegawai</h2>
+                        <p id="jumlahPegawaiText">Memuat data...</p>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
+
+                <div class="table-wrapper">
+                    <table id="tabelPegawai">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>NIP</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataPegawai">
+                            <tr>
+                                <td colspan="5" class="loading-cell">
+                                    Data pegawai akan dimuat di sini.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </section>
 
 
-    <!-- =================================================
-         MODAL ABSENSI MANUAL
-    ================================================== -->
+        <!-- ==================================================
+             KETERANGAN
+        =================================================== -->
+        <section class="admin-page-section" id="adminKeteranganSection">
 
-    <div class="admin-modal" id="absensiManualModal" hidden>
-        <div class="admin-modal-backdrop"></div>
+            <section class="admin-section-hero">
+                <div class="admin-section-icon">📋</div>
 
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
                 <div>
-                    <small>ABSENSI ADMIN</small>
-                    <h2>Absensi Manual</h2>
+                    <span class="section-label">VERIFIKASI KETERANGAN</span>
+                    <h2>Pengajuan Keterangan</h2>
+                    <p>Tinjau pengajuan sakit, cuti, dinas, WFH, dan keterangan lainnya.</p>
+                </div>
+            </section>
+
+
+            <!-- STATISTIK -->
+            <section class="keterangan-stat-container">
+
+                <div class="keterangan-stat-card stat-total">
+                    <span>Total Pengajuan</span>
+                    <strong id="totalKeteranganAdmin">0</strong>
                 </div>
 
-                <button type="button" id="tutupAbsensiManualBtn" class="modal-close-btn">×</button>
-            </div>
-
-            <form id="absensiManualForm">
-                <div class="manual-warning">
-                    <strong>⚠ Absensi oleh Admin</strong>
-                    <p>
-                        Data ini akan dicatat sebagai absensi manual
-                        dan tidak menggunakan GPS maupun foto pegawai.
-                    </p>
+                <div class="keterangan-stat-card stat-waiting">
+                    <span>Menunggu</span>
+                    <strong id="totalKeteranganMenunggu">0</strong>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="manualPegawai">Pegawai</label>
-                    <select id="manualPegawai" required>
-                        <option value="">Pilih pegawai...</option>
+                <div class="keterangan-stat-card stat-approved">
+                    <span>Disetujui</span>
+                    <strong id="totalKeteranganDisetujui">0</strong>
+                </div>
+
+                <div class="keterangan-stat-card stat-rejected">
+                    <span>Ditolak</span>
+                    <strong id="totalKeteranganDitolak">0</strong>
+                </div>
+
+            </section>
+
+
+            <!-- FILTER -->
+            <section class="keterangan-filter-card">
+
+                <div class="search-box">
+                    <label for="cariKeteranganAdmin">Cari Pegawai</label>
+                    <input type="text" id="cariKeteranganAdmin" placeholder="Cari nama atau NIP...">
+                </div>
+
+                <div class="pegawai-filter-status">
+                    <label for="filterStatusKeterangan">Status</label>
+
+                    <select id="filterStatusKeterangan">
+                        <option value="">Semua</option>
+                        <option value="Menunggu">Menunggu</option>
+                        <option value="Disetujui">Disetujui</option>
+                        <option value="Ditolak">Ditolak</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
                     </select>
                 </div>
 
-                <div class="admin-form-row">
+            </section>
+
+
+            <!-- DATA -->
+            <section class="data-section keterangan-data-section">
+
+                <div class="data-section-header">
+                    <div>
+                        <span class="section-label">PENGAJUAN PEGAWAI</span>
+                        <h2>Daftar Pengajuan</h2>
+                        <p id="jumlahKeteranganText">Memuat data...</p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="tabelKeterangan">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Nama</th>
+                                <th>NIP</th>
+                                <th>Jenis</th>
+                                <th>Keterangan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataKeteranganAdmin">
+                            <tr>
+                                <td colspan="7" class="loading-cell">
+                                    Memuat pengajuan keterangan...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ==================================================
+             REKAP BULANAN
+        =================================================== -->
+        <section class="admin-page-section" id="adminRekapSection">
+
+            <section class="admin-section-hero">
+                <div class="admin-section-icon">📊</div>
+
+                <div>
+                    <span class="section-label">REKAPITULASI ABSEN</span>
+                    <h2>Rekap Bulanan</h2>
+
+                    <p>
+                        Ringkasan kehadiran seluruh pegawai berdasarkan
+                        absensi dan keterangan yang telah disetujui.
+                    </p>
+                </div>
+            </section>
+
+
+            <!-- FILTER REKAP -->
+            <section class="rekap-control-card">
+
+                <div class="rekap-filter-grid">
+
                     <div class="admin-form-group">
-                        <label for="manualJenisAbsen">Jenis Absensi</label>
-                        <select id="manualJenisAbsen" required>
-                            <option value="">Pilih...</option>
-                            <option value="Masuk">Masuk</option>
-                            <option value="Keluar">Keluar</option>
+                        <label for="rekapBulan">Bulan</label>
+
+                        <select id="rekapBulan">
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
                     </div>
 
                     <div class="admin-form-group">
-                        <label for="manualTanggal">Tanggal</label>
-                        <input type="date" id="manualTanggal" required>
+                        <label for="rekapTahun">Tahun</label>
+                        <input type="number" id="rekapTahun" min="2020" max="2100">
+                    </div>
+
+                    <button type="button" id="tampilkanRekapBtn" class="admin-primary-btn">
+                        Tampilkan Rekap
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- PERIODE -->
+            <div class="rekap-periode">
+                <span>PERIODE REKAP</span>
+                <strong id="rekapPeriodeText">-</strong>
+            </div>
+
+
+            <!-- STATISTIK REKAP -->
+            <section class="rekap-stats">
+
+                <div class="rekap-stat-card">
+                    <div class="rekap-stat-icon">📅</div>
+
+                    <div class="rekap-stat-info">
+                        <span>Hari Kerja</span>
+                        <strong id="rekapHariKerja">0</strong>
                     </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="manualWaktu">Waktu</label>
-                    <input type="time" id="manualWaktu" required>
+                <div class="rekap-stat-card">
+                    <div class="rekap-stat-icon">👥</div>
+
+                    <div class="rekap-stat-info">
+                        <span>Total Pegawai</span>
+                        <strong id="rekapTotalPegawai">0</strong>
+                    </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="manualAlasan">Alasan</label>
-                    <textarea
-                        id="manualAlasan"
-                        maxlength="300"
-                        placeholder="Contoh: Pegawai mengalami kendala perangkat saat absensi."
-                        required
-                    ></textarea>
+                <div class="rekap-stat-card">
+                    <div class="rekap-stat-icon">✓</div>
+
+                    <div class="rekap-stat-info">
+                        <span>Total Hadir</span>
+                        <strong id="rekapTotalHadir">0</strong>
+                    </div>
                 </div>
 
-                <div class="admin-modal-actions">
-                    <button type="button" id="batalAbsensiManualBtn" class="admin-secondary-btn">Batal</button>
-                    <button type="submit" id="simpanAbsensiManualBtn" class="admin-primary-btn">Simpan Absensi</button>
+                <div class="rekap-stat-card">
+                    <div class="rekap-stat-icon">⏱</div>
+
+                    <div class="rekap-stat-info">
+                        <span>Total Terlambat</span>
+
+                        <div class="rekap-stat-value">
+                            <strong id="rekapTotalTerlambat">0</strong>
+                            <small>kejadian</small>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
+
+            </section>
 
 
-    <!-- =================================================
-         MODAL HARI LIBUR
-    ================================================== -->
+            <!-- TABEL REKAP -->
+            <section class="data-section rekap-data-section">
 
-    <div class="admin-modal" id="hariLiburModal" hidden>
-        <div class="admin-modal-backdrop"></div>
+                <div class="data-section-header">
+                    <div>
+                        <span class="section-label">REKAP PEGAWAI</span>
+                        <h2 id="judulRekapBulanan">Rekap Kehadiran</h2>
+                        <p id="jumlahRekapText">Belum ada data.</p>
+                    </div>
 
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
+                    <button type="button" id="buatSheetRekapBtn" class="admin-primary-btn">
+                        📊 Buat Rekap Google Sheets
+                    </button>
+                </div>
+
+                <div class="table-wrapper rekap-table-wrapper">
+                    <table id="tabelRekapBulanan">
+
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>NIP</th>
+                                <th>Nama</th>
+                                <th>H</th>
+                                <th>TAP</th>
+                                <th>S</th>
+                                <th>CT</th>
+                                <th>TK</th>
+                                <th>DD</th>
+                                <th>DL</th>
+                                <th>IM</th>
+                                <th>WFH</th>
+                                <th>MPP</th>
+                                <th>Hari Terlambat</th>
+                                <th>Total Terlambat</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataRekapBulanan">
+                            <tr>
+                                <td colspan="15" class="loading-cell">
+                                    Pilih periode untuk menampilkan rekap.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </section>
+
+
+            <!-- HARI LIBUR -->
+            <section class="data-section hari-libur-section">
+
+                <div class="data-section-header">
+                    <div>
+                        <span class="section-label">KALENDER KERJA</span>
+                        <h2>Hari Libur</h2>
+
+                        <p>
+                            Tanggal libur tidak akan dihitung sebagai
+                            Tanpa Keterangan (TK).
+                        </p>
+                    </div>
+
+                    <button type="button" id="tambahHariLiburBtn" class="admin-primary-btn">
+                        + Tambah Hari Libur
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table id="tabelHariLibur">
+
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Nama Hari Libur</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataHariLibur">
+                            <tr>
+                                <td colspan="3" class="loading-cell">
+                                    Data hari libur akan dimuat di sini.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ==================================================
+             AKUN ADMIN
+        =================================================== -->
+        <section class="admin-page-section" id="adminAkunSection">
+
+            <section class="admin-section-hero admin-account-hero">
+                <div class="admin-section-icon">🔐</div>
+
                 <div>
-                    <small>KALENDER KERJA</small>
-                    <h2 id="hariLiburModalTitle">Tambah Hari Libur</h2>
+                    <span class="section-label">KEAMANAN ADMIN</span>
+                    <h2>Akun Admin</h2>
+                    <p>Kelola identitas dan keamanan akun administrator.</p>
+                </div>
+            </section>
+
+
+            <section class="admin-account-grid">
+
+                <!-- PROFILE -->
+                <article class="admin-profile-card">
+
+                    <div class="admin-profile-avatar">👤</div>
+
+                    <div class="admin-profile-content">
+                        <span class="admin-profile-label">ADMINISTRATOR</span>
+
+                        <h3 id="akunAdminNama">Admin</h3>
+
+                        <div class="admin-profile-meta">
+                            <span>ID Admin</span>
+                            <strong id="akunAdminNip">-</strong>
+                        </div>
+                    </div>
+
+                </article>
+
+
+                <!-- PASSWORD -->
+                <article class="admin-password-card">
+
+                    <div class="admin-password-header">
+                        <span class="section-label">GANTI PASSWORD</span>
+
+                        <h2>Password Admin</h2>
+
+                        <p class="admin-password-description">
+                            Gunakan minimal 8 karakter dan jangan berikan
+                            password kepada pegawai lain.
+                        </p>
+                    </div>
+
+                    <form id="gantiPasswordAdminForm">
+
+                        <div class="admin-form-group">
+                            <label for="passwordAdminLama">Password Lama</label>
+
+                            <input
+                                type="password"
+                                id="passwordAdminLama"
+                                autocomplete="current-password"
+                                required
+                            >
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label for="passwordAdminBaru">Password Baru</label>
+
+                            <input
+                                type="password"
+                                id="passwordAdminBaru"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label for="konfirmasiPasswordAdmin">
+                                Konfirmasi Password Baru
+                            </label>
+
+                            <input
+                                type="password"
+                                id="konfirmasiPasswordAdmin"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+
+                        <p id="passwordAdminStatus" class="admin-form-message"></p>
+
+                        <button
+                            type="submit"
+                            id="simpanPasswordAdminBtn"
+                            class="admin-primary-btn"
+                        >
+                            Ganti Password
+                        </button>
+
+                    </form>
+
+                </article>
+
+            </section>
+
+        </section>
+
+
+        <!-- ==================================================
+             MODAL PEGAWAI
+        =================================================== -->
+        <div class="admin-modal" id="pegawaiModal" hidden>
+
+            <div class="admin-modal-backdrop"></div>
+
+            <div class="admin-modal-content">
+
+                <div class="admin-modal-header">
+                    <div>
+                        <small>DATA PEGAWAI</small>
+                        <h2 id="pegawaiModalTitle">Tambah Pegawai</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="tutupPegawaiModalBtn"
+                        class="modal-close-btn"
+                        aria-label="Tutup"
+                    >
+                        ×
+                    </button>
                 </div>
 
-                <button type="button" id="tutupHariLiburModalBtn" class="modal-close-btn">×</button>
+                <form id="pegawaiForm">
+
+                    <input type="hidden" id="pegawaiId">
+
+                    <div class="admin-form-group">
+                        <label for="pegawaiNama">Nama Lengkap</label>
+                        <input type="text" id="pegawaiNama" autocomplete="off" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="pegawaiNip">NIP</label>
+
+                        <input
+                            type="text"
+                            id="pegawaiNip"
+                            inputmode="numeric"
+                            maxlength="18"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="pegawaiEmail">Email</label>
+
+                        <input
+                            type="email"
+                            id="pegawaiEmail"
+                            autocomplete="off"
+                            placeholder="Opsional"
+                        >
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="pegawaiStatus">Status</label>
+
+                        <select id="pegawaiStatus" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-modal-actions">
+                        <button type="button" id="batalPegawaiBtn" class="admin-secondary-btn">
+                            Batal
+                        </button>
+
+                        <button type="submit" id="simpanPegawaiBtn" class="admin-primary-btn">
+                            Simpan Pegawai
+                        </button>
+                    </div>
+
+                </form>
+
             </div>
 
-            <form id="hariLiburForm">
-                <div class="admin-form-group">
-                    <label for="hariLiburTanggal">Tanggal Libur</label>
-                    <input type="date" id="hariLiburTanggal" required>
-                </div>
-
-                <div class="admin-form-group">
-                    <label for="hariLiburNama">Nama / Keterangan</label>
-                    <input
-                        type="text"
-                        id="hariLiburNama"
-                        maxlength="150"
-                        placeholder="Contoh: Hari Kemerdekaan Republik Indonesia"
-                        required
-                    >
-                </div>
-
-                <div class="manual-warning">
-                    <strong>📅 Kalender Kerja</strong>
-                    <p>
-                        Hari Sabtu dan Minggu sudah otomatis tidak dihitung.
-                        Tambahkan di sini hanya hari libur pada Senin–Jumat.
-                    </p>
-                </div>
-
-                <div class="admin-modal-actions">
-                    <button type="button" id="batalHariLiburBtn" class="admin-secondary-btn">Batal</button>
-                    <button type="submit" id="simpanHariLiburBtn" class="admin-primary-btn">Simpan Hari Libur</button>
-                </div>
-            </form>
         </div>
-    </div>
 
-</main>
 
-<script src="js/script.js"></script>
-<script src="js/rekap.js"></script>
+        <!-- ==================================================
+             MODAL ABSENSI MANUAL
+        =================================================== -->
+        <div class="admin-modal" id="absensiManualModal" hidden>
+
+            <div class="admin-modal-backdrop"></div>
+
+            <div class="admin-modal-content">
+
+                <div class="admin-modal-header">
+                    <div>
+                        <small>ABSENSI ADMIN</small>
+                        <h2>Absensi Manual</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="tutupAbsensiManualBtn"
+                        class="modal-close-btn"
+                        aria-label="Tutup"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <form id="absensiManualForm">
+
+                    <div class="manual-warning">
+                        <strong>⚠ Absensi oleh Admin</strong>
+
+                        <p>
+                            Data ini akan dicatat sebagai absensi manual dan
+                            tidak menggunakan GPS maupun foto pegawai.
+                        </p>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="manualPegawai">Pegawai</label>
+
+                        <select id="manualPegawai" required>
+                            <option value="">Pilih pegawai...</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-form-row">
+
+                        <div class="admin-form-group">
+                            <label for="manualJenisAbsen">Jenis Absensi</label>
+
+                            <select id="manualJenisAbsen" required>
+                                <option value="">Pilih...</option>
+                                <option value="Masuk">Masuk</option>
+                                <option value="Keluar">Keluar</option>
+                            </select>
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label for="manualTanggal">Tanggal</label>
+                            <input type="date" id="manualTanggal" required>
+                        </div>
+
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="manualWaktu">Waktu</label>
+                        <input type="time" id="manualWaktu" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="manualAlasan">Alasan</label>
+
+                        <textarea
+                            id="manualAlasan"
+                            maxlength="300"
+                            placeholder="Contoh: Pegawai mengalami kendala perangkat saat absensi."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="admin-modal-actions">
+
+                        <button
+                            type="button"
+                            id="batalAbsensiManualBtn"
+                            class="admin-secondary-btn"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            type="submit"
+                            id="simpanAbsensiManualBtn"
+                            class="admin-primary-btn"
+                        >
+                            Simpan Absensi
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             MODAL HARI LIBUR
+        =================================================== -->
+        <div class="admin-modal" id="hariLiburModal" hidden>
+
+            <div class="admin-modal-backdrop"></div>
+
+            <div class="admin-modal-content">
+
+                <div class="admin-modal-header">
+                    <div>
+                        <small>KALENDER KERJA</small>
+                        <h2 id="hariLiburModalTitle">Tambah Hari Libur</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="tutupHariLiburModalBtn"
+                        class="modal-close-btn"
+                        aria-label="Tutup"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <form id="hariLiburForm">
+
+                    <div class="admin-form-group">
+                        <label for="hariLiburTanggal">Tanggal Libur</label>
+                        <input type="date" id="hariLiburTanggal" required>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="hariLiburNama">Nama / Keterangan</label>
+
+                        <input
+                            type="text"
+                            id="hariLiburNama"
+                            maxlength="150"
+                            placeholder="Contoh: Hari Kemerdekaan Republik Indonesia"
+                            required
+                        >
+                    </div>
+
+                    <div class="manual-warning">
+                        <strong>📅 Kalender Kerja</strong>
+
+                        <p>
+                            Hari Sabtu dan Minggu sudah otomatis tidak dihitung.
+                            Tambahkan hanya hari libur pada Senin–Jumat.
+                        </p>
+                    </div>
+
+                    <div class="admin-modal-actions">
+
+                        <button
+                            type="button"
+                            id="batalHariLiburBtn"
+                            class="admin-secondary-btn"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            type="submit"
+                            id="simpanHariLiburBtn"
+                            class="admin-primary-btn"
+                        >
+                            Simpan Hari Libur
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/rekap.js"></script>
+
 </body>
 </html>
