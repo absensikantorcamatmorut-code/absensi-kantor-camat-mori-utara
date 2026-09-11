@@ -5014,3 +5014,59 @@ function safeURL(value) {
 
     return "";
 }
+
+
+/* =====================================================
+   RUNNING TEXT PEGAWAI
+===================================================== */
+
+(function mulaiPengumumanPegawai() {
+    const container =
+        document.getElementById("runningAnnouncement");
+
+    if (!container) return;
+
+    const teksUtama =
+        document.getElementById("runningAnnouncementText");
+
+    const teksClone =
+        document.getElementById("runningAnnouncementTextClone");
+
+    muatPengumumanPegawai();
+
+    async function muatPengumumanPegawai() {
+        try {
+            const hasil = await postData(
+                {
+                    action: "ambilPengumuman"
+                },
+                10000
+            );
+
+            if (
+                !hasil?.berhasil ||
+                !hasil.aktif ||
+                !String(hasil.teks || "").trim()
+            ) {
+                container.hidden = true;
+                return;
+            }
+
+            const teks =
+                "📢 " + String(hasil.teks).trim();
+
+            teksUtama.textContent = teks;
+            teksClone.textContent = teks;
+
+            container.hidden = false;
+
+        } catch (error) {
+            console.error(
+                "Pengumuman gagal dimuat:",
+                error
+            );
+
+            container.hidden = true;
+        }
+    }
+})();
