@@ -3634,6 +3634,13 @@ navAkunAdminBtn?.addEventListener("click", function() {
                             <div class="pegawai-action-container">
                                 <button
                                     type="button"
+                                    class="pegawai-detail-btn"
+                                    data-nip="${escapeHTML(pegawai.nip || "")}">
+                                    Detail
+                                </button>
+
+                                <button
+                                    type="button"
                                     class="pegawai-edit-btn"
                                     data-id="${escapeHTML(pegawai.id || "")}">
                                     Edit
