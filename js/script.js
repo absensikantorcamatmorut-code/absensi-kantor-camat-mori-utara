@@ -3457,8 +3457,8 @@ navAkunAdminBtn?.addEventListener("click", function() {
                     : "-";
 
                 const linkFoto = foto
-                    ? '<button type="button" class="table-action-btn foto-preview-btn" data-foto="' + escapeHTML(foto) + '" data-nama="' + escapeHTML(item.nama || "Pegawai") + '">Lihat Foto</button>'
-                    : "-";
+                    ? '<button type="button" class="absensi-foto-thumb foto-preview-btn" data-foto="' + escapeHTML(foto) + '" data-nama="' + escapeHTML(item.nama || "Pegawai") + '" aria-label="Lihat foto ' + escapeHTML(item.nama || "Pegawai") + '"><span class="absensi-foto-loading">•••</span><img alt="Foto absensi ' + escapeHTML(item.nama || "Pegawai") + '" hidden></button>'
+                    : '<span class="absensi-foto-kosong">-</span>';
 
                 return `
                     <tr>
@@ -5684,6 +5684,32 @@ gunakanLokasiKantorBtn?.addEventListener("click", () => {
     }, { enableHighAccuracy:true, timeout:15000, maximumAge:0 });
 });
 
+async function muatThumbnailFotoAdmin(btn) {
+    if (!btn || btn.dataset.loaded || btn.dataset.loading) return;
+    btn.dataset.loading = "1";
+    const img = btn.querySelector("img");
+    const loading = btn.querySelector(".absensi-foto-loading");
+    try {
+        const r = await postData({ action:"ambilFotoAbsensiAdmin", adminToken, fotoUrl:btn.dataset.foto });
+        if (!r.berhasil || !r.dataUrl) throw new Error(r.pesan || "Foto gagal dimuat.");
+        if (img) {
+            img.src = r.dataUrl;
+            img.hidden = false;
+        }
+        if (loading) loading.hidden = true;
+        btn.dataset.loaded = "1";
+    } catch (e) {
+        if (loading) loading.textContent = "!";
+        btn.title = e.message || "Foto gagal dimuat.";
+    } finally {
+        delete btn.dataset.loading;
+    }
+}
+
+function muatThumbnailFotoTerlihat() {
+    document.querySelectorAll(".absensi-foto-thumb:not([data-loaded]):not([data-loading])").forEach(muatThumbnailFotoAdmin);
+}
+
 async function bukaPreviewFotoAdmin(url, nama) {
     if (!fotoAbsensiModal || !url) return;
     if (fotoAbsensiJudul) fotoAbsensiJudul.textContent = "Foto " + (nama || "Pegawai");
@@ -5703,6 +5729,17 @@ async function bukaPreviewFotoAdmin(url, nama) {
 function tutupPreviewFotoAdmin() { if (fotoAbsensiModal) fotoAbsensiModal.hidden = true; }
 tutupFotoAbsensiBtn?.addEventListener("click", tutupPreviewFotoAdmin);
 fotoAbsensiModal?.querySelector(".admin-modal-backdrop")?.addEventListener("click", tutupPreviewFotoAdmin);
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".foto-preview-btn");
+    if (btn) bukaPreviewFotoAdmin(btn.dataset.foto, btn.dataset.nama);
+});
+
+
+const observerFotoAbsensi = new MutationObserver(() => muatThumbnailFotoTerlihat());
+const tabelFotoAbsensi = document.querySelector("#tabelAbsensi tbody, #absensiTable tbody, #riwayatAbsensi tbody, .admin-table tbody");
+if (tabelFotoAbsensi) observerFotoAbsensi.observe(tabelFotoAbsensi, { childList:true });
+muatThumbnailFotoTerlihat();
+
 
 
 })();
