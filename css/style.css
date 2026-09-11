@@ -168,61 +168,192 @@ button:disabled {
 }
 
 /* =====================================================
-   LOGIN
+   LOGIN - MODERN SIMPLE
 ===================================================== */
 
 .login-page {
-    min-height: 100vh;
-    padding: 24px;
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    padding: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    color: #1e293b;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(59,130,246,.12), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(14,165,233,.11), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #eef5fc 45%, #e9f2fb 100%);
 }
+
+.login-page::before,
+.login-page::after {
+    display: none;
+}
+
+/* BACKGROUND GRID */
+
+.login-bg-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .36;
+    background-image:
+        linear-gradient(rgba(37,99,235,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,.055) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+/* BLOBS */
+
+.login-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(5px);
+}
+
+.blob-one {
+    width: 320px;
+    height: 320px;
+    top: -130px;
+    left: -110px;
+    background: rgba(59,130,246,.12);
+    animation: loginBlobOne 10s ease-in-out infinite;
+}
+
+.blob-two {
+    width: 360px;
+    height: 360px;
+    right: -160px;
+    bottom: -170px;
+    background: rgba(14,165,233,.13);
+    animation: loginBlobTwo 12s ease-in-out infinite;
+}
+
+@keyframes loginBlobOne {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+
+    50% {
+        transform: translate(35px,25px) scale(1.08);
+    }
+}
+
+@keyframes loginBlobTwo {
+    0%,100% {
+        transform: translate(0,0) scale(1);
+    }
+
+    50% {
+        transform: translate(-30px,-25px) scale(1.08);
+    }
+}
+
+/* FLOATING DOTS */
+
+.login-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(37,99,235,.4);
+    pointer-events: none;
+    animation: loginFloat 4s ease-in-out infinite;
+}
+
+.dot-one {
+    top: 18%;
+    left: 13%;
+}
+
+.dot-two {
+    top: 28%;
+    right: 14%;
+    width: 5px;
+    height: 5px;
+    animation-delay: 1s;
+}
+
+.dot-three {
+    left: 18%;
+    bottom: 19%;
+    width: 5px;
+    height: 5px;
+    animation-delay: 2s;
+}
+
+@keyframes loginFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* RINGS */
+
+.login-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(37,99,235,.17);
+    pointer-events: none;
+}
+
+.ring-one {
+    width: 95px;
+    height: 95px;
+    top: 12%;
+    right: 8%;
+    animation: loginRing 12s linear infinite;
+}
+
+.ring-two {
+    width: 65px;
+    height: 65px;
+    left: 8%;
+    bottom: 11%;
+    animation: loginRing 10s linear infinite reverse;
+}
+
+@keyframes loginRing {
+    from {
+        transform: rotate(0deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(180deg) translateY(-8px);
+    }
+
+    to {
+        transform: rotate(360deg) translateY(0);
+    }
+}
+
+/* LOGIN CONTAINER */
 
 .login-container {
     position: relative;
+    z-index: 5;
     width: 100%;
-    max-width: 420px;
-    padding: 36px;
-    overflow: hidden;
-    border-radius: 25px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    backdrop-filter: blur(22px);
-    box-shadow: var(--shadow);
-    animation: fadeUp .5s ease;
+    max-width: 410px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
 }
 
-.login-container::before {
-    content: "";
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    top: -110px;
-    right: -90px;
-    border-radius: 50%;
-    background: var(--cyan);
-    filter: blur(85px);
-    opacity: .12;
-}
-
+.login-container::before,
 .login-container::after {
-    content: "";
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    left: -100px;
-    bottom: -110px;
-    border-radius: 50%;
-    background: var(--purple);
-    filter: blur(85px);
-    opacity: .14;
-}
-
-#loginPegawaiPage,
-#loginAdminPage {
-    position: relative;
-    z-index: 1;
+    display: none;
 }
 
 #loginPegawaiPage[hidden],
@@ -230,28 +361,165 @@ button:disabled {
     display: none;
 }
 
-.login-container .app-badge {
+/* CARD */
+
+.login-panel {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(203,213,225,.9);
+    border-radius: 24px;
+    background: rgba(255,255,255,.95);
+    box-shadow:
+        0 25px 60px rgba(30,64,175,.10),
+        0 5px 18px rgba(15,23,42,.05);
+    animation: loginCardMasuk .5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes loginCardMasuk {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* CARD HEADER */
+
+.login-card-header {
+    position: relative;
+    min-height: 128px;
+    padding: 24px 25px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden;
+    color: #fff;
+    background:
+        linear-gradient(135deg, #1d4ed8 0%, #2563eb 52%, #0ea5e9 100%);
+}
+
+.login-card-header::before {
+    content: "";
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    right: -70px;
+    top: -95px;
+    border-radius: 50%;
+    border: 26px solid rgba(255,255,255,.08);
+}
+
+.login-card-header::after {
+    content: "";
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    right: 45px;
+    bottom: -70px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+}
+
+.admin-card-header {
+    background:
+        linear-gradient(135deg, #334155 0%, #475569 50%, #2563eb 100%);
+}
+
+.login-logo {
+    position: relative;
+    z-index: 2;
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 29px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    animation: loginLogoFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes loginLogoFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.login-brand {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+}
+
+.login-brand span {
     display: block;
-    margin-bottom: 11px;
-    text-align: center;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    opacity: .8;
 }
 
-.login-container h1 {
-    font-size: 30px;
-    line-height: 1.15;
-    text-align: center;
-    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+.login-brand h1 {
+    color: #fff;
+    font-size: 21px;
+    line-height: 1.25;
+    text-align: left;
+    background: none;
+    -webkit-text-fill-color: initial;
 }
 
-.login-subtitle {
-    margin: 7px 0 27px;
-    color: var(--muted);
-    text-align: center;
-    font-size: 14px;
+/* CARD BODY */
+
+.login-card-body {
+    padding: 25px;
 }
+
+.login-welcome {
+    margin-bottom: 21px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.welcome-icon {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border-radius: 12px;
+    background: #eef4ff;
+}
+
+.login-welcome h2 {
+    color: #172033;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.login-welcome p {
+    margin-top: 3px;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* FORM */
 
 #loginForm,
 #adminLoginForm {
@@ -260,65 +528,278 @@ button:disabled {
     gap: 15px;
 }
 
-.input-group,
-.search-box,
-.filter-container > div,
-.pegawai-filter-status,
-.admin-form-group {
+.login-page .input-group {
     display: flex;
     flex-direction: column;
     gap: 7px;
 }
 
-.input-group label,
-.search-box label,
-.filter-container label,
-.pegawai-filter-status label,
-.admin-form-group label {
-    color: #dbe5f1;
-    font-size: 12px;
-    font-weight: 700;
+.login-page .input-group label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.login-btn {
-    min-height: 50px;
+.login-input-wrapper {
+    position: relative;
+}
+
+.login-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    z-index: 2;
+    transform: translateY(-50%);
+    font-size: 17px;
+    pointer-events: none;
+}
+
+.login-page .login-input-wrapper input {
+    width: 100%;
+    min-height: 56px;
+    padding: 0 15px 0 46px;
+    color: #172033;
+    font-size: 16px;
+    border: 2px solid #e1e7ef;
     border-radius: 14px;
-    color: white;
-    font-size: 14px;
-    font-weight: 900;
-    background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+    background: #f9fbfd;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease,
+        transform .2s ease;
 }
 
-.login-btn:hover {
-    filter: brightness(1.08);
+.login-page .login-input-wrapper input::placeholder {
+    color: #9aa6b6;
+}
+
+.login-page .login-input-wrapper input:focus {
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59,130,246,.10);
     transform: translateY(-1px);
 }
 
-.admin-login-link {
-    display: block;
-    margin: 17px auto 0;
-    padding: 9px 13px;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    background: transparent;
+/* BUTTON */
+
+.login-btn {
+    position: relative;
+    width: 100%;
+    min-height: 56px;
+    margin-top: 2px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #1d4ed8, #2563eb, #0ea5e9);
+    box-shadow: 0 10px 23px rgba(37,99,235,.20);
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.admin-login-link:hover {
-    color: var(--cyan);
-    border-color: rgba(0, 229, 255, .1);
-    background: rgba(0, 229, 255, .04);
+.login-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 45%;
+    height: 100%;
+    transform: skewX(-20deg);
+    background: rgba(255,255,255,.16);
+    transition: left .5s ease;
 }
+
+.login-btn:hover::before {
+    left: 130%;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 13px 28px rgba(37,99,235,.25);
+}
+
+.login-btn:active {
+    transform: scale(.985);
+}
+
+.login-btn:disabled {
+    opacity: .55;
+}
+
+.login-btn-arrow {
+    font-size: 19px;
+}
+
+/* STATUS */
 
 #loginStatus,
 #adminLoginStatus {
     min-height: 18px;
-    color: var(--muted);
+    color: #64748b;
     text-align: center;
-    font-size: 11px;
-    line-height: 1.45;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* ADMIN LINK */
+
+.admin-login-link {
+    width: max-content;
+    max-width: 100%;
+    margin: 13px auto 0;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 10px;
+    background: transparent;
+    transition: .2s ease;
+}
+
+.admin-login-link:hover {
+    color: #2563eb;
+    background: #f1f5ff;
+}
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+    .login-page {
+        padding: 14px;
+    }
+
+    .login-container {
+        max-width: 390px;
+    }
+
+    .login-card-header {
+        min-height: 116px;
+        padding: 20px;
+    }
+
+    .login-logo {
+        width: 56px;
+        height: 56px;
+        font-size: 26px;
+        border-radius: 16px;
+    }
+
+    .login-brand h1 {
+        font-size: 19px;
+    }
+
+    .login-card-body {
+        padding: 21px 20px 19px;
+    }
+
+    .login-welcome {
+        margin-bottom: 18px;
+    }
+
+    .login-page .login-input-wrapper input,
+    .login-btn {
+        min-height: 54px;
+    }
+
+    .ring-one {
+        right: -20px;
+    }
+
+    .ring-two {
+        left: -20px;
+    }
+}
+
+/* HP PENDEK */
+
+@media (max-height: 650px) {
+    .login-page {
+        padding: 9px;
+    }
+
+    .login-card-header {
+        min-height: 92px;
+        padding: 15px 18px;
+    }
+
+    .login-logo {
+        width: 47px;
+        height: 47px;
+        font-size: 22px;
+        border-radius: 14px;
+    }
+
+    .login-brand span {
+        font-size: 9px;
+    }
+
+    .login-brand h1 {
+        font-size: 17px;
+    }
+
+    .login-card-body {
+        padding: 16px 18px 14px;
+    }
+
+    .login-welcome {
+        margin-bottom: 13px;
+    }
+
+    .welcome-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 17px;
+    }
+
+    .login-welcome h2 {
+        font-size: 16px;
+    }
+
+    .login-welcome p {
+        font-size: 11px;
+    }
+
+    #loginForm,
+    #adminLoginForm {
+        gap: 11px;
+    }
+
+    .login-page .login-input-wrapper input,
+    .login-btn {
+        min-height: 47px;
+    }
+
+    .admin-login-link {
+        margin-top: 6px;
+        padding: 5px 9px;
+    }
+}
+
+/* AKSESIBILITAS */
+
+@media (prefers-reduced-motion: reduce) {
+    .login-panel,
+    .login-logo,
+    .login-blob,
+    .login-dot,
+    .login-ring {
+        animation: none;
+    }
+
+    .login-btn,
+    .login-page .login-input-wrapper input {
+        transition: none;
+    }
 }
 
 /* =====================================================
@@ -4100,5 +4581,1070 @@ button:disabled {
 
     .riwayat-rekap-detail {
         grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================
+   REDESIGN ABSENSI PEGAWAI - FINAL OVERRIDE
+   TEMPEL PALING BAWAH STYLE.CSS
+===================================================== */
+
+/* ===== PAGE ===== */
+
+.absensi-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 22px 15px 55px;
+    display: block;
+    overflow-x: hidden;
+    color: #1e293b;
+    background:
+        radial-gradient(circle at 8% 7%, rgba(37,99,235,.14), transparent 24%),
+        radial-gradient(circle at 94% 88%, rgba(14,165,233,.12), transparent 27%),
+        linear-gradient(180deg, #f8fbff 0%, #eef5fc 52%, #eaf2fb 100%);
+}
+
+.absensi-page::before,
+.absensi-page::after {
+    display: none;
+}
+
+.absensi-page .pegawai-bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: .34;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(37,99,235,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+}
+
+.absensi-page .pegawai-bg-blob {
+    position: fixed;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(7px);
+}
+
+.absensi-page .pegawai-blob-one {
+    width: 320px;
+    height: 320px;
+    top: -150px;
+    left: -130px;
+    background: rgba(37,99,235,.10);
+    animation: pegawaiBlobA 11s ease-in-out infinite;
+}
+
+.absensi-page .pegawai-blob-two {
+    width: 380px;
+    height: 380px;
+    right: -190px;
+    bottom: -180px;
+    background: rgba(14,165,233,.11);
+    animation: pegawaiBlobB 13s ease-in-out infinite;
+}
+
+@keyframes pegawaiBlobA {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(34px,28px) scale(1.08); }
+}
+
+@keyframes pegawaiBlobB {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-30px,-24px) scale(1.07); }
+}
+
+.absensi-page .absensi-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    animation: pegawaiMasuk .45s ease both;
+}
+
+@keyframes pegawaiMasuk {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ===== HEADER ===== */
+
+.absensi-page .absensi-header {
+    margin-bottom: 18px;
+    padding: 3px 2px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.absensi-page .absensi-header .app-badge {
+    margin-bottom: 7px;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-shadow: none;
+}
+
+.absensi-page .absensi-header h1 {
+    max-width: 360px;
+    color: #162033;
+    font-size: 29px;
+    line-height: 1.1;
+    letter-spacing: -.6px;
+    background: none;
+    -webkit-text-fill-color: initial;
+}
+
+.absensi-page #tanggalSekarang {
+    margin-top: 7px;
+    color: #718096;
+    font-size: 12px;
+}
+
+.absensi-page .logout-icon {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #536176;
+    font-size: 19px;
+    border: 1px solid #d8e3ef;
+    border-radius: 14px;
+    background: rgba(255,255,255,.86);
+    box-shadow: 0 7px 20px rgba(15,23,42,.055);
+}
+
+.absensi-page .logout-icon:hover {
+    color: #2563eb;
+    border-color: #bcd2f2;
+    transform: translateY(-2px);
+}
+
+
+/* ===== PROFILE ===== */
+
+.absensi-page .pegawai-card {
+    margin-bottom: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #1e293b;
+    border: 1px solid #dbe5ef;
+    border-radius: 19px;
+    background: rgba(255,255,255,.91);
+    box-shadow: 0 10px 27px rgba(15,23,42,.055);
+}
+
+.absensi-page .avatar {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    border-radius: 17px;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    box-shadow: 0 8px 18px rgba(37,99,235,.19);
+}
+
+.absensi-page .pegawai-info {
+    min-width: 0;
+}
+
+.absensi-page .welcome-text {
+    color: #718096;
+    font-size: 11px;
+}
+
+.absensi-page .pegawai-card h2 {
+    margin: 2px 0 3px;
+    overflow: hidden;
+    color: #172033;
+    font-size: 19px;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.absensi-page .nip-text {
+    color: #7d8999;
+    font-size: 11px;
+}
+
+
+/* ===== NAV ===== */
+
+.absensi-page .pegawai-nav {
+    margin: 0 0 16px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    border: 1px solid #dbe5ef;
+    border-radius: 16px;
+    background: rgba(255,255,255,.84);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 22px rgba(15,23,42,.045);
+}
+
+.absensi-page .pegawai-nav-btn {
+    min-height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #66758a;
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.absensi-page .pegawai-nav-btn span {
+    font-size: inherit;
+}
+
+.absensi-page .pegawai-nav-btn:hover {
+    color: #2563eb;
+    background: #f1f6fd;
+}
+
+.absensi-page .pegawai-nav-btn.active {
+    color: #fff;
+    border: none;
+    background: linear-gradient(90deg, #2563eb, #0ea5e9);
+    box-shadow: 0 8px 18px rgba(37,99,235,.18);
+}
+
+
+/* =====================================================
+   HANYA ISI HALAMAN ABSENSI
+===================================================== */
+
+/* ===== TODAY ===== */
+
+.absensi-page #absensiPegawaiSection .today-card {
+    margin-bottom: 15px;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: auto 1px 1fr;
+    align-items: center;
+    gap: 17px;
+    border: 1px solid #dbe5ef;
+    border-radius: 20px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 11px 28px rgba(15,23,42,.055);
+}
+
+.absensi-page #absensiPegawaiSection .today-time p {
+    margin-bottom: 5px;
+    color: #7a8799;
+    font-size: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .time-row {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.absensi-page #absensiPegawaiSection .time-row h2 {
+    color: #172033;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.absensi-page #absensiPegawaiSection .time-row > span {
+    color: #0284c7;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.absensi-page #absensiPegawaiSection .time-row small {
+    color: #64748b;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.absensi-page #absensiPegawaiSection .today-divider {
+    width: 1px;
+    height: 50px;
+    background: #e1e8f0;
+}
+
+.absensi-page #absensiPegawaiSection .today-status small {
+    display: block;
+    margin-bottom: 4px;
+    color: #7a8799;
+    font-size: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .today-status strong {
+    display: block;
+    color: #253247;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+
+/* ===== SECTION CARD ===== */
+
+.absensi-page #absensiPegawaiSection .mode-section,
+.absensi-page #absensiPegawaiSection .form-section,
+.absensi-page #absensiPegawaiSection .keterangan-aktif-card {
+    margin-bottom: 14px;
+    padding: 18px;
+    color: #1e293b;
+    border: 1px solid #dbe5ef;
+    border-radius: 20px;
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 26px rgba(15,23,42,.05);
+}
+
+.absensi-page #absensiPegawaiSection .simple-section-heading {
+    margin-bottom: 15px;
+}
+
+.absensi-page #absensiPegawaiSection .section-eyebrow {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #2563eb;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.3px;
+}
+
+.absensi-page #absensiPegawaiSection .simple-section-heading h2 {
+    color: #172033;
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+.absensi-page #absensiPegawaiSection .simple-section-heading p {
+    margin-top: 4px;
+    color: #758195;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+
+/* ===== PILIH AKTIVITAS ===== */
+
+.absensi-page #absensiPegawaiSection .mode-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option {
+    width: 100%;
+    min-height: 74px;
+    padding: 13px;
+    display: grid;
+    grid-template-columns: 45px 1fr auto;
+    align-items: center;
+    gap: 11px;
+    color: #1e293b;
+    text-align: left;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    background: #f8fafc;
+    transition: .2s ease;
+}
+
+.absensi-page #absensiPegawaiSection .mode-option:hover {
+    border-color: #b6cdf0;
+    background: #f2f7fd;
+    transform: translateY(-1px);
+}
+
+.absensi-page #absensiPegawaiSection .mode-option.active,
+.absensi-page #absensiPegawaiSection .mode-option.selected {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.075);
+}
+
+.absensi-page #absensiPegawaiSection .mode-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    border-radius: 13px;
+    background: #e9f2ff;
+}
+
+.absensi-page #absensiPegawaiSection .mode-content {
+    min-width: 0;
+}
+
+.absensi-page #absensiPegawaiSection .mode-content strong {
+    display: block;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.absensi-page #absensiPegawaiSection .mode-content small {
+    display: block;
+    margin-top: 3px;
+    color: #7c8798;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.absensi-page #absensiPegawaiSection .mode-arrow {
+    color: #94a3b8;
+    font-size: 23px;
+}
+
+
+/* ===== MASUK / KELUAR ===== */
+
+.absensi-page #absensiPegawaiSection .attendance-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 9px;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option {
+    min-height: 85px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #1e293b;
+    text-align: left;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    background: #f8fafc;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option:hover {
+    border-color: #b9ccea;
+    transform: translateY(-1px);
+}
+
+.absensi-page #absensiPegawaiSection .option-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 20px;
+    border-radius: 12px;
+    background: #eaf2ff;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option strong {
+    display: block;
+    color: #1e293b;
+    font-size: 12px;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-option small {
+    display: block;
+    margin-top: 2px;
+    color: #7b8798;
+    font-size: 9px;
+}
+
+.absensi-page #absensiPegawaiSection .masuk-option.active {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.absensi-page #absensiPegawaiSection .keluar-option.active {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.absensi-page #absensiPegawaiSection .attendance-note {
+    margin-top: 10px;
+    padding: 9px 11px;
+    color: #785b09;
+    font-size: 10px;
+    line-height: 1.45;
+    border-radius: 10px;
+    background: #fff8dc;
+}
+
+
+/* ===== LOCATION ===== */
+
+.absensi-page #absensiPegawaiSection .action-card {
+    width: 100%;
+    min-height: 68px;
+    padding: 12px 13px;
+    display: grid;
+    grid-template-columns: 43px 1fr auto;
+    align-items: center;
+    gap: 11px;
+    color: #1e293b;
+    text-align: left;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    background: #f8fafc;
+}
+
+.absensi-page #absensiPegawaiSection .action-card:hover {
+    border-color: #b5cff2;
+    background: #f2f7fd;
+}
+
+.absensi-page #absensiPegawaiSection .action-card.location-success {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.absensi-page #absensiPegawaiSection .action-card.location-error {
+    border-color: #fca5a5;
+    background: #fff5f5;
+}
+
+.absensi-page #absensiPegawaiSection .action-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0284c7;
+    font-size: 20px;
+    border-radius: 12px;
+    background: #e0f2fe;
+}
+
+.absensi-page #absensiPegawaiSection .action-text {
+    min-width: 0;
+}
+
+.absensi-page #absensiPegawaiSection .action-text strong {
+    display: block;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.absensi-page #absensiPegawaiSection .action-text small {
+    display: block;
+    margin-top: 2px;
+    color: #7b8798;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.absensi-page #absensiPegawaiSection .action-arrow {
+    color: #94a3b8;
+    font-size: 22px;
+}
+
+
+/* ===== CAMERA ===== */
+
+.absensi-page #absensiPegawaiSection .camera-live-container {
+    position: relative;
+    width: 100%;
+    min-height: 230px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dbe7f1;
+    border-radius: 16px;
+    background: #edf5fc;
+}
+
+.absensi-page #absensiPegawaiSection #cameraVideo {
+    display: none;
+    width: 100%;
+    max-height: 390px;
+    object-fit: cover;
+    border-radius: 14px;
+    transform: scaleX(-1);
+}
+
+.absensi-page #absensiPegawaiSection #cameraVideo.active {
+    display: block;
+}
+
+.absensi-page #absensiPegawaiSection .camera-placeholder {
+    min-height: 220px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #1e293b;
+    text-align: center;
+}
+
+.absensi-page #absensiPegawaiSection .camera-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0284c7;
+    font-size: 21px;
+    border-radius: 14px;
+    background: #dff3ff;
+}
+
+.absensi-page #absensiPegawaiSection .camera-placeholder strong {
+    color: #263247;
+    font-size: 13px;
+}
+
+.absensi-page #absensiPegawaiSection .camera-placeholder small {
+    max-width: 280px;
+    color: #7b8798;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.absensi-page #absensiPegawaiSection .camera-action-btn {
+    width: 100%;
+    min-height: 51px;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+    border-radius: 13px;
+    background: linear-gradient(90deg, #2563eb, #0ea5e9);
+    box-shadow: 0 8px 18px rgba(37,99,235,.16);
+}
+
+.absensi-page #absensiPegawaiSection .photo-preview-wrapper {
+    display: none;
+    margin-top: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .photo-preview-wrapper.active {
+    display: block;
+}
+
+.absensi-page #absensiPegawaiSection #previewFoto {
+    display: block;
+    width: 100%;
+    max-height: 390px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.absensi-page #absensiPegawaiSection .ulang-foto-btn {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 8px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 800;
+    border: 1px solid #dbe3ec;
+    border-radius: 11px;
+    background: #fff;
+}
+
+
+/* ===== KETERANGAN ===== */
+
+.absensi-page #absensiPegawaiSection .keterangan-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 9px;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option {
+    min-height: 74px;
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #1e293b;
+    text-align: left;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option:hover {
+    border-color: #b8cdf0;
+    background: #f2f7fd;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option.active {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-code {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0369a1;
+    font-size: 10px;
+    font-weight: 900;
+    border-radius: 11px;
+    background: #e0f2fe;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option strong {
+    display: block;
+    color: #253247;
+    font-size: 11px;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-option small {
+    display: block;
+    margin-top: 2px;
+    color: #7b8798;
+    font-size: 9px;
+    line-height: 1.35;
+}
+
+.absensi-page #absensiPegawaiSection #keteranganText {
+    width: 100%;
+    min-height: 115px;
+    padding: 13px;
+    resize: vertical;
+    color: #1e293b;
+    font-size: 13px;
+    line-height: 1.5;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.absensi-page #absensiPegawaiSection #keteranganText::placeholder {
+    color: #94a3b8;
+}
+
+.absensi-page #absensiPegawaiSection #keteranganText:focus {
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59,130,246,.08);
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-counter {
+    margin-top: 5px;
+    color: #8793a5;
+    text-align: right;
+    font-size: 9px;
+}
+
+
+/* ===== KETERANGAN AKTIF ===== */
+
+.absensi-page #absensiPegawaiSection .keterangan-aktif-header {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-aktif-header small {
+    color: #718096;
+    font-size: 9px;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-aktif-header h3 {
+    margin-top: 4px;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.absensi-page #absensiPegawaiSection .keterangan-aktif-header p {
+    margin-top: 3px;
+    color: #7b8798;
+    font-size: 10px;
+}
+
+.absensi-page #absensiPegawaiSection .status-keterangan-badge {
+    flex-shrink: 0;
+    padding: 6px 9px;
+    color: #92400e;
+    font-size: 9px;
+    font-weight: 900;
+    border: 1px solid #fde68a;
+    border-radius: 999px;
+    background: #fef3c7;
+}
+
+.absensi-page #absensiPegawaiSection .batalkan-keterangan-btn {
+    width: 100%;
+    min-height: 43px;
+    color: #b42318;
+    font-size: 11px;
+    font-weight: 800;
+    border: 1px solid #fecaca;
+    border-radius: 11px;
+    background: #fff5f5;
+}
+
+
+/* ===== SUBMIT ===== */
+
+.absensi-page #absensiPegawaiSection .submit-section {
+    margin-bottom: 18px;
+    padding: 15px;
+    border: 1px solid #dbe5ef;
+    border-radius: 17px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 9px 23px rgba(15,23,42,.045);
+}
+
+.absensi-page #absensiPegawaiSection .progress-status {
+    margin: 0 0 11px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px;
+}
+
+.absensi-page #absensiPegawaiSection .requirement {
+    padding: 5px 9px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #6b7789;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid #e0e6ed;
+    border-radius: 999px;
+    background: #f8fafc;
+}
+
+.absensi-page #absensiPegawaiSection .requirement.done {
+    color: #047857;
+    border-color: #bbf7d0;
+    background: #ecfdf5;
+}
+
+.absensi-page #absensiPegawaiSection #submitAbsensi,
+.absensi-page #absensiPegawaiSection #submitKeterangan {
+    width: 100%;
+    min-height: 54px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 900;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #2563eb, #0ea5e9);
+    box-shadow: 0 9px 20px rgba(37,99,235,.17);
+}
+
+.absensi-page #absensiPegawaiSection #submitAbsensi:disabled,
+.absensi-page #absensiPegawaiSection #submitKeterangan:disabled {
+    color: #98a2b3;
+    background: #e5e7eb;
+    box-shadow: none;
+}
+
+
+/* ===== TOAST PEGAWAI ===== */
+
+.absensi-page .toast {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: 20px;
+    z-index: 9999;
+    width: calc(100% - 28px);
+    max-width: 440px;
+    padding: 13px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    color: #1e293b;
+    pointer-events: none;
+    transform: translate(-50%, 28px);
+    border: 1px solid #dce5ef;
+    border-radius: 14px;
+    background: rgba(255,255,255,.98);
+    box-shadow: 0 15px 40px rgba(15,23,42,.13);
+    transition: .3s ease;
+}
+
+.absensi-page .toast.show {
+    opacity: 1;
+    transform: translate(-50%,0);
+}
+
+.absensi-page #toastIcon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    border-radius: 10px;
+    background: #ecfdf5;
+}
+
+.absensi-page .toast strong {
+    color: #1e293b;
+    font-size: 11px;
+}
+
+.absensi-page .toast p {
+    margin-top: 2px;
+    color: #718096;
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 520px) {
+    .absensi-page {
+        padding: 17px 12px 42px;
+    }
+
+    .absensi-page .absensi-container {
+        max-width: 100%;
+    }
+
+    .absensi-page .absensi-header {
+        margin-bottom: 15px;
+    }
+
+    .absensi-page .absensi-header h1 {
+        font-size: 24px;
+    }
+
+    .absensi-page .logout-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .absensi-page .pegawai-card {
+        padding: 14px;
+    }
+
+    .absensi-page .avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+
+    .absensi-page .pegawai-card h2 {
+        font-size: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-card {
+        padding: 16px;
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .absensi-page #absensiPegawaiSection .today-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .absensi-page #absensiPegawaiSection .time-row h2 {
+        font-size: 31px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-section,
+    .absensi-page #absensiPegawaiSection .form-section,
+    .absensi-page #absensiPegawaiSection .keterangan-aktif-card {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .absensi-page #absensiPegawaiSection .simple-section-heading h2 {
+        font-size: 17px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-option {
+        min-height: 82px;
+        padding: 11px;
+    }
+}
+
+
+/* HP KECIL */
+
+@media (max-width: 380px) {
+    .absensi-page {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .absensi-page .absensi-header h1 {
+        font-size: 22px;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-option {
+        grid-template-columns: 41px 1fr auto;
+    }
+
+    .absensi-page #absensiPegawaiSection .mode-icon {
+        width: 41px;
+        height: 41px;
+        font-size: 19px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-options {
+        gap: 7px;
+    }
+
+    .absensi-page #absensiPegawaiSection .attendance-option {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .absensi-page #absensiPegawaiSection .keterangan-options {
+        gap: 7px;
+    }
+
+    .absensi-page #absensiPegawaiSection .keterangan-option {
+        min-height: 82px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+}
+
+
+/* AKSESIBILITAS */
+
+@media (prefers-reduced-motion: reduce) {
+    .absensi-page .absensi-container,
+    .absensi-page .pegawai-bg-blob {
+        animation: none;
     }
 }
