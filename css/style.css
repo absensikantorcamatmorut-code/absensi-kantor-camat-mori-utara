@@ -10001,3 +10001,65 @@ textarea {
 @media(max-width:800px){
     .absensi-admin-actions{justify-content:flex-start}
 }
+
+
+/* =====================================================
+   ADMIN NAVBAR — 3 BARIS TANPA HORIZONTAL SCROLL
+   Desktop >= 1001px tetap menggunakan sidebar.
+===================================================== */
+@media (max-width: 1000px) {
+    .admin-page .admin-nav {
+        position: static;
+        margin: 0 0 18px;
+        padding: 7px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+        overflow: visible;
+        border-radius: 16px;
+        background: #fff;
+    }
+
+    .admin-page .admin-nav-btn {
+        width: 100%;
+        min-width: 0;
+        min-height: 46px;
+        padding: 7px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.15;
+        font-size: 13px;
+        border-radius: 11px;
+    }
+
+    .admin-page .admin-nav-icon {
+        flex: 0 0 auto;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-page .admin-nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px;
+        margin-bottom: 14px;
+    }
+
+    .admin-page .admin-nav-btn {
+        min-height: 48px;
+        padding: 6px 4px;
+        flex-direction: column;
+        gap: 3px;
+        font-size: 11px;
+        line-height: 1.1;
+    }
+
+    .admin-page .admin-nav-icon {
+        font-size: 16px;
+    }
+}
