@@ -5255,3 +5255,125 @@ function safeURL(value) {
         }
     }
 })();
+
+
+/* =====================================================
+   ADMIN STAT COUNT-UP
+===================================================== */
+
+(function mulaiAdminCountUp() {
+    if (!document.body.classList.contains("admin-page")) return;
+
+    const daftarId = [
+        "totalAbsensi",
+        "totalMasuk",
+        "totalKeluar",
+
+        "totalPegawai",
+        "totalPegawaiAktif",
+        "totalPegawaiTidakAktif",
+
+        "totalKeteranganAdmin",
+        "totalKeteranganMenunggu",
+        "totalKeteranganDisetujui",
+        "totalKeteranganDitolak",
+
+        "rekapHariKerja",
+        "rekapTotalPegawai",
+        "rekapTotalHadir",
+        "rekapTotalTerlambat"
+    ];
+
+    daftarId.forEach(id => {
+        const elemen = document.getElementById(id);
+
+        if (!elemen) return;
+
+        elemen.dataset.motionTarget =
+            String(Number(elemen.textContent) || 0);
+
+        const observer = new MutationObserver(() => {
+            if (elemen.dataset.motionRunning === "1") return;
+
+            const nilaiBaru =
+                Number(String(elemen.textContent).replace(/[^\d.-]/g, ""));
+
+            if (!Number.isFinite(nilaiBaru)) return;
+
+            const targetLama =
+                Number(elemen.dataset.motionTarget || 0);
+
+            if (nilaiBaru === targetLama) return;
+
+            elemen.dataset.motionTarget =
+                String(nilaiBaru);
+
+            animasiAngkaAdmin(
+                elemen,
+                targetLama,
+                nilaiBaru
+            );
+        });
+
+        observer.observe(elemen, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+    });
+
+
+    function animasiAngkaAdmin(
+        elemen,
+        awal,
+        akhir
+    ) {
+        if (
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ) {
+            elemen.textContent = akhir;
+            return;
+        }
+
+        elemen.dataset.motionRunning = "1";
+
+        const durasi = 480;
+        const mulai = performance.now();
+
+
+        function frame(waktu) {
+            const progress =
+                Math.min(
+                    (waktu - mulai) / durasi,
+                    1
+                );
+
+            const easing =
+                1 - Math.pow(1 - progress, 3);
+
+            const nilai =
+                Math.round(
+                    awal +
+                    (akhir - awal) *
+                    easing
+                );
+
+            elemen.textContent = nilai;
+
+            if (progress < 1) {
+                requestAnimationFrame(frame);
+                return;
+            }
+
+            elemen.textContent = akhir;
+
+            setTimeout(() => {
+                elemen.dataset.motionRunning = "0";
+            }, 0);
+        }
+
+        requestAnimationFrame(frame);
+    }
+})();
