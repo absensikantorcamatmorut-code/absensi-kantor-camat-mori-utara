@@ -3028,6 +3028,7 @@ if (
 
     const pengaturanAbsensiForm = document.getElementById("pengaturanAbsensiForm");
     const simpanPengaturanBtn = document.getElementById("simpanPengaturanBtn");
+    const resetPengaturanBtn = document.getElementById("resetPengaturanBtn");
     const gunakanLokasiKantorBtn = document.getElementById("gunakanLokasiKantorBtn");
     const settingIds = ["Radius","Latitude","Longitude","MasukMulai","JamLambat","MasukSelesai","KeluarMulai","KeluarSelesai"];
     const settingEl = Object.fromEntries(settingIds.map(k => [k, document.getElementById("setting" + k)]));
@@ -5617,15 +5618,18 @@ function safeURL(value) {
 /* =====================================================
    PENGATURAN ADMIN + PREVIEW FOTO
 ===================================================== */
+function isiFormPengaturan(p = {}) {
+    const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
+    Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
+}
+
 async function muatPengaturanAdmin() {
     if (!pengaturanAbsensiForm) return;
     setButtonLoading(simpanPengaturanBtn, true, "Memuat...");
     try {
         const r = await postData({ action: "ambilPengaturanAdmin", adminToken });
         if (!r.berhasil) throw new Error(r.pesan || "Pengaturan gagal dimuat.");
-        const p = r.pengaturan || {};
-        const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
-        Object.entries(values).forEach(([k,v]) => { if (settingEl[k]) settingEl[k].value = v ?? ""; });
+        isiFormPengaturan(r.pengaturan);
     } catch (e) { appToast(e.message, "error"); }
     finally { setButtonLoading(simpanPengaturanBtn, false); }
 }
@@ -5647,6 +5651,23 @@ pengaturanAbsensiForm?.addEventListener("submit", async e => {
         appToast(r.pesan || "Pengaturan berhasil disimpan.");
     } catch (e) { appToast(e.message, "error"); }
     finally { setButtonLoading(simpanPengaturanBtn, false); }
+});
+
+resetPengaturanBtn?.addEventListener("click", async () => {
+    const yakin = await tampilkanDialogKonfirmasi(
+        "Semua pengaturan lokasi, radius, dan jam absensi akan dikembalikan ke pengaturan awal. Lanjutkan?",
+        { judul:"Reset ke Default?", teksKonfirmasi:"Ya, Reset", icon:"↺" }
+    );
+    if (!yakin) return;
+    setButtonLoading(resetPengaturanBtn, true, "Mereset...");
+    try {
+        const r = await postData({ action:"resetPengaturanAdmin", adminToken });
+        if (!r.berhasil) throw new Error(r.pesan || "Reset pengaturan gagal.");
+        isiFormPengaturan(r.pengaturan);
+        terapkanPengaturanAbsensi(r.pengaturan);
+        appToast(r.pesan || "Pengaturan kembali ke default.");
+    } catch (e) { appToast(e.message, "error"); }
+    finally { setButtonLoading(resetPengaturanBtn, false); }
 });
 
 gunakanLokasiKantorBtn?.addEventListener("click", () => {
