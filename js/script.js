@@ -3656,6 +3656,10 @@ navAkunAdminBtn?.addEventListener("click", function() {
                 `;
             }).join("");
 
+        dataPegawai.querySelectorAll(".pegawai-detail-btn").forEach(button =>
+            button.addEventListener("click", () => bukaDetailPegawai(button.dataset.nip))
+        );
+
         dataPegawai
             .querySelectorAll(".pegawai-edit-btn")
             .forEach(function(button) {
@@ -3695,6 +3699,65 @@ navAkunAdminBtn?.addEventListener("click", function() {
         tampilkanPegawaiAdmin
     );
 
+
+    /* =====================================================
+       DETAIL & RIWAYAT PEGAWAI
+    ===================================================== */
+    const detailPegawaiModal = document.getElementById("detailPegawaiModal");
+    const detailPegawaiNama = document.getElementById("detailPegawaiNama");
+    const detailPegawaiIdentitas = document.getElementById("detailPegawaiIdentitas");
+    const detailPegawaiBulan = document.getElementById("detailPegawaiBulan");
+    const detailPegawaiTahun = document.getElementById("detailPegawaiTahun");
+    const detailPegawaiIsi = document.getElementById("detailPegawaiIsi");
+    const muatDetailPegawaiBtn = document.getElementById("muatDetailPegawaiBtn");
+    let nipDetailPegawai = "";
+
+    (() => {
+        if (!detailPegawaiBulan || !detailPegawaiTahun) return;
+        const now = new Date(), bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+        detailPegawaiBulan.innerHTML = bulan.map((nama, i) => `<option value="${i+1}">${nama}</option>`).join("");
+        detailPegawaiTahun.innerHTML = Array.from({length: 6}, (_, i) => now.getFullYear() - 4 + i).map(t => `<option value="${t}">${t}</option>`).join("");
+        detailPegawaiBulan.value = now.getMonth() + 1;
+        detailPegawaiTahun.value = now.getFullYear();
+    })();
+
+    function bukaDetailPegawai(nip) {
+        const p = daftarPegawaiAdmin.find(x => String(x.nip) === String(nip));
+        if (!p) return;
+        nipDetailPegawai = nip;
+        detailPegawaiNama.textContent = p.nama || "Pegawai";
+        detailPegawaiIdentitas.textContent = `NIP ${p.nip || "-"} • ${p.status || "Aktif"}`;
+        bukaModal(detailPegawaiModal);
+        muatDetailPegawai();
+    }
+
+    async function muatDetailPegawai() {
+        if (!nipDetailPegawai) return;
+        setButtonLoading(muatDetailPegawaiBtn, true, "Memuat...");
+        detailPegawaiIsi.innerHTML = '<div class="detail-loading">Memuat riwayat pegawai...</div>';
+        try {
+            const hasil = await postAdmin({ action: "ambilDetailPegawai", nip: nipDetailPegawai, bulan: +detailPegawaiBulan.value, tahun: +detailPegawaiTahun.value }, 45000);
+            if (!hasil.berhasil) throw new Error(hasil.pesan || "Riwayat gagal dimuat.");
+            renderDetailPegawai(hasil);
+        } catch (e) {
+            detailPegawaiIsi.innerHTML = `<div class="detail-error">${escapeHTML(e.message)}</div>`;
+            appToast(e.message, "error", "Data belum dapat dimuat");
+        } finally { setButtonLoading(muatDetailPegawaiBtn, false); }
+    }
+
+    function renderDetailPegawai(h) {
+        const r = h.rekap || {}, riwayat = h.riwayat || [];
+        const cards = [["Hadir",r.H],["Terlambat",r.hariTerlambat],["Tidak Hadir",r.TK],["Sakit",r.S],["Cuti",r.CT],["TAP",r.TAP]];
+        detailPegawaiIsi.innerHTML = `
+            <div class="detail-ringkasan">${cards.map(x => `<div><small>${x[0]}</small><strong>${x[1] || 0}</strong></div>`).join("")}</div>
+            <div class="detail-total-terlambat"><span>Total keterlambatan</span><strong>${escapeHTML(r.totalTerlambat || "-")}</strong></div>
+            <div class="detail-riwayat-header"><strong>Riwayat Harian</strong><span>${escapeHTML(h.namaBulan || "")} ${h.tahun || ""}</span></div>
+            ${riwayat.length ? `<div class="detail-riwayat-list">${riwayat.map(x => `<div class="detail-riwayat-item"><div><strong>${escapeHTML(x.tanggalTampil || x.tanggal || "-")}</strong><span>Masuk ${escapeHTML(x.jamMasuk || "-")} • Pulang ${escapeHTML(x.jamKeluar || "-")}</span></div><span class="detail-status">${escapeHTML(x.status || "-")}</span></div>`).join("")}</div>` : '<div class="detail-empty">Belum ada riwayat pada periode ini.</div>'}`;
+    }
+
+    muatDetailPegawaiBtn?.addEventListener("click", muatDetailPegawai);
+    document.getElementById("tutupDetailPegawaiBtn")?.addEventListener("click", () => tutupModal(detailPegawaiModal));
+    detailPegawaiModal?.querySelector(".admin-modal-backdrop")?.addEventListener("click", () => tutupModal(detailPegawaiModal));
 
     /* =====================================================
        MODAL PEGAWAI

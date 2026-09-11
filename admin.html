@@ -1102,6 +1102,24 @@
 
         </div>
 
+
+        <!-- DETAIL & RIWAYAT PEGAWAI -->
+        <div class="admin-modal" id="detailPegawaiModal" hidden>
+            <div class="admin-modal-backdrop"></div>
+            <div class="admin-modal-content detail-pegawai-modal">
+                <div class="admin-modal-header">
+                    <div><span class="section-label">DETAIL PEGAWAI</span><h2 id="detailPegawaiNama">Riwayat Pegawai</h2><p id="detailPegawaiIdentitas">-</p></div>
+                    <button type="button" id="tutupDetailPegawaiBtn" class="modal-close-btn" aria-label="Tutup">×</button>
+                </div>
+                <div class="detail-pegawai-filter">
+                    <label>Bulan <select id="detailPegawaiBulan"></select></label>
+                    <label>Tahun <select id="detailPegawaiTahun"></select></label>
+                    <button type="button" id="muatDetailPegawaiBtn" class="admin-primary-btn">Tampilkan</button>
+                </div>
+                <div id="detailPegawaiIsi" class="detail-pegawai-isi"><div class="detail-loading">Pilih periode untuk melihat riwayat.</div></div>
+            </div>
+        </div>
+
     </main>
 
 
