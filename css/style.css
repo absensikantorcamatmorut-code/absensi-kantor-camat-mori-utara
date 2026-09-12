@@ -14129,285 +14129,163 @@ html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawai
 
 
 /* ============================================================
-   THEME SWITCH PADA HALAMAN LOGIN
-   Icon/bentuk existing tidak diubah; hanya posisi.
-============================================================ */
-body:not(.absensi-page):not(.admin-page) .login-container {
-    position: relative !important;
-}
-
-body:not(.absensi-page):not(.admin-page) .login-container .theme-switch-btn {
-    position: absolute !important;
-    right: 18px !important;
-    top: 18px !important;
-    left: auto !important;
-    bottom: auto !important;
-    margin: 0 !important;
-    z-index: 5 !important;
-}
-
-/* Mobile: sedikit lebih rapat agar tidak mengganggu judul login. */
-@media (max-width: 560px) {
-    body:not(.absensi-page):not(.admin-page) .login-container .theme-switch-btn {
-        right: 14px !important;
-        top: 14px !important;
-    }
-}
-
-
-/* ============================================================
-   DARK THEME — COMPLETE ZERO-WHITE CLEANUP
-   Fokus: semua box/icon/logo kecil yang masih putih/pucat
-   pada Login, Absensi Pegawai, Riwayat, Info, dan Admin.
-   Bentuk/logo utama tidak diubah.
+   FINAL SINGLE THEME
+   Layout NOVA dipertahankan, tetapi seluruh palet dibuat TERANG.
+   Tidak ada lagi mode gelap / theme switch.
 ============================================================ */
 
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] {
-    --dw-bg: #07111f;
-    --dw-panel: #0b1a2d;
-    --dw-panel-2: #0e2037;
-    --dw-panel-3: #10253f;
-    --dw-line: rgba(151,181,216,.16);
-    --dw-line-hot: rgba(92,225,230,.28);
-    --dw-text: #eef8ff;
-    --dw-muted: #9bb0c5;
-    --dw-cyan: #63e4e8;
-    --dw-mint: #67efbd;
+html,
+html[data-ui-theme],
+body,
+body[data-ui-theme] {
+    color-scheme: light !important;
 }
 
-/* ============================================================
-   1) EMPLOYEE PAGE — icon/logo boxes that still leak white
-============================================================ */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] :is(
-    .rekap-info-icon,
-    .step-number,
-    .rekap-stat-item > span:first-child,
-    .rekap-terlambat-item > span:first-child,
-    .riwayat-rekap-item > span:first-child,
-    .simple-info-card .info-icon,
-    .pegawai-notification-icon,
-    .mode-icon,
-    .action-icon,
-    .requirement-icon,
-    .camera-icon,
-    .location-icon,
-    .status-icon
-) {
-    color: var(--dw-cyan) !important;
-    background: rgba(92,225,230,.075) !important;
-    border: 1px solid rgba(92,225,230,.15) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+html[data-ui-theme="nova"],
+html[data-ui-theme="legacy"],
+html {
+    --nova-bg: #f4f8ff !important;
+    --nova-surface: rgba(255,255,255,.92) !important;
+    --nova-surface-2: #ffffff !important;
+    --nova-line: rgba(38, 91, 170, .15) !important;
+    --nova-text: #17243a !important;
+    --nova-muted: #73829a !important;
+    --nova-cyan: #1e9fe8 !important;
+    --nova-mint: #42dfba !important;
+    --nova-violet: #6659f5 !important;
 }
 
-/* preserve semantic warning/error icon tints */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] :is(
-    .rekap-pegawai-error .rekap-info-icon,
-    .error-icon,
-    .danger-icon
-) {
-    color: #ff9aab !important;
-    background: rgba(255,116,138,.08) !important;
-    border-color: rgba(255,116,138,.18) !important;
+/* Paksa selector layout NOVA tetap aktif lewat data-theme nova,
+   tetapi gunakan latar terang. */
+html[data-ui-theme="nova"] body,
+body[data-ui-theme="nova"] {
+    background:
+        radial-gradient(circle at 10% 5%, rgba(54,126,255,.13), transparent 28%),
+        radial-gradient(circle at 92% 18%, rgba(43,211,198,.12), transparent 26%),
+        linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%) !important;
+    color: #17243a !important;
 }
 
-/* Riwayat filter + stats + empty/error blocks */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
-    .rekap-pegawai-filter-card,
-    .rekap-pegawai-info-card,
-    .rekap-pegawai-card,
-    .rekap-stat-item,
-    .rekap-terlambat-item,
-    .riwayat-rekap-item,
-    .rekap-pegawai-empty,
-    .rekap-pegawai-error
+/* Seluruh surface utama */
+html[data-ui-theme="nova"] body :is(
+    .absensi-header, .admin-header, .employee-profile-card, .employee-nav,
+    .admin-nav, .admin-section, .dashboard-card, .stat-card, .action-panel,
+    .attendance-card, .info-card, .rekap-pegawai-card, .rekap-filter-card,
+    .rekap-summary-card, .rekap-step-card, .rekap-terlambat-card,
+    .riwayat-card, .setting-card, .settings-card, .pengumuman-card,
+    .admin-account-card, .data-card, .table-wrap, .calendar-card,
+    .modal-content, .confirm-box, .empty-state
 ) {
-    background: linear-gradient(145deg, rgba(14,32,55,.98), rgba(7,18,33,.98)) !important;
-    border-color: var(--dw-line) !important;
-    color: var(--dw-text) !important;
+    background: rgba(255,255,255,.92) !important;
+    border-color: rgba(43,91,154,.14) !important;
+    color: #17243a !important;
+    box-shadow: 0 14px 36px rgba(36,72,125,.10) !important;
 }
 
-/* Ensure all riwayat labels stay readable */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
-    h1,h2,h3,h4,strong
+/* Cards generik yang berasal dari layout gelap */
+html[data-ui-theme="nova"] body :is(
+    [class*="card"], [class*="panel"], [class*="section"]
 ) {
-    color: var(--dw-text) !important;
-    -webkit-text-fill-color: var(--dw-text) !important;
-}
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
-    p,label,small,.rekap-pegawai-filter-heading,.rekap-stat-item span,.rekap-terlambat-item span
-) {
-    color: var(--dw-muted) !important;
-    -webkit-text-fill-color: var(--dw-muted) !important;
+    --single-light-text: #17243a;
 }
 
-/* inputs/selects dark in employee riwayat */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
-    input, select
+/* Text utama */
+html[data-ui-theme="nova"] body :is(
+    h1,h2,h3,h4,h5,h6,strong,
+    .section-title,.rekap-pegawai-section-title,
+    .admin-section-title,.card-title
 ) {
-    color: var(--dw-text) !important;
-    background: #081727 !important;
-    border-color: var(--dw-line) !important;
-    -webkit-text-fill-color: var(--dw-text) !important;
-}
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection select option {
-    color: var(--dw-text) !important;
-    background: #081727 !important;
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
 }
 
-/* Info cards: no white */
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection .simple-info-card {
-    background: linear-gradient(145deg, rgba(14,32,55,.98), rgba(7,18,33,.98)) !important;
-    border-color: var(--dw-line) !important;
-    color: var(--dw-text) !important;
-}
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection .simple-info-card strong {
-    color: var(--dw-text) !important;
-}
-html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection .simple-info-card p {
-    color: var(--dw-muted) !important;
+/* Text sekunder */
+html[data-ui-theme="nova"] body :is(
+    p,label,small,.muted,.subtitle,.helper-text,
+    .rekap-stat-item > span,.rekap-terlambat-item > span
+) {
+    color: #73829a !important;
+    -webkit-text-fill-color: #73829a !important;
 }
 
-/* ============================================================
-   2) ADMIN — all icon/logo boxes
-============================================================ */
-html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
-    .admin-section-icon,
-    .stat-icon,
-    .pegawai-stat-icon,
-    .rekap-stat-icon,
-    .admin-profile-avatar,
-    .admin-announcement-icon,
-    .holiday-summary-icon,
-    .action-needed-icon,
-    .settings-icon,
-    .log-icon
+/* Accent/eyebrow */
+html[data-ui-theme="nova"] body :is(
+    .section-eyebrow,.eyebrow,.admin-kicker,.rekap-pegawai-badge
 ) {
-    color: var(--dw-cyan) !important;
-    background: rgba(92,225,230,.075) !important;
-    border: 1px solid rgba(92,225,230,.15) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+    color: #2676d9 !important;
+    -webkit-text-fill-color: #2676d9 !important;
 }
 
-/* Admin major panels stay dark */
-html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
-    .admin-section-intro,
-    .admin-section-hero,
-    .data-section,
-    .action-needed-card,
-    .admin-tools,
-    .filter-container,
-    .pegawai-tools,
-    .keterangan-filter-card,
-    .rekap-control-card,
-    .holiday-summary-card,
-    .holiday-calendar-card,
-    .settings-card,
-    .settings-date-card,
-    .settings-block,
-    .admin-profile-card,
-    .admin-password-card,
-    .admin-announcement-card,
-    .announcement-preview
-) {
-    background: linear-gradient(145deg, rgba(14,32,55,.98), rgba(7,18,33,.98)) !important;
-    border-color: var(--dw-line) !important;
-    color: var(--dw-text) !important;
+/* Inputs */
+html[data-ui-theme="nova"] body :is(input,select,textarea) {
+    background: #f8fbff !important;
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
+    border-color: rgba(43,91,154,.18) !important;
+}
+html[data-ui-theme="nova"] body :is(input,textarea)::placeholder {
+    color: #96a4b8 !important;
+    -webkit-text-fill-color: #96a4b8 !important;
 }
 
-/* ============================================================
-   3) LOGIN — remove light leaks, but keep main building badge
-   exactly as designed.
-============================================================ */
-html[data-ui-theme="nova"] body:not(.absensi-page):not(.admin-page)[data-ui-theme="nova"] :is(
-    .login-container,
-    .login-card,
-    .login-form,
-    .login-content
-) {
-    border-color: var(--dw-line) !important;
+/* Navigation tetap memakai layout NOVA tetapi terang */
+html[data-ui-theme="nova"] body :is(.employee-nav,.admin-nav) {
+    background: rgba(255,255,255,.88) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+}
+html[data-ui-theme="nova"] body :is(.employee-nav,.admin-nav) button:not(.active) {
+    color: #66768e !important;
+}
+html[data-ui-theme="nova"] body :is(.employee-nav,.admin-nav) button.active {
+    background: linear-gradient(135deg,#2f72f4,#18b7e8) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 24px rgba(41,112,232,.24) !important;
 }
 
-/* field/input stays dark */
-html[data-ui-theme="nova"] body:not(.absensi-page):not(.admin-page)[data-ui-theme="nova"] :is(
-    input, select, textarea
+/* Action buttons */
+html[data-ui-theme="nova"] body :is(
+    .primary-btn,.btn-primary,.submit-btn
 ) {
-    color: var(--dw-text) !important;
-    background: #081727 !important;
-    border-color: var(--dw-line) !important;
-    -webkit-text-fill-color: var(--dw-text) !important;
+    background: linear-gradient(135deg,#2f72f4,#635df6) !important;
+    color: #fff !important;
 }
 
-/* ============================================================
-   4) DIALOG / MODAL / TOAST
-============================================================ */
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    .custom-dialog-box,
-    .admin-modal-content,
-    .modal-content,
-    .detail-modal-content,
-    .photo-modal-content
-) {
-    color: var(--dw-text) !important;
-    background: linear-gradient(145deg, #0e2037, #091827) !important;
-    border-color: var(--dw-line) !important;
-}
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    .custom-dialog-box,
-    .admin-modal-content,
-    .modal-content,
-    .detail-modal-content,
-    .photo-modal-content
-) :is(h1,h2,h3,h4,strong) {
-    color: var(--dw-text) !important;
-}
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    .custom-dialog-box,
-    .admin-modal-content,
-    .modal-content,
-    .detail-modal-content,
-    .photo-modal-content
-) :is(p,small,label,span) {
-    color: var(--dw-muted);
+/* Header layout NOVA tetap modern */
+html[data-ui-theme="nova"] body :is(.absensi-header,.admin-header) {
+    background:
+        radial-gradient(circle at 90% 10%, rgba(42,203,220,.15), transparent 35%),
+        rgba(255,255,255,.90) !important;
 }
 
-/* ============================================================
-   5) LAST RESORT: remove direct white/light backgrounds in app
-   content, excluding images/media, primary CTA and theme button.
-============================================================ */
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    .admin-page-section,
-    #absensiPegawaiSection,
-    #rekapPegawaiSection,
-    #infoPegawaiSection
-) :is(
-    [style*="background: white"],
-    [style*="background:white"],
-    [style*="background: #fff"],
-    [style*="background:#fff"],
-    [style*="background-color: white"],
-    [style*="background-color:white"],
-    [style*="background-color: #fff"],
-    [style*="background-color:#fff"]
-) {
-    background: var(--dw-panel) !important;
-    color: var(--dw-text) !important;
+/* Hilangkan tombol theme sepenuhnya jika sisa elemen lama masih ada */
+.theme-switch-btn,
+#themeSwitchBtn,
+[data-theme-switch] {
+    display: none !important;
 }
 
-/* generic pale icon boxes on dark pages */
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    .step-number,
-    .rekap-info-icon,
-    .stat-icon,
-    .pegawai-stat-icon,
-    .rekap-stat-icon,
-    .admin-section-icon
+/* Riwayat pegawai: kontras terang */
+html[data-ui-theme="nova"] body.absensi-page #rekapPegawaiSection :is(
+    .rekap-pegawai-section-title,h1,h2,h3,h4,strong
 ) {
-    background-image: none !important;
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
+}
+html[data-ui-theme="nova"] body.absensi-page #rekapPegawaiSection :is(
+    p,label,small,.rekap-pegawai-filter-heading,
+    .rekap-stat-item > span,.rekap-terlambat-item > span
+) {
+    color: #718198 !important;
+    -webkit-text-fill-color: #718198 !important;
 }
 
-/* don't alter actual images/logos/media */
-html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
-    img, video, canvas, svg
+/* Nilai statistik */
+html[data-ui-theme="nova"] body.absensi-page #rekapPegawaiSection :is(
+    .rekap-stat-item strong,.rekap-terlambat-item strong
 ) {
-    filter: none !important;
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
 }
+
+/* Pertahankan animasi layout NOVA; hanya warna yang berubah. */
