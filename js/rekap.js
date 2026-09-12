@@ -217,21 +217,21 @@ if (rekapPage) {
         }
         dataRekapBulanan.innerHTML = daftar.map(item => `
             <tr>
-                <td>${escapeHTMLRekap(item.no)}</td>
-                <td>${escapeHTMLRekap(item.nip)}</td>
-                <td>${escapeHTMLRekap(item.nama)}</td>
-                <td>${angkaRekap(item.H)}</td>
-                <td>${angkaRekap(item.TAP)}</td>
-                <td>${angkaRekap(item.S)}</td>
-                <td>${angkaRekap(item.CT)}</td>
-                <td>${angkaRekap(item.TK)}</td>
-                <td>${angkaRekap(item.DD)}</td>
-                <td>${angkaRekap(item.DL)}</td>
-                <td>${angkaRekap(item.IM)}</td>
-                <td>${angkaRekap(item.WFH)}</td>
-                <td>${angkaRekap(item.MPP)}</td>
-                <td>${angkaRekap(item.hariTerlambat)}</td>
-                <td>${escapeHTMLRekap(item.totalTerlambat || "-")}</td>
+                <td data-label="No">${escapeHTMLRekap(item.no)}</td>
+                <td data-label="NIP">${escapeHTMLRekap(item.nip)}</td>
+                <td data-label="Nama">${escapeHTMLRekap(item.nama)}</td>
+                <td data-label="H">${angkaRekap(item.H)}</td>
+                <td data-label="TAP">${angkaRekap(item.TAP)}</td>
+                <td data-label="S">${angkaRekap(item.S)}</td>
+                <td data-label="CT">${angkaRekap(item.CT)}</td>
+                <td data-label="TK">${angkaRekap(item.TK)}</td>
+                <td data-label="DD">${angkaRekap(item.DD)}</td>
+                <td data-label="DL">${angkaRekap(item.DL)}</td>
+                <td data-label="IM">${angkaRekap(item.IM)}</td>
+                <td data-label="WFH">${angkaRekap(item.WFH)}</td>
+                <td data-label="MPP">${angkaRekap(item.MPP)}</td>
+                <td data-label="Jumlah Hari Terlambat">${angkaRekap(item.hariTerlambat)}</td>
+                <td data-label="Total Terlambat">${escapeHTMLRekap(item.totalTerlambat || "-")}</td>
             </tr>
         `).join("");
     }

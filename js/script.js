@@ -3797,13 +3797,13 @@ navAkunAdminBtn?.addEventListener("click", function() {
 
                 return `
                     <tr>
-                        <td>${escapeHTML(pegawai.nama || "-")}</td>
-                        <td>${escapeHTML(pegawai.nip || "-")}</td>
-                        <td>${escapeHTML(pegawai.email || "-")}</td>
-                        <td><strong>${escapeHTML(pegawai.jabatan || "-")}</strong><br><small>${escapeHTML(pegawai.unitKerja || "-")}</small></td>
-                        <td>${escapeHTML(pegawai.tanggalMulaiKerja || "-")}</td>
+                        <td data-label="Nama">${escapeHTML(pegawai.nama || "-")}</td>
+                        <td data-label="NIP">${escapeHTML(pegawai.nip || "-")}</td>
+                        <td data-label="Email">${escapeHTML(pegawai.email || "-")}</td>
+                        <td data-label="Jabatan / Unit"><strong>${escapeHTML(pegawai.jabatan || "-")}</strong><br><small>${escapeHTML(pegawai.unitKerja || "-")}</small></td>
+                        <td data-label="Mulai Kerja">${escapeHTML(pegawai.tanggalMulaiKerja || "-")}</td>
 
-                        <td>
+                        <td data-label="Status">
                             <span class="pegawai-status-badge ${
                                 status === "Aktif"
                                     ? "pegawai-status-aktif"
@@ -3813,7 +3813,7 @@ navAkunAdminBtn?.addEventListener("click", function() {
                             </span>
                         </td>
 
-                        <td>
+                        <td data-label="Aksi">
                             <div class="pegawai-action-container">
                                 <button
                                     type="button"

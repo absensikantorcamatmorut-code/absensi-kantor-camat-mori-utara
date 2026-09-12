@@ -3151,3 +3151,196 @@ td {
         padding: 6px 0;
     }
 }
+
+
+/* ============================================================
+   REAL DEVICE MOBILE FIX — spacing, cards, rekap preview
+============================================================ */
+
+/* Fix huge spaces caused by desktop flex-basis becoming vertical height */
+@media (max-width: 820px) {
+    .admin-tools,
+    .pegawai-tools,
+    .filter-container,
+    .keterangan-filter-card {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .admin-tools > div,
+    .pegawai-tools > div,
+    .filter-container > div,
+    .keterangan-filter-card > div {
+        flex: none !important;
+        width: 100% !important;
+        min-height: 0 !important;
+    }
+
+    .admin-tools button,
+    .pegawai-tools button,
+    .filter-container button,
+    .keterangan-filter-card button {
+        width: 100% !important;
+    }
+}
+
+/* Password card: vertical hierarchy */
+.admin-password-header {
+    display: block !important;
+    margin-bottom: 16px !important;
+}
+.admin-password-header .section-label {
+    margin-bottom: 10px !important;
+}
+.admin-password-header h2 {
+    margin: 0 0 8px !important;
+    color: var(--text) !important;
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+}
+.admin-password-header .admin-password-description {
+    margin: 0 !important;
+    max-width: 620px !important;
+    color: var(--muted) !important;
+    line-height: 1.55 !important;
+}
+.admin-form-group {
+    margin-bottom: 14px !important;
+}
+
+/* Non-workday notice icon was blank after total redesign */
+.pegawai-notification-icon.nonwork-css-icon {
+    position: relative !important;
+    font-size: 0 !important;
+    color: var(--primary) !important;
+}
+.pegawai-notification-icon.nonwork-css-icon::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+}
+.pegawai-notification-icon.nonwork-css-icon::after {
+    content: "";
+    position: absolute;
+    width: 17px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform: rotate(-38deg);
+}
+
+/* Data Pegawai mobile: restore actual labels instead of anonymous stacked values */
+@media (max-width: 640px) {
+    #tabelPegawai tbody td {
+        grid-template-columns: 112px minmax(0,1fr) !important;
+        gap: 12px !important;
+        text-align: left !important;
+    }
+    #tabelPegawai tbody td::before {
+        content: attr(data-label) !important;
+        display: block !important;
+        color: var(--muted) !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+    }
+    #tabelPegawai .pegawai-action-container {
+        justify-content: flex-start !important;
+    }
+}
+
+/* Rekap preview must visually match the real Google Sheet columns.
+   Do NOT transform this specific table into mobile cards. */
+.rekap-table-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+#tabelRekapBulanan {
+    display: table !important;
+    width: 100% !important;
+    min-width: 1480px !important;
+    border-collapse: collapse !important;
+    table-layout: auto !important;
+}
+#tabelRekapBulanan thead {
+    display: table-header-group !important;
+}
+#tabelRekapBulanan tbody {
+    display: table-row-group !important;
+    padding: 0 !important;
+}
+#tabelRekapBulanan tr {
+    display: table-row !important;
+    padding: 0 !important;
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+#tabelRekapBulanan th,
+#tabelRekapBulanan td {
+    display: table-cell !important;
+    padding: 11px 12px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    border-right: 1px solid #e7edf4 !important;
+    border-bottom: 1px solid #e7edf4 !important;
+}
+#tabelRekapBulanan th:nth-child(2),
+#tabelRekapBulanan td:nth-child(2),
+#tabelRekapBulanan th:nth-child(3),
+#tabelRekapBulanan td:nth-child(3) {
+    text-align: left !important;
+}
+#tabelRekapBulanan td::before {
+    display: none !important;
+    content: none !important;
+}
+#tabelRekapBulanan thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+    background: #f3f7fc !important;
+    color: #4f647d !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+#tabelRekapBulanan tbody tr:nth-child(even) td {
+    background: #fbfdff !important;
+}
+#tabelRekapBulanan tbody tr:hover td {
+    background: #eef6ff !important;
+}
+.rekap-preview-tools small {
+    display: block !important;
+    margin-top: 7px !important;
+    color: var(--muted) !important;
+    line-height: 1.45 !important;
+}
+
+@media (max-width: 640px) {
+    .rekap-data-section #buatSheetRekapBtn {
+        width: 100% !important;
+    }
+    .rekap-preview-tools {
+        margin-bottom: 12px !important;
+    }
+    .rekap-table-wrapper {
+        border-radius: 14px !important;
+    }
+
+    /* prevent accidental inherited tall cards */
+    .admin-tools,
+    .pegawai-tools,
+    .filter-container,
+    .keterangan-filter-card,
+    .data-section,
+    .admin-password-card,
+    .admin-profile-card {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+}
