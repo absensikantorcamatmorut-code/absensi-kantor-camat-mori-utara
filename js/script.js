@@ -1286,7 +1286,7 @@ localStorage.removeItem("adminToken");
 
         adminLoginButton.disabled = true;
         adminLoginButton.textContent = "Memverifikasi...";
-        adminLoginStatus.textContent = "Memverifikasi admin...";
+        adminLoginStatus.textContent = "";
 
         try {
             const hasil = await postData({
