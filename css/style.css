@@ -6905,3 +6905,112 @@ td {
         font-size: 11px !important;
     }
 }
+
+
+/* ============================================================
+   ADMIN NAV — tiap menu jadi card sendiri
+============================================================ */
+
+.admin-nav {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    background: #fff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 22px !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.admin-nav-btn {
+    min-width: 0 !important;
+    min-height: 82px !important;
+    padding: 10px 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    color: var(--muted) !important;
+    background: linear-gradient(145deg, #ffffff, #f8fbff) !important;
+    border: 1px solid #dfe9f5 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(31,62,102,.045) !important;
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease,
+        background .18s ease !important;
+}
+
+.admin-nav-btn:hover {
+    color: var(--primary) !important;
+    border-color: #c8dcf7 !important;
+    background: #f7fbff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 16px rgba(31,62,102,.07) !important;
+}
+
+.admin-nav-btn .admin-nav-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    background: #eef4fb !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+}
+
+.admin-nav-btn > span:last-child {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+}
+
+/* Menu aktif */
+.admin-nav-btn.active {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 22px rgba(35,104,242,.20) !important;
+    transform: translateY(-1px);
+}
+
+.admin-nav-btn.active .admin-nav-icon {
+    background: rgba(255,255,255,.17) !important;
+    color: #fff !important;
+}
+
+/* Supaya item terakhir (Akun Admin) tetap rapi saat jumlah ganjil */
+.admin-nav-btn:last-child {
+    grid-column: 1 / span 1;
+}
+
+@media (max-width: 640px) {
+    .admin-nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        padding: 10px !important;
+        border-radius: 20px !important;
+    }
+
+    .admin-nav-btn {
+        min-height: 76px !important;
+        padding: 8px 6px !important;
+        border-radius: 15px !important;
+    }
+
+    .admin-nav-btn .admin-nav-icon {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 11px !important;
+        font-size: 18px !important;
+    }
+
+    .admin-nav-btn > span:last-child {
+        font-size: 11px !important;
+    }
+}
