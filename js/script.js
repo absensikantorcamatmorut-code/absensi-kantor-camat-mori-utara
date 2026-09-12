@@ -1801,7 +1801,7 @@ const bagianKirim =
         const waktu = statusWaktuAbsensi();
         let judul = "", teks = "", icon = "ⓘ";
         if (!hariKerjaHariIni) {
-            judul = "Bukan Hari Kerja"; teks = "Hari ini absensi tidak tersedia."; icon = "&#128197;";
+            judul = "Bukan Hari Kerja"; teks = "Hari ini absensi tidak tersedia."; icon = "OFF";
         } else if (hariLiburHariIni) {
             judul = "Hari Libur"; teks = namaHariLiburHariIni || "Hari ini ditetapkan sebagai hari libur."; icon = "🎉";
         } else if (adaKeterangan) {
@@ -5989,6 +5989,5 @@ muatThumbnailFotoTerlihat();
 
 
 })();
-
 
 
