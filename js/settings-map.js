@@ -99,6 +99,8 @@
             return;
         }
 
+        mapEl.querySelector(".map-loading-state")?.remove();
+
         const s = state();
 
         map = L.map(mapEl, {
@@ -234,6 +236,15 @@
 
     buildMap();
     updateRadius(state().radius, false);
+
+    window.refreshOfficeMapLayout = () => {
+        if (!map) return;
+        setTimeout(() => {
+            map.invalidateSize();
+            const s = state();
+            map.setView([s.lat, s.lng], zoomForRadius(s.radius), { animate: false });
+        }, 80);
+    };
 
     window.syncOfficeMapFromSettings = () => {
         const s = state();

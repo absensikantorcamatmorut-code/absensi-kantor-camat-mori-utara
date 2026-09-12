@@ -3994,3 +3994,252 @@ td {
         align-items: end !important;
     }
 }
+
+
+/* ============================================================
+   OFFICE MAP — REAL MOBILE RESPONSIVE FIX
+   Fix screenshot: content clipped on right + map malformed.
+============================================================ */
+
+/* Prevent any settings child from forcing page wider than viewport. */
+#adminPengaturanSection,
+#adminPengaturanSection .settings-stack,
+#adminPengaturanSection .settings-card,
+#adminPengaturanSection .settings-main-card,
+#adminPengaturanSection .office-location-layout,
+#adminPengaturanSection .office-zone-topbar,
+#adminPengaturanSection .office-zone-status,
+#adminPengaturanSection .office-map-search,
+#adminPengaturanSection .office-search-field,
+#adminPengaturanSection .office-map-card,
+#adminPengaturanSection .location-coordinate-grid,
+#adminPengaturanSection .radius-editor-card,
+#adminPengaturanSection .attendance-time-block,
+#adminPengaturanSection .attendance-time-grid {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#adminPengaturanSection {
+    overflow-x: clip !important;
+}
+
+#adminPengaturanSection .settings-card {
+    width: 100% !important;
+}
+
+.office-map-card-main,
+.office-radius-map,
+.office-radius-map-large,
+.office-radius-map .leaflet-container,
+.office-radius-map .leaflet-map-pane,
+.office-radius-map .leaflet-tile-pane {
+    max-width: 100% !important;
+}
+
+.office-radius-map {
+    width: 100% !important;
+}
+
+/* Leaflet must own the map surface fully. */
+.office-radius-map.leaflet-container {
+    background: #e9f1f6 !important;
+    overflow: hidden !important;
+}
+
+.office-radius-map .leaflet-pane,
+.office-radius-map .leaflet-tile,
+.office-radius-map .leaflet-marker-icon,
+.office-radius-map .leaflet-marker-shadow,
+.office-radius-map .leaflet-tile-container {
+    max-width: none !important;
+    max-height: none !important;
+}
+
+/* The global img { max-width:100% } rule breaks Leaflet tiles.
+   Restore Leaflet's expected image sizing. */
+.office-radius-map img.leaflet-tile,
+.office-radius-map .leaflet-marker-icon,
+.office-radius-map .leaflet-marker-shadow {
+    max-width: none !important;
+}
+
+@media (max-width: 640px) {
+    #adminPengaturanSection .settings-main-card {
+        padding: 14px !important;
+        overflow: hidden !important;
+    }
+
+    .office-zone-topbar {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .office-zone-topbar > div:first-child {
+        min-width: 0 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .office-zone-topbar p {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .office-zone-status {
+        width: 100% !important;
+        min-width: 0 !important;
+        gap: 10px !important;
+        padding: 12px !important;
+    }
+
+    .office-zone-status > div {
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+
+    .office-zone-status small {
+        overflow-wrap: anywhere !important;
+    }
+
+    .office-zone-switch {
+        flex: 0 0 52px !important;
+        width: 52px !important;
+    }
+
+    .office-map-search {
+        display: grid !important;
+        grid-template-columns: 1fr 52px !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .office-search-field {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+    }
+
+    .office-search-field input {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .office-search-btn {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .office-current-btn {
+        width: 52px !important;
+        min-width: 52px !important;
+        padding: 0 !important;
+        display: grid !important;
+        place-items: center !important;
+    }
+
+    .office-current-btn span:last-child {
+        display: none !important;
+    }
+
+    .office-current-btn span:first-child {
+        display: block !important;
+        font-size: 19px !important;
+        line-height: 1 !important;
+    }
+
+    .office-map-hint {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        line-height: 1.45 !important;
+    }
+
+    .office-map-card-main {
+        width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 16px !important;
+    }
+
+    .office-radius-map-large {
+        width: 100% !important;
+        height: 300px !important;
+        min-height: 300px !important;
+    }
+
+    .map-loading-state {
+        min-height: 300px !important;
+    }
+
+    .map-radius-badge-floating {
+        left: 10px !important;
+        bottom: 48px !important;
+        max-width: calc(100% - 20px) !important;
+    }
+
+    .office-map-status {
+        overflow-wrap: anywhere !important;
+    }
+
+    .location-coordinate-grid-below {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+
+    .location-coordinate-grid-below .admin-form-group {
+        min-width: 0 !important;
+    }
+
+    .location-coordinate-grid-below input {
+        width: 100% !important;
+        min-width: 0 !important;
+        font-size: 14px !important;
+    }
+
+    .radius-editor-card-below {
+        width: 100% !important;
+        padding: 14px !important;
+    }
+
+    .radius-editor-top {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        align-items: stretch !important;
+    }
+
+    .radius-number-box {
+        width: 100% !important;
+    }
+
+    .radius-number-box input {
+        width: 100% !important;
+    }
+
+    #settingRadiusSlider {
+        width: 100% !important;
+    }
+
+    .radius-scale {
+        font-size: 10px !important;
+    }
+
+    .attendance-time-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 400px) {
+    #adminPengaturanSection .settings-main-card {
+        padding: 12px !important;
+    }
+
+    .office-radius-map-large {
+        height: 270px !important;
+        min-height: 270px !important;
+    }
+
+    .map-loading-state {
+        min-height: 270px !important;
+    }
+}
