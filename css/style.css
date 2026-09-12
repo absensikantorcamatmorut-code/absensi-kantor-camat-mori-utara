@@ -6055,3 +6055,25 @@ td {
         border-radius: 20px !important;
     }
 }
+
+
+/* ============================================================
+   FIX TOAST PEGAWAI — sembunyi saat tidak aktif
+============================================================ */
+.toast {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(14px) scale(.98) !important;
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease !important;
+}
+
+.toast.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+}
