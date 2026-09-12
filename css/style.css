@@ -6077,3 +6077,335 @@ td {
     pointer-events: auto !important;
     transform: translateY(0) scale(1) !important;
 }
+
+
+/* ============================================================
+   REKAP PEGAWAI — ringkasan modern, warna variatif, teks rapi
+============================================================ */
+
+/* Judul section: nomor dan judul sejajar rapi */
+.rekap-pegawai-section-title {
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+}
+
+.rekap-pegawai-section-title .step-number {
+    display: grid !important;
+    place-items: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    border-radius: 14px !important;
+    background: linear-gradient(145deg, #eef5ff, #e5efff) !important;
+    color: var(--primary) !important;
+    font-size: 18px !important;
+    font-weight: 850 !important;
+}
+
+.rekap-pegawai-section-title > div {
+    min-width: 0 !important;
+}
+
+.rekap-pegawai-section-title h3 {
+    margin: 0 !important;
+    color: var(--text) !important;
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+}
+
+/* Card ringkasan */
+.rekap-pegawai-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.rekap-stat-item {
+    position: relative !important;
+    overflow: hidden !important;
+    display: grid !important;
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    grid-template-areas:
+        "code value"
+        "label label" !important;
+    align-items: center !important;
+    gap: 8px 10px !important;
+    min-height: 108px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+    background: #fff !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 4px 14px rgba(31, 62, 102, .05) !important;
+}
+
+.rekap-stat-item::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -22px !important;
+    bottom: -26px !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    opacity: .09 !important;
+    pointer-events: none !important;
+}
+
+.rekap-stat-item > span:first-child {
+    grid-area: code !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    border-radius: 13px !important;
+    font-size: 13px !important;
+    font-weight: 850 !important;
+}
+
+.rekap-stat-item strong {
+    grid-area: value !important;
+    justify-self: end !important;
+    margin: 0 !important;
+    color: var(--text) !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+}
+
+.rekap-stat-item > small {
+    grid-area: label !important;
+    display: block !important;
+    margin: 0 !important;
+    min-height: 32px !important;
+    color: var(--muted) !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+}
+
+/* 10 kategori = warna berbeda agar cepat dibaca */
+.rekap-stat-item:nth-child(1) {
+    background: linear-gradient(145deg, #ffffff, #f3f8ff) !important;
+    border-color: #d7e6ff !important;
+}
+.rekap-stat-item:nth-child(1) > span:first-child {
+    color: #2368f2 !important; background: #e8f1ff !important;
+}
+.rekap-stat-item:nth-child(1)::after { background: #2368f2 !important; }
+
+.rekap-stat-item:nth-child(2) {
+    background: linear-gradient(145deg, #ffffff, #fff7f1) !important;
+    border-color: #ffe0c8 !important;
+}
+.rekap-stat-item:nth-child(2) > span:first-child {
+    color: #d26d1d !important; background: #fff0e2 !important;
+}
+.rekap-stat-item:nth-child(2)::after { background: #e98535 !important; }
+
+.rekap-stat-item:nth-child(3) {
+    background: linear-gradient(145deg, #ffffff, #fff5f6) !important;
+    border-color: #ffd8dc !important;
+}
+.rekap-stat-item:nth-child(3) > span:first-child {
+    color: #c9414f !important; background: #ffecef !important;
+}
+.rekap-stat-item:nth-child(3)::after { background: #e45b66 !important; }
+
+.rekap-stat-item:nth-child(4) {
+    background: linear-gradient(145deg, #ffffff, #f8f3ff) !important;
+    border-color: #e5d7ff !important;
+}
+.rekap-stat-item:nth-child(4) > span:first-child {
+    color: #7a4bc0 !important; background: #f0e8ff !important;
+}
+.rekap-stat-item:nth-child(4)::after { background: #8a5bca !important; }
+
+.rekap-stat-item:nth-child(5) {
+    background: linear-gradient(145deg, #ffffff, #fff5f2) !important;
+    border-color: #ffd8d0 !important;
+}
+.rekap-stat-item:nth-child(5) > span:first-child {
+    color: #bd4c32 !important; background: #ffebe6 !important;
+}
+.rekap-stat-item:nth-child(5)::after { background: #d35f45 !important; }
+
+.rekap-stat-item:nth-child(6) {
+    background: linear-gradient(145deg, #ffffff, #f1fbff) !important;
+    border-color: #cdeef9 !important;
+}
+.rekap-stat-item:nth-child(6) > span:first-child {
+    color: #1684a6 !important; background: #e4f7fd !important;
+}
+.rekap-stat-item:nth-child(6)::after { background: #27a7c9 !important; }
+
+.rekap-stat-item:nth-child(7) {
+    background: linear-gradient(145deg, #ffffff, #f3faf8) !important;
+    border-color: #d1ebe3 !important;
+}
+.rekap-stat-item:nth-child(7) > span:first-child {
+    color: #178a70 !important; background: #e7f7f2 !important;
+}
+.rekap-stat-item:nth-child(7)::after { background: #22a486 !important; }
+
+.rekap-stat-item:nth-child(8) {
+    background: linear-gradient(145deg, #ffffff, #fff9ef) !important;
+    border-color: #f5e1b7 !important;
+}
+.rekap-stat-item:nth-child(8) > span:first-child {
+    color: #a96b14 !important; background: #fff3d8 !important;
+}
+.rekap-stat-item:nth-child(8)::after { background: #d49a32 !important; }
+
+.rekap-stat-item:nth-child(9) {
+    background: linear-gradient(145deg, #ffffff, #f2fbf6) !important;
+    border-color: #cfeadb !important;
+}
+.rekap-stat-item:nth-child(9) > span:first-child {
+    color: #178a55 !important; background: #e8f9f0 !important;
+}
+.rekap-stat-item:nth-child(9)::after { background: #26a269 !important; }
+
+.rekap-stat-item:nth-child(10) {
+    background: linear-gradient(145deg, #ffffff, #f5f5ff) !important;
+    border-color: #dcdcff !important;
+}
+.rekap-stat-item:nth-child(10) > span:first-child {
+    color: #5557bd !important; background: #ececff !important;
+}
+.rekap-stat-item:nth-child(10)::after { background: #6568cf !important; }
+
+/* Hari kerja card lebih rapi */
+.rekap-pegawai-info-card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.rekap-pegawai-info-card > div {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 6px !important;
+}
+
+.rekap-pegawai-info-card small,
+.rekap-pegawai-info-card strong {
+    margin: 0 !important;
+}
+
+/* Keterlambatan: teks tidak bertabrakan */
+.rekap-terlambat-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+}
+
+.rekap-terlambat-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-height: 68px !important;
+    padding: 14px 16px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, #fffaf0, #fff6df) !important;
+    border: 1px solid #f0d99f !important;
+}
+
+.rekap-terlambat-item small {
+    margin: 0 !important;
+    color: #6f5a35 !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+}
+
+.rekap-terlambat-item strong {
+    margin: 0 !important;
+    color: #9b5b0c !important;
+    font-size: 23px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+}
+
+/* Empty state lebih clean */
+.rekap-pegawai-empty {
+    padding: 24px 18px !important;
+    background: linear-gradient(180deg, #fbfdff, #f6faff) !important;
+    border: 1px dashed #cdddf2 !important;
+    border-radius: 18px !important;
+}
+
+.rekap-pegawai-empty span {
+    display: inline-grid !important;
+    place-items: center !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin-bottom: 8px !important;
+    border-radius: 12px !important;
+    color: var(--primary) !important;
+    background: var(--primary-soft) !important;
+}
+
+.rekap-pegawai-empty p {
+    margin: 5px 0 0 !important;
+    line-height: 1.45 !important;
+}
+
+@media (max-width: 640px) {
+    .rekap-pegawai-section-title {
+        grid-template-columns: 44px minmax(0, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .rekap-pegawai-section-title .step-number {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 13px !important;
+        font-size: 17px !important;
+    }
+
+    .rekap-pegawai-section-title h3 {
+        font-size: 24px !important;
+    }
+
+    .rekap-pegawai-stats {
+        gap: 9px !important;
+    }
+
+    .rekap-stat-item {
+        min-height: 100px !important;
+        padding: 12px !important;
+        grid-template-columns: 42px minmax(0, 1fr) !important;
+        gap: 7px 9px !important;
+        border-radius: 16px !important;
+    }
+
+    .rekap-stat-item > span:first-child {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        border-radius: 12px !important;
+        font-size: 12px !important;
+    }
+
+    .rekap-stat-item strong {
+        font-size: 25px !important;
+    }
+
+    .rekap-stat-item > small {
+        min-height: 30px !important;
+        font-size: 11px !important;
+    }
+
+    .rekap-terlambat-item {
+        padding: 13px 14px !important;
+    }
+
+    .rekap-terlambat-item strong {
+        font-size: 21px !important;
+    }
+}
