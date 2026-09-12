@@ -5843,8 +5843,9 @@ function isiFormPengaturan(p = {}) {
     const values = { Radius:p.radius, Latitude:p.latitude, Longitude:p.longitude, TanggalMulaiPerhitungan:p.tanggalMulaiPerhitungan, MasukMulai:p.masukMulai, JamLambat:p.jamLambat, MasukSelesai:p.masukSelesai, KeluarMulai:p.keluarMulai, KeluarSelesai:p.keluarSelesai };
     Object.entries(values).forEach(([k,v]) => { if (settingElModule[k]) settingElModule[k].value = v ?? ""; });
     const aktif = new Set((Array.isArray(p.hariKerjaAktif) ? p.hariKerjaAktif : [1,2,3,4,5]).map(String));
-    hariKerjaFormModule?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));
+    hariKerjaFormModule?.querySelectorAll('input[name="hariKerja"]').forEach(cb => cb.checked = aktif.has(cb.value));    window.dispatchEvent(new CustomEvent("settings-map-sync"));
 }
+
 
 window.__muatPengaturanAdminImpl = async function() {
     if (!pengaturanAbsensiFormModule) return;
@@ -5940,6 +5941,7 @@ gunakanLokasiKantorBtnModule?.addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition(pos => {
         if (settingElModule.Latitude) settingElModule.Latitude.value = pos.coords.latitude.toFixed(7);
         if (settingElModule.Longitude) settingElModule.Longitude.value = pos.coords.longitude.toFixed(7);
+        window.dispatchEvent(new CustomEvent("settings-map-sync"));
         setButtonLoading(gunakanLokasiKantorBtnModule, false);
         appToast("Lokasi perangkat berhasil dimasukkan. Periksa sebelum menyimpan.");
     }, () => {

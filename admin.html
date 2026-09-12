@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-realdevice4">
+    <link rel="stylesheet" href="css/style.css?v=20260912-settingsmap2">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynF4pG0ZYo/lyfMlaYh2FsL7x7uU=" crossorigin="">
 </head>
 
 <body class="admin-page">
@@ -706,44 +707,128 @@
                 <div><span class="section-label">KONTROL SISTEM</span><h2>Pengaturan Absensi</h2><p>Atur lokasi, radius, dan jam absensi tanpa mengubah kode.</p></div>
             </section>
 
+            <div class="settings-stack">
+
             <form id="tanggalMulaiPerhitunganForm" class="settings-card settings-date-card">
-                <div class="settings-block">
-                    <div class="settings-title"><strong>Mulai Perhitungan Rekap</strong><small>Disimpan sendiri. Radius, lokasi, dan jam absensi tidak ikut berubah.</small></div>
-                    <div class="settings-grid"><div class="admin-form-group">
+                <div class="settings-card-head">
+                    <div class="settings-head-icon">01</div>
+                    <div>
+                        <span class="section-label">PERIODE REKAP</span>
+                        <h3>Mulai Perhitungan Rekap</h3>
+                        <p>Atur satu kali tanggal awal sistem mulai menghitung absensi.</p>
+                    </div>
+                </div>
+
+                <div class="settings-body-single">
+                    <div class="admin-form-group">
                         <label for="settingTanggalMulaiPerhitungan">Tanggal Mulai Perhitungan</label>
                         <input type="date" id="settingTanggalMulaiPerhitungan" required>
-                        <small class="settings-help">15 September → September dihitung 15–30. Oktober tetap mulai 1 Oktober.</small>
-                    </div></div>
-                    <div class="settings-section-actions"><button type="submit" id="simpanTanggalMulaiBtn" class="admin-primary-btn">Simpan Tanggal Mulai</button></div>
+                        <small class="settings-help">Contoh 15 September: September dihitung 15–30. Bulan berikutnya tetap dimulai tanggal 1.</small>
+                    </div>
+                    <div class="settings-section-actions">
+                        <button type="submit" id="simpanTanggalMulaiBtn" class="admin-primary-btn">Simpan Tanggal Mulai</button>
+                    </div>
                 </div>
             </form>
 
             <form id="hariKerjaForm" class="settings-card settings-date-card">
-                <div class="settings-block">
-                    <div class="settings-title"><strong>Hari Kerja</strong><small>Pilih hari yang dihitung sebagai hari kerja. Hari libur tetap dikecualikan.</small></div>
-                    <div class="weekday-picker">
-                        <label><input type="checkbox" name="hariKerja" value="1"> Senin</label><label><input type="checkbox" name="hariKerja" value="2"> Selasa</label><label><input type="checkbox" name="hariKerja" value="3"> Rabu</label><label><input type="checkbox" name="hariKerja" value="4"> Kamis</label><label><input type="checkbox" name="hariKerja" value="5"> Jumat</label><label><input type="checkbox" name="hariKerja" value="6"> Sabtu</label><label><input type="checkbox" name="hariKerja" value="0"> Minggu</label>
+                <div class="settings-card-head">
+                    <div class="settings-head-icon">02</div>
+                    <div>
+                        <span class="section-label">KALENDER KERJA</span>
+                        <h3>Hari Kerja</h3>
+                        <p>Pilih hari yang dihitung sebagai hari kerja. Hari libur tetap dikecualikan.</p>
                     </div>
-                    <div class="settings-section-actions"><button type="submit" id="simpanHariKerjaBtn" class="admin-primary-btn">Simpan Hari Kerja</button></div>
+                </div>
+
+                <div class="weekday-picker">
+                    <label><input type="checkbox" name="hariKerja" value="1"><span>Senin</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="2"><span>Selasa</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="3"><span>Rabu</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="4"><span>Kamis</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="5"><span>Jumat</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="6"><span>Sabtu</span></label>
+                    <label><input type="checkbox" name="hariKerja" value="0"><span>Minggu</span></label>
+                </div>
+                <div class="settings-section-actions">
+                    <button type="submit" id="simpanHariKerjaBtn" class="admin-primary-btn">Simpan Hari Kerja</button>
                 </div>
             </form>
 
-            <form id="pengaturanAbsensiForm" class="settings-card">
-                <div class="settings-block">
-                    <div class="settings-title"><strong>Lokasi Kantor</strong><small>Dipakai untuk memeriksa jarak pegawai saat absensi.</small></div>
-                    <div class="settings-grid settings-grid-3">
-                        <div class="admin-form-group"><label for="settingRadius">Radius Maksimal (meter)</label><input type="number" id="settingRadius" min="20" max="2000" required></div>
-                        <div class="admin-form-group"><label for="settingLatitude">Latitude</label><input type="number" id="settingLatitude" step="any" required></div>
-                        <div class="admin-form-group"><label for="settingLongitude">Longitude</label><input type="number" id="settingLongitude" step="any" required></div>
+            <form id="pengaturanAbsensiForm" class="settings-card settings-main-card">
+                <div class="settings-card-head">
+                    <div class="settings-head-icon">03</div>
+                    <div>
+                        <span class="section-label">LOKASI & JAM</span>
+                        <h3>Lokasi Kantor dan Radius Absensi</h3>
+                        <p>Atur titik kantor dan lihat langsung area radius yang diperbolehkan untuk absensi.</p>
                     </div>
-                    <button type="button" id="gunakanLokasiKantorBtn" class="admin-secondary-btn">📍 Gunakan Lokasi Saya Sekarang</button>
-                    <p class="settings-help">Gunakan tombol ini hanya saat admin sedang berada di kantor.</p>
                 </div>
 
-                
-                <div class="settings-block">
-                    <div class="settings-title"><strong>Jam Absensi</strong><small>Semua waktu menggunakan WITA.</small></div>
-                    <div class="settings-grid">
+                <section class="office-location-layout">
+                    <div class="office-location-controls">
+                        <div class="setting-subhead">
+                            <h4>Lokasi Kantor</h4>
+                            <p>Koordinat dapat diketik, diambil dari GPS, atau dipilih langsung dari peta.</p>
+                        </div>
+
+                        <div class="settings-grid location-coordinate-grid">
+                            <div class="admin-form-group">
+                                <label for="settingLatitude">Latitude</label>
+                                <input type="number" id="settingLatitude" step="any" required>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="settingLongitude">Longitude</label>
+                                <input type="number" id="settingLongitude" step="any" required>
+                            </div>
+                        </div>
+
+                        <button type="button" id="gunakanLokasiKantorBtn" class="admin-secondary-btn location-now-btn">📍 Gunakan Lokasi Saya Sekarang</button>
+                        <p class="settings-help">Gunakan hanya ketika admin sedang berada di kantor.</p>
+
+                        <div class="radius-editor-card">
+                            <div class="radius-editor-top">
+                                <div>
+                                    <span class="radius-editor-label">Radius Absensi</span>
+                                    <strong id="settingRadiusPreview">150 meter</strong>
+                                </div>
+                                <div class="radius-number-box">
+                                    <label for="settingRadius">Meter</label>
+                                    <input type="number" id="settingRadius" min="20" max="2000" required>
+                                </div>
+                            </div>
+                            <input type="range" id="settingRadiusSlider" min="20" max="2000" step="10" value="150" aria-label="Atur radius absensi">
+                            <div class="radius-scale"><span>20 m</span><span>2.000 m</span></div>
+                            <p class="settings-help">Geser slider atau ketik angka. Lingkaran pada peta akan berubah secara langsung.</p>
+                        </div>
+                    </div>
+
+                    <div class="office-map-card">
+                        <div class="office-map-head">
+                            <div>
+                                <span class="section-label">PREVIEW AREA</span>
+                                <h4>Area Absensi Kantor</h4>
+                                <p>Klik peta atau geser penanda untuk memindahkan titik kantor.</p>
+                            </div>
+                            <div class="map-radius-badge"><span></span><strong id="mapRadiusBadge">150 m</strong></div>
+                        </div>
+                        <div id="officeRadiusMap" class="office-radius-map" aria-label="Preview peta radius absensi">
+                            <div class="map-loading-state">Memuat peta...</div>
+                        </div>
+                        <div class="office-map-legend">
+                            <span><i class="legend-office"></i> Titik kantor</span>
+                            <span><i class="legend-radius"></i> Area boleh absen</span>
+                        </div>
+                        <p id="officeMapStatus" class="office-map-status">Peta mengikuti latitude, longitude, dan radius di sebelah kiri.</p>
+                    </div>
+                </section>
+
+                <div class="settings-block attendance-time-block">
+                    <div class="setting-subhead">
+                        <h4>Jam Absensi</h4>
+                        <p>Semua waktu menggunakan WITA.</p>
+                    </div>
+                    <div class="settings-grid attendance-time-grid">
                         <div class="admin-form-group"><label for="settingMasukMulai">Masuk Dibuka</label><input type="time" id="settingMasukMulai" required></div>
                         <div class="admin-form-group"><label for="settingJamLambat">Batas Tepat Waktu</label><input type="time" id="settingJamLambat" required></div>
                         <div class="admin-form-group"><label for="settingMasukSelesai">Masuk Ditutup</label><input type="time" id="settingMasukSelesai" required></div>
@@ -752,14 +837,15 @@
                     </div>
                 </div>
 
-                <div class="settings-save-row">
-                    <p>Perubahan berlaku pada absensi berikutnya dan dicatat di Log Admin.</p>
+                <div class="settings-save-row modern-settings-save">
+                    <p>Perubahan lokasi, radius, dan jam akan dipakai pada absensi berikutnya dan dicatat di Log Admin.</p>
                     <div class="settings-actions">
                         <button type="button" id="resetPengaturanBtn" class="admin-secondary-btn">↺ Reset ke Default</button>
                         <button type="submit" id="simpanPengaturanBtn" class="admin-primary-btn">Simpan Pengaturan</button>
                     </div>
                 </div>
             </form>
+        </div>
         </section>
 
         <!-- ==================================================
@@ -1299,7 +1385,9 @@
         <span class="app-toast-icon" aria-hidden="true">✓</span>
         <div><strong></strong><p></p></div>
     </div>
-<script src="js/script.js?v=20260912-pegawai-label4"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/settings-map.js?v=20260912-map1"></script>
+<script src="js/script.js?v=20260912-settingsmap2"></script>
     <script src="js/rekap.js?v=20260912-preview-sheet4"></script>
 
 </body>

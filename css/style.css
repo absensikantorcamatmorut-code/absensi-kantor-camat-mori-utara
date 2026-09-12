@@ -3344,3 +3344,370 @@ td {
         min-height: 0 !important;
     }
 }
+
+
+/* ============================================================
+   PENGATURAN ADMIN — MODERN LAYOUT + MAP RADIUS PREVIEW
+============================================================ */
+.settings-stack {
+    display: grid;
+    gap: 14px;
+}
+.settings-card {
+    margin: 0 !important;
+    padding: 20px !important;
+}
+.settings-card-head {
+    display: grid;
+    grid-template-columns: 52px minmax(0,1fr);
+    gap: 14px;
+    align-items: start;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+}
+.settings-head-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    color: var(--primary);
+    background: var(--primary-soft);
+    border: 1px solid #d9e7fb;
+    border-radius: 16px;
+    font-weight: 900;
+}
+.settings-card-head h3 {
+    margin: 8px 0 4px;
+    color: var(--text);
+    font-size: 24px;
+    line-height: 1.18;
+}
+.settings-card-head p,
+.setting-subhead p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+.settings-body-single {
+    max-width: 760px;
+}
+.setting-subhead {
+    margin-bottom: 14px;
+}
+.setting-subhead h4 {
+    margin: 0 0 4px;
+    color: var(--text);
+    font-size: 20px;
+}
+.weekday-picker {
+    grid-template-columns: repeat(7,minmax(0,1fr)) !important;
+}
+.weekday-picker label {
+    gap: 8px;
+    min-height: 58px;
+    padding: 10px 8px;
+    color: var(--text-2);
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: transform .15s ease, border-color .2s ease, background .2s ease;
+}
+.weekday-picker label:hover {
+    transform: translateY(-1px);
+    border-color: #bdd5f6;
+    background: #f3f8ff;
+}
+.weekday-picker input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    min-height: 22px;
+    accent-color: var(--primary);
+}
+.office-location-layout {
+    display: grid;
+    grid-template-columns: minmax(320px,.78fr) minmax(420px,1.22fr);
+    gap: 18px;
+    align-items: stretch;
+}
+.office-location-controls,
+.office-map-card {
+    padding: 18px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+}
+.location-coordinate-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+}
+.location-now-btn {
+    width: 100%;
+    justify-content: center;
+}
+.radius-editor-card {
+    margin-top: 16px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+.radius-editor-top {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.radius-editor-label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 750;
+}
+.radius-editor-top strong {
+    color: var(--text);
+    font-size: 26px;
+}
+.radius-number-box {
+    width: 118px;
+}
+.radius-number-box label {
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.radius-number-box input {
+    min-height: 44px;
+}
+#settingRadiusSlider {
+    width: 100%;
+    min-height: 26px;
+    padding: 0;
+    accent-color: var(--primary);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+.radius-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+    color: var(--muted-2);
+    font-size: 11px;
+}
+.office-map-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+}
+.office-map-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+.office-map-head h4 {
+    margin: 7px 0 3px;
+    color: var(--text);
+    font-size: 20px;
+}
+.office-map-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+.map-radius-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 11px;
+    color: #155db9;
+    background: #eef6ff;
+    border: 1px solid #cfe1fb;
+    border-radius: 999px;
+    font-size: 12px;
+}
+.map-radius-badge span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(35,104,242,.42);
+    box-shadow: 0 0 0 5px rgba(35,104,242,.10);
+}
+.office-radius-map {
+    min-height: 390px;
+    overflow: hidden;
+    background: #edf3f8;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+.map-loading-state {
+    display: grid;
+    place-items: center;
+    min-height: 390px;
+    color: var(--muted);
+    font-weight: 700;
+}
+.office-map-legend {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 11px;
+    color: var(--muted);
+    font-size: 12px;
+}
+.office-map-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.office-map-legend i {
+    width: 11px;
+    height: 11px;
+    display: inline-block;
+}
+.legend-office {
+    background: var(--primary);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #9bbcf1;
+}
+.legend-radius {
+    background: rgba(35,104,242,.14);
+    border: 1px solid rgba(35,104,242,.55);
+    border-radius: 3px;
+}
+.office-map-status {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+.attendance-time-block {
+    margin-top: 18px !important;
+    padding-top: 18px !important;
+}
+.attendance-time-grid {
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+}
+.modern-settings-save {
+    justify-content: space-between !important;
+    margin-top: 18px !important;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.modern-settings-save > p {
+    flex: 1 1 340px;
+    margin: 0;
+    color: var(--muted);
+}
+
+/* Leaflet visual harmonization */
+.office-radius-map .leaflet-control-zoom a {
+    color: var(--text) !important;
+}
+.office-radius-map .leaflet-control-attribution {
+    font-size: 9px;
+}
+.office-radius-map .leaflet-popup-content-wrapper,
+.office-radius-map .leaflet-popup-tip {
+    color: var(--text);
+    background: #fff;
+}
+
+@media (max-width: 1000px) {
+    .office-location-layout {
+        grid-template-columns: 1fr;
+    }
+    .attendance-time-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+}
+@media (max-width: 640px) {
+    .settings-card {
+        padding: 15px !important;
+    }
+    .settings-card-head {
+        grid-template-columns: 44px minmax(0,1fr);
+        gap: 11px;
+        margin-bottom: 14px;
+        padding-bottom: 13px;
+    }
+    .settings-head-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        font-size: 12px;
+    }
+    .settings-card-head h3 {
+        font-size: 21px;
+    }
+    .weekday-picker {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+    .weekday-picker label {
+        justify-content: flex-start;
+    }
+    .location-coordinate-grid,
+    .attendance-time-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .office-location-controls,
+    .office-map-card {
+        padding: 14px;
+    }
+    .radius-editor-top {
+        align-items: flex-start;
+    }
+    .radius-editor-top strong {
+        font-size: 22px;
+    }
+    .radius-number-box {
+        width: 104px;
+    }
+    .office-map-head {
+        display: block;
+    }
+    .map-radius-badge {
+        width: fit-content;
+        margin-top: 10px;
+    }
+    .office-radius-map,
+    .map-loading-state {
+        min-height: 300px;
+    }
+    .modern-settings-save,
+    .modern-settings-save .settings-actions {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100%;
+    }
+    .modern-settings-save button {
+        width: 100%;
+    }
+}
+
+.office-location-marker-wrap { background: transparent !important; border: 0 !important; }
+.office-location-marker {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg,#2368f2,#0ea5e9);
+    border: 4px solid #fff;
+    border-radius: 50% 50% 50% 7px;
+    box-shadow: 0 8px 20px rgba(35,104,242,.35);
+    transform: rotate(-45deg);
+}
+.office-location-marker span {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 9px; height: 9px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+}
