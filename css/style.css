@@ -12777,3 +12777,210 @@ html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-sec
         background: linear-gradient(145deg, #0f223a, #09182a) !important;
     }
 }
+
+/* ============================================================
+   NOVA VISUAL CLEANUP — mobile screenshots 2026-09-12
+   Fokus: hilangkan sisa putih terang, perbaiki kontras teks,
+   dan samakan komponen yang masih terasa seperti tema lama.
+============================================================ */
+
+/* Login NOVA: cegah input admin berubah putih saat focus/autofill di Chrome Android */
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage .login-input-wrapper,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage .login-input-wrapper {
+    background: #071525 !important;
+    border-radius: 18px !important;
+}
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage .login-input-wrapper input,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage .login-input-wrapper input,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage .login-input-wrapper input:focus,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage .login-input-wrapper input:focus {
+    color: #eef8ff !important;
+    -webkit-text-fill-color: #eef8ff !important;
+    caret-color: #5ce1e6 !important;
+    background: #071525 !important;
+    background-color: #071525 !important;
+    border-color: rgba(151,181,216,.22) !important;
+    box-shadow: inset 0 0 0 1000px #071525 !important;
+}
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage .login-input-wrapper:focus-within input,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage .login-input-wrapper:focus-within input {
+    background: #091a2d !important;
+    background-color: #091a2d !important;
+    border-color: rgba(92,225,230,.56) !important;
+    box-shadow: inset 0 0 0 1000px #091a2d, 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage input:-webkit-autofill,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage input:-webkit-autofill:hover,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #adminLoginPage input:-webkit-autofill:focus,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage input:-webkit-autofill,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage input:-webkit-autofill:hover,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] #loginPegawaiPage input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #eef8ff !important;
+    -webkit-box-shadow: 0 0 0 1000px #071525 inset !important;
+    box-shadow: 0 0 0 1000px #071525 inset !important;
+    caret-color: #5ce1e6 !important;
+    transition: background-color 99999s ease-out 0s !important;
+}
+
+/* Rekap: kartu PERIODE REKAP yang masih putih */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode {
+    position: relative;
+    overflow: hidden;
+    color: #eef8ff !important;
+    background:
+        radial-gradient(circle at 100% 0, rgba(92,225,230,.08), transparent 34%),
+        linear-gradient(145deg, #10243c 0%, #09182a 100%) !important;
+    border: 1px solid rgba(151,181,216,.18) !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,.18) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode::before {
+    background: linear-gradient(180deg, #5ce1e6, #7c8cff) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode span {
+    color: #8fa8bf !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode strong {
+    color: #f4fbff !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-lock-status {
+    color: #a9bfd2 !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-lock-status.is-locked,
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .is-locked {
+    color: #ffd98a !important;
+    background: rgba(255,209,102,.08) !important;
+    border-color: rgba(255,209,102,.22) !important;
+}
+
+/* Ikon kotak terang di Admin -> ubah menjadi glass gelap, bukan tile putih */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .admin-section-icon,
+    .stat-icon,
+    .pegawai-stat-icon,
+    .rekap-stat-icon,
+    .admin-profile-avatar,
+    .admin-announcement-icon
+) {
+    color: #dffcff !important;
+    background: linear-gradient(145deg, rgba(92,225,230,.12), rgba(124,140,255,.08)) !important;
+    border: 1px solid rgba(92,225,230,.20) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 10px 24px rgba(0,0,0,.14) !important;
+}
+
+/* Warna khusus status tetap terbaca tanpa memakai latar putih/pastel terang */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .pegawai-stat-card:nth-child(2) .pegawai-stat-icon,
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .rekap-stat-card:nth-child(3) .rekap-stat-icon {
+    color: #78f2bd !important;
+    background: rgba(100,244,184,.09) !important;
+    border-color: rgba(100,244,184,.20) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .pegawai-stat-card:nth-child(3) .pegawai-stat-icon {
+    color: #ff9aab !important;
+    background: rgba(255,135,155,.09) !important;
+    border-color: rgba(255,135,155,.20) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .rekap-stat-card:nth-child(4) .rekap-stat-icon {
+    color: #ffd981 !important;
+    background: rgba(255,209,102,.09) !important;
+    border-color: rgba(255,209,102,.20) !important;
+}
+
+/* Data Pegawai: tombol Detail/Edit sebelumnya putih */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection :is(
+    .pegawai-detail-btn,
+    .pegawai-edit-btn
+) {
+    color: #cfefff !important;
+    background: rgba(92,225,230,.055) !important;
+    border: 1px solid rgba(92,225,230,.22) !important;
+    box-shadow: none !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection :is(
+    .pegawai-detail-btn,
+    .pegawai-edit-btn
+):hover {
+    color: #ffffff !important;
+    background: rgba(92,225,230,.10) !important;
+    border-color: rgba(92,225,230,.38) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection .pegawai-status-badge {
+    color: #83efbf !important;
+    background: rgba(100,244,184,.08) !important;
+    border: 1px solid rgba(100,244,184,.20) !important;
+}
+
+/* Logout/confirmation: hilangkan lingkaran putih pada ikon */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .custom-dialog-icon,
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .custom-dialog-icon,
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"] .custom-dialog-icon {
+    color: #ff9aaa !important;
+    background: rgba(255,135,155,.08) !important;
+    border: 1px solid rgba(255,135,155,.22) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.16) !important;
+}
+
+/* Teks sekunder di Admin: sedikit dinaikkan kontrasnya agar tidak samar */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    p,
+    small,
+    label,
+    .settings-help,
+    .admin-password-description,
+    .admin-profile-label,
+    .admin-profile-meta,
+    .realtime-updated,
+    .rekap-stat-info,
+    .data-section-header > span
+) {
+    color: #9fb4c8 !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    input,
+    select,
+    textarea
+) {
+    color: #edf8ff !important;
+    -webkit-text-fill-color: #edf8ff !important;
+}
+
+/* Running text / account cards: icon tile gelap konsisten */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAkunSection .admin-announcement-icon,
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAkunSection .admin-profile-avatar {
+    background: linear-gradient(145deg, rgba(92,225,230,.12), rgba(124,140,255,.08)) !important;
+}
+
+/* Mobile: pastikan kartu/tombol tidak kembali putih dari rule lama */
+@media (max-width: 1000px) {
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection :is(
+        .pegawai-detail-btn,
+        .pegawai-edit-btn
+    ) {
+        background: rgba(92,225,230,.055) !important;
+        color: #cfefff !important;
+    }
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode {
+        background: linear-gradient(145deg, #10243c 0%, #09182a 100%) !important;
+    }
+}
+
+/* Employee notification icon: aman dari mojibake, seluruh bentuk dibuat CSS */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .pegawai-notification-icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    color: #06131d !important;
+    background: linear-gradient(135deg, #5ce1e6, #64f4b8) !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    letter-spacing: .04em;
+    box-shadow: 0 10px 24px rgba(92,225,230,.12) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .pegawai-notification-card {
+    align-items: center !important;
+}
