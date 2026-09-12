@@ -5875,3 +5875,120 @@ td {
         font-size: 10.5px !important;
     }
 }
+
+
+/* ============================================================
+   FILTER ABSENSI — toggle modern, tanpa teks
+============================================================ */
+
+#adminAbsensiSection .admin-tools {
+    position: relative;
+}
+
+/* Tombol toggle dibuat seperti floating control modern */
+#adminAbsensiSection .modern-filter-toggle {
+    display: grid !important;
+    place-items: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    border: 1px solid #d9e6f5 !important;
+    border-radius: 15px !important;
+    color: var(--primary) !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(245,249,255,.98)) !important;
+    box-shadow:
+        0 7px 20px rgba(31,62,102,.08),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease !important;
+}
+
+#adminAbsensiSection .modern-filter-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 9px 22px rgba(31,62,102,.11),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+
+#adminAbsensiSection .modern-filter-toggle:active {
+    transform: scale(.97);
+}
+
+#adminAbsensiSection .filter-toggle-icon {
+    display: block;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    font-weight: 700;
+    transform: translateY(-2px) rotate(0deg);
+    transition: transform .22s ease;
+}
+
+#adminAbsensiSection .modern-filter-toggle.is-open .filter-toggle-icon {
+    transform: translateY(2px) rotate(180deg);
+}
+
+/* Backdrop/filter panel dibuat lebih modern */
+#adminAbsensiSection .filter-container {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(205,220,240,.9) !important;
+    border-radius: 22px !important;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(62,146,255,.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,255,.98)) !important;
+    box-shadow:
+        0 10px 26px rgba(31,62,102,.07),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+
+#adminAbsensiSection .filter-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 22px;
+    right: 22px;
+    height: 3px;
+    border-radius: 0 0 999px 999px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--primary-2), transparent);
+    opacity: .55;
+}
+
+/* Field filter sedikit lebih modern tapi tetap simpel */
+#adminAbsensiSection .filter-container input,
+#adminAbsensiSection .filter-container select {
+    background: rgba(255,255,255,.9) !important;
+    border-color: #d7e4f3 !important;
+    box-shadow: inset 0 1px 2px rgba(31,62,102,.025) !important;
+}
+
+#adminAbsensiSection .filter-container input:focus,
+#adminAbsensiSection .filter-container select:focus {
+    border-color: rgba(35,104,242,.55) !important;
+    box-shadow: 0 0 0 3px rgba(35,104,242,.08) !important;
+}
+
+/* Tombol Hari Ini juga dirapikan */
+#adminAbsensiSection .reset-filter-btn {
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #ffffff, #f7faff) !important;
+    border: 1px solid #d7e4f3 !important;
+    box-shadow: 0 5px 14px rgba(31,62,102,.055) !important;
+}
+
+@media (max-width: 640px) {
+    #adminAbsensiSection .modern-filter-toggle {
+        width: 46px !important;
+        height: 46px !important;
+        min-width: 46px !important;
+        border-radius: 14px !important;
+    }
+
+    #adminAbsensiSection .filter-container {
+        border-radius: 20px !important;
+    }
+}
