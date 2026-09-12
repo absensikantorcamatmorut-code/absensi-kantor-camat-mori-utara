@@ -2924,3 +2924,230 @@ tbody tr:hover {
         transition-duration: .001ms !important;
     }
 }
+
+
+/* ============================================================
+   ADMIN SPACING COMPACT PASS
+   Fokus: kurangi jarak berlebihan antar-card tanpa merusak layout.
+============================================================ */
+
+/* Global vertical rhythm admin */
+.admin-header {
+    margin-bottom: 12px;
+}
+
+.admin-nav {
+    margin-bottom: 12px;
+}
+
+.admin-section-intro,
+.admin-section-hero {
+    margin-bottom: 12px;
+    padding: 18px 20px;
+}
+
+.stat-container,
+.pegawai-stat-container,
+.keterangan-stat-container,
+.rekap-stats {
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.stat-card,
+.pegawai-stat-card,
+.keterangan-stat-card,
+.rekap-stat-card {
+    min-height: 110px;
+    padding: 16px;
+}
+
+.action-needed-card {
+    margin-bottom: 12px;
+    padding: 17px;
+}
+
+.action-needed-grid {
+    gap: 8px;
+}
+
+.admin-tools,
+.pegawai-tools,
+.keterangan-filter-card,
+.filter-container {
+    margin-bottom: 12px;
+    padding: 14px;
+    gap: 10px;
+}
+
+.data-section {
+    margin-bottom: 12px;
+    padding: 16px;
+}
+
+.data-section-header {
+    margin-bottom: 12px;
+}
+
+.rekap-control-card,
+.settings-card,
+.settings-date-card,
+.admin-profile-card,
+.admin-password-card,
+.admin-announcement-card {
+    margin-bottom: 12px;
+    padding: 17px;
+}
+
+.hari-libur-section {
+    margin-top: 12px;
+}
+
+.holiday-overview {
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.holiday-summary-card,
+.holiday-calendar-card {
+    padding: 16px;
+}
+
+.settings-block + .settings-block {
+    margin-top: 14px;
+    padding-top: 14px;
+}
+
+.settings-section-actions,
+.settings-save-row,
+.settings-actions {
+    margin-top: 10px;
+}
+
+.admin-account-grid {
+    gap: 10px;
+}
+
+.admin-password-header,
+.admin-announcement-header {
+    margin-bottom: 10px;
+}
+
+.admin-password-description {
+    margin-bottom: 12px;
+}
+
+.announcement-switch-row {
+    margin: 10px 0;
+    padding: 11px 12px;
+}
+
+.announcement-preview {
+    margin-top: 9px;
+    padding: 12px;
+}
+
+/* Slightly tighter table rows, still touch-friendly */
+th,
+td {
+    padding: 11px 12px;
+}
+
+/* Desktop sidebar/content gap */
+@media (min-width: 1100px) {
+    .admin-container {
+        gap: 12px;
+    }
+
+    .admin-nav {
+        padding: 8px;
+        gap: 6px;
+    }
+
+    .admin-nav-btn {
+        min-height: 52px;
+    }
+}
+
+/* Tablet/mobile */
+@media (max-width: 820px) {
+    .admin-nav {
+        gap: 7px;
+    }
+
+    .admin-nav-btn {
+        min-height: 62px;
+    }
+
+    .admin-section-intro,
+    .admin-section-hero {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-header {
+        margin-bottom: 10px;
+        padding: 18px;
+    }
+
+    .admin-nav {
+        margin-bottom: 10px;
+    }
+
+    .admin-section-intro,
+    .admin-section-hero {
+        margin-bottom: 10px;
+        padding: 15px;
+    }
+
+    .stat-container,
+    .pegawai-stat-container,
+    .keterangan-stat-container,
+    .rekap-stats {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card {
+        min-height: 104px;
+        padding: 13px;
+    }
+
+    .data-section,
+    .rekap-control-card,
+    .settings-card,
+    .settings-date-card,
+    .admin-profile-card,
+    .admin-password-card,
+    .admin-announcement-card {
+        margin-bottom: 10px;
+        padding: 14px;
+    }
+
+    .action-needed-card,
+    .admin-tools,
+    .pegawai-tools,
+    .keterangan-filter-card,
+    .filter-container {
+        margin-bottom: 10px;
+        padding: 13px;
+    }
+
+    .admin-page tbody {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .admin-page tbody tr {
+        padding: 11px 12px;
+    }
+
+    .admin-page tbody td {
+        min-height: 38px;
+        padding: 6px 0;
+    }
+}
