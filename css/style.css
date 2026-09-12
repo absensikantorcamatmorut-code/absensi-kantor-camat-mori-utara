@@ -5715,3 +5715,163 @@ td {
         min-height: 84px !important;
     }
 }
+
+
+/* ============================================================
+   DASHBOARD ABSENSI — Pegawai Aktif full width + 4 card rapi
+============================================================ */
+
+#adminAbsensiSection .realtime-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+/* Pegawai Aktif menjadi card panjang */
+#adminAbsensiSection .realtime-stats .stat-active {
+    grid-column: 1 / -1 !important;
+}
+
+/* Semua card lebih rapi dan konsisten */
+#adminAbsensiSection .realtime-stats .stat-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 104px !important;
+    padding: 14px !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 18px !important;
+    background: #fff !important;
+    box-shadow: 0 4px 14px rgba(31, 62, 102, .055) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+/* Card aktif lebih pendek walaupun panjang */
+#adminAbsensiSection .realtime-stats .stat-active {
+    min-height: 90px !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%) !important;
+}
+
+/* ikon */
+#adminAbsensiSection .realtime-stats .stat-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 46px !important;
+    height: 46px !important;
+    flex: 0 0 46px !important;
+    border-radius: 14px !important;
+    font-size: 20px !important;
+}
+
+/* isi teks */
+#adminAbsensiSection .realtime-stats .stat-card > div {
+    min-width: 0 !important;
+}
+
+#adminAbsensiSection .realtime-stats .stat-label {
+    display: block !important;
+    margin-bottom: 2px !important;
+    color: var(--muted) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+}
+
+#adminAbsensiSection .realtime-stats .stat-card strong {
+    display: block !important;
+    margin: 0 0 3px !important;
+    color: var(--text) !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+}
+
+#adminAbsensiSection .realtime-stats .stat-card small {
+    display: block !important;
+    color: var(--muted) !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+}
+
+/* warna per status */
+#adminAbsensiSection .stat-active .stat-icon {
+    color: #2368f2 !important;
+    background: #eaf2ff !important;
+}
+
+#adminAbsensiSection .stat-present .stat-icon {
+    color: #178a55 !important;
+    background: #e8f9f0 !important;
+}
+
+#adminAbsensiSection .stat-late .stat-icon {
+    color: #b7791f !important;
+    background: #fff3d8 !important;
+}
+
+#adminAbsensiSection .stat-note .stat-icon {
+    color: #8a5bca !important;
+    background: #f2ebff !important;
+}
+
+#adminAbsensiSection .stat-missing .stat-icon {
+    color: #c9414f !important;
+    background: #ffecef !important;
+}
+
+/* aksen halus di sudut card */
+#adminAbsensiSection .realtime-stats .stat-card::after {
+    content: "";
+    position: absolute;
+    right: -22px;
+    bottom: -26px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    opacity: .09;
+    pointer-events: none;
+}
+
+#adminAbsensiSection .stat-active::after { background: #2368f2; }
+#adminAbsensiSection .stat-present::after { background: #26a269; }
+#adminAbsensiSection .stat-late::after { background: #e6a23c; }
+#adminAbsensiSection .stat-note::after { background: #8a5bca; }
+#adminAbsensiSection .stat-missing::after { background: #e45b66; }
+
+@media (max-width: 640px) {
+    #adminAbsensiSection .realtime-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-card {
+        min-height: 100px !important;
+        padding: 12px !important;
+        gap: 10px !important;
+        border-radius: 17px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-active {
+        min-height: 84px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-icon {
+        width: 40px !important;
+        height: 40px !important;
+        flex-basis: 40px !important;
+        border-radius: 12px !important;
+        font-size: 18px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-card strong {
+        font-size: 25px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-label {
+        font-size: 11px !important;
+    }
+
+    #adminAbsensiSection .realtime-stats .stat-card small {
+        font-size: 10.5px !important;
+    }
+}
