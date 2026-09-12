@@ -7,16 +7,16 @@
     <script>
         try {
             document.documentElement.dataset.uiTheme =
-                localStorage.getItem("moriUiTheme") === "legacy" ? "legacy" : "nova";
+                localStorage.getItem("moriUiTheme") === "nova" ? "nova" : "legacy";
         } catch (_) {
-            document.documentElement.dataset.uiTheme = "nova";
+            document.documentElement.dataset.uiTheme = "legacy";
         }
     </script>
     <title>Absensi Pegawai</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-nova-color-cleanup6">
+    <link rel="stylesheet" href="css/style.css?v=20260912-light-modern-motion1">
 </head>
 
 <body class="absensi-page">
@@ -840,7 +840,7 @@
             <p id="toastMessage"></p>
         </div>
     </div>
-    <script src="js/theme.js?v=20260912-nova1"></script>
+    <script src="js/theme.js?v=20260912-light-default1"></script>
 
 
     <script src="js/script.js?v=20260912-nova-color-cleanup6"></script>
