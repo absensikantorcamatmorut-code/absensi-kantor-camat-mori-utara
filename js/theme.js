@@ -34,8 +34,8 @@
         if (!button) return;
         const targetLegacy = theme === NOVA;
         button.innerHTML = targetLegacy
-            ? '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Lama</span>'
-            : '<span class="theme-switch-icon" aria-hidden="true">✦</span><span class="theme-switch-text">Tema Nova</span>';
+            ? '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Terang</span>'
+            : '<span class="theme-switch-icon" aria-hidden="true">✦</span><span class="theme-switch-text">Tema Gelap</span>';
         button.setAttribute(
             "aria-label",
             targetLegacy ? "Gunakan desain lama" : "Gunakan desain Nova"
@@ -71,7 +71,7 @@
         button.type = "button";
         button.id = "themeSwitchBtn";
         button.className = "theme-switch-btn";
-        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Lama</span>';
+        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Terang</span>';
 
         button.addEventListener("click", () => {
             const next = temaSekarang() === NOVA ? LEGACY : NOVA;
