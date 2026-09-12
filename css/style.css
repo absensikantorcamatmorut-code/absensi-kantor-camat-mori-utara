@@ -12241,3 +12241,539 @@ html[data-ui-theme="nova"] body[data-ui-theme="nova"] :is(
 
 /* Nova itself contains no intentionally white surface.
    Pure white remains only for text/icons where appropriate. */
+
+
+/* ============================================================
+   NOVA ADMIN COMPLETE PASS
+   Audit per navbar:
+   Absensi / Pegawai / Keterangan / Rekap / Log Admin /
+   Pengaturan / Akun Admin
+
+   Tujuan:
+   1. Tidak ada panel putih pada tema Nova.
+   2. Semua teks legacy punya kontras yang benar.
+   3. Tema Lama mendapat box header Dashboard Admin sendiri.
+============================================================ */
+
+/* ------------------------------------------------------------
+   A. TEMA LAMA — Header Dashboard Admin menjadi card/box
+------------------------------------------------------------ */
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 26px 28px;
+    border: 1px solid #dbe6f2;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 92% 12%, rgba(37,99,235,.10), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f7fbff 68%, #eef6ff 100%);
+    box-shadow: 0 14px 34px rgba(15,23,42,.08);
+}
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header::before {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: -54px;
+    top: -76px;
+    border-radius: 42px;
+    transform: rotate(24deg);
+    background: rgba(37,99,235,.07);
+    pointer-events: none;
+}
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header-info,
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-logout-btn {
+    position: relative;
+    z-index: 1;
+}
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header h1 {
+    color: #172033;
+}
+html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header p {
+    color: #64748b;
+}
+
+/* ------------------------------------------------------------
+   B. NOVA — token khusus Admin
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] {
+    --na-bg: #07111f;
+    --na-panel: #0b1a2d;
+    --na-panel-hi: #0f243d;
+    --na-panel-soft: rgba(255,255,255,.035);
+    --na-panel-hover: rgba(92,225,230,.06);
+    --na-border: rgba(151,181,216,.16);
+    --na-border-hot: rgba(92,225,230,.30);
+    --na-text: #eef8ff;
+    --na-text-2: #c6d8e8;
+    --na-muted: #91a7bd;
+    --na-dim: #6f879e;
+    --na-cyan: #5ce1e6;
+    --na-mint: #64f4b8;
+    --na-yellow: #ffd166;
+    --na-red: #ff879b;
+}
+
+/* ------------------------------------------------------------
+   C. NOVA — hard text contrast reset
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    h1,h2,h3,h4,h5,h6,strong,b
+) {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    p,small,label,.settings-help,.admin-password-description,
+    .admin-profile-label,.admin-profile-meta,.realtime-updated,
+    .data-section-header > span
+) {
+    color: var(--na-muted) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section .section-label {
+    color: var(--na-cyan) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section a {
+    color: #8cecff !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section ::placeholder {
+    color: #60778f !important;
+    opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   D. Common panels — explicit real classes from admin.html
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .admin-section-intro,
+    .admin-section-hero,
+    .data-section,
+    .action-needed-card,
+    .admin-tools,
+    .filter-container,
+    .pegawai-tools,
+    .keterangan-filter-card,
+    .rekap-control-card,
+    .holiday-summary-card,
+    .holiday-calendar-card,
+    .settings-card,
+    .settings-date-card,
+    .settings-block,
+    .settings-save-row,
+    .admin-profile-card,
+    .admin-password-card,
+    .admin-announcement-card,
+    .announcement-preview,
+    .announcement-switch-row
+) {
+    color: var(--na-text) !important;
+    background:
+        radial-gradient(circle at 100% 0, rgba(92,225,230,.045), transparent 30%),
+        linear-gradient(145deg, #0e2138 0%, #091827 100%) !important;
+    border: 1px solid var(--na-border) !important;
+    box-shadow: 0 18px 46px rgba(0,0,0,.18) !important;
+}
+
+/* ------------------------------------------------------------
+   E. NAV 1 — ABSENSI
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAbsensiSection :is(
+    .stat-card,
+    .action-needed-item
+) {
+    color: var(--na-text) !important;
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAbsensiSection .stat-label {
+    color: var(--na-muted) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAbsensiSection .stat-card strong {
+    color: #f6fbff !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAbsensiSection .action-needed-item :is(
+    span,p,small
+) {
+    color: var(--na-text-2) !important;
+}
+
+/* ------------------------------------------------------------
+   F. NAV 2 — PEGAWAI
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection :is(
+    .pegawai-stat-card,
+    .pegawai-filter-status
+) {
+    color: var(--na-text) !important;
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection .pegawai-stat-card :is(
+    span,p,small
+) {
+    color: var(--na-muted) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPegawaiSection .pegawai-stat-card :is(
+    strong,h3
+) {
+    color: #f6fbff !important;
+}
+
+/* ------------------------------------------------------------
+   G. NAV 3 — KETERANGAN
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminKeteranganSection :is(
+    .keterangan-stat-card,
+    .keterangan-filter-card
+) {
+    color: var(--na-text) !important;
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminKeteranganSection .keterangan-stat-card :is(
+    span,p,small
+) {
+    color: var(--na-muted) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminKeteranganSection .keterangan-stat-card :is(
+    strong,h3
+) {
+    color: #f6fbff !important;
+}
+
+/* ------------------------------------------------------------
+   H. NAV 4 — REKAP + HARI LIBUR
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection :is(
+    .rekap-control-card,
+    .rekap-stat-card,
+    .rekap-preview-tools,
+    .holiday-overview,
+    .holiday-summary,
+    .holiday-summary-card,
+    .holiday-calendar-card,
+    .holiday-calendar-head,
+    .holiday-calendar-grid,
+    .holiday-list-title
+) {
+    color: var(--na-text) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection :is(
+    .rekap-control-card,
+    .rekap-stat-card,
+    .holiday-summary-card,
+    .holiday-calendar-card
+) {
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-stat-info,
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-periode {
+    color: var(--na-muted) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminRekapSection .rekap-stat-value {
+    color: #f6fbff !important;
+}
+
+/* ------------------------------------------------------------
+   I. NAV 5 — LOG ADMIN
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminLogSection .log-admin-table {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminLogSection .log-admin-table tbody tr {
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminLogSection .log-admin-table td {
+    color: var(--na-text-2) !important;
+}
+
+/* ------------------------------------------------------------
+   J. NAV 6 — PENGATURAN
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPengaturanSection :is(
+    .settings-card,
+    .settings-date-card,
+    .settings-block,
+    .settings-save-row,
+    .weekday-picker label
+) {
+    color: var(--na-text) !important;
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPengaturanSection .settings-title {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminPengaturanSection .settings-help {
+    color: var(--na-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   K. NAV 7 — AKUN ADMIN + PENGUMUMAN
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAkunSection :is(
+    .admin-profile-card,
+    .admin-password-card,
+    .admin-announcement-card,
+    .announcement-switch-row,
+    .announcement-preview
+) {
+    color: var(--na-text) !important;
+    background: linear-gradient(145deg, #10243c, #0a192b) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAkunSection .admin-profile-content :is(
+    h2,h3,strong
+) {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] #adminAkunSection :is(
+    .admin-profile-label,
+    .admin-profile-meta,
+    .admin-password-description,
+    .announcement-counter,
+    .announcement-status
+) {
+    color: var(--na-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   L. All forms — ensure readable text everywhere
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea
+) {
+    color: #eef8ff !important;
+    background: #071525 !important;
+    border: 1px solid var(--na-border) !important;
+    -webkit-text-fill-color: #eef8ff;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea
+):focus {
+    color: #fff !important;
+    background: #091a2d !important;
+    border-color: rgba(92,225,230,.56) !important;
+    box-shadow: 0 0 0 4px rgba(92,225,230,.09) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section select option {
+    color: #eef8ff !important;
+    background: #091a2d !important;
+}
+
+/* ------------------------------------------------------------
+   M. Tables — desktop and mobile
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section .table-wrapper {
+    background: #071421 !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section table {
+    color: var(--na-text) !important;
+    background: transparent !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section thead th {
+    color: #9fb3c7 !important;
+    background: #0b1a2c !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section tbody tr {
+    background: transparent !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section tbody td {
+    color: #dceaf7 !important;
+    background: transparent !important;
+    border-color: rgba(151,181,216,.10) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section tbody tr:hover {
+    background: rgba(92,225,230,.035) !important;
+}
+
+/* dynamically generated mobile card rows */
+@media (max-width: 1000px) {
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+        #tabelAbsensi tbody tr,
+        #tabelPegawai tbody tr,
+        #tabelKeterangan tbody tr,
+        .log-admin-table tbody tr
+    ) {
+        color: var(--na-text) !important;
+        background: linear-gradient(145deg, #10243c, #09182a) !important;
+        border: 1px solid var(--na-border) !important;
+        box-shadow: 0 12px 30px rgba(0,0,0,.17) !important;
+    }
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section tbody td::before {
+        color: #8198af !important;
+    }
+}
+
+/* ------------------------------------------------------------
+   N. Dynamic modal/dialog/detail generated by JS
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .admin-modal-content,
+    .custom-dialog-box,
+    .detail-loading,
+    .detail-error,
+    .detail-empty,
+    .detail-ringkasan > div,
+    .detail-total-terlambat,
+    .detail-riwayat-header,
+    .detail-riwayat-item,
+    .photo-admin-loading
+) {
+    color: var(--na-text) !important;
+    background: #0c1c30 !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .custom-dialog-message {
+    color: var(--na-text-2) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .custom-dialog-title {
+    color: var(--na-text) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .custom-dialog-cancel {
+    color: var(--na-text-2) !important;
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--na-border) !important;
+}
+
+/* ------------------------------------------------------------
+   O. Semantic buttons/badges — preserve meaning but stay dark
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .admin-secondary-btn,
+    .toggle-filter-btn,
+    .reset-filter-btn,
+    .calendar-nav-btn,
+    .modal-close-btn
+) {
+    color: #d5e7f5 !important;
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .admin-secondary-btn,
+    .toggle-filter-btn,
+    .reset-filter-btn,
+    .calendar-nav-btn,
+    .modal-close-btn
+):hover {
+    color: #fff !important;
+    background: rgba(92,225,230,.075) !important;
+    border-color: var(--na-border-hot) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .table-action-danger,
+    .keterangan-tolak-btn
+) {
+    color: #ff9dad !important;
+    background: rgba(255,135,155,.075) !important;
+    border-color: rgba(255,135,155,.24) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .pegawai-status-btn,
+    .is-locked,
+    .manual-warning
+) {
+    color: #ffd980 !important;
+    background: rgba(255,209,102,.075) !important;
+    border-color: rgba(255,209,102,.22) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] :is(
+    .pegawai-status-badge,
+    .keterangan-status-badge,
+    .keterangan-jenis-badge,
+    .badge-absen,
+    .badge-status,
+    .detail-status
+) {
+    border-color: rgba(255,255,255,.09) !important;
+}
+
+/* ------------------------------------------------------------
+   P. Calendar: remove remaining light day cells
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .calendar-day {
+    color: #dceaf7 !important;
+    background: rgba(255,255,255,.035) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .calendar-day.weekend {
+    color: #6f879e !important;
+    background: rgba(255,255,255,.018) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .calendar-day:hover {
+    background: rgba(92,225,230,.065) !important;
+    border-color: var(--na-border-hot) !important;
+}
+
+/* ------------------------------------------------------------
+   Q. Nova navbar itself
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-nav {
+    background: rgba(6,17,31,.94) !important;
+    border-color: var(--na-border) !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-nav-btn {
+    color: #91a7bd !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-nav-btn:hover {
+    color: #edf8ff !important;
+}
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-nav-btn.active {
+    color: #06131d !important;
+}
+
+/* ------------------------------------------------------------
+   R. Final anti-white guard inside every Admin navbar page
+   This handles inline/light legacy surfaces without touching
+   icons, images, videos, or primary CTA gradients.
+------------------------------------------------------------ */
+html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+    [style*="background: white"],
+    [style*="background:white"],
+    [style*="background: #fff"],
+    [style*="background:#fff"],
+    [style*="background-color: white"],
+    [style*="background-color:white"],
+    [style*="background-color: #fff"],
+    [style*="background-color:#fff"]
+) {
+    background: #0c1c30 !important;
+    color: var(--na-text) !important;
+}
+
+/* ------------------------------------------------------------
+   S. Smaller screens: text remains readable
+------------------------------------------------------------ */
+@media (max-width: 560px) {
+    html[data-ui-theme="legacy"] body.admin-page[data-ui-theme="legacy"] .admin-header {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    html[data-ui-theme="nova"] body.admin-page[data-ui-theme="nova"] .admin-page-section :is(
+        .data-section,
+        .admin-section-intro,
+        .admin-section-hero,
+        .keterangan-filter-card,
+        .rekap-control-card,
+        .settings-card,
+        .settings-date-card,
+        .admin-profile-card,
+        .admin-password-card,
+        .admin-announcement-card
+    ) {
+        background: linear-gradient(145deg, #0f223a, #09182a) !important;
+    }
+}
