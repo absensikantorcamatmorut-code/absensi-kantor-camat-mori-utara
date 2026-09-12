@@ -6648,3 +6648,260 @@ td {
         border-radius: 13px !important;
     }
 }
+
+
+/* ============================================================
+   KETERANGAN PEGAWAI — card modern & warna variatif
+============================================================ */
+
+#keteranganPegawaiSection .keterangan-type-list,
+#keteranganPegawaiSection .keterangan-options,
+#keteranganPegawaiSection .jenis-keterangan-list {
+    display: grid !important;
+    gap: 10px !important;
+}
+
+/* Semua card pilihan */
+#keteranganPegawaiSection .keterangan-type-option,
+#keteranganPegawaiSection .keterangan-option,
+#keteranganPegawaiSection .jenis-keterangan-item {
+    position: relative !important;
+    overflow: hidden !important;
+    display: grid !important;
+    grid-template-columns: 50px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-height: 82px !important;
+    padding: 14px 15px !important;
+    border-radius: 18px !important;
+    background: #fff !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 4px 14px rgba(31, 62, 102, .05) !important;
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease !important;
+}
+
+#keteranganPegawaiSection .keterangan-type-option::after,
+#keteranganPegawaiSection .keterangan-option::after,
+#keteranganPegawaiSection .jenis-keterangan-item::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -22px !important;
+    bottom: -26px !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    opacity: .09 !important;
+    pointer-events: none !important;
+}
+
+#keteranganPegawaiSection .keterangan-type-option:active,
+#keteranganPegawaiSection .keterangan-option:active,
+#keteranganPegawaiSection .jenis-keterangan-item:active {
+    transform: scale(.985) !important;
+}
+
+/* Kode di kiri */
+#keteranganPegawaiSection .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-code,
+#keteranganPegawaiSection .keterangan-option-code {
+    display: grid !important;
+    place-items: center !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    border-radius: 14px !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+}
+
+/* Teks */
+#keteranganPegawaiSection .keterangan-type-option > div,
+#keteranganPegawaiSection .keterangan-option > div,
+#keteranganPegawaiSection .jenis-keterangan-item > div {
+    min-width: 0 !important;
+}
+
+#keteranganPegawaiSection .keterangan-type-option strong,
+#keteranganPegawaiSection .keterangan-option strong,
+#keteranganPegawaiSection .jenis-keterangan-item strong {
+    display: block !important;
+    margin: 0 0 4px !important;
+    color: var(--text) !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+}
+
+#keteranganPegawaiSection .keterangan-type-option small,
+#keteranganPegawaiSection .keterangan-option small,
+#keteranganPegawaiSection .jenis-keterangan-item small,
+#keteranganPegawaiSection .keterangan-type-option p,
+#keteranganPegawaiSection .keterangan-option p,
+#keteranganPegawaiSection .jenis-keterangan-item p {
+    margin: 0 !important;
+    color: var(--muted) !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+}
+
+/* Warna per pilihan */
+#keteranganPegawaiSection .keterangan-type-option:nth-child(1),
+#keteranganPegawaiSection .keterangan-option:nth-child(1),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(1) {
+    background: linear-gradient(145deg, #ffffff, #fff5f6) !important;
+    border-color: #ffd8dc !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(1) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(1) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(1) .keterangan-code {
+    color: #c9414f !important; background: #ffecef !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(1)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(1)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(1)::after { background: #e45b66 !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(2),
+#keteranganPegawaiSection .keterangan-option:nth-child(2),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(2) {
+    background: linear-gradient(145deg, #ffffff, #f8f3ff) !important;
+    border-color: #e5d7ff !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(2) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(2) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(2) .keterangan-code {
+    color: #7a4bc0 !important; background: #f0e8ff !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(2)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(2)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(2)::after { background: #8a5bca !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(3),
+#keteranganPegawaiSection .keterangan-option:nth-child(3),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(3) {
+    background: linear-gradient(145deg, #ffffff, #f1fbff) !important;
+    border-color: #cdeef9 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(3) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(3) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(3) .keterangan-code {
+    color: #1684a6 !important; background: #e4f7fd !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(3)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(3)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(3)::after { background: #27a7c9 !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(4),
+#keteranganPegawaiSection .keterangan-option:nth-child(4),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(4) {
+    background: linear-gradient(145deg, #ffffff, #f3faf8) !important;
+    border-color: #d1ebe3 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(4) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(4) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(4) .keterangan-code {
+    color: #178a70 !important; background: #e7f7f2 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(4)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(4)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(4)::after { background: #22a486 !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(5),
+#keteranganPegawaiSection .keterangan-option:nth-child(5),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(5) {
+    background: linear-gradient(145deg, #ffffff, #fff9ef) !important;
+    border-color: #f5e1b7 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(5) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(5) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(5) .keterangan-code {
+    color: #a96b14 !important; background: #fff3d8 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(5)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(5)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(5)::after { background: #d49a32 !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(6),
+#keteranganPegawaiSection .keterangan-option:nth-child(6),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(6) {
+    background: linear-gradient(145deg, #ffffff, #f2fbf6) !important;
+    border-color: #cfeadb !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(6) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(6) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(6) .keterangan-code {
+    color: #178a55 !important; background: #e8f9f0 !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(6)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(6)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(6)::after { background: #26a269 !important; }
+
+#keteranganPegawaiSection .keterangan-type-option:nth-child(7),
+#keteranganPegawaiSection .keterangan-option:nth-child(7),
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(7) {
+    background: linear-gradient(145deg, #ffffff, #f5f5ff) !important;
+    border-color: #dcdcff !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(7) .keterangan-code,
+#keteranganPegawaiSection .keterangan-option:nth-child(7) .keterangan-code,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(7) .keterangan-code {
+    color: #5557bd !important; background: #ececff !important;
+}
+#keteranganPegawaiSection .keterangan-type-option:nth-child(7)::after,
+#keteranganPegawaiSection .keterangan-option:nth-child(7)::after,
+#keteranganPegawaiSection .jenis-keterangan-item:nth-child(7)::after { background: #6568cf !important; }
+
+/* Pilihan aktif lebih tegas */
+#keteranganPegawaiSection .keterangan-type-option.active,
+#keteranganPegawaiSection .keterangan-option.active,
+#keteranganPegawaiSection .jenis-keterangan-item.active,
+#keteranganPegawaiSection .keterangan-type-option.selected,
+#keteranganPegawaiSection .keterangan-option.selected,
+#keteranganPegawaiSection .jenis-keterangan-item.selected {
+    border-color: var(--primary) !important;
+    box-shadow:
+        0 0 0 3px rgba(35,104,242,.08),
+        0 8px 18px rgba(31,62,102,.08) !important;
+}
+
+/* Mobile lebih ringkas */
+@media (max-width: 640px) {
+    #keteranganPegawaiSection .keterangan-type-option,
+    #keteranganPegawaiSection .keterangan-option,
+    #keteranganPegawaiSection .jenis-keterangan-item {
+        grid-template-columns: 46px minmax(0, 1fr) !important;
+        min-height: 76px !important;
+        padding: 12px 13px !important;
+        gap: 10px !important;
+        border-radius: 16px !important;
+    }
+
+    #keteranganPegawaiSection .keterangan-code,
+    #keteranganPegawaiSection .jenis-keterangan-code,
+    #keteranganPegawaiSection .keterangan-option-code {
+        width: 46px !important;
+        height: 46px !important;
+        min-width: 46px !important;
+        min-height: 46px !important;
+        border-radius: 13px !important;
+        font-size: 15px !important;
+    }
+
+    #keteranganPegawaiSection .keterangan-type-option strong,
+    #keteranganPegawaiSection .keterangan-option strong,
+    #keteranganPegawaiSection .jenis-keterangan-item strong {
+        font-size: 14px !important;
+    }
+
+    #keteranganPegawaiSection .keterangan-type-option small,
+    #keteranganPegawaiSection .keterangan-option small,
+    #keteranganPegawaiSection .jenis-keterangan-item small,
+    #keteranganPegawaiSection .keterangan-type-option p,
+    #keteranganPegawaiSection .keterangan-option p,
+    #keteranganPegawaiSection .jenis-keterangan-item p {
+        font-size: 11px !important;
+    }
+}
