@@ -14007,3 +14007,122 @@ html[data-ui-theme="legacy"] .theme-switch-btn {
     transform-origin: center !important;
     z-index: 2147483000 !important;
 }
+
+
+/* ============================================================
+   THEME BUTTON IN HEADER ONLY + DARK TEXT CONTRAST FIX
+   Icon visual tidak diubah.
+============================================================ */
+
+/* Tombol tema tidak lagi floating di layar. */
+body.absensi-page .theme-switch-btn,
+body.admin-page .theme-switch-btn {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    z-index: 3 !important;
+}
+
+/* Header menjadi anchor yang aman untuk tombol tema. */
+body.absensi-page .absensi-header,
+body.admin-page .admin-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+}
+
+/* Kelompok kanan pada header absensi/admin:
+   tombol tema ditempatkan sebelum tombol keluar secara visual. */
+body.absensi-page .absensi-header .theme-switch-btn,
+body.admin-page .admin-header .theme-switch-btn {
+    order: 2 !important;
+}
+body.absensi-page .absensi-header .logout-icon,
+body.admin-page .admin-header .admin-logout-btn {
+    order: 3 !important;
+}
+body.absensi-page .absensi-header .header-info,
+body.admin-page .admin-header .admin-header-info {
+    order: 1 !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+}
+
+/* Mobile: pertahankan ukuran icon tombol yang sudah ada, hanya rapikan ruang header. */
+@media (max-width: 560px) {
+    body.absensi-page .absensi-header,
+    body.admin-page .admin-header {
+        gap: 9px !important;
+    }
+    body.absensi-page .absensi-header .theme-switch-btn,
+    body.admin-page .admin-header .theme-switch-btn {
+        flex-shrink: 0 !important;
+    }
+}
+
+/* ============================================================
+   TEMA GELAP — PERBAIKI TEKS RIWAYAT AGAR TETAP TERBACA
+============================================================ */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-pegawai-hero h1,
+    .rekap-pegawai-hero h2,
+    .rekap-pegawai-hero h3,
+    .rekap-pegawai-section-title,
+    .rekap-pegawai-card h1,
+    .rekap-pegawai-card h2,
+    .rekap-pegawai-card h3,
+    .rekap-pegawai-card h4,
+    .rekap-pegawai-card strong,
+    .rekap-terlambat-item strong,
+    .riwayat-rekap-pegawai h1,
+    .riwayat-rekap-pegawai h2,
+    .riwayat-rekap-pegawai h3,
+    .riwayat-rekap-item h1,
+    .riwayat-rekap-item h2,
+    .riwayat-rekap-item h3
+) {
+    color: #f2f8ff !important;
+    -webkit-text-fill-color: #f2f8ff !important;
+}
+
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-pegawai-badge,
+    .section-eyebrow
+) {
+    color: #66e5e9 !important;
+    -webkit-text-fill-color: #66e5e9 !important;
+}
+
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    p,
+    label,
+    small,
+    .rekap-pegawai-filter-heading,
+    .rekap-stat-item > span,
+    .rekap-terlambat-item > span,
+    .riwayat-rekap-item > span
+) {
+    color: #a8bdd1 !important;
+    -webkit-text-fill-color: #a8bdd1 !important;
+}
+
+/* Step title seperti Ringkasan / Keterlambatan / Riwayat Harian */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection .rekap-pegawai-section-title {
+    opacity: 1 !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+
+/* Angka/nilai utama tetap paling terang */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-stat-item .utama,
+    .rekap-stat-item strong,
+    .rekap-terlambat-item strong
+) {
+    color: #f7fbff !important;
+    -webkit-text-fill-color: #f7fbff !important;
+}
