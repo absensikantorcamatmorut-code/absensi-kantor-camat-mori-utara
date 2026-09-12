@@ -13529,3 +13529,275 @@ html[data-ui-theme="legacy"] .theme-switcher {
     from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
     to { opacity: 1; transform: none; filter: none; }
 }
+
+
+/* ============================================================
+   THEME SWITCH + EMPLOYEE HEADER + NOVA EMPLOYEE DARK AUDIT
+============================================================ */
+
+/* A. Theme switcher kembali berbentuk pill seperti semula.
+   Teks TEMA TERANG / TEMA GELAP selalu terlihat, termasuk mobile. */
+.theme-switch-btn {
+    position: fixed !important;
+    right: 18px !important;
+    bottom: 18px !important;
+    z-index: 9999 !important;
+    width: auto !important;
+    min-width: 142px !important;
+    height: 52px !important;
+    padding: 8px 14px 8px 9px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    border-radius: 999px !important;
+    font: inherit !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    transform: none;
+}
+.theme-switch-btn .theme-switch-icon {
+    width: 34px !important;
+    height: 34px !important;
+    flex: 0 0 34px !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 50% !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+}
+.theme-switch-btn .theme-switch-text {
+    display: inline !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+}
+
+/* Tema Terang */
+html[data-ui-theme="legacy"] .theme-switch-btn {
+    color: #26364d !important;
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid rgba(65,97,140,.16) !important;
+    box-shadow: 0 12px 34px rgba(48,73,112,.16) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+html[data-ui-theme="legacy"] .theme-switch-btn .theme-switch-icon {
+    color: #fff !important;
+    background: linear-gradient(135deg,#2f6df6,#7157f5) !important;
+}
+html[data-ui-theme="legacy"] .theme-switch-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 42px rgba(48,73,112,.22) !important;
+}
+
+/* Tema Gelap */
+html[data-ui-theme="nova"] .theme-switch-btn {
+    color: #eaf7ff !important;
+    background: rgba(7,18,33,.92) !important;
+    border: 1px solid rgba(92,225,230,.22) !important;
+    box-shadow: 0 12px 34px rgba(0,0,0,.30), 0 0 24px rgba(92,225,230,.07) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+html[data-ui-theme="nova"] .theme-switch-btn .theme-switch-icon {
+    color: #06151d !important;
+    background: linear-gradient(135deg,#5ce1e6,#64f4b8) !important;
+}
+html[data-ui-theme="nova"] .theme-switch-btn:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(92,225,230,.42) !important;
+}
+
+/* B. Header Absensi Pegawai pada Tema Terang punya box sendiri */
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header {
+    position: relative;
+    overflow: hidden;
+    margin: 18px 0 20px !important;
+    padding: 24px 24px !important;
+    border-radius: 26px !important;
+    background:
+        radial-gradient(circle at 88% 10%, rgba(122,92,255,.12), transparent 26%),
+        radial-gradient(circle at 70% 95%, rgba(0,188,212,.10), transparent 28%),
+        linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,250,255,.88)) !important;
+    border: 1px solid rgba(72,104,146,.16) !important;
+    box-shadow: 0 18px 50px rgba(53,78,117,.12) !important;
+    backdrop-filter: blur(18px) saturate(1.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.12);
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header::after {
+    content: "";
+    position: absolute;
+    width: 155px;
+    height: 155px;
+    right: -65px;
+    top: -75px;
+    border: 18px solid rgba(47,109,246,.055);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ltSpinSlow 22s linear infinite;
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header > * {
+    position: relative;
+    z-index: 1;
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header .app-badge {
+    color: #2f6df6 !important;
+    font-weight: 800 !important;
+    letter-spacing: .12em;
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header h1 {
+    color: #18253b !important;
+    letter-spacing: -.035em;
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header #tanggalSekarang {
+    color: #71839a !important;
+}
+html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header .logout-icon {
+    color: #44566e !important;
+    background: rgba(255,255,255,.72) !important;
+    border: 1px solid rgba(72,104,146,.16) !important;
+    box-shadow: 0 10px 24px rgba(53,78,117,.09) !important;
+}
+
+/* C. Tema Gelap — employee page: hilangkan semua kartu putih yang masih tembus */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] {
+    --ed-panel: #0b1a2d;
+    --ed-panel-2: #0e2138;
+    --ed-line: rgba(151,181,216,.16);
+    --ed-text: #edf8ff;
+    --ed-muted: #93a9bf;
+}
+
+/* Riwayat: filter periode yang terlihat putih */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-pegawai-filter-card,
+    .rekap-pegawai-info-card,
+    .rekap-pegawai-card,
+    .rekap-stat-item,
+    .rekap-terlambat-item,
+    .rekap-pegawai-empty,
+    .riwayat-rekap-pegawai,
+    .riwayat-rekap-item
+) {
+    color: var(--ed-text) !important;
+    background-color: var(--ed-panel) !important;
+    background-image: linear-gradient(145deg, rgba(14,33,56,.98), rgba(7,18,33,.98)) !important;
+    border-color: var(--ed-line) !important;
+    box-shadow: 0 16px 42px rgba(0,0,0,.18) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-pegawai-filter-card,
+    .rekap-pegawai-info-card,
+    .rekap-pegawai-card
+) :is(h1,h2,h3,h4,strong) {
+    color: var(--ed-text) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    .rekap-pegawai-filter-card,
+    .rekap-pegawai-info-card,
+    .rekap-pegawai-card,
+    .rekap-stat-item,
+    .rekap-terlambat-item
+) :is(p,label,small,span) {
+    color: var(--ed-muted);
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    select,input
+) {
+    color: #edf8ff !important;
+    background: #081727 !important;
+    border-color: var(--ed-line) !important;
+    -webkit-text-fill-color: #edf8ff !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #rekapPegawaiSection :is(
+    select option
+) {
+    color: #edf8ff !important;
+    background: #081727 !important;
+}
+
+/* Info: Jam Absensi / Cara Absensi yang masih putih */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection :is(
+    .simple-info-card
+) {
+    color: var(--ed-text) !important;
+    background-color: var(--ed-panel) !important;
+    background-image: linear-gradient(145deg, rgba(14,33,56,.98), rgba(7,18,33,.98)) !important;
+    border: 1px solid var(--ed-line) !important;
+    box-shadow: 0 16px 42px rgba(0,0,0,.18) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection .simple-info-card :is(
+    h1,h2,h3,h4,strong
+) {
+    color: var(--ed-text) !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] #infoPegawaiSection .simple-info-card :is(
+    p,span,small
+) {
+    color: var(--ed-muted) !important;
+}
+
+/* Generic employee fallback: no direct white cards in dark mode */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] :is(
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) :is(
+    .rekap-pegawai-filter-card,
+    .rekap-pegawai-info-card,
+    .rekap-pegawai-card,
+    .simple-info-card
+) {
+    background-color: #0b1a2d !important;
+}
+
+/* Improve headings that became too dark in the dark screenshots */
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] :is(
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) :is(
+    .rekap-pegawai-section-title,
+    .simple-panel-head h2,
+    .simple-panel-head h3
+) {
+    color: #edf8ff !important;
+}
+html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] :is(
+    #rekapPegawaiSection,
+    #infoPegawaiSection
+) :is(
+    .section-eyebrow,
+    .rekap-pegawai-badge
+) {
+    color: #66e5e9 !important;
+}
+
+/* mobile: pill tetap kompak tapi jangan berubah menjadi lingkaran */
+@media (max-width: 560px) {
+    .theme-switch-btn {
+        right: 14px !important;
+        bottom: 16px !important;
+        min-width: 130px !important;
+        height: 48px !important;
+        padding: 7px 12px 7px 8px !important;
+        gap: 8px !important;
+        font-size: 12px !important;
+    }
+    .theme-switch-btn .theme-switch-icon {
+        width: 32px !important;
+        height: 32px !important;
+        flex-basis: 32px !important;
+        font-size: 17px !important;
+    }
+
+    html[data-ui-theme="legacy"] body.absensi-page[data-ui-theme="legacy"] .absensi-header {
+        margin: 14px 0 18px !important;
+        padding: 21px 20px !important;
+        border-radius: 22px !important;
+    }
+}
