@@ -14463,3 +14463,150 @@ body.admin-page button:active {
     transform: scale(.98);
     transition-duration: .08s !important;
 }
+
+
+/* ============================================================
+   SINGLE LIGHT THEME — LOGIN FIX
+   Login sebelumnya masih memakai surface gelap NOVA karena
+   selector single-light belum mencakup komponen login.
+============================================================ */
+
+/* Root login page */
+html[data-ui-theme="nova"] body.login-page[data-ui-theme="nova"],
+html[data-ui-theme="nova"] body.login-page {
+    background:
+        radial-gradient(circle at 8% 8%, rgba(64,126,255,.14), transparent 26%),
+        radial-gradient(circle at 92% 86%, rgba(35,199,207,.11), transparent 26%),
+        linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%) !important;
+    color: #17243a !important;
+}
+
+/* Main login shell */
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-container,
+    .login-panel,
+    .login-card,
+    .login-card-body,
+    .login-card-header
+) {
+    color: #17243a !important;
+    border-color: rgba(43,91,154,.15) !important;
+}
+
+/* Outer card keeps modern NOVA shape, but becomes light */
+html[data-ui-theme="nova"] body.login-page .login-container {
+    background:
+        radial-gradient(circle at 95% 5%, rgba(47,114,244,.11), transparent 27%),
+        rgba(255,255,255,.94) !important;
+    border: 1px solid rgba(43,91,154,.15) !important;
+    box-shadow: 0 26px 70px rgba(36,72,125,.16) !important;
+}
+
+/* Brand/header area */
+html[data-ui-theme="nova"] body.login-page .login-card-header {
+    background:
+        radial-gradient(circle at 90% 12%, rgba(99,93,246,.13), transparent 30%),
+        linear-gradient(135deg, #edf5ff 0%, #f8fbff 100%) !important;
+    border-bottom: 1px solid rgba(43,91,154,.10) !important;
+}
+
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-brand h1,
+    .login-welcome h2,
+    .login-card-header h1,
+    .login-card-body h2
+) {
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
+}
+
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-brand span,
+    .login-welcome p,
+    .login-card-body p,
+    .input-group label
+) {
+    color: #718198 !important;
+    -webkit-text-fill-color: #718198 !important;
+}
+
+html[data-ui-theme="nova"] body.login-page .login-brand span {
+    color: #346fd3 !important;
+    -webkit-text-fill-color: #346fd3 !important;
+}
+
+/* Icons */
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-logo,
+    .welcome-icon
+) {
+    background: linear-gradient(135deg, #2f72f4, #42dfba) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+}
+
+/* Input */
+html[data-ui-theme="nova"] body.login-page .input-wrapper {
+    background: #f7faff !important;
+    border: 1px solid rgba(43,91,154,.18) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+html[data-ui-theme="nova"] body.login-page :is(
+    .input-wrapper input,
+    input
+) {
+    background: transparent !important;
+    color: #17243a !important;
+    -webkit-text-fill-color: #17243a !important;
+}
+
+html[data-ui-theme="nova"] body.login-page input::placeholder {
+    color: #98a6b8 !important;
+    -webkit-text-fill-color: #98a6b8 !important;
+}
+
+html[data-ui-theme="nova"] body.login-page .input-wrapper:focus-within {
+    border-color: rgba(47,114,244,.48) !important;
+    box-shadow: 0 0 0 4px rgba(47,114,244,.08) !important;
+}
+
+/* Primary login button */
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-btn,
+    button[type="submit"]
+) {
+    color: #fff !important;
+    background: linear-gradient(135deg, #2f72f4, #635df6) !important;
+    box-shadow: 0 14px 30px rgba(47,114,244,.22) !important;
+}
+
+/* Admin-login link */
+html[data-ui-theme="nova"] body.login-page :is(
+    .admin-login-link,
+    .switch-login-btn,
+    .login-admin-link
+) {
+    color: #566b86 !important;
+    background: #f2f6fc !important;
+    border-color: rgba(43,91,154,.12) !important;
+}
+
+/* Keep decorative shapes light */
+html[data-ui-theme="nova"] body.login-page :is(
+    .login-bg-grid,
+    .login-blob,
+    .login-dot,
+    .login-ring
+) {
+    opacity: .36 !important;
+}
+
+/* Chrome autofill fix */
+html[data-ui-theme="nova"] body.login-page input:-webkit-autofill,
+html[data-ui-theme="nova"] body.login-page input:-webkit-autofill:hover,
+html[data-ui-theme="nova"] body.login-page input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #17243a !important;
+    box-shadow: 0 0 0 1000px #f7faff inset !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
