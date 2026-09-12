@@ -12984,3 +12984,548 @@ html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .pegawai-noti
 html[data-ui-theme="nova"] body.absensi-page[data-ui-theme="nova"] .pegawai-notification-card {
     align-items: center !important;
 }
+
+
+/* ============================================================
+   TEMA TERANG 2.0 — MODERN MOTION SYSTEM
+   Tema original tetap "legacy" secara internal agar JS lama aman,
+   tetapi di UI sekarang disebut "Tema Terang".
+============================================================ */
+
+html[data-ui-theme="legacy"] body {
+    --lt-bg: #f4f8ff;
+    --lt-bg-2: #eef4ff;
+    --lt-panel: rgba(255,255,255,.82);
+    --lt-panel-solid: #ffffff;
+    --lt-panel-soft: rgba(248,251,255,.92);
+    --lt-border: rgba(78,108,145,.16);
+    --lt-border-strong: rgba(64,110,180,.24);
+    --lt-text: #162238;
+    --lt-text-2: #3e536d;
+    --lt-muted: #70829a;
+    --lt-primary: #2f6df6;
+    --lt-primary-2: #7a5cff;
+    --lt-cyan: #00bcd4;
+    --lt-mint: #22c59b;
+    --lt-danger: #e84b67;
+    --lt-warning: #f3a625;
+    --lt-shadow: 0 18px 55px rgba(53,78,117,.12);
+    --lt-shadow-hover: 0 24px 70px rgba(53,78,117,.18);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(71,132,255,.12), transparent 26%),
+        radial-gradient(circle at 88% 15%, rgba(122,92,255,.10), transparent 24%),
+        radial-gradient(circle at 50% 92%, rgba(0,188,212,.09), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%) !important;
+    color: var(--lt-text);
+    animation: ltPageIn .55s cubic-bezier(.2,.75,.25,1) both;
+}
+
+/* ambient animation always running */
+html[data-ui-theme="legacy"] body::before,
+html[data-ui-theme="legacy"] body::after {
+    content: "";
+    position: fixed;
+    z-index: -3;
+    pointer-events: none;
+    width: 34rem;
+    height: 34rem;
+    border-radius: 50%;
+    filter: blur(32px);
+    opacity: .38;
+    will-change: transform;
+}
+html[data-ui-theme="legacy"] body::before {
+    top: -12rem;
+    left: -10rem;
+    background: radial-gradient(circle, rgba(47,109,246,.28), transparent 68%);
+    animation: ltOrbOne 14s ease-in-out infinite alternate;
+}
+html[data-ui-theme="legacy"] body::after {
+    right: -12rem;
+    bottom: -14rem;
+    background: radial-gradient(circle, rgba(122,92,255,.22), transparent 68%);
+    animation: ltOrbTwo 18s ease-in-out infinite alternate;
+}
+
+/* moving grid / shimmer atmosphere */
+html[data-ui-theme="legacy"] .admin-bg-grid,
+html[data-ui-theme="legacy"] .employee-bg-grid,
+html[data-ui-theme="legacy"] .login-bg-grid {
+    opacity: .22 !important;
+    background-image:
+        linear-gradient(rgba(47,109,246,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(47,109,246,.055) 1px, transparent 1px) !important;
+    background-size: 34px 34px !important;
+    animation: ltGridDrift 22s linear infinite;
+}
+
+/* unified modern glass surfaces */
+html[data-ui-theme="legacy"] body :is(
+    .admin-header,
+    .admin-nav,
+    .admin-section-intro,
+    .admin-section-hero,
+    .data-section,
+    .action-needed-card,
+    .admin-tools,
+    .filter-container,
+    .pegawai-tools,
+    .keterangan-filter-card,
+    .rekap-control-card,
+    .holiday-summary-card,
+    .holiday-calendar-card,
+    .settings-card,
+    .settings-date-card,
+    .settings-block,
+    .admin-profile-card,
+    .admin-password-card,
+    .admin-announcement-card,
+    .login-container,
+    .employee-profile-card,
+    .employee-nav,
+    .employee-time-card,
+    .employee-notification-card,
+    .employee-action-card,
+    .history-card,
+    .info-card
+) {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,255,.80)) !important;
+    border: 1px solid var(--lt-border) !important;
+    box-shadow: var(--lt-shadow) !important;
+    backdrop-filter: blur(18px) saturate(1.16);
+    -webkit-backdrop-filter: blur(18px) saturate(1.16);
+    transition:
+        transform .28s cubic-bezier(.2,.75,.25,1),
+        box-shadow .28s ease,
+        border-color .28s ease,
+        background .28s ease !important;
+}
+
+/* floating cards - always subtle motion */
+html[data-ui-theme="legacy"] body :is(
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card,
+    .holiday-summary-card,
+    .admin-profile-card,
+    .employee-notification-card
+) {
+    animation: ltFloatCard 5.8s ease-in-out infinite;
+}
+html[data-ui-theme="legacy"] body :is(
+    .stat-card:nth-child(2),
+    .pegawai-stat-card:nth-child(2),
+    .keterangan-stat-card:nth-child(2),
+    .rekap-stat-card:nth-child(2)
+) { animation-delay: -.8s; }
+html[data-ui-theme="legacy"] body :is(
+    .stat-card:nth-child(3),
+    .pegawai-stat-card:nth-child(3),
+    .keterangan-stat-card:nth-child(3),
+    .rekap-stat-card:nth-child(3)
+) { animation-delay: -1.6s; }
+html[data-ui-theme="legacy"] body :is(
+    .stat-card:nth-child(4),
+    .keterangan-stat-card:nth-child(4)
+) { animation-delay: -2.4s; }
+
+/* hover lift */
+html[data-ui-theme="legacy"] body :is(
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card,
+    .data-section,
+    .settings-card,
+    .settings-date-card,
+    .admin-profile-card,
+    .admin-password-card,
+    .admin-announcement-card,
+    .employee-profile-card,
+    .employee-time-card,
+    .employee-notification-card,
+    .employee-action-card,
+    .history-card,
+    .info-card
+):hover {
+    transform: translateY(-4px) scale(1.008);
+    box-shadow: var(--lt-shadow-hover) !important;
+    border-color: var(--lt-border-strong) !important;
+}
+
+/* header hero becomes premium */
+html[data-ui-theme="legacy"] body.admin-page .admin-header {
+    position: relative;
+    overflow: hidden;
+    padding: 28px 30px;
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 86% 20%, rgba(122,92,255,.16), transparent 24%),
+        radial-gradient(circle at 72% 80%, rgba(0,188,212,.12), transparent 22%),
+        linear-gradient(135deg, rgba(255,255,255,.96), rgba(245,249,255,.86)) !important;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-header::after {
+    content: "";
+    position: absolute;
+    inset: auto -40px -80px auto;
+    width: 190px;
+    height: 190px;
+    border: 22px solid rgba(47,109,246,.055);
+    border-radius: 50%;
+    animation: ltSpinSlow 22s linear infinite;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-header h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: .98;
+    letter-spacing: -.045em;
+    color: #17233a !important;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-header p {
+    color: var(--lt-muted) !important;
+}
+html[data-ui-theme="legacy"] body.admin-page .app-badge,
+html[data-ui-theme="legacy"] body.admin-page .section-label {
+    color: var(--lt-primary) !important;
+    letter-spacing: .13em;
+    font-weight: 800;
+}
+
+/* modern navigation */
+html[data-ui-theme="legacy"] body.admin-page .admin-nav {
+    border-radius: 24px;
+    padding: 12px;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px !important;
+    color: #71839a !important;
+    transition: transform .22s ease, color .22s ease, background .22s ease !important;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(135deg, rgba(47,109,246,.10), rgba(122,92,255,.10));
+    transition: opacity .25s ease;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn:hover {
+    transform: translateY(-2px);
+    color: var(--lt-text) !important;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn:hover::before {
+    opacity: 1;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn.active {
+    color: #fff !important;
+    background: linear-gradient(135deg, #2f6df6, #7157f5 58%, #00a9ca) !important;
+    box-shadow: 0 14px 30px rgba(47,109,246,.24) !important;
+    animation: ltActivePulse 3s ease-in-out infinite;
+}
+html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn.active::before {
+    opacity: 0;
+}
+
+/* modern stat cards */
+html[data-ui-theme="legacy"] body.admin-page :is(
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card
+) {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(244,248,255,.84)) !important;
+    border: 1px solid var(--lt-border) !important;
+    border-radius: 22px !important;
+}
+html[data-ui-theme="legacy"] body.admin-page :is(
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card
+)::after {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -36px;
+    top: -38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(47,109,246,.11), transparent 68%);
+    animation: ltGlowBreath 4.8s ease-in-out infinite;
+}
+
+/* text hierarchy */
+html[data-ui-theme="legacy"] body :is(h1,h2,h3,h4,h5,h6,strong,b) {
+    color: var(--lt-text) !important;
+}
+html[data-ui-theme="legacy"] body :is(
+    p,small,label,.settings-help,.admin-password-description,.admin-profile-label,
+    .admin-profile-meta,.realtime-updated,.stat-label
+) {
+    color: var(--lt-muted) !important;
+}
+
+/* inputs */
+html[data-ui-theme="legacy"] body :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea
+) {
+    color: var(--lt-text) !important;
+    background: rgba(247,250,255,.94) !important;
+    border: 1px solid rgba(85,113,150,.18) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease !important;
+}
+html[data-ui-theme="legacy"] body :is(
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea
+):focus {
+    transform: translateY(-1px);
+    background: #fff !important;
+    border-color: rgba(47,109,246,.46) !important;
+    box-shadow: 0 0 0 4px rgba(47,109,246,.08), 0 14px 30px rgba(47,109,246,.08) !important;
+}
+html[data-ui-theme="legacy"] body ::placeholder {
+    color: #95a4b7 !important;
+}
+
+/* buttons — animated press, shimmer and ripple-like flash */
+html[data-ui-theme="legacy"] body :is(
+    button,
+    .admin-primary-btn,
+    .admin-secondary-btn,
+    .employee-action-btn,
+    .login-btn,
+    .table-action-btn,
+    .theme-switcher
+) {
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s ease, box-shadow .22s ease, filter .22s ease, background .22s ease !important;
+}
+html[data-ui-theme="legacy"] body :is(
+    .admin-primary-btn,
+    .employee-action-btn,
+    .login-btn
+) {
+    color: #fff !important;
+    background: linear-gradient(110deg, #2f6df6 0%, #6b59f5 48%, #00b5d8 100%) !important;
+    background-size: 180% 100% !important;
+    box-shadow: 0 14px 32px rgba(47,109,246,.22) !important;
+    animation: ltGradientFlow 4.2s ease infinite;
+}
+html[data-ui-theme="legacy"] body :is(
+    button,
+    .admin-primary-btn,
+    .admin-secondary-btn,
+    .employee-action-btn,
+    .login-btn,
+    .table-action-btn
+):active {
+    transform: scale(.96) translateY(1px) !important;
+}
+html[data-ui-theme="legacy"] body :is(
+    button,
+    .admin-primary-btn,
+    .admin-secondary-btn,
+    .employee-action-btn,
+    .login-btn,
+    .table-action-btn
+)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,.34) 45%, transparent 65%);
+    transform: translateX(-140%);
+}
+html[data-ui-theme="legacy"] body :is(
+    button,
+    .admin-primary-btn,
+    .admin-secondary-btn,
+    .employee-action-btn,
+    .login-btn,
+    .table-action-btn
+):hover::after {
+    animation: ltButtonShine .72s ease;
+}
+
+/* tables/cards */
+html[data-ui-theme="legacy"] body.admin-page .table-wrapper {
+    background: rgba(255,255,255,.78) !important;
+    border: 1px solid var(--lt-border) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 32px rgba(53,78,117,.07);
+}
+html[data-ui-theme="legacy"] body.admin-page thead th {
+    color: #526982 !important;
+    background: rgba(238,244,252,.92) !important;
+}
+html[data-ui-theme="legacy"] body.admin-page tbody tr {
+    transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+html[data-ui-theme="legacy"] body.admin-page tbody tr:hover {
+    background: rgba(47,109,246,.035) !important;
+    transform: translateX(2px);
+}
+
+/* modal/dialog entrance */
+html[data-ui-theme="legacy"] body :is(
+    .custom-dialog-box,
+    .admin-modal-content
+) {
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid var(--lt-border) !important;
+    box-shadow: 0 30px 90px rgba(38,57,90,.22) !important;
+    animation: ltModalPop .34s cubic-bezier(.18,.89,.32,1.28) both !important;
+}
+
+/* employee light theme upgrade */
+html[data-ui-theme="legacy"] body.employee-page :is(
+    .employee-profile-card,
+    .employee-nav,
+    .employee-time-card,
+    .employee-notification-card,
+    .employee-action-card,
+    .history-card,
+    .info-card
+) {
+    border-radius: 24px !important;
+}
+html[data-ui-theme="legacy"] body.employee-page .employee-nav-btn.active {
+    color: #fff !important;
+    background: linear-gradient(135deg, #2f6df6, #6d5af5) !important;
+    box-shadow: 0 12px 28px rgba(47,109,246,.20) !important;
+    animation: ltActivePulse 3s ease-in-out infinite;
+}
+
+/* login modern */
+html[data-ui-theme="legacy"] body.login-page .login-container,
+html[data-ui-theme="legacy"] body.admin-login-page .login-container {
+    border-radius: 30px !important;
+    background:
+        radial-gradient(circle at 95% 4%, rgba(47,109,246,.10), transparent 26%),
+        rgba(255,255,255,.92) !important;
+    animation: ltLoginFloat 6s ease-in-out infinite;
+}
+html[data-ui-theme="legacy"] body.login-page .login-container::before,
+html[data-ui-theme="legacy"] body.admin-login-page .login-container::before {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: -60px;
+    top: -60px;
+    border-radius: 50%;
+    border: 20px solid rgba(47,109,246,.055);
+    animation: ltSpinSlow 18s linear infinite;
+}
+
+/* reveal animation for sections */
+html[data-ui-theme="legacy"] body :is(
+    .admin-page-section.active,
+    .employee-page-section.active
+) {
+    animation: ltSectionReveal .42s cubic-bezier(.2,.75,.25,1) both;
+}
+
+/* theme switcher: light naming */
+html[data-ui-theme="legacy"] .theme-switcher {
+    box-shadow: 0 14px 34px rgba(53,78,117,.16) !important;
+}
+
+/* mobile refinements */
+@media (max-width: 1000px) {
+    html[data-ui-theme="legacy"] body.admin-page .admin-nav {
+        background: rgba(255,255,255,.86) !important;
+        box-shadow: 0 16px 42px rgba(53,78,117,.11) !important;
+    }
+    html[data-ui-theme="legacy"] body.admin-page .admin-nav-btn {
+        min-height: 86px;
+    }
+}
+@media (max-width: 560px) {
+    html[data-ui-theme="legacy"] body.admin-page .admin-header {
+        padding: 23px 20px;
+        border-radius: 22px;
+    }
+    html[data-ui-theme="legacy"] body.admin-page .admin-header h1 {
+        font-size: 2.35rem;
+    }
+    html[data-ui-theme="legacy"] body :is(
+        .stat-card,.pegawai-stat-card,.keterangan-stat-card,.rekap-stat-card
+    ) {
+        border-radius: 20px !important;
+    }
+}
+
+/* accessibility: animation remains rich by default, but respects OS request */
+@media (prefers-reduced-motion: reduce) {
+    html[data-ui-theme="legacy"] *,
+    html[data-ui-theme="legacy"] *::before,
+    html[data-ui-theme="legacy"] *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@keyframes ltPageIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ltOrbOne {
+    0% { transform: translate3d(0,0,0) scale(1); }
+    100% { transform: translate3d(120px,85px,0) scale(1.12); }
+}
+@keyframes ltOrbTwo {
+    0% { transform: translate3d(0,0,0) scale(1); }
+    100% { transform: translate3d(-110px,-70px,0) scale(1.08); }
+}
+@keyframes ltGridDrift {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 34px 34px, 34px 34px; }
+}
+@keyframes ltFloatCard {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+@keyframes ltActivePulse {
+    0%,100% { box-shadow: 0 14px 30px rgba(47,109,246,.22); }
+    50% { box-shadow: 0 18px 42px rgba(47,109,246,.34); }
+}
+@keyframes ltGlowBreath {
+    0%,100% { transform: scale(.92); opacity: .62; }
+    50% { transform: scale(1.12); opacity: 1; }
+}
+@keyframes ltSpinSlow {
+    to { transform: rotate(360deg); }
+}
+@keyframes ltGradientFlow {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+@keyframes ltButtonShine {
+    from { transform: translateX(-140%); }
+    to { transform: translateX(140%); }
+}
+@keyframes ltModalPop {
+    from { opacity: 0; transform: translateY(14px) scale(.96); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ltLoginFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+@keyframes ltSectionReveal {
+    from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+    to { opacity: 1; transform: none; filter: none; }
+}
