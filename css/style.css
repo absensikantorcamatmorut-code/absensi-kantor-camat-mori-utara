@@ -5020,3 +5020,121 @@ td {
         padding: 0 8px !important;
     }
 }
+
+
+/* ==========================================================
+   LOKASI ABSENSI — HEADER RINGKAS
+   Hanya merapikan area header yang ditandai.
+========================================================== */
+.compact-location-card {
+    padding-top: 15px !important;
+}
+
+.compact-location-head {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    margin-bottom: 10px;
+}
+
+.compact-location-number {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 12px !important;
+}
+
+.compact-location-copy {
+    min-width: 0;
+}
+
+.compact-location-copy .section-label {
+    display: inline-flex;
+    margin-bottom: 5px !important;
+}
+
+.compact-location-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.compact-location-title-row h3 {
+    margin: 0 !important;
+    font-size: 19px !important;
+    line-height: 1.2 !important;
+}
+
+.compact-geofence-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+}
+
+.compact-location-copy > p {
+    margin: 4px 0 0 40px !important;
+    color: var(--muted) !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+}
+
+.compact-geofence-body {
+    padding-top: 10px !important;
+    margin-top: 0 !important;
+    border-top: 1px solid var(--line) !important;
+}
+
+@media (max-width: 560px) {
+    .compact-location-card {
+        padding-top: 13px !important;
+    }
+
+    .compact-location-head {
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 9px;
+        margin-bottom: 8px;
+    }
+
+    .compact-location-number {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        border-radius: 11px !important;
+    }
+
+    .compact-location-title-row {
+        gap: 7px;
+    }
+
+    .compact-location-title-row h3 {
+        font-size: 17px !important;
+    }
+
+    .compact-geofence-icon {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        border-radius: 9px !important;
+        font-size: 12px !important;
+    }
+
+    .compact-location-copy .section-label {
+        font-size: 10px !important;
+        padding: 5px 9px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .compact-location-copy > p {
+        margin-left: 35px !important;
+        margin-top: 3px !important;
+        font-size: 11px !important;
+    }
+
+    .compact-geofence-body {
+        padding-top: 8px !important;
+    }
+}
