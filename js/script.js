@@ -1801,7 +1801,7 @@ const bagianKirim =
         const waktu = statusWaktuAbsensi();
         let judul = "", teks = "", icon = "ⓘ";
         if (!hariKerjaHariIni) {
-            judul = "Bukan Hari Kerja"; teks = "Hari ini absensi tidak tersedia."; icon = "OFF";
+            judul = "Bukan Hari Kerja"; teks = "Hari ini absensi tidak tersedia."; icon = "";
         } else if (hariLiburHariIni) {
             judul = "Hari Libur"; teks = namaHariLiburHariIni || "Hari ini ditetapkan sebagai hari libur."; icon = "🎉";
         } else if (adaKeterangan) {
@@ -1815,7 +1815,10 @@ const bagianKirim =
         }
         pegawaiNotificationCard.hidden = !judul;
         if (!judul) return;
-        if (pegawaiNotificationIcon) pegawaiNotificationIcon.textContent = icon;
+        if (pegawaiNotificationIcon) {
+            pegawaiNotificationIcon.textContent = icon;
+            pegawaiNotificationIcon.classList.toggle("nonwork-css-icon", !hariKerjaHariIni);
+        }
         if (pegawaiNotificationTitle) pegawaiNotificationTitle.textContent = judul;
         if (pegawaiNotificationText) pegawaiNotificationText.textContent = teks;
     }
@@ -5431,6 +5434,15 @@ function safeURL(value) {
     const teksClone =
         document.getElementById("runningAnnouncementTextClone");
 
+    const bar =
+        document.getElementById("runningAnnouncementBar");
+
+    const barText =
+        document.getElementById("runningAnnouncementBarText");
+
+    const barTextClone =
+        document.getElementById("runningAnnouncementBarTextClone");
+
     muatPengumumanPegawai();
 
     async function muatPengumumanPegawai() {
@@ -5448,6 +5460,7 @@ function safeURL(value) {
                 !String(hasil.teks || "").trim()
             ) {
                 container.hidden = true;
+                if (bar) bar.hidden = true;
                 return;
             }
 
@@ -5457,7 +5470,11 @@ function safeURL(value) {
             teksUtama.textContent = teks;
             teksClone.textContent = teks;
 
+            if (barText) barText.textContent = String(hasil.teks).trim();
+            if (barTextClone) barTextClone.textContent = String(hasil.teks).trim();
+
             container.hidden = false;
+            if (bar) bar.hidden = false;
 
         } catch (error) {
             console.error(
@@ -5466,6 +5483,7 @@ function safeURL(value) {
             );
 
             container.hidden = true;
+            if (bar) bar.hidden = true;
         }
     }
 })();
@@ -5989,5 +6007,6 @@ muatThumbnailFotoTerlihat();
 
 
 })();
+w
 
 
