@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-satellite-cards1">
+    <link rel="stylesheet" href="css/style.css?v=20260912-osm-compact2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -755,17 +755,19 @@
                 </div>
             </form>
 
-            <form id="pengaturanAbsensiForm" class="settings-card settings-main-card">
-                <div class="settings-card-head">
-                    <div class="settings-head-icon">03</div>
-                    <div>
-                        <span class="section-label">LOKASI & JAM</span>
-                        <h3>Lokasi Kantor dan Radius Absensi</h3>
-                        <p>Atur titik kantor dan lihat langsung area radius yang diperbolehkan untuk absensi.</p>
-                    </div>
-                </div>
+            <form id="pengaturanAbsensiForm" class="settings-split-form">
 
-                <section class="office-location-layout geofence-simple-card">
+                <article class="settings-card settings-location-card">
+                    <div class="settings-card-head">
+                        <div class="settings-head-icon">03</div>
+                        <div>
+                            <span class="section-label">LOKASI ABSENSI</span>
+                            <h3>Lokasi Kantor & Radius</h3>
+                            <p>Tentukan titik kantor dan batas area absensi.</p>
+                        </div>
+                    </div>
+
+                    <section class="office-location-layout geofence-simple-card">
 
                     <div class="geofence-title-row">
                         <div class="geofence-title-icon" aria-hidden="true">⌖</div>
@@ -878,33 +880,62 @@
                         <span>2000 m</span>
                     </div>
 
-                    <button type="submit" class="admin-primary-btn geofence-save-btn">
-                        Simpan Titik & Radius
-                    </button>
+                    
 
                 </section>
 
-                <div class="settings-block attendance-time-block">
-                    <div class="setting-subhead">
-                        <h4>Jam Absensi</h4>
-                        <p>Semua waktu menggunakan WITA.</p>
+                    <div class="settings-card-actions">
+                        <button type="submit" class="admin-primary-btn geofence-save-btn">
+                            Simpan Lokasi & Radius
+                        </button>
                     </div>
-                    <div class="settings-grid attendance-time-grid">
-                        <div class="admin-form-group"><label for="settingMasukMulai">Masuk Dibuka</label><input type="time" id="settingMasukMulai" required></div>
-                        <div class="admin-form-group"><label for="settingJamLambat">Batas Tepat Waktu</label><input type="time" id="settingJamLambat" required></div>
-                        <div class="admin-form-group"><label for="settingMasukSelesai">Masuk Ditutup</label><input type="time" id="settingMasukSelesai" required></div>
-                        <div class="admin-form-group"><label for="settingKeluarMulai">Pulang Dibuka</label><input type="time" id="settingKeluarMulai" required></div>
-                        <div class="admin-form-group"><label for="settingKeluarSelesai">Pulang Ditutup</label><input type="time" id="settingKeluarSelesai" required></div>
-                    </div>
-                </div>
+                </article>
 
-                <div class="settings-save-row modern-settings-save">
-                    <p>Perubahan lokasi, radius, dan jam akan dipakai pada absensi berikutnya dan dicatat di Log Admin.</p>
-                    <div class="settings-actions">
-                        <button type="button" id="resetPengaturanBtn" class="admin-secondary-btn">↺ Reset ke Default</button>
-                        <button type="submit" id="simpanPengaturanBtn" class="admin-primary-btn">Simpan Pengaturan</button>
+                <article class="settings-card settings-time-card">
+                    <div class="settings-card-head compact-time-head">
+                        <div class="settings-head-icon">04</div>
+                        <div>
+                            <span class="section-label">JADWAL ABSENSI</span>
+                            <h3>Jam Absensi</h3>
+                            <p>Atur waktu masuk dan pulang. Semua waktu WITA.</p>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="compact-time-groups">
+                        <section class="compact-time-group">
+                            <strong>Masuk</strong>
+                            <div class="compact-time-inputs compact-time-inputs-three">
+                                <label>Dibuka
+                                    <input type="time" id="settingMasukMulai" required>
+                                </label>
+                                <label>Tepat Waktu
+                                    <input type="time" id="settingJamLambat" required>
+                                </label>
+                                <label>Ditutup
+                                    <input type="time" id="settingMasukSelesai" required>
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="compact-time-group">
+                            <strong>Pulang</strong>
+                            <div class="compact-time-inputs compact-time-inputs-two">
+                                <label>Dibuka
+                                    <input type="time" id="settingKeluarMulai" required>
+                                </label>
+                                <label>Ditutup
+                                    <input type="time" id="settingKeluarSelesai" required>
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="compact-time-actions">
+                        <button type="button" id="resetPengaturanBtn" class="admin-secondary-btn">Reset Default</button>
+                        <button type="submit" id="simpanPengaturanBtn" class="admin-primary-btn">Simpan Jam</button>
+                    </div>
+                </article>
+
             </form>
         </div>
         </section>
@@ -1447,7 +1478,7 @@
         <div><strong></strong><p></p></div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/settings-map.js?v=20260912-satellite-cards1"></script>
+    <script src="js/settings-map.js?v=20260912-osm-compact2"></script>
 <script src="js/script.js?v=20260912-settingsmap2"></script>
     <script src="js/rekap.js?v=20260912-preview-sheet4"></script>
 

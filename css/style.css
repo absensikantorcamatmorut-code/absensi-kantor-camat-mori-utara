@@ -4816,3 +4816,207 @@ td {
         width: 100% !important;
     }
 }
+
+
+/* ============================================================
+   SETTINGS FINAL — OSM gratis, card terpisah, jam ringkas
+============================================================ */
+
+.settings-split-form {
+    display: grid !important;
+    gap: 14px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.settings-location-card,
+.settings-time-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 18px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Geofencing palette follows the website's blue/cyan colors */
+.settings-location-card .geofence-title-icon {
+    color: var(--primary) !important;
+    background: var(--primary-soft) !important;
+}
+
+.settings-location-card .geofence-switch input:checked + span {
+    background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
+}
+
+.settings-location-card .geofence-radius-slider {
+    background: linear-gradient(90deg, #dce9ff 0%, var(--primary) 55%, var(--primary-2) 100%) !important;
+}
+
+.settings-location-card .geofence-radius-slider::-webkit-slider-thumb {
+    border-color: var(--primary) !important;
+    box-shadow: 0 4px 12px rgba(35,104,242,.18) !important;
+}
+
+.settings-location-card .geofence-radius-slider::-moz-range-thumb {
+    border-color: var(--primary) !important;
+}
+
+.settings-location-card .geofence-radius-meta strong,
+.settings-location-card .geofence-map-status[data-kind="success"] {
+    color: var(--primary) !important;
+}
+
+.settings-location-card .geofence-radius-badge {
+    color: var(--primary) !important;
+    background: rgba(255,255,255,.96) !important;
+    border-color: rgba(35,104,242,.18) !important;
+}
+
+.settings-location-card .geofence-radius-badge span {
+    background: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(35,104,242,.11) !important;
+}
+
+.settings-location-card .geofence-save-btn {
+    width: 100% !important;
+    min-height: 50px !important;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
+    box-shadow: 0 10px 22px rgba(35,104,242,.18) !important;
+}
+
+.settings-card-actions {
+    margin-top: 14px !important;
+}
+
+/* Keep map visually integrated with light UI */
+.settings-location-card .geofence-map-wrap {
+    background: var(--bg-soft) !important;
+    border-color: var(--line) !important;
+}
+
+.settings-location-card .geofence-map {
+    background: var(--bg-soft) !important;
+}
+
+.settings-location-card .leaflet-control-zoom a {
+    color: var(--text) !important;
+    background: rgba(255,255,255,.96) !important;
+}
+
+.settings-location-card .leaflet-control-attribution {
+    color: var(--muted) !important;
+    background: rgba(255,255,255,.88) !important;
+}
+
+/* Compact time card */
+.compact-time-head {
+    margin-bottom: 13px !important;
+}
+
+.compact-time-groups {
+    display: grid;
+    grid-template-columns: 1.25fr .75fr;
+    gap: 10px;
+}
+
+.compact-time-group {
+    padding: 13px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 15px;
+}
+
+.compact-time-group > strong {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.compact-time-inputs {
+    display: grid;
+    gap: 8px;
+}
+
+.compact-time-inputs-three {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+}
+
+.compact-time-inputs-two {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+}
+
+.compact-time-inputs label {
+    margin: 0 !important;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.compact-time-inputs input {
+    min-height: 44px !important;
+    margin-top: 5px;
+    padding: 0 9px !important;
+    background: #fff !important;
+}
+
+.compact-time-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.compact-time-actions button {
+    min-height: 46px !important;
+}
+
+/* Remove any inherited inner-card look */
+.settings-location-card .office-location-layout,
+.settings-time-card .attendance-time-block {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Responsive */
+@media (max-width: 820px) {
+    .settings-location-card,
+    .settings-time-card {
+        padding: 15px !important;
+        border-radius: 20px !important;
+    }
+
+    .compact-time-groups {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .compact-time-inputs-three,
+    .compact-time-inputs-two {
+        grid-template-columns: 1fr !important;
+    }
+
+    .compact-time-group {
+        padding: 11px;
+    }
+
+    .compact-time-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .compact-time-actions button {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 0 8px !important;
+    }
+}

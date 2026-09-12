@@ -122,55 +122,48 @@
             tap: true
         });
 
-        const satelliteTiles = L.tileLayer(
-            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        const primaryTiles = L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
-                attribution: "Tiles &copy; Esri"
+                attribution: "&copy; OpenStreetMap"
             }
         );
 
-        const satelliteLabels = L.tileLayer(
-            "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+        const fallbackTiles = L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
             {
-                maxZoom: 19,
-                attribution: "Labels &copy; Esri"
+                subdomains: "abcd",
+                maxZoom: 20,
+                attribution: "&copy; OpenStreetMap &copy; CARTO"
             }
         );
 
-        const streetFallback = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap"
-        });
-
+        let primaryLoaded = false;
         let switchedToFallback = false;
-        let satelliteLoaded = false;
 
-        satelliteTiles.once("tileload", () => {
-            satelliteLoaded = true;
-            setStatus("Peta satelit siap. Geser pin atau ketuk peta untuk mengubah titik.", "success");
+        primaryTiles.once("tileload", () => {
+            primaryLoaded = true;
+            setStatus("Peta siap. Ketuk peta atau geser pin untuk mengubah titik.", "success");
         });
 
-        satelliteTiles.on("tileerror", () => {
-            if (satelliteLoaded || switchedToFallback) return;
+        primaryTiles.on("tileerror", () => {
+            if (primaryLoaded || switchedToFallback) return;
             switchedToFallback = true;
-            try { map.removeLayer(satelliteTiles); } catch (_) {}
-            try { map.removeLayer(satelliteLabels); } catch (_) {}
-            streetFallback.addTo(map);
-            setStatus("Peta satelit gagal dimuat. Peta jalan cadangan digunakan.", "warning");
+            try { map.removeLayer(primaryTiles); } catch (_) {}
+            fallbackTiles.addTo(map);
+            setStatus("Peta memakai server cadangan.", "warning");
         });
 
-        satelliteTiles.addTo(map);
-        satelliteLabels.addTo(map);
+        primaryTiles.addTo(map);
 
         setTimeout(() => {
-            if (satelliteLoaded || switchedToFallback || !map) return;
+            if (primaryLoaded || switchedToFallback || !map) return;
             switchedToFallback = true;
-            try { map.removeLayer(satelliteTiles); } catch (_) {}
-            try { map.removeLayer(satelliteLabels); } catch (_) {}
-            streetFallback.addTo(map);
-            setStatus("Peta satelit lambat dimuat. Peta jalan cadangan digunakan.", "warning");
-        }, 6500);
+            try { map.removeLayer(primaryTiles); } catch (_) {}
+            fallbackTiles.addTo(map);
+            setStatus("Peta memakai server cadangan.", "warning");
+        }, 5000);
 
         radiusCircle = L.circle([s.lat, s.lng], {
             radius: s.radius,
