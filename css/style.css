@@ -5453,3 +5453,57 @@ td {
         margin: 0 !important;
     }
 }
+
+
+/* ============================================================
+   PENGAJUAN KETERANGAN — icon layout seperti Log Admin
+============================================================ */
+#adminKeteranganSection .keterangan-hero-modern {
+    display: block !important;
+}
+
+#adminKeteranganSection .keterangan-hero-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 54px !important;
+    height: 54px !important;
+    margin: 0 0 18px 0 !important;
+    border-radius: 16px !important;
+    align-self: auto !important;
+    justify-self: auto !important;
+}
+
+#adminKeteranganSection .keterangan-hero-modern > div:last-child {
+    display: block !important;
+    min-width: 0 !important;
+}
+
+#adminKeteranganSection .keterangan-hero-modern .section-label {
+    display: inline-flex !important;
+    margin-bottom: 8px !important;
+}
+
+#adminKeteranganSection .keterangan-hero-modern h2 {
+    margin: 0 0 6px !important;
+}
+
+#adminKeteranganSection .keterangan-hero-modern p {
+    margin: 0 !important;
+}
+
+@media (max-width: 640px) {
+    #adminKeteranganSection .keterangan-hero-modern {
+        display: block !important;
+    }
+
+    #adminKeteranganSection .keterangan-hero-icon {
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0 0 16px 0 !important;
+        border-radius: 15px !important;
+    }
+
+    #adminKeteranganSection .keterangan-hero-modern .section-label {
+        margin-bottom: 7px !important;
+    }
+}
