@@ -7014,3 +7014,34 @@ td {
         font-size: 11px !important;
     }
 }
+
+
+/* ============================================================
+   ADMIN NAV — Akun Admin full width & centered
+============================================================ */
+
+.admin-nav-btn:last-child {
+    grid-column: 1 / -1 !important;
+    min-height: 78px !important;
+    width: 100% !important;
+    justify-self: stretch !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.admin-nav-btn:last-child .admin-nav-icon {
+    margin: 0 auto !important;
+}
+
+.admin-nav-btn:last-child > span:last-child {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+@media (max-width: 640px) {
+    .admin-nav-btn:last-child {
+        grid-column: 1 / -1 !important;
+        min-height: 72px !important;
+    }
+}
