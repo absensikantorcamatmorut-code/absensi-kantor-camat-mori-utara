@@ -81,7 +81,16 @@
             terapkanTema(next, true);
         });
 
-        document.body.appendChild(button);
+        const mount =
+            document.body.classList.contains("absensi-page")
+                ? document.querySelector(".absensi-header")
+                : document.body.classList.contains("admin-page")
+                    ? document.querySelector(".admin-header")
+                    : null;
+
+        if (!mount) return;
+
+        mount.appendChild(button);
         updateButton(button, temaSekarang());
     }
 
