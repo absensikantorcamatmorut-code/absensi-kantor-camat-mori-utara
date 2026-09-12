@@ -28,7 +28,9 @@
     let mapCreated = false;
 
     function asNumber(input, fallbackValue) {
-        const value = Number(input?.value);
+        const raw = String(input?.value ?? "").trim();
+        if (raw === "") return fallbackValue;
+        const value = Number(raw);
         return Number.isFinite(value) ? value : fallbackValue;
     }
 
@@ -120,10 +122,45 @@
             tap: true
         });
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        const primaryTiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
             attribution: "&copy; OpenStreetMap"
-        }).addTo(map);
+        });
+
+        const fallbackTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+            subdomains: "abcd",
+            maxZoom: 20,
+            attribution: "&copy; OpenStreetMap &copy; CARTO"
+        });
+
+        let switchedToFallback = false;
+
+        primaryTiles.on("tileerror", () => {
+            if (switchedToFallback) return;
+            switchedToFallback = true;
+            try {
+                map.removeLayer(primaryTiles);
+            } catch (_) {}
+            fallbackTiles.addTo(map);
+            setStatus("Peta memakai server cadangan.", "warning");
+        });
+
+        primaryTiles.addTo(map);
+
+        let tileLoaded = false;
+        primaryTiles.once("tileload", () => {
+            tileLoaded = true;
+        });
+
+        setTimeout(() => {
+            if (tileLoaded || switchedToFallback || !map) return;
+            switchedToFallback = true;
+            try {
+                map.removeLayer(primaryTiles);
+            } catch (_) {}
+            fallbackTiles.addTo(map);
+            setStatus("Peta memakai server cadangan.", "warning");
+        }, 4500);
 
         radiusCircle = L.circle([s.lat, s.lng], {
             radius: s.radius,
@@ -161,6 +198,10 @@
         updateRadiusUI(s.radius);
         mapCreated = true;
         refreshMap();
+
+        primaryTiles.once("tileload", () => {
+            setStatus("Peta siap. Geser pin atau ketuk peta untuk mengubah titik.", "success");
+        });
     }
 
     async function searchAddress() {
@@ -256,6 +297,26 @@
         refreshMap();
     });
 
+    // Existing settings loader writes lat/lng/radius after the page is ready.
+    // Watch the values so the map never stays at fallback coordinates.
+    let lastKnown = "";
+    setInterval(() => {
+        const s = state();
+        const signature = `${s.lat}|${s.lng}|${s.radius}`;
+        if (signature === lastKnown) return;
+        lastKnown = signature;
+
+        updateRadiusUI(s.radius);
+
+        if (mapCreated && marker && radiusCircle) {
+            marker.setLatLng([s.lat, s.lng]);
+            radiusCircle.setLatLng([s.lat, s.lng]);
+            radiusCircle.setRadius(s.radius);
+            map.setView([s.lat, s.lng], zoomForRadius(s.radius), { animate: false });
+            refreshMap();
+        }
+    }, 700);
+
     // Important: admin sections are display:none until opened.
     // Build/refresh the map exactly when Settings becomes visible.
     if (settingsSection) {
@@ -289,3 +350,51 @@
         refreshMap();
     };
 })();
+
+
+/* Simple geofencing UI: presentation only; existing map logic/listeners stay intact. */
+document.addEventListener("DOMContentLoaded", () => {
+    const form =
+        document.getElementById("lokasiKantorForm") ||
+        document.querySelector("[data-geofence-form]") ||
+        document.querySelector(".geofence-form");
+
+    if (!form) return;
+
+    // Remove visual clutter while retaining functional elements in DOM for compatibility.
+    const searchInput =
+        form.querySelector("#mapSearchInput") ||
+        form.querySelector("#lokasiSearch") ||
+        form.querySelector('input[placeholder*="gedung"]') ||
+        form.querySelector('input[placeholder*="alamat"]');
+
+    if (searchInput) {
+        const row = searchInput.closest(".map-search-row, .search-row, .geofence-search, .input-action-row, .form-row");
+        if (row) row.style.display = "none";
+        else searchInput.style.display = "none";
+    }
+
+    form.querySelectorAll("small, .helper-text, .map-help, .map-instruction, .geofence-instruction").forEach(el => {
+        const t = (el.textContent || "").toLowerCase();
+        if (t.includes("pin merah") || t.includes("ketuk peta") || t.includes("pindahkan pin")) {
+            el.style.display = "none";
+        }
+    });
+
+    const radiusLabel = [...form.querySelectorAll("label")].find(el =>
+        /radius maksimal|radius toleransi|radius absensi/i.test(el.textContent || "")
+    );
+    if (radiusLabel) radiusLabel.childNodes[0].textContent = "Radius Absensi (meter)";
+
+    const locationBtn =
+        form.querySelector("#gunakanLokasiBtn") ||
+        [...form.querySelectorAll("button")].find(el => /lokasi saya|lokasi sekarang/i.test(el.textContent || ""));
+    if (locationBtn) locationBtn.innerHTML = "📍 Gunakan Lokasi Saya";
+
+    const saveBtn =
+        form.querySelector("#simpanPengaturanBtn") ||
+        form.querySelector("#simpanLokasiBtn") ||
+        [...form.querySelectorAll("button")].find(el => /simpan.*(lokasi|titik|radius)/i.test(el.textContent || ""));
+    if (saveBtn) saveBtn.textContent = "Simpan Lokasi & Radius";
+});
+

@@ -4667,3 +4667,40 @@ td {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   GEOFENCING SIMPLE FINAL — admin-friendly compact layout
+   ========================================================= */
+#lokasiKantorForm .map-search-row,
+#lokasiKantorForm .geofence-search,
+#lokasiKantorForm [data-map-search],
+#lokasiKantorForm #mapSearchRow,
+#lokasiKantorForm .map-help,
+#lokasiKantorForm .map-instruction,
+#lokasiKantorForm .geofence-instruction {
+    display: none !important;
+}
+
+#lokasiKantorForm .geofence-map,
+#lokasiKantorForm #settingsMap,
+#lokasiKantorForm #lokasiMap,
+#lokasiKantorForm .leaflet-container {
+    margin-top: 10px !important;
+}
+
+@media (max-width: 600px) {
+    #lokasiKantorForm {
+        gap: 12px !important;
+    }
+    #lokasiKantorForm .form-row,
+    #lokasiKantorForm .settings-grid,
+    #lokasiKantorForm .coordinate-grid {
+        gap: 10px !important;
+    }
+    #lokasiKantorForm input,
+    #lokasiKantorForm button {
+        min-height: 48px;
+    }
+}
+
