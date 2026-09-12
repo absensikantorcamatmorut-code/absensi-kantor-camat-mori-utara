@@ -5353,3 +5353,64 @@ td {
         border-radius: 19px;
     }
 }
+
+
+/* ============================================================
+   PASSWORD ADMIN — collapsed by default
+============================================================ */
+
+.admin-password-collapsible {
+    overflow: hidden;
+}
+
+.admin-password-collapsed-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.admin-password-collapsed-head h2 {
+    margin: 6px 0 4px;
+}
+
+.admin-password-collapsed-head p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.password-toggle-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.password-admin-panel {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.password-admin-panel[hidden] {
+    display: none !important;
+}
+
+.compact-password-header {
+    margin-bottom: 14px;
+}
+
+@media (max-width: 640px) {
+    .admin-password-collapsed-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .password-toggle-btn {
+        width: 100%;
+    }
+
+    .password-admin-panel {
+        margin-top: 16px;
+        padding-top: 16px;
+    }
+}

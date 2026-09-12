@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-keterangan-modern1">
+    <link rel="stylesheet" href="css/style.css?v=20260912-password-toggle1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -985,20 +985,36 @@
 
 
                 <!-- PASSWORD -->
-                <article class="admin-password-card">
+                <article class="admin-password-card admin-password-collapsible">
 
-                    <div class="admin-password-header">
-                        <span class="section-label">GANTI PASSWORD</span>
+                    <div class="admin-password-collapsed-head">
+                        <div>
+                            <span class="section-label">KEAMANAN AKUN</span>
+                            <h2>Password Admin</h2>
+                            <p>Ubah password hanya saat diperlukan.</p>
+                        </div>
 
-                        <h2>Password Admin</h2>
-
-                        <p class="admin-password-description">
-                            Gunakan minimal 8 karakter dan jangan berikan
-                            password kepada pegawai lain.
-                        </p>
+                        <button
+                            type="button"
+                            id="togglePasswordAdminBtn"
+                            class="admin-primary-btn password-toggle-btn"
+                            aria-expanded="false"
+                            aria-controls="passwordAdminPanel"
+                        >
+                            Ganti Password
+                        </button>
                     </div>
 
-                    <form id="gantiPasswordAdminForm">
+                    <div id="passwordAdminPanel" class="password-admin-panel" hidden>
+                        <div class="admin-password-header compact-password-header">
+                            <span class="section-label">GANTI PASSWORD</span>
+                            <h2>Ganti Password Admin</h2>
+                            <p class="admin-password-description">
+                                Gunakan minimal 8 karakter dan jangan berikan password kepada pegawai lain.
+                            </p>
+                        </div>
+
+                        <form id="gantiPasswordAdminForm">
 
                         <div class="admin-form-group">
                             <label for="passwordAdminLama">Password Lama</label>
@@ -1048,6 +1064,7 @@
                         </button>
 
                     </form>
+                    </div>
 
                 </article>
 
@@ -1482,6 +1499,23 @@
     <script src="js/settings-map.js?v=20260912-satellite-buildings1"></script>
 <script src="js/script.js?v=20260912-settingsmap2"></script>
     <script src="js/rekap.js?v=20260912-preview-sheet4"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("togglePasswordAdminBtn");
+    const panel = document.getElementById("passwordAdminPanel");
+
+    if (!btn || !panel) return;
+
+    btn.addEventListener("click", function () {
+        const opened = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!opened));
+        panel.hidden = opened;
+        btn.textContent = opened ? "Ganti Password" : "Tutup";
+    });
+});
+</script>
 
 </body>
 </html>
