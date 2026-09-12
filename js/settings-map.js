@@ -1,5 +1,8 @@
-(function () {
+(() => {
     "use strict";
+
+    const mapEl = document.getElementById("officeRadiusMap");
+    if (!mapEl) return;
 
     const latInput = document.getElementById("settingLatitude");
     const lngInput = document.getElementById("settingLongitude");
@@ -7,152 +10,241 @@
     const radiusSlider = document.getElementById("settingRadiusSlider");
     const radiusPreview = document.getElementById("settingRadiusPreview");
     const radiusBadge = document.getElementById("mapRadiusBadge");
-    const mapEl = document.getElementById("officeRadiusMap");
     const mapStatus = document.getElementById("officeMapStatus");
-    const navSettings = document.getElementById("navPengaturanAdminBtn");
-
-    if (!mapEl || !latInput || !lngInput || !radiusInput) return;
+    const searchInput = document.getElementById("settingCariAlamat");
+    const searchBtn = document.getElementById("settingCariAlamatBtn");
 
     let map = null;
     let marker = null;
     let circle = null;
-    let lastLat = null;
-    let lastLng = null;
+    let searchController = null;
 
-    function numberValue(el, fallback) {
-        const value = Number(el?.value);
-        return Number.isFinite(value) ? value : fallback;
+    const fallback = {
+        lat: -1.9246196360760033,
+        lng: 120.96947352100753,
+        radius: 150
+    };
+
+    function num(input, fallbackValue) {
+        const n = Number(input?.value);
+        return Number.isFinite(n) ? n : fallbackValue;
     }
 
-    function clampRadius(value) {
-        return Math.min(2000, Math.max(20, Number(value) || 150));
-    }
-
-    function currentValues() {
+    function state() {
         return {
-            lat: numberValue(latInput, -1.9246196),
-            lng: numberValue(lngInput, 120.9694735),
-            radius: clampRadius(radiusInput.value)
+            lat: num(latInput, fallback.lat),
+            lng: num(lngInput, fallback.lng),
+            radius: Math.min(2000, Math.max(20, num(radiusInput, fallback.radius)))
         };
     }
 
-    function setRadiusUI(radius) {
-        const rounded = Math.round(clampRadius(radius));
-        radiusInput.value = rounded;
-        if (radiusSlider) radiusSlider.value = rounded;
-        if (radiusPreview) radiusPreview.textContent = rounded.toLocaleString("id-ID") + " meter";
-        if (radiusBadge) radiusBadge.textContent = rounded.toLocaleString("id-ID") + " m";
-        if (circle) circle.setRadius(rounded);
+    function zoomForRadius(radius) {
+        if (radius <= 50) return 18;
+        if (radius <= 100) return 17;
+        if (radius <= 250) return 16;
+        if (radius <= 500) return 15;
+        if (radius <= 1000) return 14;
+        return 13;
     }
 
-    function setCoordinates(lat, lng, source) {
+    function updateRadiusLabels(radius) {
+        const rounded = Math.round(radius);
+        if (radiusPreview) radiusPreview.textContent = `${rounded} meter`;
+        if (radiusBadge) radiusBadge.textContent = `${rounded} m`;
+    }
+
+    function updateRadius(radius, fit = false) {
+        const safe = Math.min(2000, Math.max(20, Number(radius) || fallback.radius));
+
+        if (radiusInput && String(radiusInput.value) !== String(safe)) {
+            radiusInput.value = String(safe);
+        }
+
+        if (radiusSlider && String(radiusSlider.value) !== String(safe)) {
+            radiusSlider.value = String(safe);
+        }
+
+        updateRadiusLabels(safe);
+
+        if (circle) circle.setRadius(safe);
+
+        if (fit && map && marker) {
+            map.setView(marker.getLatLng(), zoomForRadius(safe), { animate: true });
+        }
+    }
+
+    function updatePoint(lat, lng, pan = true) {
         if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-        latInput.value = lat.toFixed(7);
-        lngInput.value = lng.toFixed(7);
-        lastLat = lat;
-        lastLng = lng;
 
-        if (marker) marker.setLatLng([lat, lng]);
-        if (circle) circle.setLatLng([lat, lng]);
-        if (map && source !== "drag") map.panTo([lat, lng], { animate: true, duration: .35 });
-        if (mapStatus) mapStatus.textContent = "Titik kantor: " + lat.toFixed(6) + ", " + lng.toFixed(6) + ". Radius diperbarui langsung pada peta.";
+        if (latInput) latInput.value = lat.toFixed(7);
+        if (lngInput) lngInput.value = lng.toFixed(7);
+
+        marker?.setLatLng([lat, lng]);
+        circle?.setLatLng([lat, lng]);
+
+        if (pan && map) {
+            map.setView([lat, lng], zoomForRadius(state().radius), { animate: true });
+        }
     }
 
-    function buildMarkerIcon() {
-        return L.divIcon({
-            className: "office-location-marker-wrap",
-            html: '<div class="office-location-marker"><span></span></div>',
-            iconSize: [34, 42],
-            iconAnchor: [17, 39]
-        });
+    function message(text, kind = "") {
+        if (!mapStatus) return;
+        mapStatus.textContent = text;
+        mapStatus.dataset.kind = kind;
     }
 
-    function initMap() {
-        if (map || !window.L) {
-            if (!window.L && mapStatus) mapStatus.textContent = "Peta belum dapat dimuat. Periksa koneksi internet; latitude, longitude, dan radius tetap bisa diedit manual.";
+    function buildMap() {
+        if (!window.L) {
+            message("Peta gagal dimuat. Latitude, longitude, dan radius tetap bisa diubah manual.", "error");
             return;
         }
 
-        const { lat, lng, radius } = currentValues();
-        mapEl.innerHTML = "";
-        map = L.map(mapEl, { zoomControl: true, attributionControl: true }).setView([lat, lng], 17);
+        const s = state();
+
+        map = L.map(mapEl, {
+            zoomControl: true,
+            scrollWheelZoom: false
+        }).setView([s.lat, s.lng], zoomForRadius(s.radius));
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 20,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap"
         }).addTo(map);
 
-        circle = L.circle([lat, lng], {
-            radius,
-            color: "#2368f2",
-            weight: 2,
-            opacity: .9,
-            fillColor: "#2368f2",
-            fillOpacity: .13
+        circle = L.circle([s.lat, s.lng], {
+            radius: s.radius,
+            color: "#138a67",
+            weight: 3,
+            opacity: 1,
+            fillColor: "#27c695",
+            fillOpacity: .17
         }).addTo(map);
 
-        marker = L.marker([lat, lng], {
+        const pin = L.divIcon({
+            className: "office-map-pin-wrap",
+            html: '<span class="office-map-pin"><i></i></span>',
+            iconSize: [42, 52],
+            iconAnchor: [21, 48]
+        });
+
+        marker = L.marker([s.lat, s.lng], {
             draggable: true,
-            icon: buildMarkerIcon(),
-            title: "Titik kantor"
+            autoPan: true,
+            icon: pin
         }).addTo(map);
 
-        marker.bindPopup("<strong>Titik Kantor</strong><br>Geser penanda untuk mengubah lokasi.");
-        marker.on("drag", function (event) {
-            const pos = event.target.getLatLng();
-            if (circle) circle.setLatLng(pos);
-        });
-        marker.on("dragend", function (event) {
-            const pos = event.target.getLatLng();
-            setCoordinates(pos.lat, pos.lng, "drag");
+        marker.on("dragend", () => {
+            const p = marker.getLatLng();
+            updatePoint(p.lat, p.lng, false);
+            circle?.setLatLng(p);
+            message("Titik kantor diperbarui dari pin.", "success");
         });
 
-        map.on("click", function (event) {
-            setCoordinates(event.latlng.lat, event.latlng.lng, "click");
+        map.on("click", e => {
+            updatePoint(e.latlng.lat, e.latlng.lng);
+            message("Titik kantor dipindahkan ke lokasi yang dipilih.", "success");
         });
 
-        setRadiusUI(radius);
-        lastLat = lat;
-        lastLng = lng;
-        setTimeout(() => map.invalidateSize(), 80);
+        updateRadiusLabels(s.radius);
+
+        setTimeout(() => map?.invalidateSize(), 150);
+        window.addEventListener("resize", () => setTimeout(() => map?.invalidateSize(), 100));
     }
 
-    function syncMap(options) {
-        const { lat, lng, radius } = currentValues();
-        setRadiusUI(radius);
-        if (!map) initMap();
-        if (!map) return;
-
-        const coordsChanged = lat !== lastLat || lng !== lastLng;
-        if (coordsChanged) setCoordinates(lat, lng, options?.source);
-        else {
-            if (marker) marker.setLatLng([lat, lng]);
-            if (circle) circle.setLatLng([lat, lng]).setRadius(radius);
+    async function searchAddress() {
+        const q = String(searchInput?.value || "").trim();
+        if (!q) {
+            message("Masukkan nama gedung atau alamat terlebih dahulu.", "warning");
+            searchInput?.focus();
+            return;
         }
-        setTimeout(() => map.invalidateSize(), 50);
+
+        searchController?.abort();
+        searchController = new AbortController();
+
+        const oldText = searchBtn?.textContent || "Cari";
+        if (searchBtn) {
+            searchBtn.disabled = true;
+            searchBtn.textContent = "Mencari...";
+        }
+
+        try {
+            const url =
+                "https://nominatim.openstreetmap.org/search" +
+                `?format=jsonv2&limit=5&countrycodes=id&q=${encodeURIComponent(q)}`;
+
+            const res = await fetch(url, {
+                headers: { "Accept": "application/json" },
+                signal: searchController.signal
+            });
+
+            if (!res.ok) throw new Error("Pencarian alamat gagal.");
+
+            const results = await res.json();
+            if (!Array.isArray(results) || !results.length) {
+                message("Alamat tidak ditemukan. Coba kata pencarian yang lebih lengkap.", "warning");
+                return;
+            }
+
+            const first = results[0];
+            const lat = Number(first.lat);
+            const lng = Number(first.lon);
+
+            if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+                throw new Error("Koordinat hasil pencarian tidak valid.");
+            }
+
+            updatePoint(lat, lng);
+            message(`Lokasi ditemukan: ${first.display_name || q}`, "success");
+        } catch (error) {
+            if (error?.name !== "AbortError") {
+                message(error?.message || "Pencarian lokasi tidak tersedia.", "error");
+            }
+        } finally {
+            if (searchBtn) {
+                searchBtn.disabled = false;
+                searchBtn.textContent = oldText;
+            }
+        }
     }
 
-    radiusInput.addEventListener("input", function () {
-        setRadiusUI(radiusInput.value);
-    });
-    radiusSlider?.addEventListener("input", function () {
-        setRadiusUI(radiusSlider.value);
-    });
-    [latInput, lngInput].forEach(input => input.addEventListener("input", function () {
-        const lat = Number(latInput.value);
-        const lng = Number(lngInput.value);
-        if (Number.isFinite(lat) && Number.isFinite(lng)) setCoordinates(lat, lng, "typing");
-    }));
-
-    navSettings?.addEventListener("click", function () {
-        setTimeout(() => syncMap({ source: "nav" }), 120);
-    });
-    window.addEventListener("settings-map-sync", function () {
-        setTimeout(() => syncMap({ source: "settings" }), 30);
-    });
-    window.addEventListener("resize", function () {
-        if (map) map.invalidateSize();
+    searchBtn?.addEventListener("click", searchAddress);
+    searchInput?.addEventListener("keydown", e => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        searchAddress();
     });
 
-    setRadiusUI(radiusInput.value || 150);
+    latInput?.addEventListener("change", () => {
+        const s = state();
+        updatePoint(s.lat, s.lng);
+    });
+
+    lngInput?.addEventListener("change", () => {
+        const s = state();
+        updatePoint(s.lat, s.lng);
+    });
+
+    radiusInput?.addEventListener("input", () => updateRadius(radiusInput.value, true));
+
+    radiusSlider?.addEventListener("input", () => {
+        if (radiusInput) radiusInput.value = radiusSlider.value;
+        updateRadius(radiusSlider.value, false);
+    });
+
+    buildMap();
+    updateRadius(state().radius, false);
+
+    window.syncOfficeMapFromSettings = () => {
+        const s = state();
+        if (marker) marker.setLatLng([s.lat, s.lng]);
+        if (circle) {
+            circle.setLatLng([s.lat, s.lng]);
+            circle.setRadius(s.radius);
+        }
+        if (radiusSlider) radiusSlider.value = String(s.radius);
+        updateRadiusLabels(s.radius);
+        map?.setView([s.lat, s.lng], zoomForRadius(s.radius));
+        setTimeout(() => map?.invalidateSize(), 100);
+    };
 })();
