@@ -14289,3 +14289,177 @@ html[data-ui-theme="nova"] body.absensi-page #rekapPegawaiSection :is(
 }
 
 /* Pertahankan animasi layout NOVA; hanya warna yang berubah. */
+
+
+/* ============================================================
+   ADMIN PERFORMANCE PATCH
+   Tujuan: hilangkan lag tanpa mengubah layout/fitur.
+   - animasi terus-menerus pada admin dimatikan
+   - blur/backdrop-filter berat dikurangi di mobile/tablet
+   - transisi tetap ada agar UI tetap terasa modern
+============================================================ */
+
+/* 1. Matikan animasi infinite yang berat khusus halaman admin. */
+body.admin-page :is(
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card,
+    .holiday-summary-card,
+    .admin-profile-card,
+    .admin-header,
+    .admin-nav,
+    .data-section,
+    .settings-card,
+    .settings-date-card,
+    .admin-password-card,
+    .admin-announcement-card
+) {
+    animation-iteration-count: 1 !important;
+}
+
+/* 2. Background dekoratif admin tidak perlu dianimasikan terus. */
+body.admin-page :is(
+    .admin-bg-grid,
+    .admin-bg-blob,
+    .admin-bg-blob::before,
+    .admin-bg-blob::after
+) {
+    animation: none !important;
+    will-change: auto !important;
+}
+
+/* 3. Header dekorasi tetap tampil tapi tidak berputar terus. */
+body.admin-page .admin-header::before,
+body.admin-page .admin-header::after {
+    animation: none !important;
+    will-change: auto !important;
+}
+
+/* 4. Nav aktif tetap modern tapi tanpa pulse terus-menerus. */
+body.admin-page .admin-nav-btn.active {
+    animation: none !important;
+}
+
+/* 5. Hanya animasikan bagian yang benar-benar berubah. */
+body.admin-page :is(
+    .admin-page-section.active,
+    .admin-page-section.active .admin-section-intro,
+    .admin-page-section.active .admin-section-hero,
+    .stat-card,
+    .pegawai-stat-card,
+    .keterangan-stat-card,
+    .rekap-stat-card
+) {
+    will-change: auto !important;
+}
+
+/* 6. Hindari painting ulang besar pada konten section yang tidak aktif. */
+body.admin-page .admin-page-section {
+    contain: layout style paint;
+}
+body.admin-page .admin-page-section:not(.active) {
+    content-visibility: hidden;
+}
+body.admin-page .admin-page-section.active {
+    content-visibility: visible;
+}
+
+/* 7. Tabel panjang: browser hanya render area yang terlihat. */
+body.admin-page :is(
+    .table-wrapper,
+    .data-section,
+    .rekap-data-section,
+    .keterangan-data-section
+) {
+    contain: layout paint;
+}
+
+/* 8. Mobile/tablet: backdrop-filter adalah sumber lag terbesar di Android.
+      Visual tetap mirip karena background solid/transparan tetap dipakai. */
+@media (max-width: 1000px) {
+    body.admin-page :is(
+        .admin-header,
+        .admin-nav,
+        .admin-section-intro,
+        .admin-section-hero,
+        .data-section,
+        .action-needed-card,
+        .admin-tools,
+        .filter-container,
+        .pegawai-tools,
+        .keterangan-filter-card,
+        .rekap-control-card,
+        .holiday-summary-card,
+        .holiday-calendar-card,
+        .settings-card,
+        .settings-date-card,
+        .settings-block,
+        .admin-profile-card,
+        .admin-password-card,
+        .admin-announcement-card,
+        .custom-dialog-box,
+        .admin-modal-content
+    ) {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* Kurangi shadow besar berlapis di HP. */
+    body.admin-page :is(
+        .admin-header,
+        .admin-nav,
+        .admin-section-intro,
+        .admin-section-hero,
+        .data-section,
+        .stat-card,
+        .pegawai-stat-card,
+        .keterangan-stat-card,
+        .rekap-stat-card,
+        .settings-card,
+        .settings-date-card,
+        .admin-profile-card,
+        .admin-password-card,
+        .admin-announcement-card
+    ) {
+        box-shadow: 0 8px 22px rgba(23, 43, 77, .09) !important;
+    }
+
+    /* Hover tidak dibutuhkan di layar sentuh. */
+    body.admin-page :is(
+        .stat-card,
+        .pegawai-stat-card,
+        .keterangan-stat-card,
+        .rekap-stat-card,
+        .data-section,
+        .settings-card,
+        .settings-date-card,
+        .admin-profile-card,
+        .admin-password-card,
+        .admin-announcement-card
+    ):hover {
+        transform: none !important;
+    }
+}
+
+/* 9. Navigasi section tetap punya feedback cepat, tapi lebih ringan. */
+body.admin-page .admin-page-section.active {
+    animation: adminFastEnter .22s ease-out both !important;
+}
+
+@keyframes adminFastEnter {
+    from {
+        opacity: .55;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* 10. Tombol tetap punya feedback klik tanpa efek berat. */
+body.admin-page button:active {
+    transform: scale(.98);
+    transition-duration: .08s !important;
+}
