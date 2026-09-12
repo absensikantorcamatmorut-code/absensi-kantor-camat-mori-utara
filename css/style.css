@@ -5677,3 +5677,41 @@ td {
     background: #fff0f2 !important;
     border: 1px solid #ffd3d8 !important;
 }
+
+
+/* ============================================================
+   STATISTIK PEGAWAI — 3 card: total full width, 2 card di bawah
+============================================================ */
+
+@media (max-width: 760px) {
+    #adminPegawaiSection .pegawai-stat-container,
+    #adminPegawaiSection .employee-stat-container,
+    #adminPegawaiSection .admin-stat-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    /* Card pertama = Total Pegawai, dibuat selebar 2 kolom */
+    #adminPegawaiSection .pegawai-stat-container > :first-child,
+    #adminPegawaiSection .employee-stat-container > :first-child,
+    #adminPegawaiSection .admin-stat-grid > :first-child {
+        grid-column: 1 / -1 !important;
+    }
+
+    /* Semua card statistik dibuat lebih hemat tinggi */
+    #adminPegawaiSection .pegawai-stat-card,
+    #adminPegawaiSection .employee-stat-card,
+    #adminPegawaiSection .admin-stat-card {
+        min-height: 92px !important;
+        padding: 14px !important;
+        border-radius: 18px !important;
+    }
+
+    /* Card Total yang panjang jangan terlalu tinggi */
+    #adminPegawaiSection .pegawai-stat-container > :first-child,
+    #adminPegawaiSection .employee-stat-container > :first-child,
+    #adminPegawaiSection .admin-stat-grid > :first-child {
+        min-height: 84px !important;
+    }
+}
