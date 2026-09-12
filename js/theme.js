@@ -34,13 +34,13 @@
         if (!button) return;
         const targetLegacy = theme === NOVA;
         button.innerHTML = targetLegacy
-            ? '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Terang</span>'
-            : '<span class="theme-switch-icon" aria-hidden="true">✦</span><span class="theme-switch-text">Tema Gelap</span>';
+            ? '<span class="theme-switch-icon" aria-hidden="true">☀</span><span class="theme-switch-text">Tema Terang</span>'
+            : '<span class="theme-switch-icon" aria-hidden="true">☾</span><span class="theme-switch-text">Tema Gelap</span>';
         button.setAttribute(
             "aria-label",
-            targetLegacy ? "Gunakan desain lama" : "Gunakan desain Nova"
+            targetLegacy ? "Gunakan Tema Terang" : "Gunakan Tema Gelap"
         );
-        button.title = targetLegacy ? "Kembali ke desain lama" : "Gunakan desain Nova";
+        button.title = targetLegacy ? "Gunakan Tema Terang" : "Gunakan Tema Gelap";
     }
 
     function terapkanTema(theme, animasi = false) {
@@ -71,7 +71,7 @@
         button.type = "button";
         button.id = "themeSwitchBtn";
         button.className = "theme-switch-btn";
-        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true">◐</span><span class="theme-switch-text">Tema Terang</span>';
+        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true">☀</span><span class="theme-switch-text">Tema Terang</span>';
 
         button.addEventListener("click", () => {
             const next = temaSekarang() === NOVA ? LEGACY : NOVA;
