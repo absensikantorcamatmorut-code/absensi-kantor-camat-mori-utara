@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-filter-modern1">
+    <link rel="stylesheet" href="css/style.css?v=20260912-search-filter-unified1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -132,15 +132,12 @@
 
 
             <!-- PENCARIAN -->
-            <section class="admin-tools">
+            <div class="search-filter-unified-card">
+<section class="admin-tools">
                 <div class="search-box">
                     <label for="filterCari">Cari Pegawai</label>
                     <input type="text" id="filterCari" placeholder="Cari nama atau NIP...">
                 </div>
-
-                <button type="button" id="toggleFilterBtn" class="toggle-filter-btn modern-filter-toggle" aria-label="Buka atau tutup filter" aria-expanded="false">
-                    <span class="filter-toggle-icon" aria-hidden="true">⌄</span>
-                </button>
             </section>
 
 
@@ -166,6 +163,7 @@
                 </button>
 
             </section>
+</div>
 
 
             <!-- RIWAYAT -->
@@ -1556,29 +1554,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("toggleFilterBtn");
-    const panel = document.getElementById("filterContainer");
-    if (!btn || !panel) return;
 
-    function syncFilterToggle() {
-        const isOpen = panel.classList.contains("active") ||
-                       panel.classList.contains("show") ||
-                       getComputedStyle(panel).display !== "none";
-        btn.setAttribute("aria-expanded", String(isOpen));
-        btn.classList.toggle("is-open", isOpen);
-    }
-
-    btn.addEventListener("click", function () {
-        setTimeout(syncFilterToggle, 0);
-    });
-
-    const observer = new MutationObserver(syncFilterToggle);
-    observer.observe(panel, { attributes: true, attributeFilter: ["class", "style"] });
-    syncFilterToggle();
-});
-</script>
 
 </body>
 </html>

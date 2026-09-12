@@ -5992,3 +5992,66 @@ td {
         border-radius: 20px !important;
     }
 }
+
+
+/* ============================================================
+   PENCARIAN + FILTER — satu card, tanpa tombol panah
+============================================================ */
+
+#adminAbsensiSection .search-filter-unified-card {
+    margin: 14px 0 !important;
+    padding: 14px !important;
+    border: 1px solid rgba(205,220,240,.95) !important;
+    border-radius: 22px !important;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(62,146,255,.065), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f9fcff 100%) !important;
+    box-shadow: 0 9px 24px rgba(31,62,102,.07) !important;
+}
+
+#adminAbsensiSection .search-filter-unified-card .admin-tools {
+    margin: 0 !important;
+    padding: 0 0 13px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+#adminAbsensiSection .search-filter-unified-card .search-box {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+}
+
+#adminAbsensiSection .search-filter-unified-card .filter-container,
+#adminAbsensiSection .search-filter-unified-card #filterContainer {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 13px 0 0 !important;
+    border: 0 !important;
+    border-top: 1px solid var(--line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    transform: none !important;
+}
+
+#adminAbsensiSection .search-filter-unified-card .filter-container::before {
+    display: none !important;
+}
+
+#adminAbsensiSection .search-filter-unified-card input,
+#adminAbsensiSection .search-filter-unified-card select {
+    background: #fff !important;
+}
+
+@media (max-width: 640px) {
+    #adminAbsensiSection .search-filter-unified-card {
+        padding: 13px !important;
+        border-radius: 20px !important;
+    }
+}
