@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-location-compact1">
+    <link rel="stylesheet" href="css/style.css?v=20260912-keterangan-modern1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -331,8 +331,8 @@
         =================================================== -->
         <section class="admin-page-section" id="adminKeteranganSection">
 
-            <section class="admin-section-hero">
-                <div class="admin-section-icon">📋</div>
+            <section class="admin-section-hero keterangan-hero-modern">
+                <div class="admin-section-icon keterangan-hero-icon">📋</div>
 
                 <div>
                     <span class="section-label">VERIFIKASI KETERANGAN</span>
@@ -343,33 +343,45 @@
 
 
             <!-- STATISTIK -->
-            <section class="keterangan-stat-container">
+            <section class="keterangan-stat-container keterangan-stat-modern">
 
                 <div class="keterangan-stat-card stat-total">
-                    <span>Total Pengajuan</span>
-                    <strong id="totalKeteranganAdmin">0</strong>
+                    <div class="keterangan-stat-icon" aria-hidden="true">📄</div>
+                    <div class="keterangan-stat-copy">
+                        <span>Total Pengajuan</span>
+                        <strong id="totalKeteranganAdmin">0</strong>
+                    </div>
                 </div>
 
                 <div class="keterangan-stat-card stat-waiting">
-                    <span>Menunggu</span>
-                    <strong id="totalKeteranganMenunggu">0</strong>
+                    <div class="keterangan-stat-icon" aria-hidden="true">⏳</div>
+                    <div class="keterangan-stat-copy">
+                        <span>Menunggu</span>
+                        <strong id="totalKeteranganMenunggu">0</strong>
+                    </div>
                 </div>
 
                 <div class="keterangan-stat-card stat-approved">
-                    <span>Disetujui</span>
-                    <strong id="totalKeteranganDisetujui">0</strong>
+                    <div class="keterangan-stat-icon" aria-hidden="true">✓</div>
+                    <div class="keterangan-stat-copy">
+                        <span>Disetujui</span>
+                        <strong id="totalKeteranganDisetujui">0</strong>
+                    </div>
                 </div>
 
                 <div class="keterangan-stat-card stat-rejected">
-                    <span>Ditolak</span>
-                    <strong id="totalKeteranganDitolak">0</strong>
+                    <div class="keterangan-stat-icon" aria-hidden="true">✕</div>
+                    <div class="keterangan-stat-copy">
+                        <span>Ditolak</span>
+                        <strong id="totalKeteranganDitolak">0</strong>
+                    </div>
                 </div>
 
             </section>
 
 
             <!-- FILTER -->
-            <section class="keterangan-filter-card">
+            <section class="keterangan-filter-card keterangan-filter-modern">
 
                 <div class="search-box">
                     <label for="cariKeteranganAdmin">Cari Pegawai</label>

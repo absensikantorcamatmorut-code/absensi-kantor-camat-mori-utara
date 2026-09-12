@@ -5138,3 +5138,218 @@ td {
         padding-top: 8px !important;
     }
 }
+
+
+/* ============================================================
+   PENGAJUAN KETERANGAN — visual polish only
+============================================================ */
+
+#adminKeteranganSection .keterangan-hero-modern {
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    background:
+        radial-gradient(circle at 92% 16%, rgba(74, 180, 255, .13), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+}
+
+#adminKeteranganSection .keterangan-hero-modern::after {
+    content: "";
+    position: absolute;
+    right: -26px;
+    bottom: -34px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: rgba(35,104,242,.055);
+    pointer-events: none;
+}
+
+#adminKeteranganSection .keterangan-hero-icon {
+    position: relative;
+    z-index: 1;
+    color: var(--primary);
+    background: linear-gradient(145deg, #edf5ff, #f8fbff);
+    border: 1px solid #d7e7ff;
+    box-shadow: 0 8px 20px rgba(35,104,242,.10);
+}
+
+#adminKeteranganSection .keterangan-stat-modern {
+    gap: 12px;
+}
+
+#adminKeteranganSection .keterangan-stat-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 112px;
+    padding: 16px;
+    gap: 13px;
+    isolation: isolate;
+}
+
+#adminKeteranganSection .keterangan-stat-card::after {
+    content: "";
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    right: -22px;
+    bottom: -28px;
+    border-radius: 50%;
+    opacity: .11;
+    z-index: -1;
+}
+
+#adminKeteranganSection .keterangan-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 900;
+    border: 1px solid transparent;
+}
+
+#adminKeteranganSection .keterangan-stat-copy {
+    min-width: 0;
+}
+
+#adminKeteranganSection .keterangan-stat-copy span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#adminKeteranganSection .keterangan-stat-copy strong {
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* Each status gets a gentle, meaningful accent */
+#adminKeteranganSection .stat-total {
+    background: linear-gradient(145deg, #ffffff, #f8fbff);
+}
+#adminKeteranganSection .stat-total .keterangan-stat-icon {
+    color: #2368f2;
+    background: #eaf2ff;
+    border-color: #d7e6ff;
+}
+#adminKeteranganSection .stat-total::after {
+    background: #2368f2;
+}
+
+#adminKeteranganSection .stat-waiting {
+    background: linear-gradient(145deg, #ffffff, #fffaf1);
+}
+#adminKeteranganSection .stat-waiting .keterangan-stat-icon {
+    color: #b7791f;
+    background: #fff3d8;
+    border-color: #f8dfaa;
+}
+#adminKeteranganSection .stat-waiting::after {
+    background: #e6a23c;
+}
+
+#adminKeteranganSection .stat-approved {
+    background: linear-gradient(145deg, #ffffff, #f4fff9);
+}
+#adminKeteranganSection .stat-approved .keterangan-stat-icon {
+    color: #178a55;
+    background: #e8f9f0;
+    border-color: #cdeedc;
+}
+#adminKeteranganSection .stat-approved::after {
+    background: #26a269;
+}
+
+#adminKeteranganSection .stat-rejected {
+    background: linear-gradient(145deg, #ffffff, #fff6f7);
+}
+#adminKeteranganSection .stat-rejected .keterangan-stat-icon {
+    color: #c9414f;
+    background: #ffecef;
+    border-color: #ffd4da;
+}
+#adminKeteranganSection .stat-rejected::after {
+    background: #e45b66;
+}
+
+#adminKeteranganSection .keterangan-filter-modern {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+#adminKeteranganSection .keterangan-filter-modern::before {
+    content: "🔎";
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 18px;
+    opacity: .18;
+    pointer-events: none;
+}
+
+/* Mobile refinement */
+@media (max-width: 640px) {
+    #adminKeteranganSection .keterangan-hero-modern {
+        padding: 17px 16px;
+        gap: 13px;
+    }
+
+    #adminKeteranganSection .keterangan-hero-modern h2 {
+        margin-top: 6px;
+        font-size: 25px;
+        line-height: 1.12;
+    }
+
+    #adminKeteranganSection .keterangan-hero-modern p {
+        margin-top: 6px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    #adminKeteranganSection .keterangan-hero-icon {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+        border-radius: 15px;
+        font-size: 22px;
+    }
+
+    #adminKeteranganSection .keterangan-stat-modern {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px;
+    }
+
+    #adminKeteranganSection .keterangan-stat-card {
+        min-height: 104px;
+        padding: 13px;
+        gap: 10px;
+        border-radius: 18px;
+    }
+
+    #adminKeteranganSection .keterangan-stat-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        border-radius: 12px;
+        font-size: 17px;
+    }
+
+    #adminKeteranganSection .keterangan-stat-copy span {
+        font-size: 11px;
+        line-height: 1.25;
+    }
+
+    #adminKeteranganSection .keterangan-stat-copy strong {
+        font-size: 25px;
+    }
+
+    #adminKeteranganSection .keterangan-filter-modern {
+        border-radius: 19px;
+    }
+}
