@@ -13991,3 +13991,19 @@ html[data-ui-theme="nova"] .running-announcement-badge {
 @media(prefers-reduced-motion:reduce) {
     .running-announcement-track { animation:none !important; }
 }
+
+
+/* ============================================================
+   FIX ONLY: theme switch tetap menempel di viewport pada Tema Terang
+   Tampilan/icon tombol tidak diubah.
+============================================================ */
+html[data-ui-theme="legacy"] .theme-switch-btn {
+    position: fixed !important;
+    right: 14px !important;
+    bottom: max(16px, env(safe-area-inset-bottom)) !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+    transform-origin: center !important;
+    z-index: 2147483000 !important;
+}
