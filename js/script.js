@@ -1226,7 +1226,7 @@ if (loginPegawaiPage && loginAdminPage) {
 
         loginButton.disabled = true;
         loginButton.textContent = "Memeriksa...";
-        loginStatus.textContent = "Memeriksa akun...";
+        loginStatus.textContent = "";
 
         try {
             const hasil = await postData({
