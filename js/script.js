@@ -6007,6 +6007,6 @@ muatThumbnailFotoTerlihat();
 
 
 })();
-w
+
 
 
