@@ -33,9 +33,11 @@
     function updateButton(button, theme) {
         if (!button) return;
         const targetLegacy = theme === NOVA;
-        button.innerHTML = targetLegacy
-            ? '<span class="theme-switch-icon" aria-hidden="true">☀</span><span class="theme-switch-text">Tema Terang</span>'
-            : '<span class="theme-switch-icon" aria-hidden="true">☾</span><span class="theme-switch-text">Tema Gelap</span>';
+        button.innerHTML =
+            '<span class="theme-switch-icon" aria-hidden="true"></span>' +
+            '<span class="theme-switch-text">' +
+            (targetLegacy ? 'Tema Terang' : 'Tema Gelap') +
+            '</span>';
         button.setAttribute(
             "aria-label",
             targetLegacy ? "Gunakan Tema Terang" : "Gunakan Tema Gelap"
@@ -71,7 +73,7 @@
         button.type = "button";
         button.id = "themeSwitchBtn";
         button.className = "theme-switch-btn";
-        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true">☀</span><span class="theme-switch-text">Tema Terang</span>';
+        button.innerHTML = '<span class="theme-switch-icon" aria-hidden="true"></span><span class="theme-switch-text">Tema Gelap</span>';
 
         button.addEventListener("click", () => {
             const next = temaSekarang() === NOVA ? LEGACY : NOVA;
