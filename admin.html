@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-settings-align1">
+    <link rel="stylesheet" href="css/style.css?v=20260912-pegawai-compact-status1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -1515,6 +1515,44 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.textContent = opened ? "Ganti Password" : "Tutup";
     });
 });
+</script>
+
+
+<script>
+(function () {
+    function warnaiStatusPegawai() {
+        const section = document.getElementById("adminPegawaiSection");
+        if (!section) return;
+
+        section.querySelectorAll('td[data-label="Status"]').forEach(function (cell) {
+            const text = (cell.textContent || "").trim().toLowerCase();
+            if (!text) return;
+
+            let badge = cell.querySelector(".pegawai-status");
+            if (!badge) {
+                const current = cell.textContent.trim();
+                cell.textContent = "";
+                badge = document.createElement("span");
+                badge.className = "pegawai-status";
+                badge.textContent = current;
+                cell.appendChild(badge);
+            }
+
+            badge.classList.remove("aktif", "nonaktif");
+            badge.classList.add(text === "aktif" ? "aktif" : "nonaktif");
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        warnaiStatusPegawai();
+
+        const section = document.getElementById("adminPegawaiSection");
+        if (!section) return;
+
+        const observer = new MutationObserver(warnaiStatusPegawai);
+        observer.observe(section, { childList: true, subtree: true });
+    });
+})();
 </script>
 
 </body>
