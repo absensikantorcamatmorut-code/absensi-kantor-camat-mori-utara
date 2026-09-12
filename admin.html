@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-osm-compact2">
+    <link rel="stylesheet" href="css/style.css?v=20260912-location-compact1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
@@ -757,25 +757,20 @@
 
             <form id="pengaturanAbsensiForm" class="settings-split-form">
 
-                <article class="settings-card settings-location-card">
-                    <div class="settings-card-head">
-                        <div class="settings-head-icon">03</div>
-                        <div>
+                <article class="settings-card settings-location-card compact-location-card">
+                    <div class="compact-location-head">
+                        <div class="settings-head-icon compact-location-number">03</div>
+                        <div class="compact-location-copy">
                             <span class="section-label">LOKASI ABSENSI</span>
-                            <h3>Lokasi Kantor & Radius</h3>
-                            <p>Tentukan titik kantor dan batas area absensi.</p>
+                            <div class="compact-location-title-row">
+                                <div class="geofence-title-icon compact-geofence-icon" aria-hidden="true">⌖</div>
+                                <h3>Lokasi Kantor & Radius</h3>
+                            </div>
+                            <p>Atur titik kantor dan batas area absensi.</p>
                         </div>
                     </div>
 
-                    <section class="office-location-layout geofence-simple-card">
-
-                    <div class="geofence-title-row">
-                        <div class="geofence-title-icon" aria-hidden="true">⌖</div>
-                        <div>
-                            <h4>Geofencing (Batasan Lokasi)</h4>
-                            <p>Atur titik kantor dan radius absensi.</p>
-                        </div>
-                    </div>
+                    <section class="office-location-layout geofence-simple-card compact-geofence-body">
 
                     <div class="geofence-status-row">
                         <div>
