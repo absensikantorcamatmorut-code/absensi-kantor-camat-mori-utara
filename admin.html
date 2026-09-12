@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260912-map-mobile-final3">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynF4pG0ZYo/lyfMlaYh2FsL7x7uU=" crossorigin="">
+    <link rel="stylesheet" href="css/style.css?v=20260912-geofence-simple1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
 <body class="admin-page">
@@ -765,74 +765,79 @@
                     </div>
                 </div>
 
-                <section class="office-location-layout office-location-layout-single">
+                <section class="office-location-layout geofence-simple-card">
 
-                    <div class="office-zone-topbar">
+                    <div class="geofence-title-row">
+                        <div class="geofence-title-icon" aria-hidden="true">⌖</div>
                         <div>
-                            <span class="section-label">ZONA ABSENSI</span>
-                            <h4>Lokasi Kantor</h4>
-                            <p>Tentukan titik kantor dan radius area yang diperbolehkan untuk absensi.</p>
-                        </div>
-
-                        <div class="office-zone-status">
-                            <div>
-                                <strong>Status Pembatasan</strong>
-                                <small>Pegawai wajib absen di area kantor.</small>
-                            </div>
-
-                            <label class="office-zone-switch" aria-label="Status pembatasan lokasi">
-                                <input type="checkbox" id="settingZonaAktif" checked>
-                                <span></span>
-                            </label>
+                            <h4>Geofencing (Batasan Lokasi)</h4>
+                            <p>Atur titik kantor dan radius absensi.</p>
                         </div>
                     </div>
 
-                    <div class="office-map-search">
-                        <div class="office-search-field">
-                            <input
-                                type="search"
-                                id="settingCariAlamat"
-                                placeholder="Cari gedung / alamat kantor"
-                                autocomplete="off"
-                            >
+                    <div class="geofence-status-row">
+                        <div>
+                            <strong>Status Pembatasan</strong>
+                            <small>Pegawai wajib absen di area kantor.</small>
                         </div>
 
-                        <button type="button" id="settingCariAlamatBtn" class="admin-primary-btn office-search-btn">
+                        <label class="geofence-switch" aria-label="Status pembatasan lokasi">
+                            <input type="checkbox" id="settingZonaAktif" checked>
+                            <span></span>
+                        </label>
+                    </div>
+
+                    <div class="geofence-search-row">
+                        <input
+                            type="search"
+                            id="settingCariAlamat"
+                            placeholder="Cari gedung / alamat kantor"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            type="button"
+                            id="settingCariAlamatBtn"
+                            class="admin-primary-btn geofence-search-btn"
+                        >
                             Cari
                         </button>
 
                         <button
                             type="button"
                             id="gunakanLokasiKantorBtn"
-                            class="admin-secondary-btn office-current-btn"
+                            class="admin-secondary-btn geofence-location-btn"
                             title="Gunakan Lokasi Saya Sekarang"
                             aria-label="Gunakan Lokasi Saya Sekarang"
                         >
                             <span aria-hidden="true">⌖</span>
-                            <span>Lokasi Saya</span>
                         </button>
                     </div>
 
-                    <p class="office-map-hint">
-                        Pindahkan pin merah atau ketuk peta untuk mengatur titik koordinat kantor.
+                    <p class="geofence-hint">
+                        *Pindahkan pin merah atau ketuk peta untuk mengatur titik koordinat.
                     </p>
 
-                    <div class="office-map-card office-map-card-main">
-                        <div id="officeRadiusMap" class="office-radius-map office-radius-map-large" aria-label="Preview peta radius absensi">
+                    <div class="geofence-map-wrap">
+                        <div
+                            id="officeRadiusMap"
+                            class="office-radius-map geofence-map"
+                            aria-label="Peta lokasi kantor dan radius absensi"
+                        >
                             <div class="map-loading-state">Memuat peta...</div>
                         </div>
 
-                        <div class="map-radius-badge map-radius-badge-floating">
+                        <div class="geofence-radius-badge">
                             <span></span>
                             <strong id="mapRadiusBadge">150 m</strong>
                         </div>
-
-                        <p id="officeMapStatus" class="office-map-status">
-                            Titik dan radius akan mengikuti nilai di bawah peta.
-                        </p>
                     </div>
 
-                    <div class="settings-grid location-coordinate-grid location-coordinate-grid-below">
+                    <p id="officeMapStatus" class="geofence-map-status">
+                        Titik dan radius akan mengikuti nilai di bawah peta.
+                    </p>
+
+                    <div class="geofence-coordinate-grid">
                         <div class="admin-form-group">
                             <label for="settingLatitude">Latitude</label>
                             <input type="number" id="settingLatitude" step="any" required>
@@ -844,39 +849,38 @@
                         </div>
                     </div>
 
-                    <div class="radius-editor-card radius-editor-card-below">
-                        <div class="radius-editor-top">
-                            <div>
-                                <span class="radius-editor-label">Radius Toleransi (Meter)</span>
-                                <strong id="settingRadiusPreview">150 meter</strong>
-                            </div>
-
-                            <div class="radius-number-box">
-                                <label for="settingRadius">Meter</label>
-                                <input type="number" id="settingRadius" min="20" max="2000" step="10" required>
-                            </div>
-                        </div>
-
+                    <div class="admin-form-group geofence-radius-field">
+                        <label for="settingRadius">Radius Toleransi (Meter)</label>
                         <input
-                            type="range"
-                            id="settingRadiusSlider"
+                            type="number"
+                            id="settingRadius"
                             min="20"
                             max="2000"
                             step="10"
-                            value="150"
-                            aria-label="Atur radius toleransi absensi"
+                            required
                         >
-
-                        <div class="radius-scale">
-                            <span>20 m</span>
-                            <span>1.000 m</span>
-                            <span>2.000 m</span>
-                        </div>
-
-                        <p class="settings-help">
-                            Geser slider atau ketik angka. Lingkaran pada peta akan berubah langsung.
-                        </p>
                     </div>
+
+                    <input
+                        type="range"
+                        id="settingRadiusSlider"
+                        min="20"
+                        max="2000"
+                        step="10"
+                        value="150"
+                        class="geofence-radius-slider"
+                        aria-label="Atur radius toleransi absensi"
+                    >
+
+                    <div class="geofence-radius-meta">
+                        <span>20 m</span>
+                        <strong id="settingRadiusPreview">150 meter</strong>
+                        <span>2000 m</span>
+                    </div>
+
+                    <button type="submit" class="admin-primary-btn geofence-save-btn">
+                        Simpan Titik & Radius
+                    </button>
 
                 </section>
 
@@ -1442,8 +1446,8 @@
         <span class="app-toast-icon" aria-hidden="true">✓</span>
         <div><strong></strong><p></p></div>
     </div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="js/settings-map.js?v=20260912-map-mobile-final3"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/settings-map.js?v=20260912-geofence-map1"></script>
 <script src="js/script.js?v=20260912-settingsmap2"></script>
     <script src="js/rekap.js?v=20260912-preview-sheet4"></script>
 
